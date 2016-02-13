@@ -1,0 +1,54 @@
+{% load staticfiles %}
+<!--| MAIN MENU |-->
+<ul class="side-menu">
+	<li class="sm-sub sms-profile">
+		<a class="clearfix" href="">
+			<img src="{% static "img/profile-pic.jpg" %}" alt="">
+			<span class="f-11">
+				<span class="d-block">Mallinda Hollaway</span>
+				<small class="text-lowercase">@mallinda-h</small>
+			</span>
+		</a>
+		<ul>
+			<li><a href="">View Profile</a></li>
+			<li><a href="">Privacy Settings</a></li>
+			<li><a href="">Settings</a></li>
+			<li><a href="">Logout</a></li>
+		</ul>
+	</li>
+	
+	<li class="active">
+		<a href="/">
+			<i class="zmdi zmdi-home"></i>
+			<span>Home</span>
+		</a>
+	</li>
+	<li>
+		<a href="/alumnos">
+			<i class="zmdi zmdi-view-list"></i>
+			<span>Alumnos<span class="label label-danger">Nuevo</span></span>
+		</a>
+	</li>
+	<li class="sm-sub">
+		<a href="">
+			<i class="zmdi zmdi zmdi-view-list"></i>
+			<span>Grupos</span>
+		</a>
+		<ul>
+			<li><a href="normal-tables.html">Normal Tables</a></li>
+			<li><a href="data-tables.html">Data Tables</a></li>
+		</ul>
+	</li>
+	<li>
+		<a href="calendar.html">
+			<i class="zmdi zmdi-calendar"></i>
+			<span>Calendario <span class="label label-primary">12</span></span>
+		</a>
+	</li>
+	<li>
+		<a href="charts.html">
+			<i class="zmdi zmdi-trending-up"></i>
+			<span>Stats</span>
+		</a>
+	</li>
+</ul>

@@ -25,28 +25,29 @@ $(document).ready(function(){
     /* --------------------------------------------------------
         Scrollbar
     -----------------------------------------------------------*/
-   function scrollBar(selector, theme) {
-      $(selector).mCustomScrollbar({
-         theme: theme,
-         scrollInertia: 500,
-      });
-   }
-        
-   if (!$('html').hasClass('ismobile')) {
-      //Scrollbar for sidebar
-      scrollBar('#sidebar', 'minimal');
-      
-      //For custom
-      if ($('.c-overflow')[0]) {
-         scrollBar('.c-overflow', 'minimal');
-      }
-      
-      //For Custom Dark
-      if ($('.c-overflow-dark')[0]) {
-         scrollBar('.c-overflow-dark', 'dark');
-      }
-   }
-    
+    // moebius comento esto que falla al no estar el elemento
+   //~ function scrollBar(selector, theme) {
+      //~ $(selector).mCustomScrollbar({
+         //~ theme: theme,
+         //~ scrollInertia: 500,
+      //~ });
+   //~ }
+        //~ 
+   //~ if (!$('html').hasClass('ismobile')) {
+      //~ //Scrollbar for sidebar
+      //~ scrollBar('#sidebar', 'minimal');
+      //~ 
+      //~ //For custom
+      //~ if ($('.c-overflow')[0]) {
+         //~ scrollBar('.c-overflow', 'minimal');
+      //~ }
+      //~ 
+      //~ //For Custom Dark
+      //~ if ($('.c-overflow-dark')[0]) {
+         //~ scrollBar('.c-overflow-dark', 'dark');
+      //~ }
+   //~ }
+    //~ 
     
     /* --------------------------------------------------------
         Sidebar
