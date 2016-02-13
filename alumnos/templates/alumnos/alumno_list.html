@@ -1,0 +1,60 @@
+{% extends "site_base.html"%}
+{% load url from future %}
+{% load i18n %}
+
+{% block body %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Listado de Alumnos</h4> 
+        <div class="btn-group" role="group" aria-label="...">
+            <a role="button" class="btn btn-default" href="{% url 'alumno_nuevo' %}">Nuevo</a>
+            {% include "pagination/pagination.html" %}
+            
+        
+	<form action="{% url 'alumno_buscar' %}" method="get">{% csrf_token %}
+        <input type="search" id="search" />
+	<button type="submit" class="glyphicon glyphicon-search" aria-hidden="true" />
+	</form>
+    </div>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                <td>ID</td>
+                <td>Apellido1</td>
+                <td>Apellido2</td>
+                <td>Nombre</td>
+                <td>Email</td>
+                <td>Telefonos</td>
+                <td>Grupo(s)</td>
+                <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for alumno in object_list %}
+            <tr>
+                <td><a href="{{alumno.get_absolute_url}}">{{ alumno.id }}</a> ({{ alumno.activo }})</td>
+                <td>{{ alumno.apellido1 }}</td>
+                <td>{{ alumno.apellido2 }}</td>
+                <td>{{ alumno.nombre }}</td>
+                <td>{{ alumno.email }}</td>
+                <td>{{ alumno.telefono1 }} -- {{ alumno.telefono2 }}</td>
+                <td>
+                    
+                    {% for asistencia in alumno.asistencia_set.all %}
+                    <a href="{% url 'grupo_detalle' asistencia.grupo.id %}">{{asistencia.grupo.nombre}}</a>
+                    {% endfor %}
+                    </td>
+                <td>
+                    <a href="{% url 'alumno_detalle' alumno.id %}"><span class="glyphicon glyphicon-search"></span></a>
+                    <a href="{% url 'alumno_editar' alumno.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'alumno_borrar' alumno.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

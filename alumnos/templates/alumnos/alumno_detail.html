@@ -1,0 +1,58 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+    <h1>{% trans "Alumno" %} {{object.apellido1}} {{object.apellido2}}, {{object.nombre}} <a href="{% url 'alumno_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    <h2>Información</h2>
+    <table class="table">
+        <tr>
+            <td>Nombre</td><td>{{object.nombre}}</td>
+        </tr>
+        <tr>
+            <td>Apellido(s)</td><td>{{object.apellido1}} {{object.apellido2}}</td>
+        </tr>
+            <td>Teléfono</td><td>{{object.telefono1}}</td>
+            <td>Teléfono2</td><td>{{object.telefono2}}</td>
+        </tr>
+        <tr>
+            <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
+        </tr>
+        <tr>
+            <td>Ciudad</td><td>{{object.ciudad}}</td>
+        </tr>
+        <tr>
+            <td>Cuenta</td><td>{{object.cuenta_bancaria}}</td>
+        </tr>
+        
+    </table>
+    <h2>Grupos</h2>
+    <table class="table">
+        <thead>
+            <th>Año</th>
+            <th>Grupo</th>
+            <th>Confirmado</th>
+            <th>Factura</th>
+            <th>Metálico</th>
+            <th>Precio</th>
+        </thead>
+        {% for asistencia in object.asistencia_set.all %}
+        <tr>
+            <td>{{ asistencia.ano }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.grupo.confirmado }}</td>
+            <td>{{ asistencia.grupo.factura }}</td>v<td>{{ asistencia.grupo.metalico }}</td><td>{{ asistencia.grupo.precio }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>Histórico</h2>
+    <table class="table">
+        <thead><th>Fecha</th><th>Tipo</th><th>Anotación</th></thead>
+        <tbody>
+            {% for historia in object.historia_set.all %}
+            <tr>
+                <td>{{historia.fecha}}</td><td>{{historia.tipo}}</td><td>{{historia.anotacion}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
