@@ -23,11 +23,11 @@ ALLOWED_HOSTS = []
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Madrid"
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "es-es"
 
 SITE_ID = int(os.environ.get("SITE_ID", 1))
 
@@ -136,6 +136,7 @@ INSTALLED_APPS = [
 
     # project
     "gestioneide",
+    "alumnos",
 ]
 
 # A sample logging configuration. The only tangible logging
