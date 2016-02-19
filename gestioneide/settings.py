@@ -136,7 +136,7 @@ INSTALLED_APPS = [
 
     # project
     "gestioneide",
-    "alumnos",
+    #"alumnos",
 ]
 
 # A sample logging configuration. The only tangible logging

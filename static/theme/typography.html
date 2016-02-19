@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="format-detection" content="telephone=no">
+        <meta charset="UTF-8">
+
+        <meta name="description" content="SuperFlat Responsive Admin Template">
+        <meta name="keywords" content="SuperFlat Admin, Admin, Template, Bootstrap">
+
+        <title>SuperFlat Responsive Admin Template</title>
+        
+        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+        <link href="css/app.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header id="header" class="clearfix" data-spy="affix" data-offset-top="65">
+            <ul class="header-inner">
+                
+                <!-- Logo -->
+                <li class="logo">
+                    <a href=""><img src="img/logo.png" alt=""></a>
+                    <div id="menu-trigger"><i class="zmdi zmdi-menu"></i></div>
+                </li>
+                
+                <!-- Messages -->
+                <li class="dropdown">
+                    <a href="" data-toggle="dropdown" class="hi-messages">
+                        <i class="zmdi zmdi-email"></i>
+                        <i class="hi-count">6</i>
+                    </a>
+                    
+                    <div class="dropdown-menu hi-dropdown">
+                        <div class="dropdown-header bg-green m-b-15">
+                            MESSAGES
+                            
+                            <ul class="actions a-alt">
+                                <li><a href=""><i class="zmdi zmdi-plus"></i></a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="list-group lg-alt">
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <img class="img-avatar" src="img/profile-pics/1.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">David Villa Jacobs <small>3 Hours ago</small></div>
+                                    <small class="list-group-item-text c-gray">Sorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis lobortis sapien non posuere</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <img class="img-avatar" src="img/profile-pics/5.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Candice Barnes <small>5 Hours ago</small></div>
+                                    <small class="list-group-item-text c-gray">Quisque non tortor ultricies, posuere elit id, lacinia purus curabitur.</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <img class="img-avatar" src="img/profile-pics/2.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Jeannette Lawson <small>Yesterday</small></div>
+                                    <small class="list-group-item-text c-gray">Donec congue tempus ligula, varius hendrerit mi hendrerit sit amet. Duis ac quam sit amet leo feugiat iaculis</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <img class="img-avatar" src="img/profile-pics/4.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Darla Mckinney <small>05/06/2014</small></div>
+                                    <small class="list-group-item-text c-gray">Duis tincidunt augue nec sem dignissim scelerisque. Vestibulum rhoncus sapien sed nulla aliquam lacinia</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <img class="img-avatar" src="img/profile-pics/2.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Rudolph Perez <small>08/06/2014</small></div>
+                                    <small class="list-group-item-text c-gray">Phasellus a ullamcorper lectus, sit amet viverra quam. In luctus tortor vel nulla pharetra bibendum</small>
+                                </div>
+                            </a>
+    
+                            <a class="view-more" href="">View more</a>
+                        </div>
+                    </div>
+                </li>
+                
+                
+                <!-- Notifications -->
+                <li class="dropdown">
+                    <a href="" data-toggle="dropdown" class="hi-notifications">
+                        <i class="zmdi zmdi-notifications"></i>
+                        <i class="hi-count">9</i>
+                    </a>
+                    <div class="dropdown-menu hi-dropdown">
+                        <div class="dropdown-header bg-orange m-b-15">
+                            Notifications
+                            <ul class="actions a-alt">
+                                <li><a href=""><i class="zmdi zmdi-check-all"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="list-group lg-alt">
+                            <a class="list-group-item media" href="">
+                                <div class="pull-right">
+                                    <img class="img-avatar" src="img/profile-pics/1.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">David Villa Jacobs <small>3 Hours ago</small></div>
+                                    <small class="list-group-item-text c-gray">Sorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis lobortis sapien non posuere</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Candice Barnes <small>5 Hours ago</small></div>
+                                    <small class="list-group-item-text c-gray">Quisque non tortor ultricies, posuere elit id, lacinia purus curabitur.</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Jeannette Lawson <small>Yesterday</small></div>
+                                    <small class="list-group-item-text c-gray">Donec congue tempus ligula, varius hendrerit mi hendrerit sit amet. Duis ac quam sit amet leo feugiat iaculis</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                 <div class="pull-right">
+                                    <img class="img-avatar" src="img/profile-pics/4.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Darla Mckinney <small>05/06/2014</small></div>
+                                    <small class="list-group-item-text c-gray">Duis tincidunt augue nec sem dignissim scelerisque. Vestibulum rhoncus sapien sed nulla aliquam lacinia</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                 <div class="pull-right">
+                                    <img class="img-avatar" src="img/profile-pics/2.jpg" alt="" width="40" height="40">
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Rudolph Perez <small>08/06/2014</small></div>
+                                    <small class="list-group-item-text c-gray">Phasellus a ullamcorper lectus, sit amet viverra quam. In luctus tortor vel nulla pharetra bibendum</small>
+                                </div>
+                            </a>
+                            
+                            <a class="view-more" href="">View more</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <!-- Ongoing Projects -->
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="" class="hi-projects">
+                        <i class="zmdi zmdi-format-subject"></i>
+                    </a>
+                    <div class="dropdown-menu hi-dropdown">
+                        <div class="dropdown-header bg-red m-b-15">
+                            ONGOING PROJECTS
+                            <ul class="actions a-alt">
+                                <li><a class="" href=""><i class="zmdi zmdi-plus"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="list-group lg-alt">
+                            <div class="list-group-item">
+                                <div class="list-group-item-heading m-b-5">HTML5 Validation Report</div>
+
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
+                                        <span class="sr-only">95% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="list-group-item-heading m-b-5">Google Chrome Extension</div>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                        <span class="sr-only">80% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="list-group-item-heading m-b-5">Social Intranet Projects</div>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                        <span class="sr-only">20% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="list-group-item-heading m-b-5">Bootstrap Admin Template</div>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                        <span class="sr-only">60% Complete (warning)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="list-group-item-heading m-b-5">Youtube Client App</div>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a class="view-more" href="">View more</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <!-- Events -->
+                <li class="dropdown hidden-xs">
+                    <a href="" data-toggle="dropdown" class="hi-events">
+                        <i class="zmdi zmdi-calendar"></i>
+                    </a>
+                    <div class="dropdown-menu hi-dropdown">
+                        <div class="dropdown-header bg-blue m-b-15">
+                            UPCOMING EVENTS
+                            <ul class="actions a-alt">
+                                <li><a class="" href=""><i class="zmdi zmdi-plus"></i></a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="list-group lg-alt">
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <div class="event-time bg-cyan">
+                                        <h2>16/07</h2>
+                                        <small>11:30 AM</small>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">ICCSSR Annual Meeting</div>
+                                    <small class="list-group-item-text c-gray">Sorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis lobortis sapien non posuere</small>
+                                    <small class="list-group-item-text c-gray f-11">10 Days to go</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <div class="event-time bg-green">
+                                        <h2>20/7</h2>
+                                        <small>11:30 AM</small>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Outsourcing in Clinical Trials Europe 2014</div>
+                                    <small class="list-group-item-text c-gray">Vestibulum ut auctor est. Proin euismod semper tortor id egestas</small>
+                                    <small class="list-group-item-text c-gray f-11">20 Days to go</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <div class="event-time bg-orange">
+                                        <h2>2/8</h2>
+                                        <small>11:30 AM</small>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Biomarkers World Congress 2014</div>
+                                    <small class="list-group-item-text c-gray">Phasellus luctus commodo augue, at posuere augue. Sed pellentesque libero vel dapibus placerat</small>
+                                    <small class="list-group-item-text c-gray f-11">31 Days to go</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <div class="event-time bg-red">
+                                        <h2>30/10</h2>
+                                        <small>11:30 AM</small>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">August Flavors Cooking</div>
+                                    <small class="list-group-item-text c-gray">Quisque magna tellus, vulputate a faucibus at, rhoncus vitae est. Nulla scelerisque sollicitudin mollis</small>
+                                    <small class="list-group-item-text c-gray f-11">55 Days to go</small>
+                                </div>
+                            </a>
+    
+                            <a class="list-group-item media" href="">
+                                <div class="pull-left">
+                                    <div class="event-time bg-blue">
+                                        <h2>23/11</h2>
+                                        <small>11:30 AM</small>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <div class="list-group-item-heading">Beach Party 2104</div>
+                                    <small class="list-group-item-text c-gray">Etiam dolor diam, pulvinar nec vehicula id, sodales sagittis libero. Maecenas cursus varius libero et eleifend</small>
+                                    <small class="list-group-item-text c-gray f-11">64 Days to go</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <a class="view-more" href="">View more</a>
+                    </div>
+                </li>
+                
+                
+                <!-- Search -->
+                <li class="top-search">
+                    <input class="ts-input" placeholder="Search..." type="text">
+                    
+                    <i class="ts-reset zmdi zmdi-close"></i>
+                </li>
+                
+                <!-- Settings -->
+                <li class="pull-right dropdown hidden-xs">
+                    <a href="" data-toggle="dropdown">
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a data-toggle="fullscreen" href="">Toggle Fullscreen</a></li>
+                        <li><a data-toggle="localStorage" href="">Clear Local Storage</a></li>
+                        <li><a href="">Account Settings</a></li>
+                        <li><a href="">Other Settings</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Quick Apps -->
+                <li class="hidden-xs dropdown pull-right">
+                    <a href="" data-toggle="dropdown">
+                        <i class="zmdi zmdi-apps"></i>    
+                    </a>
+                    
+                    <div class="dropdown-menu pull-right" id="launch-apps">
+                        <div class="dropdown-header bg-teal">SUPERFLAT APPS</div>
+                        
+                        <div class="la-body">
+                            <div class="lab-item">
+                                <a href="" class="bg-red">
+                                    <i class="zmdi zmdi-calendar"></i>
+                                </a>
+                                <small>Calendar</small>
+                            </div>
+                            
+                            <div class="lab-item">
+                                <a href="" class="bg-green">
+                                    <i class="zmdi zmdi-file-text"></i>
+                                </a>
+                                <small>Files</small>
+                            </div>
+                            
+                            <div class="lab-item">
+                                <a href="" class="bg-blue">
+                                    <i class="zmdi zmdi-email"></i>
+                                </a>
+                                <small>Mail</small>
+                            </div>
+                            
+                            <div class="lab-item">
+                                <a href="" class="bg-orange">
+                                    <i class="zmdi zmdi-trending-up"></i>
+                                </a>
+                                <small>Analytics</small>
+                            </div>
+                            
+                            <div class="lab-item">
+                                <a href="" class="bg-cyan">
+                                    <i class="zmdi zmdi-view-headline"></i>
+                                </a>
+                                <small>News</small>
+                            </div>
+
+                            <div class="lab-item">
+                                <a href="" class="bg-teal">
+                                    <i class="zmdi zmdi-image"></i>
+                                </a>
+                                <small>Gallery</small>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!-- Time -->
+                <li class="pull-right hidden-xs">
+                    <div id="time">
+                        <span id="t-hours"></span>
+                        <span id="t-min"></span>
+                        <span id="t-sec"></span>
+                    </div>
+                </li>
+            </ul>
+        </header>
+        
+        <aside id="sidebar">
+            
+            <!--| MAIN MENU |-->
+            <ul class="side-menu">
+                <li class="sm-sub sms-profile">
+                    <a class="clearfix" href="">
+                        <img src="img/profile-pic.jpg" alt="">
+        
+                        <span class="f-11">
+                            <span class="d-block">Mallinda Hollaway</span>
+                            <small class="text-lowercase">@mallinda-h</small>
+                        </span>
+                    </a>
+                    
+                    <ul>
+                        <li><a href="">View Profile</a></li>
+                        <li><a href="">Privacy Settings</a></li>
+                        <li><a href="">Settings</a></li>
+                        <li><a href="">Logout</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="index.html">
+                        <i class="zmdi zmdi-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="typography.html">
+                        <i class="zmdi zmdi-format-underlined"></i>
+                        <span>Typography<span class="label label-danger">New</span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="widgets.html">
+                        <i class="zmdi zmdi-widgets"></i>
+                        <span>Widgets</span>
+                    </a>
+                </li>
+                <li class="sm-sub">
+                    <a href="">
+                        <i class="zmdi zmdi zmdi-view-list"></i>
+                        <span>Tables</span>
+                    </a>
+                    <ul>
+                        <li><a href="normal-tables.html">Normal Tables</a></li>
+                        <li><a href="data-tables.html">Data Tables</a></li>
+                    </ul>
+                </li>
+                <li class="sm-sub">
+                    <a href="">
+                        <i class="zmdi zmdi-collection-text"></i>
+                        <span>Forms <span class="label label-warning">New</span></span>
+                    </a>
+                    <ul>
+                        <li><a href="form-elements.html">Basic Form Elements</a></li>
+                        <li><a href="form-components.html">Form Components</a></li>
+                        <li><a href="form-examples.html">Form Examples</a></li>
+                        <li><a href="form-validation.html">Form Validation</a></li>
+                    </ul>
+                </li>
+                <li class="sm-sub">
+                    <a href="">
+                        <i class="zmdi zmdi-swap-alt"></i>
+                        <span>User Interface</span>
+                    </a>
+                    <ul>
+                        <li><a href="colors.html">Colors</a></li>
+                        <li><a href="animations.html">Animations</a></li>
+                        <li><a href="buttons.html">Buttons</a></li>
+                        <li><a href="icons.html">Icons</a></li>
+                        <li><a href="alerts.html">Alerts</a></li>
+                        <li><a href="notification-dialog.html">Notifications & Dialogs</a></li>
+                        <li><a href="media.html">Media</a></li>
+                        <li><a href="components.html">Components</a></li>
+                        <li><a href="other-components.html">Others</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="charts.html">
+                        <i class="zmdi zmdi-trending-up"></i>
+                        <span>Charts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="calendar.html">
+                        <i class="zmdi zmdi-calendar"></i>
+                        <span>Calendar <span class="label label-primary">12</span></span>
+                    </a>
+                </li>
+                <li class="sm-sub">
+                    <a href="">
+                        <i class="zmdi zmdi-image"></i>
+                        <span>Photo Gallery</span>
+                    </a>
+                    <ul>
+                        <li><a href="photos.html">Default</a></li>
+                        <li><a href="photo-timeline.html">Timeline</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="generic-classes.html">
+                        <i class="zmdi zmdi-layers"></i>
+                        <span>Generic Classes</span>
+                    </a>
+                </li>
+                <li class="sm-sub sms-bottom">
+                    <a href="">
+                        <i class="zmdi zmdi-collection-item"></i>
+                        <span>Sample Pages</span>
+                    </a>
+                    <ul>
+                        <li class="active"><a href="profile-about.html">Profile</a></li>
+                        <li><a href="list-view.html">List View</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="pricing-table.html">Pricing Table</a></li>
+                        <li><a href="contacts.html">Contacts</a></li>
+                        <li><a href="invoice.html">Invoice</a></li>
+                        <li><a href="login.html">Login and Sign Up</a></li>
+                        <li><a href="lockscreen.html">Lockscreen</a></li>
+                        <li><a href="404.html">Error 404</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://wrapbootstrap.com/theme/superflat-simple-responsive-admin-theme-WB082P91H">
+                        <i class="zmdi zmdi-shopping-cart"></i>
+                        <span>Buy this template</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <section id="content">
+            <div class="container">
+                <header class="page-header">
+                    <h3>Typography</h3>
+                </header>
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        
+                        <!-- Body Copy -->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Body Copy</div>
+                            </div>
+            
+                            <div class="t-body tb-padding">
+                                <p>Pellentesque lacinia sagittis libero et feugiat. Etiam volutpat adipiscing tortor non luctus. Vivamus venenatis vitae metus et aliquet. Praesent vitae justo purus. In hendrerit lorem nisl, ac lacinia urna aliquet non. Quisque nisi tellus, rhoncus quis est sit amet, lacinia euismod nunc. Aenean nec nibh velit. Fusce quis ante in nisl molestie fringilla. Nunc vitae ante id magna feugiat condimentum. Maecenas sit amet urna massa.</p>
+                                <p>Integer eu lectus sollicitudin, hendrerit est ac, sollicitudin nisl. Quisque viverra sodales lectus nec ultrices. Fusce elit dolor, dignissim a nunc id, varius suscipit turpis. Cras porttitor turpis vitae leo accumsan molestie. Morbi vitae luctus leo. Sed nec scelerisque magna, et adipiscing est. Proin lobortis lectus eu sem ullamcorper, commodo malesuada quam fringilla. Curabitur ac nunc dui. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sagittis enim eu est lacinia, ut egestas ligula imperdiet.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Inline text elements-->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Inline text elements</div>
+                            </div>
+            
+                            <div class="t-body tb-padding">
+                                <div class="row">
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Marked text</p>
+                                        <p>For highlighting a run of text due to its relevance in another context, use the 'mark' tag.</p>
+                                        <mark>This is marked text</mark>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Deleted Text</p>
+                                        <p>For indicating blocks of text that have been deleted use the 'del' tag.</p>
+                                        <del>This is Deleted Text</del>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Strikethrough text</p>
+                                        <p>For indicating blocks of text that are no longer relevant use the 's' tag.</p>
+                                        <s>This is Deleted Text</s>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Inserted Text</p>
+                                        <p>For indicating additions to the document use the 'ins' tag.</p>
+                                        <ins>This is Inserted Text</ins>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Underlined Text</p>
+                                        <p>To underline text use the 'u' tag.</p>
+                                        <u>This is Underlined Text</u>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Small Text</p>
+                                        <p>For de-emphasizing inline or blocks of text, use the 'small' tag.</p>
+                                        <small>This is Small Text</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="c-black f-500">Bold Text</p>
+                                        <p>For emphasizing a snippet of text with a heavier font-weight.</p>
+                                        <strong>This is Bold Text</strong>
+                                    </div>
+            
+                                    <div class="col-sm-6">
+                                        <p class="c-black f-500">Underline Text</p>
+                                        <p>For emphasizing a snippet of text with italics.</p>
+                                        <em>This is Underline Text</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Abbreviations -->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Abbreviations</div>
+                            </div>
+    
+                            <div class="t-body tb-padding">
+                                <p>Stylized implementation of HTML's 'abbr' element for abbreviations and acronyms to show the expanded version on hover. Abbreviations with a 'title' attribute have a light dotted bottom border and a help cursor on hover, providing additional context on hover and to users of assistive technologies.</p>
+    
+                                <p class="c-black m-t-20">Basic abbreviation</p>
+                                <p>An abbreviation of the word attribute is <abbr title="attribute">attr</abbr>.</p>
+    
+                                <p class="c-black m-t-20">Initialism</p>
+                                <p>Add <abbr title="Initialism" class="initialism">Initialism</abbr> to an abbreviation for a slightly smaller font-size.</p>
+                                
+                                <p class="c-black m-t-20">Addresses</p>
+                                <address>
+                                    <strong>Twitter, Inc.</strong><br>
+                                    795 Folsom Ave, Suite 600<br>
+                                    San Francisco, CA 94107<br>
+                                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                                </address>
+                                
+                                <address>
+                                    <strong>Full Name</strong><br>
+                                    <a href="mailto:#">first.last@example.com</a>
+                                </address>
+                            </div>
+                        </div>
+                        <!-- List -->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">List</div>
+                            </div>
+            
+                            <div class="t-body tb-padding">
+                                <div class="row">
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Unordered</p>
+            
+                                        <ul>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Consectetur adipiscing elit</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Facilisis in pretium nisl aliquet</li>
+                                            <li>Nulla volutpat aliquam velit
+                                                <ul>
+                                                    <li>Phasellus iaculis neque</li>
+                                                    <li>Purus sodales ultricies</li>
+                                                    <li>Vestibulum laoreet porttitor sem</li>
+                                                    <li>Ac tristique libero volutpat at</li>
+                                                </ul>
+                                            </li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Aenean sit amet erat nunc</li>
+                                            <li>Eget porttitor lorem</li>
+                                        </ul>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Ordered</p>
+            
+                                        <ol>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Consectetur adipiscing elit</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Facilisis in pretium nisl aliquet</li>
+                                            <li>Nulla volutpat aliquam velit</li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Aenean sit amet erat nunc</li>
+                                            <li>Eget porttitor lorem</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Spretium nisl aliquet lorem ipsum</li>
+                                            <li>Linking best ttoth bellorem</li>
+                                        </ol>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Ordered - Roman</p>
+            
+                                        <ol type="i">
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Consectetur adipiscing elit</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Facilisis in pretium nisl aliquet</li>
+                                            <li>Nulla volutpat aliquam velit</li>
+                                            <li>Phasellus iaculis neque</li>
+                                            <li>Purus sodales ultricies</li>
+                                            <li>Vestibulum laoreet porttitor sem</li>
+                                            <li>Ac tristique libero volutpat at</li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Aenean sit amet erat nunc</li>
+                                            <li>Eget porttitor lorem</li>
+                                        </ol>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Custom - Angle</p>
+            
+                                        <ul class="clist clist-angle">
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Consectetur adipiscing elit</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Facilisis in pretium nisl aliquet</li>
+                                            <li>Nulla volutpat aliquam velit</li>
+                                            <li>Phasellus iaculis neque</li>
+                                            <li>Purus sodales ultricies</li>
+                                            <li>Vestibulum laoreet porttitor sem</li>
+                                            <li>Ac tristique libero volutpat at</li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Aenean sit amet erat nunc</li>
+                                            <li>Eget porttitor lorem</li>
+                                        </ul>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Custom - Check</p>
+            
+                                        <ul class="clist clist-check">
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Consectetur adipiscing elit</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Facilisis in pretium nisl aliquet</li>
+                                            <li>Nulla volutpat aliquam velit</li>
+                                            <li>Phasellus iaculis neque</li>
+                                            <li>Purus sodales ultricies</li>
+                                            <li>Vestibulum laoreet porttitor sem</li>
+                                            <li>Ac tristique libero volutpat at</li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Aenean sit amet erat nunc</li>
+                                            <li>Eget porttitor lorem</li>
+                                        </ul>
+                                    </div>
+            
+                                    <div class="col-sm-6 m-b-25">
+                                        <p class="c-black f-500">Custom - Star</p>
+            
+                                        <ul class="clist clist-star">
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Consectetur adipiscing elit</li>
+                                            <li>Integer molestie lorem at massa</li>
+                                            <li>Facilisis in pretium nisl aliquet</li>
+                                            <li>Nulla volutpat aliquam velit</li>
+                                            <li>Phasellus iaculis neque</li>
+                                            <li>Purus sodales ultricies</li>
+                                            <li>Vestibulum laoreet porttitor sem</li>
+                                            <li>Ac tristique libero volutpat at</li>
+                                            <li>Faucibus porta lacus fringilla vel</li>
+                                            <li>Aenean sit amet erat nunc</li>
+                                            <li>Eget porttitor lorem</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        
+                        <!-- Headings-->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Headings</div>
+                            </div>
+            
+                            <div class="t-body tb-padding">
+                                <p>All HTML headings, <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>, are available. <code>.h1</code> through <code>.h6</code> classes are also available, for when you want to match the font styling of a heading but still want your text to be displayed inline.</p>
+                                <h1>This is a Heading 1</h1>
+                                <p>Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.</p>
+            
+                                <div class="clearfix"></div>
+            
+                                <h2>This is a Heading 2</h2>
+                                <p>In nec rhoncus eros. Vestibulum eu mattis nisl. Quisque viverra viverra magna nec pulvinar. Maecenas pellentesque porta augue, consectetur facilisis diam porttitor sed. Suspendisse tempor est sodales augue rutrum tincidunt. Quisque a malesuada purus.</p>
+            
+                                <div class="clearfix"></div>
+            
+                                <h3>This is a Heading 3</h3>
+                                <p>Vestibulum auctor tincidunt semper. Phasellus ut vulputate lacus. Suspendisse ultricies mi eros, sit amet tempor nulla varius sed. Proin nisl nisi, feugiat quis bibendum vitae, dapibus in tellus.</p>
+            
+                                <div class="clearfix"></div>
+            
+                                <h4>This is a Heading 4</h4>
+                                <p>Nulla et mattis nunc. Curabitur scelerisque commodo condimentum. Mauris blandit, velit a consectetur egestas, diam arcu fermentum justo, eget ultrices arcu eros vel erat.</p>
+            
+                                <div class="clearfix"></div>
+            
+                                <h5>This is a Heading 5</h5>
+                                <p>Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio. Vivamus pretium nec odio cursus elementum. Suspendisse molestie ullamcorper ornare.</p>
+            
+                                <div class="clearfix"></div>
+            
+                                <h6>This is a Heading 6</h6>
+                                <p>Donec ultricies, lacus id tempor condimentum, orci leo faucibus sem, a molestie libero lectus ac justo. ultricies mi eros, sit amet tempor nulla varius sed. Proin nisl nisi, feugiat quis bibendum vitae, dapibus in tellus.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Helper Classes -->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Helper Classes</div>
+                            </div>
+    
+                            <div class="t-body tb-padding">
+                                <p class="c-black f-500">Alignment Classes</p>
+                                <p>Easily realign text to components with text alignment classes.</p>
+    
+                                <p class="text-left">Left aligned text.</p>
+                                <p class="text-center">Center aligned text.</p>
+                                <p class="text-right">Right aligned text.</p>
+                                <p class="text-justify">Justified text.</p>
+                                <p class="text-nowrap">No wrap text.</p>
+    
+                                <p class="c-black m-t-25">Transformation classes</p>
+                                <p>Transform text in components with text capitalization classes.</p>
+    
+                                <p class="text-lowercase">Lowercased text.</p>
+                                <p class="text-uppercase">Uppercased text.</p>
+                                <p class="text-capitalize">Capitalized text.</p>
+                            </div>
+                        </div>
+                        <!-- Blockquotes -->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Blockquotes</div>
+                            </div>
+            
+                            <div class="t-body tb-padding">
+                                <p class="m-b-25">For quoting blocks of content from another source within your document.</p>
+            
+                                <blockquote class="m-b-25">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                </blockquote>
+            
+                                <blockquote class="m-b-25">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                                </blockquote>
+            
+                                <blockquote class="blockquote-reverse m-b-25">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    
+                        <!-- Description -->
+                        <div class="tile">
+                            <div class="t-header">
+                                <div class="th-title">Description</div>
+                            </div>
+            
+                            <div class="t-body tb-padding">
+                                <p>A list of terms with their associated descriptions.</p>
+                                
+                                <dl>
+                                    <dt>Description lists</dt>
+                                    <dd>A description list is perfect for defining terms.</dd>
+                                    <dt>Euismod</dt>
+                                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                                    <dd>Donec id elit non mi porta gravida at eget metus.</dd>
+                                    <dt>Malesuada porta</dt>
+                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                </dl>
+                                
+                                <p>Make terms and descriptions in <code>&lt;dl&gt;</code> line up side-by-side. Starts off stacked like default <code>&lt;dlgt;</code>s, but when the navbar expands, so do these.</p>
+                                <dl class="dl-horizontal">
+                                    <dt>Description lists</dt>
+                                    <dd>A description list is perfect for defining terms.</dd>
+                                    <dt>Euismod</dt>
+                                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                                    <dd>Donec id elit non mi porta gravida at eget metus.</dd>
+                                    <dt>Malesuada porta</dt>
+                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                    <dt>Felis euismod semper eget lacinia</dt>
+                                    <dd>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer id="footer">
+            Copyright © 2015 SuperFlat Admin
+            
+            <ul class="f-menu">
+                <li><a href="">Home</a></li>
+                <li><a href="">Dashboard</a></li>
+                <li><a href="">Reports</a></li>
+                <li><a href="">Support</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </footer>
+        
+        <!-- Older IE Warning Message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
+            </div>   
+        <![endif]-->
+        
+        <!-- Javascript Libraries -->
+        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+        
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+        
+        <script src="js/functions.js"></script>
+        <script src="js/demo.js"></script>
+    </body>
+</html>

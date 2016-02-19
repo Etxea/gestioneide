@@ -8,7 +8,7 @@ from models import *
 from views import *
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', login_required(AlumnoListView.as_view()),name="alumnos_lista"),
     url(r'nuevo$',AlumnoCreateView.as_view(), name="alumno_nuevo"),
     url(r'editar/(?P<pk>\d+)/$',AlumnoUpdateView.as_view(), name="alumno_editar"),
@@ -16,4 +16,4 @@ urlpatterns = patterns('',
     url(r'buscar/$',AlumnoBuscarView.as_view(), name="alumno_buscar"),
     url(r'(?P<pk>\d+)/$',AlumnoDetailView.as_view(), name="alumno_detalle"),
 
-)
+]

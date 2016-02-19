@@ -1,0 +1,53 @@
+I've used the following assets to make my template possible. 
+ 
+Bower - http://bower.io/
+
+GruntJs - http://gruntjs.com
+
+Bootstrap - http://getbootstrap.com
+
+jQuery - http://jquery.com
+
+AngularJs - https://angularjs.org/
+
+Animate.css - http://daneden.github.io/animate.css/
+
+Auto Size Textarea - http://www.jacklmoore.com/autosize/
+
+Bootgrid - https://github.com/rstaib/jquery-bootgrid
+
+Date Time Picker - http://eonasdan.github.io/bootstrap-datetimepicker/
+
+Bootstrap Select - http://silviomoreto.github.io/bootstrap-select/
+
+Bootstrap Wizard - http://vadimg.com/twitter-bootstrap-wizard-example/
+
+Chosen - http://harvesthq.github.io/chosen/
+
+EasyPieChart - http://rendro.github.io/easy-pie-chart/
+
+Color Picker - http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/
+
+Simple File Input - http://jasny.github.com/bootstrap/javascript/#fileinput
+
+Flot Chart - http://www.flotcharts.org/
+
+Full Calendar - http://fullcalendar.io
+
+Input Mask - http://blog.igorescobar.com
+
+Material Design Icon - http://zavoloklom.github.io/material-design-iconic-font/icons.html
+
+Moment JS - http://momentjs.com/
+
+Malihu Scrollbar - http://manos.malihu.gr/jquery-custom-content-scroller/
+
+NoUiSlider - http://refreshless.com/nouislider/
+
+SparkLine Chart - http://omnipotent.net/jquery.sparkline/
+
+SummerNote - http://summernote.org
+
+Roboto Font -  https://www.google.com/fonts/specimen/Roboto
+
+Bootstrap SweetAlert - http://lipis.github.io/bootstrap-sweetalert/
