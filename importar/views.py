@@ -3,10 +3,14 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.views.generic import ListView, DetailView
 
-from myproject.myapp.models import Document
-from myproject.myapp.forms import DocumentForm
+from models import *
+from forms import DocumentForm
 
+class DbListView(ListView):
+    model = OldDatabase
+    template_name = 'olddatabase_list.html'
 
 def list(request):
     # Handle file upload
@@ -17,7 +21,7 @@ def list(request):
             newdoc.save()
 
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('myproject.myapp.views.list'))
+            return HttpResponseRedirect(reverse('gestioneide.importar.views.list'))
     else:
         form = DocumentForm()  # A empty, unbound form
 
