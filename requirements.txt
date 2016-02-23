@@ -6,3 +6,5 @@ pinax-eventlog==1.1.1
 django-localflavor
 sqlobject
 ipython
+xhtml2pdf
+django-xhtml2pdf

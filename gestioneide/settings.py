@@ -137,6 +137,7 @@ INSTALLED_APPS = [
     # project
     "gestioneide",
     "alumnos",
+    "grupos",
     "importar",
 ]
 

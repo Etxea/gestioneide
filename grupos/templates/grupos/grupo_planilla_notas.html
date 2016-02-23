@@ -1,0 +1,31 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+
+    <h1>{% trans "Notas Grupo" %} {{object.nombre}} trimestre {{ trimestre }}</h1>
+    <div class="form-group">
+	{% with grupo_siguiente=grupo.id|add:'1' grupo_anterior=grupo.id|add:'-1' %}
+		<a class="btn btn-primary" href="{% url 'grupo_lista' %}">Volver</button>
+		<a class="btn btn-secondary" href="{% url 'grupo_notas_trimestre' grupo_anterior trimestre%}">Anterior</a>
+		<a class="btn btn-secondary" href="{% url 'grupo_notas_trimestre' grupo_siguiente trimestre%}">Siguiente</a>
+	{% endwith %}
+    <table class="table">
+		<thead>
+			<th>Alumnos</th>
+			{% for concepto in conceptos %}
+			<th>{{ concepto }}</th>
+			{% endfor %}
+		</thead>
+		<tbody>
+			{% for asistencia in object.asistencia_set.all %}
+			<tr>
+				<td>{{ asistencia.alumno}}</td>
+				{% for concepto in conceptos %}<td> __/__ </td>{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+		
+{% endblock %}

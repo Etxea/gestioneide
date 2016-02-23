@@ -1,0 +1,78 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+
+    <h1>{% trans "Grupo" %} {{object.nombre}} <a href="{% url 'grupo_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    
+    <div class="col-md-12">
+		<div class="btn-group" role="group" aria-label="...">
+		<button class="btn">Planilla asistencia</button>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 1%}">1</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 2%}">2</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 3%}">3</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 4%}">4</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 5%}">5</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 6%}">6</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 7%}">7</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 8%}">8</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 9%}">9</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 10%}">10</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 11%}">11</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 12%}">12</a>     
+    </div>
+    <div class="btn-group" role="group" aria-label="...">
+		<button class="btn">Planilla Notas</button>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 1%}">1</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 2%}">2</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 3%}">3</a>
+    </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4"> 
+        <h3>Clases</h3>
+        <table class="table">
+            <thead>
+                <th>Dia</th>
+                <th colspan="2">Horario</th>
+                <th>Aula</th>
+                <th>Prof</th>
+            </thead>
+            <tbody>
+                {% for clase in object.clases.all %}
+                <tr>
+                    <td>{{clase.get_dia_semana_display}}</td><td>{{clase.hora_inicio}}</td><td>{{clase.hora_fin}}</td>
+                    <td><a href="{% url 'aula_detalle' clase.aula.id %}">{{clase.aula.nombre}}</a></td><td><a href="{% url 'profesor_detalle' clase.profesor.id %}">{{clase.profesor}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Resumen</h3>
+        <table class="table">
+            <tr><td>Nombre</td><td>{{object.nombre}}</td></tr>
+            <tr><td>Precio</td><td>{{object.get_precio}}</td></tr>
+            <tr><td>Num Max. Alumnos</td><td>{{object.num_max}}</td></tr>
+            <tr><td>Menores</td><td>{{object.menores}}</td></tr>
+        </table>
+    </div>
+    <div class="col-lg-8"> 
+        <h3>Alumnos</h3>
+        <table class="table">
+            <thead>
+                <th>Confirmado</th><th>Alumno</th>
+            </thead>
+            {% for asistencia in object.asistencia_set.all %}
+            <tr>
+                <td>{{asistencia.confirmado}}</td>
+                <td><a href="{% url 'alumno_detalle' asistencia.alumno.id%}">{{asistencia.alumno.id}} - {{asistencia.alumno.nombre}},{{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</a></td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+</div>    
+
+{% endblock %}

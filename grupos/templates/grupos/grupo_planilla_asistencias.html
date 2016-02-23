@@ -1,0 +1,27 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+	<div class="col-md-12">
+    <h1>{% trans "Grupo" %} {{object.nombre}} {{ mes_nombre }} / {{ano}}</h1>
+    <table class="table">
+		<thead>
+			<th>Alumnos</th>
+			{% for dia in dias_clase %}
+			<th>{{ dia }}</th>
+			{% endfor %}
+		</thead>
+		<tbody>
+			{% for asistencia in object.asistencia_set.all %}
+			<tr>
+				<td>{{ asistencia.alumno}}</td>
+				{% for dia in dias_clase %}<td>  </td>{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+
+    <h1>{% trans "Nuevo Curso" %}</h1>
+
+    <form action="{% url 'curso_nuevo' %}" method="post">{% csrf_token %}
+      {{ form|as_bootstrap }}
+      <br />
+      <div class="form-actions">
+      <a href="{% url 'cursos_lista' %}" class="btn">Atras</a>
+      <button type="submit">Guardar</button>
+    </div>
+    </form>
+{% endblock %}
