@@ -40,8 +40,14 @@ def load_olddb(request):
     if request.method == 'POST':
         olddb_id = request.POST.get('id')
         print "Intentando cargar la BBDD con id",olddb_id
+        import time
+        
         olddb = OldDatabase.objects.get(id=olddb_id)
+        from django.core.management import call_command
+        call_command('importacion',olddb.dbfile.path)
+        
         print "Cargar la BBDD con el file",olddb.dbfile
+        
         return HttpResponse(
             { 'msg': "hola"},
             content_type="application/json"
