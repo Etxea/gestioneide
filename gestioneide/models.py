@@ -135,7 +135,7 @@ class Historia(models.Model):
 
 class Libro(models.Model):
     titulo = models.CharField(max_length=50,default="")
-    autor = models.CharField(max_length=25,default="")
+    autor = models.CharField(max_length=25,default="",blank=True)
     isbn = models.CharField(max_length=40,default="")
     editorial = models.CharField(max_length=40,default="")
     def __unicode__(self):

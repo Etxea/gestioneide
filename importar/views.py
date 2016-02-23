@@ -63,7 +63,7 @@ def upload(request):
             newdoc.save()
 
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('gestioneide.importar.views.uploads'))
+            return HttpResponseRedirect(reverse('gestioneide.importar.views.list'))
     else:
         form = OldDatabaseForm()  # A empty, unbound form
 

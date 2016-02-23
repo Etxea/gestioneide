@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Minimal Django File Upload Example</title>
-    </head>
+{% extends "site_base.html"%}
 
-    <body>
-        <!-- List of uploaded documents -->
-        {% if documents %}
-            <ul>
-                {% for document in documents %}
-                    <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No documents.</p>
-        {% endif %}
+{% load i18n %}
 
-        <!-- Upload form. Note enctype attribute! -->
+{% block body %}
+        
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.non_field_errors }}</p>
@@ -31,6 +17,4 @@
 
             <p><input type="submit" value="Upload"/></p>
         </form>
-    </body>
-
-</html>
+    {% endblock %}

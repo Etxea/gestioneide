@@ -43,11 +43,16 @@ class Command(BaseCommand):
             busqueda = Libro.select()
             self.stdout.write('Encontrados %d libros'%busqueda.count())
             for libro in busqueda:
+		if not libro.autor:
+			autor = ""
+		else:
+			autor=libro.autor
+		print "autor",autor
                 l = Libro_new(\
                     titulo=libro.titulo,\
-                    autor=libro.autor,\
+                    autor=autor,\
                     isbn=libro.isbn,\
-                    editorial=libro.editorial,\
+                    editorial=str(libro.editorial),\
                 )
                 l.save()
             
