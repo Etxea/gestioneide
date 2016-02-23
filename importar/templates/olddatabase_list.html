@@ -3,18 +3,41 @@
 {% load i18n %}
 
 {% block body %}
+<script>
+    
+function load_olddb(id) {
+    console.log("Vamos a mandar carga la BBDD con id"+id);
+    
+     $.ajax({
+        url : "{% url 'load_olddb' %}",
+        type : "POST", 
+        data : { id : id,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+             },
+        success : function(json) {
+            console.log(json); // log the returned json to the console
+            console.log("success"); // another sanity check
+        },
+        
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
 
+    });
+}   
+</script>
 
 <div class="row">
     <div class="col-md-12">
         <h4>Listado de Db</h4> 
-        <table>
-            {% for old_db in object_list %}
+        <table class="table">
+            {% for document in object_list %}
             <tr>
-                <td>-</td>
-                </tr>
-{% endfor %}                
-            </table>
+                <td><a href="{{ document.dbfile.url }}">{{ document.dbfile.name }}</a></td>
+                <td><button onclick="load_olddb({{ document.id }})">Cargar</button></td>
+            </tr>
+            {% endfor %}                
+        </table>
     </div>
 </div>
 {% endblock %}
