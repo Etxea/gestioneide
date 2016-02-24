@@ -1,0 +1,38 @@
+{% extends "site_base.html"%}
+{% load url from future %}
+{% load i18n %}
+
+{% block body %}
+
+
+<div class="row">
+    <div class="col-md-10 col-xs-12">
+        <h4>Listado de Libros</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Autor</th>
+                    <th>ISBN</th>
+                    <th>Editorial</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for libro in object_list %}
+            <tr>
+
+                <td><a href="{{libro.get_absolute_url}}">{{ libro.titulo }}</a></td>
+                <td>{{libro.autor}}</td>
+                <td>{{libro.isbn}}</td>
+                <td>{{libro.editorial}}</td>
+             </tr>
+             {%  endfor %}
+             </tbody>
+		 </table>
+	</div>
+	<div class="col-md-2">
+		<h4>Acciones</h4>
+		<a href="#"><button>Nuevo</button></a>
+    </div>
+</div>
+{% endblock %}

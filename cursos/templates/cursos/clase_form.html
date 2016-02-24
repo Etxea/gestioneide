@@ -1,0 +1,40 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block extra_script %}
+<!-- para el datepicker -->
+{{ clase_form.media }}
+
+<link href="/site_media/static/bootstrap3_datetime/css/bootstrap-datetimepicker.min.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/site_media/static/bootstrap3_datetime/js/moment.min.js"></script>
+<script type="text/javascript" src="/site_media/static/bootstrap3_datetime/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/site_media/static/bootstrap3_datetime/js/locales/bootstrap-datetimepicker.es.js"></script>
+
+<script type="text/javascript" src="/site_media/static/js/bootstrap-slider.js"></script>
+<link href="/site_media/static/css/slider.css" type="text/css" media="all" rel="stylesheet" />
+<script>
+    $(function() {
+        $("#id_hora_picker").datetimepicker({"pickDate": false, "weekStart": 1, "language": "es-es", "format": "hh:mm","minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        $("#id_hora").datetimepicker({"pickDate": false, "weekStart": 1, "language": "es-es", "format": "hh:mm","minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        //$("#id_duracion").slider({"min":0,"max":240,"step":5});
+        
+      
+    });
+</script>
+{% endblock %}
+
+
+{% block body %}
+
+    <h1>{% trans "Nueva Clase" %}</h1>
+
+    <form action="" method="post">{% csrf_token %}
+      {{ form|as_bootstrap }}
+      <br />
+      <div class="form-actions">
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+
+<form action="" class="form"    method="post">{% csrf_token %}
+    <p>¿Estás seguro de que quieres borrar la clase {{ object.get_dia_semana_display }} a las {{ object.hora }} del curso {{ object.curso.nombre }}?</p>
+    <input type="submit" value="Confirmar" />
+</form>
+{% endblock %}

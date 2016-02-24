@@ -1,0 +1,61 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+
+
+
+{% block body %}
+<script src="/site_media/static/pinax/js/jquery.js"></script>
+<script type="text/javascript">
+ $(function() {	
+	//Hacemos que salga elejido el profesor que estamos viendo 
+	$("#select_profesor").val( {{ profesor.id }} ).attr('selected',true);
+	
+	//Si se cambia el select vamos a otra página
+	$("#select_profesor").change(function() {
+		//console.log("Quiere cambiar de profesor!");
+		//alert("Quiere cambiar de profesor!");
+		id_nuevo_profe = $("#select_profesor option:selected").val();
+		url="/clases/semana/{{ numero_semana }}/profesor/"+id_nuevo_profe+"/";
+		//console.log(url);
+		window.location.href = url;
+		
+	});
+});
+</script>
+
+<div class="row">
+	<div class="span6">
+		Cambiar semana:
+		<a class="btn" href="/clases/semana/{{ numero_semana|add:'-1' }}/profesor/{{ profesor.id }}/"><i class=" icon-step-backward"></i></a>/
+		<a class="btn" href="/clases/semana/{{ numero_semana|add:'1' }}/profesor/{{ profesor.id }}/"><i class=" icon-step-forward"></i></a>
+	</div>
+	<div class="span6">
+		Cambiar profesor:
+		<select id="select_profesor">
+		{% for p in profesores %}
+			<option value="{{ p.id }}">{{ p }}</option>
+		{% endfor %}
+		</select>
+	</div>
+</div>
+    <h1>{% trans "Vista de ocupación" %} semana ({{ numero_semana }}) para {{ profesor }}</h1>
+    <h2> {{ inicio_semana }} - {{ fin_semana }} </h2>
+    <div id="semana" class="row">
+    {% for dia in clases_semana %}
+    <div id="{{ dia.nombre }}" class="span2">
+		<h3>{{ dia.nombre }}</h3>
+		<table class="table table-condensed table-bordered">
+		{% for clase in dia.clases %}
+			<tr><td>{{ clase.0 }}</td>
+			<td>{{ clase.1 }}</td></tr>
+		{% endfor %}
+		</table>
+	</div>
+    {% endfor %}
+    </div>
+	
+{% endblock %}

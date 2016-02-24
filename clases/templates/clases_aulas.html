@@ -1,0 +1,23 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "Vista de aulas" %}</h1>
+    <ul>
+    {% for aula in aulas_list %}
+    <li><a href="{% url 'clases_aula' aula.id %}">{{ aula }}</a> ver la ocupacion 
+		<a href="{% url 'semana_aula' num_semana aula.id %}" >esta semana</a></li>
+    <ul>
+		{% for clase in aula.clases.all %}
+		<li><a href="{{ clase.get_absolute_url }}" >{{ clase }}</a></li>
+		{% endfor %}
+    </ul>
+    {% endfor %}
+    </ul>
+{% endblock %}

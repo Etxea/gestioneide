@@ -1,0 +1,23 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body %}
+<h1>Clases del profesor {{ profesor }}</h1>
+<table class="table">
+	<thead>
+		<th>Nombre</th>
+		<th>Fecha</th>
+		<th>Aula</th>
+	</thead>
+{% for clase in clases_list %}
+<tr>
+	<td><a href="{{ clase.get_absolute_url }}">{{ clase.nombre }} </a> </td>
+	<td>{{ clase.fecha_hora }}</td> 
+	<td><a href="{{ clase.aula.get_absolute_url }}">{{ clase.aula }}</a></td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

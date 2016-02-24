@@ -1,0 +1,30 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% block extra_script %}
+    {{ block.super }}
+    
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-datepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.timePicker.js"></script>
+    <script type="text/javascript">
+    $(function() {
+		$("#id_hora_inicio_0").datepicker({dateFormat: $.datepicker.ATOM});
+        $("#id_hora_fin_0").datepicker({dateFormat: $.datepicker.ATOM});
+        $("#id_hora_inicio_1").timePicker();
+        $("#id_hora_fin_1").timePicker();
+	});
+	</script>
+{% endblock %}
+
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body %}
+<h1>nueva clase</h1>
+<form action="" method="post">
+	{{ form.as_p }}
+	{% csrf_token %}
+	<input type="submit" class="btn primary" value="Guardar">
+</form>
+{% endblock %}

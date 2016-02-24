@@ -1,0 +1,12 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+<h1>Ficha del libro</h1>
+    <h3>Título: {{object.titulo}}</h3>
+    <h3>Autor: {{object.autor}}</h3>
+    <h3>Editorial: {{object.editoria}}</h3>
+    <h3>ISBN: {{object.isbn}}</h3>
+    
+{% endblock %}

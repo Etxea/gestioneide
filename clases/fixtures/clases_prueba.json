@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "clases.aula", "fields": {"nombre": "Aula 01", "aforo": "10", "pdi": true}}, {"pk": 2, "model": "clases.aula", "fields": {"nombre": "Aula 02", "aforo": "12", "pdi": false}}, {"pk": 1, "model": "clases.profesor", "fields": {"nombre": "jon", "apellido": "latorre"}}, {"pk": 2, "model": "clases.profesor", "fields": {"nombre": "ruth", "apellido": "farpon"}}]

@@ -1,0 +1,75 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block extra_script %}
+{{ block.super }}
+<script type="text/javascript">
+ $(function() {	
+	//Hacemos que salga elegido el aula que estamos viendo 
+	$("#select_aula").val( {{ aula.id }} ).attr('selected',true);
+	
+	//Si se cambia el select vamos a otra página
+	$("#select_aula").change(function() {
+		console.log("Quiere cambiar de aula!");
+		//alert("Quiere cambiar de aula!");
+		id_nuevo_profe = $("#select_aula option:selected").val();
+		url="/clases/semana/{{ numero_semana }}/aula/"+id_nuevo_profe+"/";
+		console.log(url);
+		window.location.href = url;
+	});
+});
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<div class="span6">
+		Cambiar semana:
+		<a class="btn" href="/clases/semana/{{ numero_semana|add:'-1' }}/aula/{{ aula.id }}/"><i class=" icon-step-backward"></i></a>/
+		<a class="btn" href="/clases/semana/{{ numero_semana|add:'1' }}/aula/{{ aula.id }}/"><i class=" icon-step-forward"></i></a>
+	</div>
+	<div class="span6">
+		Cambiar aula:
+		<select id="select_aula">
+		{% for p in aulas %}
+			<option value="{{ p.id }}">{{ p }}</option>
+		{% endfor %}
+		</select>
+	</div>
+</div>
+    <h1>{% trans "Vista de ocupación" %} semana ({{ numero_semana }}) para {{ aula }}</h1>
+    <h2> {{ inicio_semana }} - {{ fin_semana }} </h2>
+    <div id="semana" class="row">
+    {% for dia in clases_semana %}
+    <div id="{{ dia.nombre }}" class="span2 condensado">
+		<h3>{{ dia.nombre }}</h3>
+		<table class="table table-condensed table-bordered">
+		{% for clase in dia.clases %}
+			<tr><td>{{ clase.0 }}</td>
+			<td>{{ clase.1 }}</td></tr>
+		{% endfor %}
+		</table>
+	</div>
+    {% endfor %}
+    </div>
+
+<h1>tabla tumbada</h1>
+    <table >
+    {% for dia in clases_semana %}
+		<tr>
+			<td><h3>{{ dia.nombre }}</h3></td>
+			{% for clase in dia.clases %}
+			<td>
+				<div>{{ clase.0 }}</div>
+				<div>{{ clase.1 }}</div>
+			</td>
+			{% endfor %}
+		</tr>
+    {% endfor %}
+    </table>
+	
+{% endblock %}

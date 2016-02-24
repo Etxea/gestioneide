@@ -1,0 +1,71 @@
+{% extends "site_base.html"%}
+{% load url from future %}
+{% load i18n %}
+
+{% block body %}
+
+
+<div class="row">
+    <div class="col-md-10 col-xs-12">
+        <h4>Listado de cursos</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Empresa</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Clases</th>
+
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for curso in object_list %}
+            <tr>
+
+                <td><a href="{{curso.get_absolute_url}}">{{ curso.nombre }}</a></td>
+                <td>{{curso.cliente.nombre}}</td>
+                <td>{{curso.inicio}}</td>
+                <td>{{curso.fin}}</td>
+                <td>
+                    <table>
+                        {% for clase in curso.clase_set.all %}
+                        <tr>
+                            <td>{{clase.get_dia_semana_display}} ({{clase.hora|date:"h:i"}})</td>
+                            <td>{{clase.profesor.user.username}}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </td>
+                <td>
+                    <!--
+                    <a class="btn btn-mini btn-info" href="#" alt="Nueva Asistencia" >
+                        <i class="icon-plus"></i>
+                    </a>-->
+                    
+                    <a href="{{curso.get_absolute_url}}" alt="Ver" >
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                    <a href="{% url 'asistencias_lista_curso' curso.id %}" alt="Ver Asistencias" >
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                    <a href="{% url 'curso_editar' curso.id %}" alt="Editar" >
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="{% url 'curso_borrar' curso.id %}" alt="Borrar" >
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-2">
+    <h4>Acciones</h4>
+    <a href="{% url 'curso_nuevo' %}"><button>Nuevo</button></a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body %}
+<div class="controles">
+<a href="/clases/semana/{{ numero_semana|add:'-1' }}/">-</a>/
+<a href="/clases/semana/{{ numero_semana|add:'1' }}/">+</a>
+</div>
+    <h1>{% trans "Vista de ocupación" %} semana {{ numero_semana }} {{ inicio_semana }} - {{ fin_semana }} </h1>
+    <table width="100%">
+    <thead>
+        <td>Horario</td>
+        <td>Lunes</td>
+        <td>Martes</td>
+        <td>Miercoles</td>
+        <td>Jueves</td>
+        <td>Viernes</td>
+    </thead>
+    <tbody>
+    <tr>
+        <td>8AM</td>
+        <td>
+            <div>8:00</div>
+            <div>8:15</div>
+            <div>8:30</div>
+            <div>8:45</div>
+        </td>
+        <td>
+            <div>8:00</div>
+            <div>8:15</div>
+            <div>8:30</div>
+            <div>8:45</div>
+        </td>
+        <td>
+            <div>8:00</div>
+            <div>8:15</div>
+            <div>8:30</div>
+            <div>8:45</div>
+        </td>
+        <td>
+            <div>8:00</div>
+            <div>8:15</div>
+            <div>8:30</div>
+            <div>8:45</div>
+        </td>
+        <td><!-- VIERNES -->
+            <div>8:00</div>
+            <div>8:15</div>
+            <div>8:30</div>
+            <div>8:45</div>
+        </td>
+    </tr>
+        <td>9AM</td>
+        <td>
+            <div>9:00</div>
+            <div>9:15</div>
+            <div>9:30</div>
+            <div>9:45</div>
+        </td>
+        <td>
+            <div>9:00</div>
+            <div>9:15</div>
+            <div>9:30</div>
+            <div>9:45</div>
+        </td>
+        <td>
+            <div>9:00</div>
+            <div>9:15</div>
+            <div>9:30</div>
+            <div>9:45</div>
+        </td>
+        <td>
+            <div>9:00</div>
+            <div>9:15</div>
+            <div>9:30</div>
+            <div>9:45</div>
+        </td>
+        <td>
+            <div>9:00</div>
+            <div>9:15</div>
+            <div>9:30</div>
+            <div>9:45</div>
+        </td>
+    </tr>
+    
+    </tbody>
+    </table>
+{% endblock %}

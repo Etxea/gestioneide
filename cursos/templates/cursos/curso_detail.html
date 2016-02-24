@@ -1,0 +1,148 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+
+{% block extra_script %}
+<!-- para el datepicker -->
+{{ clase_form.media }}
+
+<link href="/site_media/static/bootstrap3_datetime/css/bootstrap-datetimepicker.min.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/site_media/static/bootstrap3_datetime/js/moment.min.js"></script>
+<script type="text/javascript" src="/site_media/static/bootstrap3_datetime/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/site_media/static/bootstrap3_datetime/js/locales/bootstrap-datetimepicker.es.js"></script>
+
+<script>
+    var ano = {{object.inicio.year}};
+    var mes = {{object.inicio.month}};
+    
+    $(function() {
+        $("#id_hora_picker").datetimepicker({"pickDate": false, "weekStart": 1, "language": "es-es", "format": "hh:mm","minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        $("#id_hora").datetimepicker({"pickDate": false, "weekStart": 1, "language": "es-es", "format": "hh:mm","minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        //$("#id_duracion_picker").datetimepicker({"pickDate": false, "weekStart": 1, "language": "es-es", "format": "hh:mm","minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        //$("#id_duracion").datetimepicker({"pickDate": false, "weekStart": 1, "language": "es-es", "format": "hh:mm","minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        $("#div_id_curso").hide();
+        
+    
+        $(calendario).load("/cursos/calendario/{{object.id}}/"+ano+"/"+mes+"/");
+    });
+    function ver_mes_siguiente() {
+        if (mes == 12 ) {
+            console.log("Saltamos al año que viene");
+            mes = 1;
+            ano = ano +1 ;
+        } else {
+            console.log("Vemos el mes siguiente");
+            mes = mes + 1 ;
+        }
+        $(calendario).load("/cursos/calendario/{{object.id}}/"+ano+"/"+mes+"/");
+    }
+    function ver_mes_anterior() {
+        if (mes == 1 ) {
+            console.log("Saltamos al año anterior");
+            mes = 12;
+            ano = ano - 1 ;
+        } else {
+            console.log("Vemos el mes anterior");
+            mes = mes - 1 ;
+        }
+        
+        $(calendario).load("/cursos/calendario/{{object.id}}/"+ano+"/"+mes+"/");
+    }
+</script>
+{% endblock %}
+
+{% block body %}
+    <h1>{{object.nombre}} para {{object.cliente.nombre}}</h1>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Detalles</h2>
+        <table class="table">
+            <tr>
+                <td>Nombre</td><td>{{object.nombre}} <a href="{% url 'curso_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="{% url 'curso_borrar' object.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Empresa</td><td>{{object.cliente.nombre}}
+                <a href="{% url 'cliente_detalle' object.cliente.id %}"><span class="glyphicon glyphicon-search"></span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Inicio</td><td>{{object.inicio}}</td>
+            </tr>
+            <tr>
+                <td>Fin</td><td>{{object.fin}}</td>
+            </tr>
+
+
+        </table>
+        <h2>Clases</h2>
+        <table>
+            <thead>
+                <th>Día</th>
+                <th>Hora</th>
+                <th>Duracion</th>
+                <th>Profesor</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+            {% for clase in object.clase_set.all %}
+                <tr>
+                    <td>{{clase.get_dia_semana_display}}</td>
+                    <td>{{clase.hora}}</td>
+                    <td>{{clase.duracion}}</td>
+                    <td>{{clase.profesor.user.username}}</td>
+                    <td><a href="{% url 'clase_editar' clase.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'clase_borrar' clase.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <style>
+            table.month {
+                width: 100%;
+            }
+            td.filled
+            {
+                
+                
+                font-weight:bold;
+            } 
+        </style>
+        <h2>Calendario</h2>
+        <a href="#" onclick='ver_mes_anterior();' ><span class="glyphicon glyphicon-step-backward"></span></a>
+        <a href="#" onclick='ver_mes_siguiente();' ><span class="glyphicon glyphicon-step-forward"></span></a>
+        
+        <div id="calendario"></div>
+        <h2>Añadir clases</h2>
+            <form action="{% url 'clase_curso_nueva' object.id %}" method="post">{% csrf_token %}
+                {{ clase_form|as_bootstrap }}
+                <div class="form-actions">
+
+                    <button type="submit" class="btn btn-primary">Añadir</button>
+                </div>
+            </form>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Asistencias del profesorado</h2>
+            <table>
+            <thead>
+                <th>Día</th>
+                <th>Hora</th>
+                <th>Duracion</th>
+                <th>Profesor</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+            </tbody>
+            </table>
+    </div>
+</div>
+{% endblock %}

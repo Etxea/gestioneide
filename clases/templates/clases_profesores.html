@@ -1,0 +1,21 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Clases: profesores" %}{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "Vista de profesores" %}</h1>
+    <ul>
+    {% for profesor in profesores_list %}
+    <li><a href="{% url 'clases_profesor' profesor.id %}">{{ profesor }}</a> ver la ocupacion 
+		<a href="{% url 'semana_profesor' num_semana profesor.id %}" >esta semana</a></li>
+    <ul>
+		{% for clase in profesor.clases.all %}
+		<li>{{ clase }}</li>
+		{% endfor %}
+    </ul>
+    {% endfor %}
+    </ul>
+{% endblock %}

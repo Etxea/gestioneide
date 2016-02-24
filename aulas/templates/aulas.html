@@ -1,0 +1,59 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Lista de aulas" %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans "Lista de aulas" %}</h1>
+    <table class="table">
+		<thead>
+			<th>Nombre</th>
+			<th>Aforo</th>
+			<th>PDI</th>
+			<th>Lunes</th>
+			<th>Martes</th>
+			<th>Miercoles</th>
+			<th>Jueves</th>
+			<th>Viernes</th>
+		</thead>
+    <tbody>
+    {% for aula in aulas_list %}
+    
+    <tr>
+		<td><a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
+		<td>{{ aula.aforo }}</td>
+		<td>{{ aula.pdi }}</td>
+		
+			    <td>
+					{% for clase in aula.clases_lunes %}
+					<span>{{clase.hora_inicio}}-{{clase.hora_fin}}: <a href="{% url 'grupo_detalle' clase.grupo.id %}">{{clase.grupo.nombre}}</a></span> <br/>
+					{% endfor %}
+				</td>			
+			    <td>
+					{% for clase in aula.clases_martes %}
+					<span>{{clase.hora_inicio}}-{{clase.hora_fin}}: <a href="{% url 'grupo_detalle' clase.grupo.id %}">{{clase.grupo.nombre}}</a></span> <br/>
+					{% endfor %}
+			    </td>
+			    <td>
+					{% for clase in aula.clases_miercoles %}
+					<span>{{clase.hora_inicio}}-{{clase.hora_fin}}: <a href="{% url 'grupo_detalle' clase.grupo.id %}">{{clase.grupo.nombre}}</a></span> <br/>
+					{% endfor %}
+			    </td>
+			    <td>
+					{% for clase in aula.clases_jueves %}
+					<span>{{clase.hora_inicio}}-{{clase.hora_fin}}: <a href="{% url 'grupo_detalle' clase.grupo.id %}">{{clase.grupo.nombre}}</a></span> <br/>
+					{% endfor %}
+			    </td>
+			    <td>
+					{% for clase in aula.clases_viernes %}
+					<span>{{clase.hora_inicio}}-{{clase.hora_fin}}: <a href="{% url 'grupo_detalle' clase.grupo.id %}">{{clase.grupo.nombre}}</a></span> <br/>
+					{% endfor %}
+			    </td>
+	</tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <hr />
+    <a href="{% url 'aula_nueva' %}"><button>Nueva Aula</button></a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Editar Aula" %}{% endblock %}
+{% block body %}
+<h1>Editar Aula</h1>
+<form action="" method="post">
+	{{ form.as_p }}
+	{% csrf_token %}
+	<input type="submit" class="btn primary" value="Gaurdar">
+</form>
+{% endblock %}

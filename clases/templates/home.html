@@ -1,0 +1,28 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+<h1>Clases</h1>
+<div class="row">
+	<div class="span4">
+		<h3>Profesores</h3>
+		Puedes ver una <a href="{%  url 'clases_lista_profesores' %}">lista de profesores</a> y sus clases.<br />
+		O puedes ver la ocupación de un profesor una semana concreta,<br />
+		O puedes consultar que profesores están lisbres un día.
+	</div>
+	<div class="span4">
+		<h3>Aulas</h3>
+		<a href="{%  url 'clases_lista_aulas' %}">{% trans "Vista de aulas" %}</a>
+	</div>
+	<div class="span4">
+		<h3>Acciones</h3>
+		<a href="#">Listado completo de las clases</a>
+		<a href="{% url 'nueva_clase' %}">Nueva clase</a>
+	</div>
+</div>
+{% endblock %}
