@@ -1,20 +1,38 @@
 {% load staticfiles %}
+{% load account_tags %}
+
 <!--| MAIN MENU |-->
 <ul class="side-menu">
 	<li class="sm-sub sms-profile">
+		{% if request.user.is_authenticated %}
 		<a class="clearfix" href="">
-			<img src="{% static "img/profile-pic.jpg" %}" alt="">
+			<img src="{% static 'img/profile-pics/5.jpg' %}" alt="">
 			<span class="f-11">
-				<span class="d-block">Mallinda Hollaway</span>
-				<small class="text-lowercase">@mallinda-h</small>
+				<span class="d-block">{% user_display request.user %}</span>
+				<small class="text-lowercase">--@--</small>
 			</span>
 		</a>
 		<ul>
-			<li><a href="">View Profile</a></li>
-			<li><a href="">Privacy Settings</a></li>
-			<li><a href="">Settings</a></li>
-			<li><a href="">Logout</a></li>
+			<li><a href="{% url 'account_settings' %}">Settings</a></li>
+			<li> <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> Log out</a></li>
+			<li><a href="{% url 'importar_list' %}">Importaciones</a></li>
+			<form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
+			{% csrf_token %}
+			</form>
+			
 		</ul>
+		{% else %}
+			
+			<a class="clearfix" href="}">
+			<img src="{% static "img/profile-pics/5.jpg" %}" alt="">
+			<span class="f-11">
+				<span class="d-block">Anon.</span>
+			</span>
+		</a>
+		<ul>
+			<li><a href="{% url 'account_login' %}">Log In</a></li>
+		</ul>
+		{% endif %}
 	</li>
 	
 	<li class="active">
@@ -46,7 +64,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="charts.html">
+		<a href="{% static 'theme/charts.html' %}">
 			<i class="zmdi zmdi-trending-up"></i>
 			<span>Stats</span>
 		</a>

@@ -2,21 +2,9 @@
 {% load i18n %}
 
 {% block body %}
-
-
 <div class="row">
-    <div class="col-md-12">
-        <h4>Listado de Alumnos</h4> 
-        <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" href="{% url 'alumno_nuevo' %}">Nuevo</a>
-            {% include "pagination/pagination.html" %}
-            
-        
-	<form action="{% url 'alumno_buscar' %}" method="get">{% csrf_token %}
-        <input type="search" id="search" />
-	<button type="submit" class="glyphicon glyphicon-search" aria-hidden="true" />
-	</form>
-    </div>
+    
+    <div class="col-md-9">
         <table class="table table-hover table-condensed">
             <thead>
                 <tr>
@@ -54,6 +42,16 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="col-md-3">
+        <h4>Listado de Alumnos</h4> 
+        
+            <a role="button" class="btn btn-default" href="{% url 'alumno_nuevo' %}">Nuevo</a>
+            {% include "pagination/pagination.html" %}
+            <form action="{% url 'alumno_buscar' %}" method="post">{% csrf_token %}
+                <input type="search" id="search" />
+                <button type="submit" class="glyphicon glyphicon-search" aria-hidden="true" />
+            </form>
     </div>
 </div>
 {% endblock %}
