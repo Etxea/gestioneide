@@ -8,3 +8,4 @@ include/
 lib/
 local/
 share/
+gestioneide/local_settings.py
