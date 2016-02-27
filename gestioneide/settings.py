@@ -128,6 +128,8 @@ INSTALLED_APPS = [
     # theme
     "bootstrapform",
     "pinax_theme_bootstrap",
+    "django_forms_bootstrap",
+    "bootstrap3_datetime",
 
     # external
     "account",
@@ -138,6 +140,10 @@ INSTALLED_APPS = [
     "gestioneide",
     "alumnos",
     "grupos",
+    "profesores",
+    "aulas",
+    "cursos",
+    "calendario",
     "importar",
 ]
 

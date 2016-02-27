@@ -4,14 +4,14 @@
 
 {% block body %}
 
-    <h1>{% trans "Nuevo Grupo" %}</h1>
+    <h1>Confirmar Borrar {{object.fecha}}</h1>
 
     <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap }}
+
       <br />
       <div class="form-actions">
-      <a href="{% url 'grupo_lista' %}" class="btn">Atras</a>
-      <button type="submit">Guardar</button>
+      <a href="{% url 'festivos_calendario' %}" class="btn">Cancelar</a>
+      <button type="submit" class="btn btn-primary">Borrar</button>
     </div>
     </form>
 {% endblock %}

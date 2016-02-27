@@ -47,21 +47,35 @@
 			<span>Alumnos<span class="label label-danger">Nuevo</span></span>
 		</a>
 	</li>
-	<li class="sm-sub">
+	<li>
 		<a href="/grupos" >
 			<i class="zmdi zmdi zmdi-view-list"></i>
 			<span>Grupos</span>
 		</a>
-		<ul>
-			<li><a href="/grupos">Listado</a></li>
-			<li><a href="/grupos/new">Nuevo</a></li>
-		</ul>
 	</li>
 	<li>
-		<a href="calendar.html">
+		<a href="/calendario">
 			<i class="zmdi zmdi-calendar"></i>
 			<span>Calendario <span class="label label-primary">12</span></span>
 		</a>
+	</li>
+	<li>
+		<a href="/cobros">
+			<i class="zmdi zmdi-money-box"></i>
+			<span>Cobros</span>
+		</a>
+	</li>
+	<li class="sm-sub">
+		<a href="">
+			<i class="zmdi zmdi-settings"></i>
+			<span>Varios</span>
+		</a>
+		<ul>
+			<li><a href="/cursos"><i class="zmdi zmdi-graduation-cap"></i><span>Cursos</span></a></li>
+			<li><a href="/aulas"><i class="zmdi zmdi-home"></i>Aulas</a></li>
+			<li><a href="/profesores"><i class="zmdi zmdi-accounts-alt"></i>Profesores</a></li>
+			<li><a href="/libros"><i class="zmdi zmdi-book"></i>Libros</a></li>
+		</ul>
 	</li>
 	<li>
 		<a href="{% static 'theme/charts.html' %}">

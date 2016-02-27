@@ -15,10 +15,12 @@ class NuevaAula(CreateView):
 class EditarAula(UpdateView):
 	model = Aula
 	template_name="aula_editar.html"
+	fields = '__all__'
 	success_url = "/aulas/"
 
 class DetalleAula(DetailView):
 	model = Aula
+	context_object_name ="aula"
 	template_name="aula_detalle.html"
 
 

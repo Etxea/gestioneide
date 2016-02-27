@@ -1,0 +1,32 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Detalle del aula" %} {{ aula.id }}{% endblock %}
+
+{% block body %}
+
+<table class="table">
+    <tbody>
+         <tr>
+                <td><b>Nombre</b>: <a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
+                <td><b>Aforo</b>: {{ aula.aforo }}</td>
+                <td><b>PDI</b>: {{ aula.pdi }}</td>
+        </tr>
+
+        <tr>
+            <td span="4">Clases</td>
+        </tr>
+        {% for clase in aula.clases.all|dictsort:"dia_semana" %}
+        <tr>
+            <td >{{ clase.get_dia_semana_display }}</td>
+            <td><a href="{{ clase.profesor.get_absolute_url }}">{{ clase.profesor }}</a></td>
+            <td><a href="{{ clase.grupo.get_absolute_url }}">{{ clase.grupo }}</a></td>
+            <td>{{ clase.hora_inicio }} - {{ clase.hora_fin }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

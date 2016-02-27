@@ -35,6 +35,8 @@ class CursoDetailView(DetailView):
 
 class CursoUpdateView(UpdateView):
     model = Curso
+    fields = "__all__"
+    template_name="cursos/curso_form.html"
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(CursoUpdateView, self).dispatch(*args, **kwargs)

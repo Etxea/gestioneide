@@ -26,14 +26,6 @@ TIPO_FESTIVO = (
 	(6, _('Festivo oficial'))
 )
 
-DIAS_SEMANA = (
-    (1, _('Festivo')),
-    (2, _('Inicio Curso')),
-    (3, _('Fin Curso')),
-    (4, _('Inicio vacaciones/puente')),
-    (5, _('Fin vacaciones/puente'))
-)
-
 DURACION = (
     (15, _('1/4 hora')),
     (30, _('1/2 hora')),

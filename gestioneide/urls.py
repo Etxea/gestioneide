@@ -9,9 +9,13 @@ from django.contrib import admin
 urlpatterns = [
     url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="home"),
     url(r"^admin/", include(admin.site.urls)),
-    url(r"^account/", include("account.urls")),
+    url(r"^accounts/", include("account.urls")),
     url(r"^alumnos/", include("alumnos.urls")),
     url(r"^grupos/", include("grupos.urls")),
+    url(r"^profesores/", include("profesores.urls")),
+    url(r"^aulas/", include("aulas.urls")),
+    url(r"^cursos/", include("cursos.urls")),
+    url(r"^calendario/", include("calendario.urls")),
     url(r"^importar/", include("importar.urls")),
 ]
 
