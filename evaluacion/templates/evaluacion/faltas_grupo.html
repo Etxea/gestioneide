@@ -1,0 +1,45 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+
+{% block head_title %}Faltas{% endblock %}
+
+
+{% block body %}
+
+<h1>Faltas grupo {{ grupo.nombre }} del mes {{ mes }}</h1>
+
+<form role="form" method="post" action="{% url 'faltas_grupo' grupo.id mes %}">
+	{% csrf_token %}
+	{{ faltas_formset.management_form }}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th><th>Justificadas</th><th>No Justificadas</th>
+			</tr>
+		</thead>
+		<tbody>    
+		{% for form in faltas_formset %}
+			<tr>
+				{% comment %}  {{ form | bootstrap_inline }}<br /> {% endcomment %} 
+				{% with asistencia=asistencias|buscar:forloop.counter0 %}
+				<td> {{ asistencia.alumno }} </td>
+				{% for field in form %}
+					<td>{{ field }}  {{ field.errors }}</td>
+				{% endfor %}
+				{% endwith %}
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+    
+    <div class="form-group">
+	{% with grupo_siguiente=grupo.id|add:'1' grupo_anterior=grupo.id|add:'-1' %}
+		<button type="submit" class="btn btn-primary">Submit</button>
+		<a class="btn btn-secondary" href="{% url 'faltas_grupo' grupo_anterior mes%}">Anterior</a>
+		<a class="btn" href="{% url 'faltas_grupo' grupo_siguiente mes%}">Siguiente</a>
+	{% endwith %}
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Faltas{% endblock %}
+
+
+{% block body %}
+
+<h1>Notas grupo {{ grupo.nombre }} del trimestre {{ trimestre }}</h1>
+
+{{ notas_formset.non_field_errors }}
+
+<form role="form" method="post" action="{% url 'notas_grupo' grupo.id trimestre %}">
+	{% csrf_token %}
+	{{ notas_formset.management_form }}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th><th>Grama</th><th>Grama baremo</th><th>Expresion</th>
+				<th>Expresion baremo</th><th>Lectura</th><th>Lectura baremo</th><th></th>
+			</tr>
+		</thead>
+		<tbody>    
+		{% for form in notas_formset %}
+			<tr>
+				{% comment %}  {{ form | bootstrap_inline }}<br /> {% endcomment %} 
+				{% with asistencia=asistencias|buscar:forloop.counter0 %}
+				<td> {{ asistencia.alumno }} </td>
+				{% for field in form %}
+					<td>{{ field }}  {{ field.errors }}</td>
+				{% endfor %}
+				{% endwith %}
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+    
+    <div class="form-group">
+	{% with grupo_siguiente=grupo.id|add:'1' grupo_anterior=grupo.id|add:'-1' %}
+		<button type="submit" class="btn btn-primary">Submit</button>
+		<a class="btn btn-secondary" href="{% url 'notas_grupo' grupo_anterior trimestre%}">Anterior</a>
+		<a class="btn" href="{% url 'notas_grupo' grupo_siguiente trimestre%}">Siguiente</a>
+	{% endwith %}
+    </div>
+</form>
+
+
+{% endblock %}

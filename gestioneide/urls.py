@@ -16,7 +16,9 @@ urlpatterns = [
     url(r"^aulas/", include("aulas.urls")),
     url(r"^cursos/", include("cursos.urls")),
     url(r"^calendario/", include("calendario.urls")),
+    url(r"^evaluacion/", include("evaluacion.urls")),
     url(r"^importar/", include("importar.urls")),
+    url(r"^facturacion/", include("facturacion.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

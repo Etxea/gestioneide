@@ -1,0 +1,18 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+
+    <h1>{% trans "Nueva Nota" %}</h1>
+    <div>Creando nota para la asistencia {{ asistencia.id }} y el trimestre {{ trimestre }} del grupo {{ asistencia.grupo.nombre }}. La siguiente es {{ asistencia.siguiente_asistencia_grupo }}. La anterior es {{ asistencia.anterior_asistencia_grupo }}</div>
+    <form action="" method="post">{% csrf_token %}
+      {{ form|as_bootstrap }}
+      <br />
+      <div class="form-actions">
+
+      <button type="submit">Enviar</button>
+      
+    </div>
+    </form>
+{% endblock %}

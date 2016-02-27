@@ -15,7 +15,6 @@
 		<ul>
 			<li><a href="{% url 'account_settings' %}">Settings</a></li>
 			<li> <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> Log out</a></li>
-			<li><a href="{% url 'importar_list' %}">Importaciones</a></li>
 			<form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
 			{% csrf_token %}
 			</form>
@@ -60,9 +59,15 @@
 		</a>
 	</li>
 	<li>
-		<a href="/cobros">
+		<a href="{% url 'evaluacion' %}">
+			<i class="zmdi zmdi-check-all"></i>
+			<span>Evaluacion</span>
+		</a>
+	</li>
+	<li>
+		<a href="{% url 'recibos' %}">
 			<i class="zmdi zmdi-money-box"></i>
-			<span>Cobros</span>
+			<span>Recibos</span>
 		</a>
 	</li>
 	<li class="sm-sub">
@@ -75,6 +80,7 @@
 			<li><a href="/aulas"><i class="zmdi zmdi-home"></i>Aulas</a></li>
 			<li><a href="/profesores"><i class="zmdi zmdi-accounts-alt"></i>Profesores</a></li>
 			<li><a href="/libros"><i class="zmdi zmdi-book"></i>Libros</a></li>
+			<li><a href="{% url 'importar_list' %}"><i class="zmdi zmdi-upload"></i> Importaciones</a></li>
 		</ul>
 	</li>
 	<li>

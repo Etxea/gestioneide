@@ -1,0 +1,24 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}{% endblock %}
+
+
+{% block body %}
+<a class="btn btn-primary" href="{% url 'recibo_nuevo' %}">Nuevo recibo</a>
+<table role="table" class="table">
+	<thead>
+		<th>Fecha Creación</th><th>Mes</th><th>Medio Mes</th>
+	</thead>
+	<tbody>
+		 {% for recibo in object_list %}
+		 <tr>
+			 <td><a href="{{ recibo.get_absolute_url }}" >{{ recibo.fecha_creacion }}</a></td><td>{{ recibo.mes }}</td><td>{{ recibo.medio_mes }}</td>
+		 </tr>
+		 {% endfor %}
+	</tbody>
+</table>
+{% endblock %}

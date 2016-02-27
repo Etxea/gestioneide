@@ -1,0 +1,35 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Recibo{% endblock %}
+
+
+{% block body %}
+
+<div class="form-group">
+		<!--<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Volver</a>-->
+		<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Genrar fichero CSB19</a>
+		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
+</div>
+	
+<table role="table" class="table">
+	<tr>
+		<td><b>Fecha creación</b>: {{ recibo.fecha_creacion }}</td><td>Mes: {{ recibo.get_mes_display }}</td><td>Medio Mes: {{ recibo.medio_mes }}</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3">Grupos</td>
+	</tr>
+	{% for grupo in recibo.grupos.all %}
+	<tr><td colspan="2">{{ grupo }}</td><td>{{ grupo.asistencia_set.all.count}} alumnos</td></tr>
+	{% endfor %}
+	<tr>
+		<td colspan="2">Total</td><td>{{ recibo.get_total_alumnos }}</td>
+	</tr>
+</table>
+
+
+{% endblock %}
