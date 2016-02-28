@@ -7,15 +7,14 @@
 {{ form.media }}
 <script>
     $(function() {
-        $("#id_inicio_picker").datetimepicker({"pickTime": false, "weekStart": 1, "language": "es-es", "format": "YYYY-MM-DD"});
-        $("#id_fin_picker").datetimepicker({"pickTime": false, "weekStart": 1, "language": "es-es", "format": "YYYY-MM-DD"});
+        $("#id_fecha").datetimepicker({"pickTime": false, "weekStart": 1, "language": "es-es", "format": "YYYY-MM-DD"});
     });
 </script>
 {% endblock %}
 
 {% block body %}
 
-    <h1>{% trans "Nuevo Curso" %}</h1>
+    <h1>{% trans "Nuevo Festivo" %}</h1>
 
     <form action="{% url 'festivo_nuevo' %}" method="post">{% csrf_token %}
       {{ form|as_bootstrap }}
