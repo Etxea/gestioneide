@@ -9,7 +9,7 @@
 			<img src="{% static 'img/profile-pics/5.jpg' %}" alt="">
 			<span class="f-11">
 				<span class="d-block">{% user_display request.user %}</span>
-				<small class="text-lowercase">--@--</small>
+				<small class="text-lowercase">{{request.user.email}}</small>
 			</span>
 		</a>
 		<ul>
@@ -84,9 +84,9 @@
 		</ul>
 	</li>
 	<li>
-		<a href="{% static 'theme/charts.html' %}">
+		<a href="{% url 'informes' %}">
 			<i class="zmdi zmdi-trending-up"></i>
-			<span>Stats</span>
+			<span>Informes</span>
 		</a>
 	</li>
 </ul>

@@ -19,6 +19,7 @@ urlpatterns = [
     url(r"^evaluacion/", include("evaluacion.urls")),
     url(r"^importar/", include("importar.urls")),
     url(r"^facturacion/", include("facturacion.urls")),
+    url(r"^informes/", include("informes.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

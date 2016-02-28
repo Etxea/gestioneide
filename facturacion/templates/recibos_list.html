@@ -11,12 +11,12 @@
 <a class="btn btn-primary" href="{% url 'recibo_nuevo' %}">Nuevo recibo</a>
 <table role="table" class="table">
 	<thead>
-		<th>Fecha Creación</th><th>Mes</th><th>Medio Mes</th>
+		<th>Fecha Creación</th><th>Mes</th><th>Medio Mes</th><th>Fichero CSB19</th><th>Informe</th>
 	</thead>
 	<tbody>
 		 {% for recibo in object_list %}
 		 <tr>
-			 <td><a href="{{ recibo.get_absolute_url }}" >{{ recibo.fecha_creacion }}</a></td><td>{{ recibo.mes }}</td><td>{{ recibo.medio_mes }}</td>
+			 <td><a href="{{ recibo.get_absolute_url }}" >{{ recibo.fecha_creacion }}</a></td><td>{{ recibo.get_mes_display }}</td><td>{{ recibo.medio_mes }}</td><td>--</td><td>--</td>
 		 </tr>
 		 {% endfor %}
 	</tbody>

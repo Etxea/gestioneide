@@ -147,6 +147,7 @@ INSTALLED_APPS = [
     "importar",
     "facturacion",
     "evaluacion",
+    "informes",
 ]
 
 # A sample logging configuration. The only tangible logging

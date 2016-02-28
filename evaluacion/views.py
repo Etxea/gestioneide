@@ -13,6 +13,9 @@ from forms import *
 class EvaluacionListView(ListView):
     template_name="evaluacion/evaluacion.html"
     model = Grupo
+    #Solo listamos los que tenhan asistencias
+    queryset = Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+
     def get_context_data(self, **kwargs):
         context = super(EvaluacionListView, self).get_context_data(**kwargs)
         context['meses'] = [9,10,11,12,1,2,3,4,5,6,7]
