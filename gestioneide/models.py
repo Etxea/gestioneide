@@ -97,6 +97,7 @@ class Alumno(models.Model):
     nombre = models.CharField(max_length=25,default="")
     apellido1 = models.CharField(max_length=100,default="")
     apellido2 = models.CharField(max_length=100,default="",blank=True,null=True)
+    fecha_nacimiento = models.DateField(default=datetime.date.today,blank=True)
     telefono1 = models.CharField(max_length=9,default="")
     telefono2 = models.CharField(max_length=9,default="",blank=True,null=True)
     email = models.EmailField(default="",blank=True,null=True)

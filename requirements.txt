@@ -10,3 +10,4 @@ sqlobject
 ipython
 xhtml2pdf
 django-xhtml2pdf
+xlwt
