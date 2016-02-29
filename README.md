@@ -7,7 +7,7 @@ cd gestioneide
 git checkout -b nuevotema remotes/origin/master
 virtualenv .
 source ./bin/activate
-sudo apt-get install libmysqlclient-dev
+sudo apt-get install libmysqlclient-dev libjpeg-dev
 pip install -r requirements.txt
 ./manage-py migrate
 

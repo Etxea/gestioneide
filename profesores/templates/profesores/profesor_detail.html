@@ -1,0 +1,36 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+    <h1>{% trans "Profesor" %} {{object.user.username}} <a href="{% url 'profesor_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    
+    <table class="table">
+        <tr>
+            <td>Nombre</td><td>{{object.user.first_name}}</td>
+        </tr>
+        <tr>
+            <td>Apellido(s)</td><td>{{object.user.last_name}}</td>
+        </tr>
+        <tr>
+            <td>Usuario</td><td>{{object.user.username}}</td>
+        </tr>
+        <tr>
+            <td>Teléfono</td><td>{{object.telefono}}</td>
+        </tr>
+        <tr>
+            <td>E-mail</td><td><a href="mailto:{{object.user.email}}">{{object.user.email}}</a></td>
+        </tr>
+        <tr><td><b>Asistencias a cursos de empresas</b></td><td></td></tr>
+        {% for asistencia in object.user.asistencia_set.all %}
+        <tr>
+            <td>{{asistencia.fecha}}</td>
+            <td>{{asistencia.curso}} - {{asistencia.curso.cliente.nombre}} </td>
+            <td>{{asistencia.duracion}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+{% endblock %}
