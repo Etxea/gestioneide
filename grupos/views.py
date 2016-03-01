@@ -14,9 +14,6 @@ class GrupoListView(ListView):
     model=Grupo
     paginate_by = 50
     template_name = "grupos/grupo_list.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoListView, self).dispatch(*args, **kwargs)
         
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm
@@ -25,22 +22,13 @@ class GrupoCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("grupo_lista")
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoCreateView, self).dispatch(*args, **kwargs)
 class GrupoDetailView(DetailView):
     model = Grupo
     template_name = "grupos/object_detail.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoDetailView, self).dispatch(*args, **kwargs)
 
 class GrupoAsistenciaView(DetailView):
     model = Grupo
     template_name = "grupos/grupo_planilla_asistencias.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoAsistenciaView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
         context = super(GrupoAsistenciaView, self).get_context_data(**kwargs)
         cal = calendar.Calendar()
@@ -76,9 +64,6 @@ class GrupoAsistenciaView(DetailView):
 class GrupoNotasView(DetailView):
     model = Grupo
     template_name = "grupos/grupo_planilla_notas.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoNotasView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
         context = super(GrupoNotasView, self).get_context_data(**kwargs)
         context['trimestre'] = self.kwargs['trimestre']
@@ -88,11 +73,7 @@ class GrupoNotasView(DetailView):
 
 
 class GrupoDeleteView(DeleteView):
-    model = Grupo
-    
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoDeleteView, self).dispatch(*args, **kwargs)
+    model = Grupo    
     def get_success_url(self):
         return reverse_lazy("grupo_lista")
 
@@ -103,9 +84,3 @@ class GrupoUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("grupo_lista")
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GrupoUpdateView, self).dispatch(*args, **kwargs)
-
-

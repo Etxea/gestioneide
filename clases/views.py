@@ -15,26 +15,13 @@ from forms import *
 class ClaseCreateView(CreateView):
     model = Clase
     form_class = ClaseForm
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ClaseCursoCreateView, self).dispatch(*args, **kwargs)
-
 
 class ClaseDeleteView(DeleteView):
     model = Clase
     def get_success_url(self):
         return reverse_lazy("curso_detalle", kwargs={'pk': self.object.curso.pk})
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ClaseDeleteView, self).dispatch(*args, **kwargs)
-
-
 class ClaseCursoCreateView(ClaseCreateView):
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ClaseCursoCreateView, self).dispatch(*args, **kwargs)
     ##Recogemos los datos iniciales (clientes)
     def get_initial(self):
         super(ClaseCursoCreateView, self).get_initial()

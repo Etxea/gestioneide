@@ -12,35 +12,19 @@ from forms import *
 class ReciboListView(ListView):
     model = Recibo
     template_name = "recibos_list.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ReciboListView, self).dispatch(*args, **kwargs)
 
 class ReciboCreateView(CreateView):
     model = Recibo
     template_name = "recibo_create.html"
     form_class = ReciboCreateForm
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ReciboCreateView, self).dispatch(*args, **kwargs)  
-         
+        
 class ReciboDetailView(DetailView):
     model = Recibo
     template_name = "recibo_detail.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ReciboDetailView, self).dispatch(*args, **kwargs)  
 
 class ReciboFicheroView(DetailView):
     model = Recibo
     template_name = "recibo_fichero.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ReciboFicheroView, self).dispatch(*args, **kwargs)  
-
 
 class ReciboDeleteView(DeleteView):
     model = Recibo
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ReciboDeleteView, self).dispatch(*args, **kwargs)

@@ -125,9 +125,6 @@ class NotaCreateView(CreateView):
     model = Nota
     template_name = "evaluacion/nota_form.html"
     form_class = NotaCreateForm
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(NotaCreateView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
         context = super(NotaCreateView, self).get_context_data(**kwargs)
         context['asistencia'] = Asistencia.objects.get(id=self.kwargs['asistencia'])
