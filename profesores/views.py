@@ -8,6 +8,10 @@ from forms import *
 
 
 
+class ProfesorListView(ListView):
+	model=Profesor
+	template_name = "profesores/profesor_list.html"
+
 class ProfesorCreateView(CreateView):
     form_class = ProfesorCreateForm
     template_name = "profesores/profesor_form.html"
