@@ -15,24 +15,13 @@ class ProfesorCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("profesores_lista")
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ProfesorCreateView, self).dispatch(*args, **kwargs)
-
 
 class ProfesorDetailView(DetailView):
     model = Profesor
     template_name = "profesores/profesor_detail.html"
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ProfesorDetailView, self).dispatch(*args, **kwargs)
 
 class ProfesorDeleteView(DeleteView):
     model = Profesor
-    
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ProfesorDeleteView, self).dispatch(*args, **kwargs)
     def get_success_url(self):
         return reverse_lazy("profesores_lista")
 
@@ -43,10 +32,6 @@ class ProfesorUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("profesores_lista")
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ProfesorUpdateView, self).dispatch(*args, **kwargs)
         
 def get_profesores_libres(hora_incio,hora_fin):
     pass
