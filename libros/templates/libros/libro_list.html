@@ -1,0 +1,38 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-10 col-xs-12">
+        <h4>Listado de Libros</h4>
+     
+        <table class="table">
+            <thead>
+                <tr>
+                <td>ID</td>
+                <td>Nombre</td>
+                <td>Autor</td>
+                <td>ISBN</td>
+                
+                
+                </tr>
+            </thead>
+            <tbody>
+            {% for libro in object_list %}
+            <tr>
+				<td>{{libro.id}}</td>
+				<td>{{libro.nombre}}</td>
+				<td>{{libro.autor}}</td>
+				<td>{{libro.isn}}</td>
+			 </tr>
+			 {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-2">
+    <h4>Acciones</h4>
+    {% include "pagination/pagination.html" %}
+    <a href="{% url 'libro_nuevo' %}"><button>Nuevo</button></a>
+    </div>
+</div>
+{% endblock %}
