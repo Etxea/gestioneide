@@ -40,14 +40,23 @@ function load_olddb(id) {
     <div class="col-md-12">
         <h4>Listado de Db</h4> 
         <table class="table">
+			<thead>
+				<th>Nombre</th>
+				<th>Estado</th>
+				<th>Acciones</th>
+			</thead>
+			<tbody>
+			
             {% for document in object_list %}
             <tr>
                 <td><a href="{{ document.dbfile.url }}">{{ document.dbfile.name }}</a></td>
+                <td></td>
                 <td><button onclick="load_olddb({{ document.id }})">Cargar</button></td>
             </tr>
-            {% endfor %}                
+            {% endfor %}
+            </tbody>                
         </table>
-        <a class="button" href="{% url 'upload' %}">Upload</a>
+        <a href="{% url 'upload' %}"><button>Upload</button></a>
     </div>
 </div>
 {% endblock %}

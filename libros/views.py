@@ -10,11 +10,15 @@ class LibroListView(ListView):
         
 class LibroCreateView(CreateView):
     template_name = "libros/libro_form.html"
+    model = Libro
+    fields = "__all__"
     def get_success_url(self):
         return reverse_lazy("libro_lista")
 
 class LibroUpdateView(UpdateView):
     template_name = "libros/libro_form.html"
+    model = Libro
+    fields = "__all__"
     def get_success_url(self):
         return reverse_lazy("libro_lista")
 

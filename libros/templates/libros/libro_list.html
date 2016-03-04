@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                 <td>ID</td>
-                <td>Nombre</td>
+                <td>Título</td>
                 <td>Autor</td>
                 <td>ISBN</td>
                 
@@ -20,10 +20,10 @@
             <tbody>
             {% for libro in object_list %}
             <tr>
-				<td>{{libro.id}}</td>
-				<td>{{libro.nombre}}</td>
+				<td><a href="{% url 'libro_editar' libro.id %}">{{libro.id}}</a></td>
+				<td>{{libro.titulo}}</td>
 				<td>{{libro.autor}}</td>
-				<td>{{libro.isn}}</td>
+				<td>{{libro.isbn}}</td>
 			 </tr>
 			 {% endfor %}
             </tbody>
