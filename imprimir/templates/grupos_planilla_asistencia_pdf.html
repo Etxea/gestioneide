@@ -1,0 +1,29 @@
+{% extends "theme_bootstrap/base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+    
+{% for grupo in grupo_list %}   
+     <h1>{% trans "Grupo" %} {{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h1>
+    <table class="table">
+        <thead>
+            <th>Alumnos</th>
+            {% for dia in grupo.get_dias_clase_mes %}
+            <th>{{ dia }}</th>
+            {% endfor %}
+        </thead>
+        <tbody>
+            {% for asistencia in grupo.asistencia_set.all %}
+            <tr>
+                <td>{{ asistencia.alumno}}</td>
+                {% for dia in grupo.get_dias_clase_mes %}<td>  </td>{% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="page-break-after: always;"></div>
+{% endfor %}
+</div>
+{% endblock %}
