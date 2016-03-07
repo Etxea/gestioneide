@@ -18,6 +18,7 @@ pip install -r requirements.txt
 ./manage.py migrate
 ./manage.py createsuperuser
 ./manage.py festivos calendario_laboral_2016.csv
+./manage.py collectstatic
 ```
 
 ## Getting Started
