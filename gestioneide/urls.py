@@ -21,6 +21,7 @@ urlpatterns = [
     url(r"^facturacion/", include("facturacion.urls")),
     url(r"^informes/", include("informes.urls")),
     url(r"^libros/", include("libros.urls")),
+    url(r"^imprimir/", include("imprimir.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,12 +7,12 @@ BASE_DIR = PACKAGE_ROOT
 
 DEBUG = True
 
-#DATABASES = {
-#    "default": {
-#        "ENGINE": "django.db.backends.sqlite3",
-#        "NAME": "dev.db",
-#    }
-#}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "dev.db",
+    }
+}
 
 ALLOWED_HOSTS = []
 
@@ -149,6 +149,7 @@ INSTALLED_APPS = [
     "evaluacion",
     "informes",
     "libros",
+    "imprimir",
 ]
 
 # A sample logging configuration. The only tangible logging
@@ -169,12 +170,22 @@ LOGGING = {
             "level": "ERROR",
             "filters": ["require_debug_false"],
             "class": "django.utils.log.AdminEmailHandler"
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/debug.log',
         }
     },
     "loggers": {
         "django.request": {
             "handlers": ["mail_admins"],
             "level": "ERROR",
+            "propagate": True,
+        },
+        "xhtml2pdf": {
+            "handlers": ["file"],
+            "level": "DEBUG",
             "propagate": True,
         },
     }

@@ -35,30 +35,7 @@ class GrupoAsistenciaView(DetailView):
         mes = int(self.kwargs['mes'])
         mes_nombre = calendar.month_name[mes]
         context['mes'] = mes
-        context['mes_nombre'] = mes_nombre
-        grupo = context['object']
-        dias_semana_clase = []
-        dias_clase = []
-        for dia in grupo.clases.all():
-            dias_semana_clase.append(dia.dia_semana)
-        
-        #FIXME esto habria que sacarlo de algun lado
-        ano = 2015
-        if mes < 8 :
-            ano = ano + 1 
-        context['ano'] = ano
-        for semana in cal.monthdays2calendar(ano,mes):
-            for dia in semana:
-				#COmprobamos que ese dia de la semana haya clase y no sea 0 (es de otro mes)
-                if ( dia[1] in dias_semana_clase ) and ( dia[0] > 0 ):
-                    fecha = "%s-%s-%s"%(ano,mes,dia[0])
-                    try:
-                        festivo = Festivo.objects.get(fecha=fecha)
-                        continue
-                    except:
-                        dias_clase.append(dia[0])
-        context['dias_clase'] = dias_clase
-      
+        context['mes_nombre'] = mes_nombre      
         return context
 
 class GrupoNotasView(DetailView):

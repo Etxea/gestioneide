@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.utils.dates import MONTHS
 from django.utils.timezone import now
 import datetime
+import calendar
 
 DIAS_SEMANA = (
     (1, _('Lunes')),
@@ -23,7 +24,7 @@ TIPO_FESTIVO = (
     (3, _('Fin Curso')),
     (4, _('Inicio vacaciones/Puente')),
     (5, _('Fin Vacaciones/Puente')),
-	(6, _('Festivo oficial'))
+    (6, _('Festivo oficial'))
 )
 
 DURACION = (
@@ -197,6 +198,29 @@ class Grupo(models.Model):
     def get_absolute_url(self):
         return reverse_lazy("grupo_detalle",args=[self.id])
         
+    def get_dias_clase_mes(self,mes):
+        dias_semana_clase = []
+        dias_clase = []
+        for dia in self.clases.all():
+            dias_semana_clase.append(dia.dia_semana)
+        
+        #FIXME esto habria que sacarlo de algun lado
+        ano = 2015
+        if mes < 8 :
+            ano = ano + 1 
+        cal = calendar.Calendar()
+        for semana in cal.monthdays2calendar(ano,mes):
+            for dia in semana:
+                #COmprobamos que ese dia de la semana haya clase y no sea 0 (es de otro mes)
+                if ( dia[1] in dias_semana_clase ) and ( dia[0] > 0 ):
+                    fecha = "%s-%s-%s"%(ano,mes,dia[0])
+                    try:
+                        festivo = Festivo.objects.get(fecha=fecha)
+                        continue
+                    except:
+                        dias_clase.append(dia[0])
+        return dias_clase
+        
 class Clase(models.Model):
     dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
     aula = models.ForeignKey(Aula,related_name='clases')
@@ -261,7 +285,7 @@ class Recibo(models.Model):
     def get_total_alumnos(self):
         return self.grupos.all().aggregate(Count('asistencia'))
     def csb19(self):
-		return "000000000000000000000000"
+        return "000000000000000000000000"
 
 class Festivo(models.Model):
     fecha = models.DateField()

@@ -2,10 +2,13 @@
 
 {% load i18n %}
 
+{% load grupo_template_tags %}
+
 {% block body %}
 <div class="row">
 	<div class="col-md-12">
     <h1>{% trans "Grupo" %} {{object.nombre}} {{ mes_nombre }} / {{ano}}</h1>
+    {% with dias_clase=object.id|grupo_dias_clase_mes:mes %}
     <table class="table">
 		<thead>
 			<th>Alumnos</th>
@@ -14,7 +17,7 @@
 			{% endfor %}
 		</thead>
 		<tbody>
-			{% for asistencia in object.asistencia_set.all %}
+			{% for asistencia in  object.asistencia_set.all %}
 			<tr>
 				<td>{{ asistencia.alumno}}</td>
 				{% for dia in dias_clase %}<td>  </td>{% endfor %}
@@ -22,6 +25,7 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	{% endwith %}
 	</div>
 </div>
 {% endblock %}

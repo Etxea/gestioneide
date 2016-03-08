@@ -46,11 +46,19 @@
 			<span>Alumnos<span class="label label-danger">Nuevo</span></span>
 		</a>
 	</li>
-	<li>
-		<a href="/grupos" >
+	<li class="sm-sub" >
+		<a href="" >
 			<i class="zmdi zmdi zmdi-view-list"></i>
 			<span>Grupos</span>
 		</a>
+		<ul>
+			<li>
+				<a href="/grupos"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Grupos</span></a>
+			</li>
+			<li>
+				<a href="{% url 'imprimir_grupos' %}">Imprimir lista de Grupos</a>
+			</li>
+		</ul>
 	</li>
 	<li>
 		<a href="/calendario">
@@ -76,11 +84,11 @@
 			<span>Varios</span>
 		</a>
 		<ul>
-			<li><a href="/cursos"><i class="zmdi zmdi-graduation-cap"></i><span>Cursos</span></a></li>
-			<li><a href="/aulas"><i class="zmdi zmdi-home"></i>Aulas</a></li>
-			<li><a href="/profesores"><i class="zmdi zmdi-accounts-alt"></i>Profesores</a></li>
-			<li><a href="/libros"><i class="zmdi zmdi-book"></i>Libros</a></li>
-			<li><a href="{% url 'importar_list' %}"><i class="zmdi zmdi-upload"></i> Importaciones</a></li>
+			<li><a href="/cursos"><i class="zmdi zmdi-graduation-cap"></i>&nbsp;&nbsp;<span>Cursos</span></a></li>
+			<li><a href="/aulas"><i class="zmdi zmdi-home"></i>&nbsp;&nbsp;Aulas</a></li>
+			<li><a href="/profesores"><i class="zmdi zmdi-accounts-alt"></i>&nbsp;&nbsp;Profesores</a></li>
+			<li><a href="/libros"><i class="zmdi zmdi-book"></i>&nbsp;&nbsp;Libros</a></li>
+			<li><a href="{% url 'importar_list' %}"><i class="zmdi zmdi-upload"></i>&nbsp;&nbsp;Importaciones</a></li>
 		</ul>
 	</li>
 	<li>

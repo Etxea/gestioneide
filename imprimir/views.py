@@ -57,7 +57,7 @@ def ImprimirGruposPlanillaAsistencia(request,mes):
     data = {}
     grupos = Grupo.objects.all()
     data['grupo_list'] = grupos
-    cal = calendar.Calendar()
+    
     mes_nombre = calendar.month_name[mes]
     data['mes'] = mes
     data['mes_nombre'] = mes_nombre
