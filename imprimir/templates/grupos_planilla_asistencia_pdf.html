@@ -4,8 +4,15 @@
 {% load grupo_template_tags %}
 
 {% block body %}
-<div class="row">
-    
+
+<style>
+    @page {
+        size: letter landscape;
+        margin: 2cm;
+    }
+</style>
+
+<div class="row">    
 {% for grupo in grupo_list %}
 	{% with dias_clase=grupo.id|grupo_dias_clase_mes:mes %}   
     <h1>{% trans "Grupo" %} {{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h1>

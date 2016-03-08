@@ -57,10 +57,14 @@ def ImprimirGruposPlanillaAsistencia(request,mes):
     data = {}
     grupos = Grupo.objects.all()
     data['grupo_list'] = grupos
-    
+    #FIXME esto habria que sacarlo de algun lado
+    ano = 2015
+    if mes < 8 :
+        ano = ano + 1 
+    data['ano'] = ano
     mes_nombre = calendar.month_name[mes]
     data['mes'] = mes
-    data['mes_nombre'] = mes_nombre
+    data['mes_nombre'] = calendar.month_name[mes]
 
     template = get_template('grupos_planilla_asistencia_pdf.html')
     html = template.render(Context(data))
