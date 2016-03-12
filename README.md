@@ -8,7 +8,7 @@
 ```
 git clone https://github.com/Etxea/gestioneide.git
 cd gestioneide
-git checkout -b nuevotema remotes/origin/master
+git checkout -b nuevotema remotes/origin/nuevotema
 mkdir gestioneide/site_media
 chown gestioneide/www-data site_media
 virtualenv .

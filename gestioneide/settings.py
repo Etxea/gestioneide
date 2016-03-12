@@ -96,6 +96,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "account.context_processors.account",
                 "pinax_theme_bootstrap.context_processors.theme",
+                "gestioneide.context_processors.current_year_processor",
             ],
         },
     },

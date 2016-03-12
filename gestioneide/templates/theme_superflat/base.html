@@ -36,6 +36,7 @@
                     <a href=""><img src="{% static "img/logo.png" %}" alt=""></a>
                     <div id="menu-trigger"><i class="zmdi zmdi-menu"></i></div>
                 </li>
+		{% block extra_top_bar %}{% endblock %}
                 <!-- Messages -->
 				{% include "theme_superflat/_messages.html" %}
                 <!-- Notifications -->

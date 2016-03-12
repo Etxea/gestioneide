@@ -14,6 +14,10 @@
     {% block extra_head %}{% endblock %}
 {% endblock %}
 
+{% block extra_top_bar %} 
+<li>Año activo: <a href="/year">{{ year.ano }}</a></li> 
+{% endblock %}
+
 
 {% block footer %}
     {% include "_footer.html" %}
