@@ -7,7 +7,7 @@ from models import *
 from views import *
 from forms import *
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', login_required(CursosListView.as_view()),name="cursos_lista"),
     url(r'libros/(?P<pk>\d+)/$',login_required(CursoLibrolView.as_view()), name="curso_libro_detalle"),
     url(r'libros$', login_required(CursosLibrosListView.as_view()),name="cursos_libros_lista"),
@@ -18,4 +18,4 @@ urlpatterns = patterns('',
     url(r'(?P<pk>\d+)/$',login_required(CursoDetailView.as_view()), name="curso_detalle"),
     url(r'(?P<pk>\d+)/borrar/$',login_required(CursoDeleteView.as_view()), name="curso_borrar"),
     url(r'(?P<pk>\d+)/editar/$',login_required(CursoUpdateView.as_view()), name="curso_editar"),
-)
+]

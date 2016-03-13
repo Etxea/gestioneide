@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(r"^$", login_required(EvaluacionListView.as_view()), name="evaluacion"),
     url(r"notas/$", login_required(EvaluacionListView.as_view(template_name="evaluacion/evaluacion_notas.html")), name="evaluacion_notas"),
     url(r"faltas/$", login_required(EvaluacionListView.as_view(template_name="evaluacion/evaluacion_faltas.html")), name="evaluacion_faltas"),
@@ -20,6 +20,4 @@ urlpatterns = patterns("",
     url(r'falta/(?P<asistencia>\d+)/nueva/(?P<trimestre>\d+)/$',login_required(CreateView.as_view(model=Nota)), name="falta_nueva"),
     url(r'falta/(?P<pk>\d+)/editar/$',login_required(UpdateView.as_view(model=Nota)), name="falta_editar"),
     url(r'falta/(?P<pk>\d+)/borrar/$',login_required(DeleteView.as_view(model=Nota)), name="falta_borrar"),
-    
-    
-)
+]

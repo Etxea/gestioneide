@@ -6,9 +6,9 @@ admin.autodiscover()
 from views import *
 
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(r"^$", login_required(ListaAulas.as_view()), name="aulas_lista"),
     url(r"^nueva/$", login_required(NuevaAula.as_view()), name="aula_nueva"),
     url(r"^editar/(?P<pk>\d+)/$", login_required(EditarAula.as_view()), name="aula_editar"),
     url(r"^(?P<pk>\d+)/$", login_required(DetalleAula.as_view()), name="aula_detalle"),
-    )
+]

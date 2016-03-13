@@ -6,9 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(r"^$", login_required(TemplateView.as_view(template_name="informes/home.html")), name="informes"),
     url(r"alumnos/$",login_required(export_alumnos_xls),name="listado_alumnos_xls")
     #~ url(r"notas/$", EvaluacionListView.as_view(template_name="evaluacion/evaluacion_notas.html"), name="evaluacion_notas"),    
-    
-)
+]
