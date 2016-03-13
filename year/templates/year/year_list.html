@@ -1,0 +1,39 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-10 col-xs-12">
+        <h4>Listado de Años</h4>
+     
+        <table class="table">
+            <thead>
+                <tr>
+                <td>ID</td>
+                <td>Año inicio</td>
+                <td>Nombre</td>
+                <td>Activo</td>
+                
+                
+                
+                </tr>
+            </thead>
+            <tbody>
+            {% for year in object_list %}
+            <tr>
+				<td><a href="{% url 'year_editar' year.id %}">{{year.id}}</a></td>
+				<td>{{ year.start_year }}</td>
+				<td>{{ year.name }}</td>
+				<td>{{ year.activo|yesno:"Si,No" }}</td>
+			 </tr>
+			 {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-2">
+    <h4>Acciones</h4>
+    {% include "pagination/pagination.html" %}
+    <a href="{% url 'year_nuevo' %}"><button>Nuevo</button></a>
+    </div>
+</div>
+{% endblock %}

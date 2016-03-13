@@ -236,6 +236,14 @@ class Ano(models.Model):
     activo = models.BooleanField(default=1)
     def __unicode__(self):
         return "%s"%self.ano
+        
+class Year(models.Model):
+    start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
+    name = models.CharField(max_length=8,default="20XX-XX")
+    activo = models.BooleanField(default=1)
+    def __unicode__(self):
+        return "%s"%self.ano
+    
 
 class Asistencia(models.Model):
     ano = models.ForeignKey('Ano')

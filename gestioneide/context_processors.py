@@ -1,12 +1,8 @@
-from models import Ano
-import sys
+from models import Year
 
 def current_year_processor(request):
-    print "buscamos el ano"
     try:
-        year = Ano.objects.filter(activo=True)[0]
-        print "Tenemos el ano",year
+        year = Year.objects.get(activo=True)
     except:
-        print "error", sys.exc_info()[0]
         year = None
     return {'year': year }
