@@ -33,6 +33,20 @@ class YearDetailView(DetailView):
     model = Year
     template_name = "year/year_detail.html"
 
-class YearActivateView(DetailView):
-    model = Year
-    template_name = "year/year_activate.html"
+def year_activate(request):
+    if request.method == 'POST':
+        year_id = request.POST.get('id')
+        year_actual = Year.objects.get(activo=True)
+        year_nuevo = Year.objects.get(id=year_id)
+        print "Desactivamos ",year_actual,"activamos",year_nuevo
+        year_actual.activo=False
+        year_actual.save()
+        year_nuevo.activo=True
+        year_nuevo.save()
+        return HttpResponse(
+            { 'msg': "ok"},
+            content_type="application/json"
+        )
+
+
+    

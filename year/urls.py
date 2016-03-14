@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'nuevo$',login_required(YearCreateView.as_view()), name="year_nuevo"),
     url(r'editar/(?P<pk>\d+)/$',login_required(YearUpdateView.as_view()), name="year_editar"),
     url(r'borrar/(?P<pk>\d+)/$',login_required(YearDeleteView.as_view()), name="year_borrar"),
-    url(r'activar/(?P<pk>\d+)/$',login_required(YearActivateView.as_view()), name="year_activar"),
+    url(r'activar/$',login_required(year_activate), name="year_activar"),
 ]
