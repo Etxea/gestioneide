@@ -152,6 +152,7 @@ class Curso(models.Model):
          return "%s"%(self.nombre)
 
 class Grupo(models.Model):
+    year = models.ForeignKey('Year')
     nombre = models.CharField(max_length=25,default="")
     curso = models.ForeignKey('Curso')
     precio  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
@@ -230,23 +231,16 @@ class Clase(models.Model):
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     def __unicode__(self):
         return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
-
-class Ano(models.Model):
-    ano = models.CharField(max_length=8,default="20XX-XX")
-    activo = models.BooleanField(default=1)
-    def __unicode__(self):
-        return "%s"%self.ano
         
 class Year(models.Model):
     start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
     name = models.CharField(max_length=8,default="20XX-XX")
     activo = models.BooleanField(default=1)
     def __unicode__(self):
-        return "%s"%self.ano
+        return "%s"%self.name
     
-
 class Asistencia(models.Model):
-    ano = models.ForeignKey('Ano')
+    year = models.ForeignKey('Year')
     grupo = models.ForeignKey('Grupo')
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
@@ -284,6 +278,7 @@ class Falta(models.Model):
     faltas = models.DecimalField(max_digits=3,decimal_places=0,default="0")
 
 class Recibo(models.Model):
+    year = models.ForeignKey('Year')
     fecha_creacion = models.DateField(auto_now_add=True)
     mes = models.DecimalField(max_digits=1,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
@@ -296,6 +291,7 @@ class Recibo(models.Model):
         return "000000000000000000000000"
 
 class Festivo(models.Model):
+    year = models.ForeignKey('Year')
     fecha = models.DateField()
     anotacion = models.CharField(max_length=25,default="")
     tipo = models.DecimalField(max_digits=1, decimal_places=0,choices=TIPO_FESTIVO)

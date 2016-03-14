@@ -14,6 +14,7 @@ class GrupoListView(ListView):
     model=Grupo
     paginate_by = 50
     template_name = "grupos/grupo_list.html"
+    queryset = Grupo.objects.filter(year=Year.objects.get(activo=True))
         
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm
