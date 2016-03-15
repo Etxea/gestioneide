@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from gestioneide.models import *
 
 class YearListView(ListView):
@@ -38,15 +39,45 @@ def year_activate(request):
         year_id = request.POST.get('id')
         year_actual = Year.objects.get(activo=True)
         year_nuevo = Year.objects.get(id=year_id)
-        print "Desactivamos ",year_actual,"activamos",year_nuevo
+        
         year_actual.activo=False
         year_actual.save()
         year_nuevo.activo=True
         year_nuevo.save()
-        return HttpResponse(
-            { 'msg': "ok"},
-            content_type="application/json"
-        )
+        return JsonResponse({'state':'ok','msg': "activate done"})
+    else:
+        return HttpResponseRedirect(reverse('year_lista'))
 
-
+def year_clone(request):
+    if request.method == 'POST':
+        year_id = request.POST.get('id')
+        year_actual = Year.objects.get(activo=True)
+        year_nuevo = Year.objects.get(id=year_id)
+        print "clonamos ",year_actual," hacia ",year_nuevo
+        print "Limpiamos"
+        for grupo_nuevo in year_nuevo.grupo_set.all():
+            for asistencia_nueva in grupo_nuevo.asistencia_set.all():
+                asistencia_nueva.delete()
+            grupo_nuevo.delete()
+        print "Creamos grupos"    
+        for grupo in year_actual.grupo_set.all():
+            grupo_new = Grupo(year = year_nuevo,\
+                nombre = grupo.nombre,\
+                curso = grupo.curso,\
+                precio = grupo.precio,\
+                num_max = grupo.num_max,\
+                menores = grupo.menores)
+            grupo_new.save()
+            for asistencia in grupo.asistencia_set.all():
+                asistencia_new = Asistencia (year = year_nuevo,\
+                    grupo = grupo_new,\
+                    alumno = asistencia.alumno,\
+                    confirmado = False,\
+                    factura = asistencia.factura,\
+                    precio = asistencia.precio,\
+                    metalico = asistencia.metalico)
+                asistencia_new.save()
+        return JsonResponse({'state':'ok','msg': "clone done"})
+    else:
+        return HttpResponseRedirect(reverse('year_lista'))
     
