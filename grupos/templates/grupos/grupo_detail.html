@@ -5,11 +5,14 @@
 {% block body %}
 <div class="row">
 
-    <h1>{% trans "Grupo" %} {{object.nombre}} <a href="{% url 'grupo_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
-    
+    <h1>{% trans "Grupo" %} {{object.nombre}} <a href="{% url 'grupo_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="{% url 'grupo_borrar' object.id %}"><span class="glyphicon glyphicon-trash"></span></a> </h1>    
     <div class="col-md-12">
 		<div class="btn-group" role="group" aria-label="...">
 		<button class="btn">Planilla asistencia</button>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 9%}">9</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 10%}">10</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 11%}">11</a>
+        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 12%}">12</a>     
         <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 1%}">1</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 2%}">2</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 3%}">3</a>
@@ -18,10 +21,6 @@
         <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 6%}">6</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 7%}">7</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 8%}">8</a>
-        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 9%}">9</a>
-        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 10%}">10</a>
-        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 11%}">11</a>
-        <a type="button" class="btn btn-default" href="{% url 'grupo_asistencia_mes' grupo.id 12%}">12</a>     
     </div>
     <div class="btn-group" role="group" aria-label="...">
 		<button class="btn">Planilla Notas</button>

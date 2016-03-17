@@ -28,7 +28,7 @@ class GrupoCreateView(CreateView):
 
 class GrupoDetailView(DetailView):
     model = Grupo
-    template_name = "grupos/object_detail.html"
+    template_name = "grupos/grupo_detail.html"
 
 class GrupoAsistenciaView(DetailView):
     model = Grupo
@@ -54,7 +54,8 @@ class GrupoNotasView(DetailView):
 
 
 class GrupoDeleteView(DeleteView):
-    model = Grupo    
+    model = Grupo
+    template_name = "grupos/grupo_confirm_delete.html"    
     def get_success_url(self):
         return reverse_lazy("grupo_lista")
 

@@ -13,9 +13,7 @@
                 <td>Nombre</td>
                 <td>Curso</td>
                 <td>Clases</td>
-                <td>Num Max</td>
-                <td>Confirmados</td>
-                <td>Sin Confirmar</td>
+                <td>Conf. / Sin Conf.</td>
                 <td>Menores</td>
                 </tr>
             </thead>
@@ -30,9 +28,8 @@
                     {{clase}}<br>
                     {% endfor %}
                 </td>
-                <td>{{ grupo.num_max }}</td>
-                <td>{{ grupo.confirmados }}</td>
-                <td>{{ grupo.sin_confirmar }}</td>
+                
+                <td>{{ grupo.confirmados }} / {{ grupo.sin_confirmar }}</td>
                 <td>{{ grupo.menores }}</td>
             </tr>
             {% endfor %}
