@@ -41,8 +41,10 @@ def link_callback(uri, rel):
 
 def ImprimirGrupos(request):
     data = {}
-    grupos = Grupo.objects.all()
+    year = Year.objects.get(activo=True)
+    grupos = Grupo.objects.filter(year=year)
     data['grupo_list'] = grupos
+    data['year'] = year.__unicode__()
     template = get_template('grupos_pdf.html')
     html = template.render(Context(data))
     f = open(os.path.join(settings.MEDIA_ROOT, 'test.pdf'), "w+b")
@@ -53,12 +55,13 @@ def ImprimirGrupos(request):
     return HttpResponse(pdf, content_type='application/pdf')
 
 def ImprimirGruposPlanillaAsistencia(request,mes):
+    year = Year.objects.get(activo=True)
     mes=int(mes)
     data = {}
-    grupos = Grupo.objects.all()
+    grupos = Grupo.objects.filter(year=year)
     data['grupo_list'] = grupos
     #FIXME esto habria que sacarlo de algun lado
-    ano = 2015
+    ano = year.start_year
     if mes < 8 :
         ano = ano + 1 
     data['ano'] = ano

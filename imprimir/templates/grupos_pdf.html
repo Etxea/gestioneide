@@ -1,29 +1,33 @@
 {% extends "theme_bootstrap/base.html" %}
-
 {% load i18n %}
-
 {% block body %}
 <div class="row">
     <div class="col-md-10 col-xs-12">
-        <h4>Listado de Grupos</h4>
-     
+        <h4>Listado de Grupos del año {{ year }}</h4>
         <table class="table">
             <thead>
                 <tr>
-                <td>ID</td>
-                <td>Nombre</td>
-                <td>Curso</td>
-                <td>Clases</td>
-                <td>Num Max</td>
-                <td>Confirmados</td>
-                <td>Sin Confirmar</td>
-                <td>Menores</td>
+<!--
+                <th>ID</th>
+-->
+                <th>Nombre</th>
+                <th>Curso</th>
+                <th>Clases</th>
+<!--
+                <th>Num Max</th>
+-->
+                <th>Conf./Sin Conf.</th>
+<!--
+                <th>Menores</th>
+-->
                 </tr>
             </thead>
             <tbody>
             {% for grupo in grupo_list %}
             <tr>
+<!--
                 <td><a href="{{grupo.get_absolute_url}}">{{ grupo.id }}</a></td>
+-->
                 <td>{{ grupo.nombre }}</td>
                 <td>{{ grupo.curso }}</td>
                 <td>
@@ -31,10 +35,13 @@
                     {{clase}}<br>
                     {% endfor %}
                 </td>
+<!--
                 <td>{{ grupo.num_max }}</td>
-                <td>{{ grupo.confirmados }}</td>
-                <td>{{ grupo.sin_confirmar }}</td>
+-->
+                <td>{{ grupo.confirmados }} / {{ grupo.sin_confirmar }}</td>
+<!--
                 <td>{{ grupo.menores }}</td>
+-->
             </tr>
             {% endfor %}
             </tbody>

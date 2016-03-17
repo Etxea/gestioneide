@@ -177,22 +177,24 @@ class Grupo(models.Model):
         else:
             return self.curso.precio
     def next_by_nombre(self):
-        posicion = int(Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count())
-        total = len(Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0))
+        year = Year.objects.get(activo=True)
+        posicion = int(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count())
+        total = len(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0))
         print "Somo el %s de %s"%(posicion,total)
         if posicion == total:
             return self.id
         else:
-            return Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion+1].id
+            return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion+1].id
             
     def prev_by_nombre(self):
-        posicion = Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count()
-        total = len(Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0))
+        year = Year.objects.get(activo=True)
+        posicion = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count()
+        total = len(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0))
         print "Somo el %s de %s"%(posicion,total)
         if posicion == 0:
             return self.id
         else:
-            return Grupo.objects.annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion-1].id
+            return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion-1].id
             
     def __unicode__(self):
         return "%s"%(self.nombre)
