@@ -81,3 +81,16 @@ def year_clone(request):
     else:
         return HttpResponseRedirect(reverse('year_lista'))
     
+def year_empty(request):
+    if request.method == 'POST':
+        year_id = request.POST.get('id')
+        
+        year_nuevo = Year.objects.get(id=year_id)
+        print "Limpiamos"
+        for grupo_nuevo in year_nuevo.grupo_set.all():
+            for asistencia_nueva in grupo_nuevo.asistencia_set.all():
+                asistencia_nueva.delete()
+            grupo_nuevo.delete()
+        return JsonResponse({'state':'ok','msg': "empty done"})
+    else:
+        return HttpResponseRedirect(reverse('year_lista'))

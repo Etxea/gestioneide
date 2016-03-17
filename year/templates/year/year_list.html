@@ -57,6 +57,33 @@ function clone_year(id) {
 
     });
 }
+
+function empty_year(id) {
+    console.log("Vamos a mandar vaciar el año con id"+id);
+     $('body').addClass('wait');
+     $.ajax({
+        url : "{% url 'year_empty' %}",
+        type : "POST", 
+        data : { id : id,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+             },
+        
+        success : function(json) {
+            console.log(json); // log the returned json to the console
+            console.log("success"); // another sanity check
+            $('body').removeClass('wait');
+            //FIXME un reload?
+            location.reload(); 
+        },
+        
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            $('body').removeClass('wait');
+        }
+        
+
+    });
+}
 </script>
 
 <div class="row">
@@ -87,6 +114,7 @@ function clone_year(id) {
                 <td>
                     <button onclick="activate_year({{ year.id }})">Activar</button>
                     <button onclick="clone_year({{ year.id }})">Copiar grupos</button>
+                    <button onclick="empty_year({{ year.id }})">Eliminar grupos</button>
                 </td>
 			 </tr>
 			 {% endfor %}

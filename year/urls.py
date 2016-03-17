@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'borrar/(?P<pk>\d+)/$',login_required(YearDeleteView.as_view()), name="year_borrar"),
     url(r'activar/$',login_required(year_activate), name="year_activar"),
     url(r'clone/$',login_required(year_clone), name="year_clone"),
+    url(r'empty/$',login_required(year_empty), name="year_empty"),
 ]
