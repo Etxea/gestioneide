@@ -207,8 +207,8 @@ class Grupo(models.Model):
         for dia in self.clases.all():
             dias_semana_clase.append(dia.dia_semana)
         
-        #FIXME esto habria que sacarlo de algun lado
-        ano = 2015
+        year = Year.objects.get(activo=True)
+        ano = year.start_year
         if mes < 8 :
             ano = ano + 1 
         cal = calendar.Calendar()
@@ -236,7 +236,7 @@ class Clase(models.Model):
         
 class Year(models.Model):
     start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
-    name = models.CharField(max_length=8,default="20XX-XX")
+    name = models.CharField(max_length=8,default="201X-1X")
     activo = models.BooleanField(default=1)
     def __unicode__(self):
         return "%s"%self.name
