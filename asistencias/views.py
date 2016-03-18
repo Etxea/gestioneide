@@ -19,6 +19,10 @@ class AsistenciaCreateView(CreateView):
     fields = "__all__"
     def get_success_url(self):
         return reverse_lazy("asistencia_lista")
+    def get_initial(self):
+        year = Year.objects.get(activo=True)
+        print "Establecemos el ano en ",year
+        return { 'year': year.id }
 
 class AsistenciaUpdateView(UpdateView):
     template_name = "asistencias/asistencia_form.html"
