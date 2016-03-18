@@ -1,0 +1,43 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-10 col-xs-12">
+        <h4>Listado de Asistencias</h4>
+     
+        <table class="table">
+            <thead>
+                <tr>
+                <td>ID</td>
+                <td>Alumno</td>
+                <td>Grupo</td>
+                <td>Precio</td>
+                <td>Metálico</td>
+                <td>Factura</td>
+                <td>Confirmado</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for asistencia in object_list %}
+            <tr>
+				<td><a href="{% url 'asistencia_editar' asistencia.id %}">{{asistencia.id}}</a></td>
+				<td>{{ asistencia.alumno }}</td>
+				<td>{{ asistencia.grupo }}</td>
+				<td>{{ asistencia.precio }}</td>
+				<td>{{ asistencia.metalico|yesno:"Si,No" }}</td>
+				<td>{{ asistencia.factura|yesno:"Si,No" }}</td>
+				<td>{{ asistencia.confirmado|yesno:"Si,No" }}</td>
+			 </tr>
+			 {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-2">
+    <h4>Acciones</h4>
+    {% include "pagination/pagination.html" %}
+    <a href="{% url 'asistencia_nuevo' %}"><button>Nuevo</button></a>
+    </div>
+</div>
+{% endblock %}
