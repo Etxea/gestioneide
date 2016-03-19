@@ -248,7 +248,7 @@ class Asistencia(models.Model):
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
     metalico = models.BooleanField(default=True)
-    precio = models.FloatField(default=100)
+    precio = models.FloatField(null=True,blank=True)
     #~ notas = MultipleJoin('Notas')
     #~ faltas = MultipleJoin('Notas')
     def siguiente_asistencia_grupo(self):

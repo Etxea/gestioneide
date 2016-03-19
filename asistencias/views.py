@@ -16,13 +16,14 @@ class AsistenciaListView(ListView):
 class AsistenciaCreateView(CreateView):
     template_name = "asistencias/asistencia_form.html"
     model = Asistencia
+    #~ fields = ["grupo","alumno","confirmado","factura","metalico","precio"]
     fields = "__all__"
     def get_success_url(self):
         return reverse_lazy("asistencia_lista")
     def get_initial(self):
         year = Year.objects.get(activo=True)
         print "Establecemos el ano en ",year
-        return { 'year': year.id }
+        return { 'year': year }
 
 class AsistenciaUpdateView(UpdateView):
     template_name = "asistencias/asistencia_form.html"
