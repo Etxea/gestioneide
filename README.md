@@ -17,6 +17,7 @@ sudo apt-get install libmysqlclient-dev libjpeg-dev
 pip install -r requirements.txt
 ./manage.py migrate
 ./manage.py createsuperuser
+./manage.py loaddata gestioneide
 ./manage.py festivos calendario_laboral_2016.csv
 ./manage.py collectstatic
 ```
