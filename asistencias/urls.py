@@ -6,7 +6,9 @@ from views import *
 
 urlpatterns = [
     url(r'^$', login_required(AsistenciaListView.as_view()),name="asistencia_lista"),
-    url(r'nuevo$',login_required(AsistenciaCreateView.as_view()), name="asistencia_nuevo"),
+    url(r'nueva$',login_required(AsistenciaCreateView.as_view()), name="asistencia_nuevo"),
+    url(r'nueva/alumno/(?P<alumno_id>\d+)$',login_required(AsistenciaAlumnoCreateView.as_view()), name="asistencia_nueva_alumno"),
+    url(r'nueva/grupo/(?P<grupo_id>\d+)$',login_required(AsistenciaGrupoCreateView.as_view()), name="asistencia_nueva_grupo"),
     url(r'editar/(?P<pk>\d+)/$',login_required(AsistenciaUpdateView.as_view()), name="asistencia_editar"),
     url(r'borrar/(?P<pk>\d+)/$',login_required(AsistenciaDeleteView.as_view()), name="asistencia_borrar"),
     #~ url(r'activar/$',login_required(asistencia_activate), name="asistencia_activar"),

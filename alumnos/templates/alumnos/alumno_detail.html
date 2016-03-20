@@ -27,7 +27,7 @@
         </tr>
         
     </table>
-    <h2>Grupos</h2>
+    <h2>Grupos </h2><a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
     <table class="table">
         <thead>
             <th>Año</th>
@@ -39,11 +39,29 @@
         </thead>
         {% for asistencia in object.asistencia_set.all %}
         <tr>
-            <td>{{ asistencia.ano }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.grupo.confirmado }}</td>
-            <td>{{ asistencia.grupo.factura }}</td>v<td>{{ asistencia.grupo.metalico }}</td><td>{{ asistencia.grupo.precio }}</td>
+            <td>{{ asistencia.year }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.grupo.confirmado }}</td>
+            <td>{{ asistencia.grupo.factura }}</td><td>{{ asistencia.grupo.metalico }}</td><td>{{ asistencia.grupo.precio }}</td>
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteGrupoModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}">Eliminar</button></td>
         </tr>
         {% endfor %}
     </table>
+    
+    
+    <div class="modal fade" id="deleteGrupoModal" tabindex="-1" role="dialog" aria-labelledby="deleteGrupoModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="deleteGrupoModalLabel">Borrar asistencia</h4>
+          </div>
+          <div class="modal-body">
+           
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
     <h2>Histórico</h2>
     <table class="table">
         <thead><th>Fecha</th><th>Tipo</th><th>Anotación</th></thead>
@@ -55,4 +73,15 @@
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#deleteGrupoModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('delete_url') // Extract info from data-* attributes
+  var modal = $(this)
+  modal.find('.modal-body').load(recipient)
+})
+</script>
 {% endblock %}
