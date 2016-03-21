@@ -1,10 +1,7 @@
 {% extends "site_base.html"%}
-
 {% load i18n %}
-
 {% block body %}
 <div class="row">
-
     <h1>{% trans "Grupo" %} {{object.nombre}} <a href="{% url 'grupo_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="{% url 'grupo_borrar' object.id %}"><span class="glyphicon glyphicon-trash"></span></a> </h1>    
     <div class="col-md-12">
 		<div class="btn-group" role="group" aria-label="...">
@@ -62,15 +59,19 @@
         <h3>Alumnos</h3>
         <table class="table">
             <thead>
-                <th>Confirmado</th><th>Alumno</th>
+                <th>Confirmado</th><th>Alumno</th><th></th>
             </thead>
             {% for asistencia in object.asistencia_set.all %}
             <tr>
                 <td>{{asistencia.confirmado}}</td>
                 <td><a href="{% url 'alumno_detalle' asistencia.alumno.id%}">{{asistencia.alumno.id}} - {{asistencia.alumno.nombre}},{{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</a></td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'asistencia_editar' asistencia.id %}">Editar</a>
+                    <button type="button" class="btn" data-toggle="modal" data-target="#deleteAsistenciaModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}">Eliminar</button>
+                </td>
             </tr>
             {% endfor %}
-            
+            {% include "grupos/asistencia_modal.html" %}
         </table>
     </div>
 </div>    
@@ -86,6 +87,13 @@ $('#claseModal').on('show.bs.modal', function (event) {
   var form_url = "/clases/nueva/grupo/"+grupo_id+"/";
   console.log("Vamos a cargar la form de ",form_url);
   modal.find('.modal-body').load(form_url);
+});
+$('#deleteAsistenciaModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var delete_url = button.data('delete_url') // Extract info from data-* attributes
+  var modal = $(this)
+  console.log("Cargamos el form de ",delete_url)
+  modal.find('.modal-body').load(delete_url)
 });
 </script>
 {% endblock %}
