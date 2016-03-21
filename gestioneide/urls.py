@@ -14,6 +14,7 @@ urlpatterns = [
     url(r"^grupos/", include("grupos.urls")),
     url(r"^profesores/", include("profesores.urls")),
     url(r"^aulas/", include("aulas.urls")),
+    url(r"^clases/", include("clases.urls")),
     url(r"^cursos/", include("cursos.urls")),
     url(r"^calendario/", include("calendario.urls")),
     url(r"^evaluacion/", include("evaluacion.urls")),

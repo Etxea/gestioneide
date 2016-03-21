@@ -186,13 +186,27 @@ class clases_aula(ListView):
         return context
 
 class nueva_clase(CreateView):
-	model = Clase
-	template_name = "clase_form.html"
-	form_class = ClaseForm
-	success_url = "/clases"
-	
+    model = Clase
+    template_name = "clase_form.html"
+    form_class = ClaseForm
+    success_url = "/clases"
+
+class nueva_clase_grupo(CreateView):
+    model = Clase
+    template_name = "clase_grupo_form.html"
+    form_class = ClaseForm
+    success_url = "/clases"
+    def get_context_data(self, **kwargs):
+        context = super(nueva_clase_grupo, self).get_context_data(**kwargs)
+        context['grupo_id'] = self.kwargs['grupo_id']
+        return context
+    def get_initial(self):
+        grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        return { 'grupo': grupo }
+
+    
 class editar_clase(UpdateView):
-	model = Clase
-	template_name = "clase_editar.html"
-	form_class = ClaseForm
-	success_url = "/clases"
+    model = Clase
+    template_name = "clase_editar.html"
+    form_class = ClaseForm
+    success_url = "/clases"

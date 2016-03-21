@@ -1,0 +1,16 @@
+{% load i18n %}
+<script>
+    $(function() {
+		$("#id_hora_inicio_0").datepicker({dateFormat: $.datepicker.ATOM});
+        $("#id_hora_fin_0").datepicker({dateFormat: $.datepicker.ATOM});
+        $("#id_hora_inicio_1").timePicker();
+        $("#id_hora_fin_1").timePicker();
+	});
+</script>
+<h1>Nueva clase</h1>
+<form action="{% url 'nueva_clase_grupo' grupo_id %}" method="post">
+	{{ form.as_p }}
+	{% csrf_token %}
+	<input type="submit" class="btn primary" value="Crear">
+</form>
+

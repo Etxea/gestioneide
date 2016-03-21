@@ -55,9 +55,7 @@
             <h4 class="modal-title" id="deleteGrupoModalLabel">Borrar asistencia</h4>
           </div>
           <div class="modal-body">
-           
           </div>
-          
         </div>
       </div>
     </div>
@@ -82,6 +80,12 @@ $('#deleteGrupoModal').on('show.bs.modal', function (event) {
   var recipient = button.data('delete_url') // Extract info from data-* attributes
   var modal = $(this)
   modal.find('.modal-body').load(recipient)
-})
+});
+
+//~ $('asistencia-delete-form').on('submit', function(event){
+   //~ event.preventDefault();
+   //~ console.log("Vamos a borrar");
+   //~ asistencia_delete_post(); 
+//~ });
 </script>
 {% endblock %}

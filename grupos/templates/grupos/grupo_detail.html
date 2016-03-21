@@ -49,6 +49,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% include 'grupos/clase_modal.html' %}
         <h3>Resumen</h3>
         <table class="table">
             <tr><td>Nombre</td><td>{{object.nombre}}</td></tr>
@@ -74,4 +75,17 @@
     </div>
 </div>    
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#claseModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = "/clases/nueva/grupo/"+grupo_id+"/";
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+</script>
 {% endblock %}

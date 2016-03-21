@@ -143,6 +143,7 @@ INSTALLED_APPS = [
     "grupos",
     "profesores",
     "aulas",
+    "clases",
     "cursos",
     "calendario",
     "importar",
