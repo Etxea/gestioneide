@@ -17,6 +17,7 @@ from gestioneide.models import Profesor as Profesor_new
 from sqlobject import *
 from sqlobject.inheritance import InheritableSQLObject
 import sys, datetime
+import logging
 
 import unicodedata
 def elimina_tildes(s):
@@ -32,18 +33,19 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if len(args)<1:
              raise CommandError('Falta fichero origen')
-    
+   
+        logger = logging.getLogger('gestioneide.importar')
         bbdd = args[0]
         year = Year.objects.get(activo=True)
-        self.stdout.write('Iniciando importacion desde archivo %s'%bbdd)
+        logger.error('Iniciando importacion desde archivo %s'%bbdd)
         sqlhub.processConnection = connectionForURI('sqlite://'+bbdd)
         
         from gestioneide.old_database_model import *
 
-        self.stdout.write('Importamos los libros, primero vamos a vaciar la BBDD')
+        logger.error('Importamos los libros, primero vamos a vaciar la BBDD')
         Libro_new.objects.all().delete()
         busqueda = Libro.select()
-        self.stdout.write('Encontrados %d libros'%busqueda.count())
+        logger.error('Encontrados %d libros'%busqueda.count())
         for libro in busqueda:
 		if not libro.autor:
 			autor = ""
@@ -58,10 +60,10 @@ class Command(BaseCommand):
         )
         l.save()
 
-        self.stdout.write('Importamos las aulas, primero vamos a vaciar la BBDD')
+        logger.error('Importamos las aulas, primero vamos a vaciar la BBDD')
         Aula_new.objects.all().delete()
         busqueda = Aula.select()
-        self.stdout.write('Encontrados %d aulas'%busqueda.count())
+        logger.error('Encontrados %d aulas'%busqueda.count())
         for aula in busqueda:
             a = Aula_new(\
                 id=aula.id,\
@@ -72,10 +74,10 @@ class Command(BaseCommand):
             )
             a.save()
         
-        self.stdout.write('Importamos los cursos, primero vamos a vaciar la BBDD')
+        logger.error('Importamos los cursos, primero vamos a vaciar la BBDD')
         Curso_new.objects.all().delete()
         busqueda = Curso.select()
-        self.stdout.write('Encontrados %d cursos'%busqueda.count())
+        logger.error('Encontrados %d cursos'%busqueda.count())
         for curso in busqueda:
             c = Curso_new(\
                 nombre = curso.nombre,\
@@ -91,14 +93,14 @@ class Command(BaseCommand):
                 try:
                     c.libros.add(Libro_new.objects.filter(isbn=libro.isbn)[0])
                 except:
-                    self.stdout.write("No se ha podido anadir el libro %s"%libro.isbn)
-                    print sys.exc_info()
+                    logger.error("No se ha podido anadir el libro %s"%libro.isbn)
+                    logger.error(sys.exc_info())
 
                             
-        self.stdout.write('Importamos los profesfores, primero vamos a vaciar la BBDD')
+        logger.error('Importamos los profesfores, primero vamos a vaciar la BBDD')
         Profesor_new.objects.all().delete()
         busqueda = Profesor.select()
-        self.stdout.write('Encontrados %d profesores'%busqueda.count())
+        logger.error('Encontrados %d profesores'%busqueda.count())
         for profesor in busqueda:            
             p = Profesor_new(\
                 id=profesor.id,\
@@ -108,10 +110,10 @@ class Command(BaseCommand):
             )
             p.save()
         
-        self.stdout.write('Importamos los grupos, primero vamos a vaciar la BBDD')
+        logger.error('Importamos los grupos, primero vamos a vaciar la BBDD')
         Grupo_new.objects.all().delete()
         busqueda = Grupo.select()
-        self.stdout.write('Encontrados %d grupos'%busqueda.count())
+        logger.error('Encontrados %d grupos'%busqueda.count())
         for grupo in busqueda:
             curso = Curso_new.objects.get(nombre=grupo.curso.nombre)
             g = Grupo_new(\
@@ -123,7 +125,7 @@ class Command(BaseCommand):
                 menores=grupo.menores,\
             )
             g.save()
-            #~ self.stdout.write('Anadimos las clases')
+            #~ logger.error('Anadimos las clases')
             try:
                 for clase in grupo.clases:
                     if clase.profesorID:
@@ -149,18 +151,17 @@ class Command(BaseCommand):
                     #~ print c.id,c.hora_inicio,c.hora_fin
                     c.save()
             except:
-                self.stdout.write('Error importando clase');
-                print clase
-                print sys.exc_info()
+                logger.error('Error importando clase',clase);
+                logger.error(sys.exc_info())
             #~ print g.nombre,g.clases.all()
             g.save()
                 
-        self.stdout.write('Importamos los alumnos, primero vamos a vaciar la BBDD')
+        logger.error('Importamos los alumnos, primero vamos a vaciar la BBDD')
         Alumno_new.objects.all().delete()
         busqueda = Alumno.select()
-        self.stdout.write('Encontrados %d alumnos'%busqueda.count())
+        logger.error('Encontrados %d alumnos'%busqueda.count())
         for persona in busqueda:
-            #self.stdout.write('Anadiendo el alumno %d'%persona.id)
+            #logger.error('Anadiendo el alumno %d'%persona.id)
             try:
                 if type(persona.banco.codigo)==int:
                     banco = str(persona.banco.codigo)
@@ -192,10 +193,10 @@ class Command(BaseCommand):
                 cuenta_bancaria = "%s-%s-%s-%s"%(banco,sucursal,dc,cuenta)
             except:
                 #~ print sys.last_traceback
-                self.stdout.write('Problema con la cuenta bancaria del alumno %d'%(persona.id))
-                print sys.exc_info()
-                print persona.cuenta
-                #~ self.stdout.write(sys.exc_info()[0])
+                logger.error('Problema con la cuenta bancaria del alumno %d'%(persona.id))
+                logger.error(sys.exc_info())
+                logger.error(persona.cuenta)
+                #~ logger.error(sys.exc_info()[0])
                 
                 cuenta_bancaria = ""
                 
@@ -209,15 +210,16 @@ class Command(BaseCommand):
                 telefono2 = persona.telefono2,\
                 email = persona.email,\
                 cuenta_bancaria = cuenta_bancaria,\
+                direccion = persona.direccion,\
                 localidad = persona.ciudad,\
                 cp = persona.cp,\
                 dni =persona.dni,)
             a.save()
         
-        self.stdout.write('Importamos las asistencias, primero vamos a vaciar la BBDD')
+        logger.error('Importamos las asistencias, primero vamos a vaciar la BBDD')
         Asistencia_new.objects.all().delete()
         busqueda = Asistencia.select()
-        self.stdout.write('Encontrados %d asistencias, la vamos a importar al ano: %s'%(busqueda.count(),year))
+        logger.error('Encontrados %d asistencias, la vamos a importar al ano: %s'%(busqueda.count(),year))
         for asis in busqueda:
             alumno = Alumno_new.objects.get(id=asis.alumno.id)
             grupo = Grupo_new.objects.get(id=asis.grupo.id)
@@ -247,10 +249,10 @@ class Command(BaseCommand):
                     metalico=metalico,\
                 )
             a.save()
-        self.stdout.write('Importamos las historias, primero vamos a vaciar la BBDD')
+        logger.error('Importamos las historias, primero vamos a vaciar la BBDD')
         Historia_new.objects.all().delete()
         busqueda = Historia.select()
-        self.stdout.write('Encontrados %d historias'%busqueda.count())
+        logger.error('Encontrados %d historias'%busqueda.count())
         for his in busqueda:
             try:
                 alumno = Alumno_new.objects.get(id=his.alumno.id)
@@ -262,6 +264,5 @@ class Command(BaseCommand):
                 )
                 h.save()
             except:
-                self.stdout.write('Imposible importar la historia')
-                print his
+                logger.error('Imposible importar la historia',his)
                 

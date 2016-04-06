@@ -9,25 +9,27 @@
     <table class="table">
         <tr>
             <td>Nombre</td><td>{{object.nombre}}</td>
-        </tr>
-        <tr>
             <td>Apellido(s)</td><td>{{object.apellido1}} {{object.apellido2}}</td>
         </tr>
-            <td>Teléfono</td><td>{{object.telefono1}}</td>
-            <td>Teléfono2</td><td>{{object.telefono2}}</td>
+            <td>Teléfonos</td><td>{{object.telefono1}}</td>
+            <td>{{object.telefono2}}</td>
         </tr>
         <tr>
             <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
         </tr>
         <tr>
+            <td>Dirección</td><td>{{object.direccion}}</td>
             <td>Ciudad</td><td>{{object.ciudad}}</td>
+            <td>CP</td><td>{{object.cp}}</td>
         </tr>
         <tr>
             <td>Cuenta</td><td>{{object.cuenta_bancaria}}</td>
         </tr>
-        
     </table>
-    <h2>Grupos </h2><a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
+    <a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">
+        <i class="zmdi zmdi-print"></i> Imprimir matricula
+    </a>
+    <h2>Grupos </h2>
     <table class="table">
         <thead>
             <th>Año</th>
@@ -46,6 +48,7 @@
         {% endfor %}
     </table>
     
+    <a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
     
     <div class="modal fade" id="deleteGrupoModal" tabindex="-1" role="dialog" aria-labelledby="deleteGrupoModalLabel">
       <div class="modal-dialog" role="document">
