@@ -34,7 +34,7 @@ class Command(BaseCommand):
         if len(args)<1:
              raise CommandError('Falta fichero origen')
    
-        logger = logging.getLogger('gestioneide.importar')
+        logger = logging.getLogger('gestioneide.error')
         bbdd = args[0]
         year = Year.objects.get(activo=True)
         logger.error('Iniciando importacion desde archivo %s'%bbdd)
@@ -206,12 +206,14 @@ class Command(BaseCommand):
                 nombre = persona.nombre,\
                 apellido1 = persona.apellido1,\
                 apellido2 = persona.apellido2,\
+                fecha_nacimiento = persona.fecha_nacimiento,\
+                fecha_creacion = persona.fecha_creacion,\
                 telefono1 = persona.telefono1,\
                 telefono2 = persona.telefono2,\
                 email = persona.email,\
                 cuenta_bancaria = cuenta_bancaria,\
                 direccion = persona.direccion,\
-                localidad = persona.ciudad,\
+                observaciones = persona.observaciones,\
                 cp = persona.cp,\
                 dni =persona.dni,)
             a.save()

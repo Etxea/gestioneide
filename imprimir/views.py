@@ -67,6 +67,20 @@ def ImprimirAlumnoMatricula(request,alumno_id):
     pdf = f.read()
     f.close()
     return HttpResponse(pdf, content_type='application/pdf')
+    
+def ImprimirAlumnoOctavilla(request,alumno_id):
+    data = {}
+    alumno = Alumno.objects.get(id=alumno_id)
+    data['alumno'] = alumno
+    template = get_template('octavilla_alumno_pdf.html')
+    html = template.render(Context(data))
+    f = open(os.path.join(settings.MEDIA_ROOT, 'octavilla_alumno_%s.pdf'%alumno_id), "w+b")
+    pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
+    f.seek(0)
+    pdf = f.read()
+    f.close()
+    return HttpResponse(pdf, content_type='application/pdf')    
+    
 
 def ImprimirGruposPlanillaAsistencia(request,mes):
     year = Year.objects.get(activo=True)

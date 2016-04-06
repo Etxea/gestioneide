@@ -15,7 +15,7 @@
             <td>{{object.telefono2}}</td>
         </tr>
         <tr>
-            <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
+            <td>Fecha Nac.</td> <td>{{ object.fecha_nacimiento }}</td> <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
         </tr>
         <tr>
             <td>Dirección</td><td>{{object.direccion}}</td>
@@ -28,6 +28,9 @@
     </table>
     <a class="btn btn-primary" href="{% url 'imprimir_alumno_matricula' alumno.id %}">
         <i class="zmdi zmdi-print"></i> Imprimir matricula
+    </a>
+    <a class="btn btn-secondary" href="{% url 'imprimir_alumno_octavilla' alumno.id %}">
+        <i class="zmdi zmdi-print"></i> Imprimir Octavilla
     </a>
     <h2>Grupos </h2>
     <table class="table">
