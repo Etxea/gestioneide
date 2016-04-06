@@ -2,12 +2,15 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
+
 
 from django.contrib import admin
 
 
 urlpatterns = [
-    url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="home"),
+    #url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="home"),
+    url(r"^$", RedirectView.as_view(url='/alumnos', permanent=False), name="home"),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^accounts/", include("account.urls")),
     url(r"^alumnos/", include("alumnos.urls")),

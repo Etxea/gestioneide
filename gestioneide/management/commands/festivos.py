@@ -3,7 +3,7 @@
 
 __author__ = 'patataman'
 from django.core.management.base import BaseCommand, CommandError
-from gestioneide.models import Festivo
+from gestioneide.models import Festivo, Year
 import csv
 
 class Command(BaseCommand):
@@ -17,12 +17,13 @@ class Command(BaseCommand):
 			fichero = args[0]
 			csvfile = open('calendario_laboral_2016.csv','rb')
 			csvreader = csv.reader(csvfile,delimiter=';')
+			year = Year.objects.get(activo=True)
 			for linea in csvreader:
 				ambito = linea[3].strip(" ")
 				if ambito in ['Estado','CAV','Bizkaia','Santurtzi']:
 					print linea[0],linea[1],linea[3]
 					campos = linea[0].split("/")
 					fecha = "%s-%s-%s"%(campos[2],campos[1],campos[0])
-					Festivo.objects.get_or_create(fecha=fecha,anotacion=u"%s"%linea[2],tipo=6)
+					Festivo.objects.get_or_create(fecha=fecha,anotacion=u"%s"%linea[2],tipo=6,year=year)
 
 					
