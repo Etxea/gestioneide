@@ -38,7 +38,6 @@
                     <a href=""><img src="{% static "img/logo.png" %}" alt=""></a>
                     <div id="menu-trigger"><i class="zmdi zmdi-menu"></i></div>
                 </li>
-		{% block extra_top_bar %}{% endblock %}
                 <!-- Messages -->
 				{% include "theme_superflat/_messages.html" %}
                 <!-- Notifications -->
@@ -49,6 +48,7 @@
                 {% include "theme_superflat/_events.html" %}
                 <!-- Search -->
 				{% include "theme_superflat/_search.html" %}
+		        {% block extra_top_bar %}{% endblock %}
                 <!-- Settings -->
 				{% include "theme_superflat/_settings.html" %}
                 <!-- Quick Apps -->

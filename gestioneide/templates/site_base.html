@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block extra_top_bar %} 
-<li>Año activo: 
-<span class="label"> 
-    <a href="/year">{{ year.name}}</a>
-</span>
-</li> 
+                <li class="dropdown hidden-xs">
+                    <a href="/year/" class="hi-events">
+                        <i class="zmdi zmdi-calendar">Año: {{year.name}}</i>
+                    </a>
+</li>
 {% endblock %}
 
 
