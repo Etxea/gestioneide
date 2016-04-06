@@ -1,0 +1,155 @@
+{% extends "theme_superflat/clean.html" %}
+{% load i18n %}
+{% block body %}
+
+<div class="row">
+    <div class="col-md-2 pull-right" style="text-align:right">
+        <span style="text-align:right" >Numero Alumno: <b>{{alumno.id }}</b></span>
+    </div>
+</div>
+
+
+<div class="row">
+    
+    <div class="col-md-12">
+    <h1 style="text-align:center">Escuelas EIDE S.L. : Departamentos de Idiomas</h1>    
+    
+    <table class="table">
+        <tr>
+            <td><b>Nombre</b></td><td>{{alumno.nombre}}</td>
+            <td><b>Apellido(s)</b></td><td>{{alumno.apellido1}} {{alumno.apellido2}}</td>
+        </tr>
+            <td><b>Fecha Nac.</b></td><td>{{alumno.fecha_nacimiento}}</td>
+            <td><b>Teléfonos</b></td><td>{{alumno.telefono1}} - {{alumno.telefono2}}</td>
+        </tr>
+        <tr>
+            <td><b>E-mail</b></td><td><a href="mailto:{{alumno.email}}">{{alumno.email}}</a></td>
+        </tr>
+        <tr>
+            <td><b>Dirección</b></td><td>{{alumno.direccion}}</td>
+            <td><b>Ciudad</b> {{alumno.ciudad}} - <b>CP</b>{{alumno.cp}}</td>
+        </tr>
+<!--
+        <tr>
+            <td>Cuenta</b></td><td>{{alumno.cuenta_bancaria}}</td>
+        </tr>
+-->
+    </table>
+    <br />
+<br />
+<br />
+    <table class="table">
+        <tr>
+            <td>Fecha Renovación Curso 20__/__</td>
+            <td>Fecha Renovación Curso 20__/__</td>
+            <td>Fecha de baja</td>
+        </tr>
+        <tr>
+            <td>_________________</td>
+            <td>_________________</td>
+            <td>_________________</td>
+        </tr>
+        <tr>
+            <td>_________________</td>
+            <td>_________________</td>
+            <td>_________________</td>
+        </tr>
+        <tr>
+            <td>_________________</td>
+            <td>_________________</td>
+            <td>_________________</td>
+        </tr>
+        <tr>
+            <td>_________________</td>
+            <td>_________________</td>
+            <td>_________________</td>
+        </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 style="text-align:center">NORMAS DEL CENTRO</h1>
+        <div>El alumno al formalizar la presente matrícula acepta las condiciones siguientes:</div>
+        <ol>
+            <li>La duración del curso es la estipulada por la Dirección del Centro recogida en el calendario escolar que
+se entrega a principios de curso.</li>
+            <li>En concepto de inscripción, y SOLO POR UNA VEZ, se cobra una cantidad que no es susceptible de
+devolución una vez entregada. Aquellos alumnos que causen baja en el Centro antes de las fecha s
+fijadas como fin de curso en el Calendario Escolar, serán considerados como Alumnos Nuevos si desean
+reincorporarse al centro de nuevo, por lo que deberán abonar la cuota de inscripción.</li>
+            <li>El curso se abonará por meses naturales por adelantado (del 1 al 10 de cada mes) a través de
+domiciliación bancaria.</li>
+            <li>La dirección del Centro se reserva el derecho de cancelar las matrículas de aquellos alumnos cuya
+conducta afecte desfavorablemente la marcha de las actividades del centro.</li>
+            <li>El Centro se reserva el derecho de cancelar las clases de los grupos, cuyo número sea inferior a 4
+alumnos.</li>
+            <li>No se reembolsará ninguna cantidad cuando el alumno deje de asistir al curso o haya abonado algún
+importe del mismo antes de su comienzo. El alumno tendrá que notificar su baja en el centro antes del
+día 1 de cada mes, en caso contrario se cobrará el recibo íntegro.</li>
+            <li>En el caso de devolución de recibo bancario, el alumno abonará en caja el importe relativo a su curso
+más los gastos que se hayan producido. No se admitirán devoluciones de recibos una vez pasada una
+semana.</li>
+            <li>Tanto el equipamiento como el material pedagógico de uso general de los alumnos es propiedad de
+EIDE, y no deben, en ningún caso, ser retirados del centro.</li>
+            <li>La vigencia de la matrícula será para el curso escolar contratado.</li>
+            <li>La matrícula quedará renovada si el alumno entrega en Secretaría el documento de “renovación de
+matrícula” que se distribuye en el mes de Mayo de cada año, siendo el coste del curso el establecido en
+el listado de precios que corresponda al nuevo curso escolar.</li>
+            <li>CLAUSULAS FOTOS</li>
+        </ol>
+    </div>
+</div>
+<br />
+<br />
+<br /><br />
+<br />
+<br /><br />
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table>
+            <thead>
+                <th>Conforme del Alumno</th>
+                <th>EIDE - Departamento de Idiomas</th>
+            </thead>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div>
+        Conforme a la L.O. 15/1999 de Protección de datos de carácter personal y su R.D. 1720/2007, los datos recabados serán incluidos en un fichero
+        denominado clientes, inscrito en la Agencia de Protección de Datos, siendo su Responsable la empresa ESCUELAS INTERNACIONALES PARA LA
+        EDUCACION Y EL DESARROLLO EIDE , S.L. La finalidad de la obtención de los datos citados será exclusivamente la gestión de las actuaciones
+        necesarias para la relación contractual. Vd., como titular de los datos, autoriza y consiente la inclusión de los mismos en el citado fichero. Los
+        derechos de acceso, rectificación, cancelación y oposición serán ejercitables de manera gratuita dirigiéndose a ESCUELAS INTERNACIONALES
+        PARA LA EDUCACION Y EL DESARROLLO EIDE , S.L., con dirección: C/ Genaro Oraa no6, C.P. 48980, Santurtzi, Bizkaia, indicando en la
+        comunicación decisión referida a los derechos anteriormente mencionados.
+        </div>
+        <br />    
+        <div style="text-align:center" >
+            Genaro Oraá,6 - 48980 SANTURTZI (Spain)- Tlf. + 34 944 937 005 - FAX +34 944 615 723
+        </div>
+        <br />
+        <div style="text-align:center" >
+            www.eide.es - e-mail: eide@eide.es
+        </div>
+    </div>
+</div>
+        
+{% endblock %}
