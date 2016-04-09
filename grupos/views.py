@@ -17,7 +17,7 @@ class GrupoListView(ListView):
     def get_queryset(self):
         year = Year.objects.get(activo=True)
         #~ print "Listamos los grupos del ano",year
-        return Grupo.objects.filter(year=year)
+        return Grupo.objects.filter(year=year).order_by('nombre')
         
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm

@@ -10,6 +10,7 @@ class ListaAulas(ListView):
 class NuevaAula(CreateView):
 	model = Aula
 	template_name="aula_nueva.html"
+	fields="__all__"
 	success_url = '/aulas/' ## FIXME esto deberia ser un reverse
 	
 class EditarAula(UpdateView):

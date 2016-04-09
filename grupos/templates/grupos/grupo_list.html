@@ -1,11 +1,17 @@
 {% extends "site_base.html"%}
 {% load i18n %}
 
+{% block page_header %}
+
+{% include "pagination/pagination.html" %} 
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
+<a class="btn btn-primary pull-right" href="{% url 'grupo_nuevo' %}">Nuevo</a>
+{% endblock %}
+
 {% block body %}
 <div class="row">
-    <div class="col-md-10 col-xs-12">
+    <div class="col-md-12 col-xs-12">
         <h4>Listado de Grupos</h4>
-     
         <table class="table">
             <thead>
                 <tr>
@@ -35,11 +41,6 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
-    <div class="col-md-2">
-    <h4>Acciones</h4>
-    {% include "pagination/pagination.html" %}
-    <a href="{% url 'grupo_nuevo' %}"><button>Nuevo</button></a>
     </div>
 </div>
 {% endblock %}

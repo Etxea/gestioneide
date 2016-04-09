@@ -3,14 +3,18 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Lista de aulas" %}{% endblock %}
-
+{% block page_header %}
+    {% trans "Lista de aulas" %} <a class="btn btn-primary pull-right" href="{% url 'aula_nueva' %}">Nueva Aula</a>
+{% endblock %}
 {% block body %}
-    <h1>{% trans "Lista de aulas" %}</h1>
+    
     <table class="table">
 		<thead>
 			<th>Nombre</th>
+<!--
 			<th>Aforo</th>
 			<th>PDI</th>
+-->
 			<th>Lunes</th>
 			<th>Martes</th>
 			<th>Miercoles</th>
@@ -22,8 +26,10 @@
     
     <tr>
 		<td><a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
+<!--
 		<td>{{ aula.aforo }}</td>
-		<td>{{ aula.pdi }}</td>
+		<td>{{ aula.pdi|yesno }}</td>
+-->
 		
 			    <td>
 					{% for clase in aula.clases_lunes %}
@@ -55,5 +61,5 @@
     </tbody>
     </table>
     <hr />
-    <a href="{% url 'aula_nueva' %}"><button>Nueva Aula</button></a>
+
 {% endblock %}
