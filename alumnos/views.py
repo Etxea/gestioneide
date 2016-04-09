@@ -15,7 +15,7 @@ debug = logger.debug
 #Clase vase de lista de alumnos
 class AlumnoListView(ListView):
     model=Alumno
-    paginate_by = 50
+    paginate_by = 75
     template_name = "alumnos/alumno_list.html"
         
 class AlumnoActivosListView(AlumnoListView):
@@ -32,7 +32,6 @@ class AlumnoBuscarView(AlumnoListView):
     #Solo listamos los que coinciden conla busqueda
     def get_queryset(self):
         #~ cadena = self.kwargs['cadena']
-        
         cadena = self.request.GET.get("cadena")
         try:
             numero = int(cadena)
