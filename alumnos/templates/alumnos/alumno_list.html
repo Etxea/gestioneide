@@ -5,12 +5,6 @@
 <div class="row">
     <div class="col-md-12">
         {% include "pagination/pagination.html" %}
-        <br />
-        <form class="form" action="{% url 'alumno_buscar' %}" method="post">{% csrf_token %}
-                <input type="search" id="search" />
-                <button type="submit" class="glyphicon glyphicon-search" aria-hidden="true" />
-        </form>
-        
     </div>
     <div class="col-md-12">
         

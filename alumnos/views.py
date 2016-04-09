@@ -22,15 +22,15 @@ class AlumnoGrupoListView(AlumnoListView):
     def get_queryset(self):
         return Alumno.objects.filter(activo=True).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
-class AlumnoBuscarView(ListView):
-    model=Alumno
-    paginate_by = 50
-    template_name = "alumnos/alumno_list.html"
-    #Solo listamos los activos
+class AlumnoBuscarView(AlumnoListView):
+    #Solo listamos los que coinciden conla busqueda
     def get_queryset(self):
+        cadena = self.kwargs['cadena']
+        print "Buecamos los que coincidan con", cadena
         try:
-            return Alumno.objects.filter(activo=True).filter(nombre__icontains=self.POST['busqueda'])
+            return Alumno.objects.filter(activo=True).filter(nombre__icontains=cadena)
         except:
+            print "Error"
             return Alumno.objects.filter(activo=True)
         
 class AlumnoCreateView(CreateView):
