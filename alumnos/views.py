@@ -6,14 +6,21 @@ from django.contrib.auth.decorators import login_required
 from gestioneide.models import *
 from forms import *
 
-
+#Clase vase de lista de alumnos
 class AlumnoListView(ListView):
     model=Alumno
     paginate_by = 50
     template_name = "alumnos/alumno_list.html"
+        
+class AlumnoActivosListView(AlumnoListView):
     #Solo listamos los activos
     def get_queryset(self):
         return Alumno.objects.filter(activo=True)
+
+class AlumnoGrupoListView(AlumnoListView):
+    #Solo listamos los activos y que estan en un grupo
+    def get_queryset(self):
+        return Alumno.objects.filter(activo=True).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
 class AlumnoBuscarView(ListView):
     model=Alumno

@@ -3,24 +3,22 @@
 
 {% block body %}
 <div class="row">
-    <div class="col-md-3">
-        <h4>Listado de Alumnos</h4> 
-            <button class="btn btn-default" href="{% url 'alumno_nuevo'%}">
-                Nuevo</button>
-            <form class="form" action="{% url 'alumno_buscar' %}" method="post">{% csrf_token %}
-                <input type="search" id="search" />
-                <button type="submit" class="glyphicon glyphicon-search" aria-hidden="true" />
-            </form>
-    </div>
-    
     <div class="col-md-12">
         {% include "pagination/pagination.html" %}
-        <table class="table table-hover table-bordered bootgrid-table">
+        <br />
+        <form class="form" action="{% url 'alumno_buscar' %}" method="post">{% csrf_token %}
+                <input type="search" id="search" />
+                <button type="submit" class="glyphicon glyphicon-search" aria-hidden="true" />
+        </form>
+        
+    </div>
+    <div class="col-md-12">
+        
+        <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
                 <tr>
                 <td>ID</td>
-                <td>Apellido1</td>
-                <td>Apellido2</td>
+                <td>Apellidos</td>
                 <td>Nombre</td>
                 <td>Email</td>
                 <td>Telefonos</td>
@@ -31,9 +29,8 @@
             <tbody>
             {% for alumno in object_list %}
             <tr>
-                <td><a href="{{alumno.get_absolute_url}}">{{ alumno.id }}</a> ({{ alumno.activo }})</td>
-                <td>{{ alumno.apellido1 }}</td>
-                <td>{{ alumno.apellido2 }}</td>
+                <td><a href="{{alumno.get_absolute_url}}">{{ alumno.id }}</a> ({{ alumno.activo|yesno }})</td>
+                <td>{{ alumno.apellido1 }} {{ alumno.apellido2 }}</td>
                 <td>{{ alumno.nombre }}</td>
                 <td>{{ alumno.email }}</td>
                 <td>{{ alumno.telefono1 }} -- {{ alumno.telefono2 }}</td>

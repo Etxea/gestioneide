@@ -33,7 +33,7 @@
 		</ul>
 		{% endif %}
 	</li>
-	
+	{% if request.user.is_authenticated %}
     <!--
 	<li class="active">
 		<a href="{% url 'home' %}">
@@ -42,11 +42,21 @@
 		</a>
     </li>
     -->
-	<li>
+	<li class="sm-sub">
 		<a href="/alumnos" >
 			<i class="zmdi zmdi-view-list"></i>
 			<span>Alumnos</span>
 		</a>
+		<ul>
+			<li>
+				<a href="{% url 'alumnos_lista' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Lista</span></a>
+				<a href="{% url 'alumnos_lista_activos' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Lista Activos</span></a>
+				<a href="{% url 'alumnos_lista_todos' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Lista Todos</span></a>
+			</li>
+			<li>
+				<a href="{% url 'alumno_nuevo' %}">Nuevo</a>
+			</li>
+		</ul>
 	</li>
 	<li class="sm-sub" >
 		<a href="" >
@@ -101,4 +111,5 @@
 			<span>Informes</span>
 		</a>
 	</li>
+	{% endif %}
 </ul>
