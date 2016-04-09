@@ -104,7 +104,7 @@ class Alumno(models.Model):
     telefono2 = models.CharField(max_length=9,default="",blank=True,null=True)
     email = models.EmailField(default="",blank=True,null=True)
     cuenta_bancaria = models.CharField(max_length=25,default="")
-    direccion = models.CharField(max_length=250,default="")
+    direccion = models.CharField(max_length=250,default="",blank=True,null=True)
     ciudad = models.CharField(max_length=25,default="")
     cp = models.CharField(max_length=5,default="48980")
     dni = models.CharField(max_length=9,default="",blank=True,null=True)

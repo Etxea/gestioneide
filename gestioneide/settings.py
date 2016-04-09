@@ -169,6 +169,14 @@ LOGGING = {
             "()": "django.utils.log.RequireDebugFalse"
         }
     },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
     "handlers": {
         "mail_admins": {
             "level": "ERROR",
@@ -179,6 +187,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': '/tmp/debug.log',
+            'formatter': 'simple',
         }
     },
     "loggers": {

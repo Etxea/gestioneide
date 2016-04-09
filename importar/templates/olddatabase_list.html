@@ -43,6 +43,8 @@ function load_olddb(id) {
 			<thead>
 				<th>Nombre</th>
 				<th>Estado</th>
+                <th>Mensajes</th>
+                <th>Errores</th>
 				<th>Acciones</th>
 			</thead>
 			<tbody>
@@ -50,7 +52,9 @@ function load_olddb(id) {
             {% for document in object_list %}
             <tr>
                 <td><a href="{{ document.dbfile.url }}">{{ document.dbfile.name }}</a></td>
-                <td></td>
+                <td>{{ document.imported|yesno }}</td>
+                <td>{{ document.messages }}</td>
+                <td>{{ document.errors }}</td>
                 <td><button onclick="load_olddb({{ document.id }})">Cargar</button></td>
             </tr>
             {% endfor %}
