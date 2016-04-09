@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import admin
@@ -6,7 +6,7 @@ admin.autodiscover()
 from views import *
 
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(r"^$", login_required(TemplateView.as_view(template_name="home.html")), name="clases_lista"),
     url(r'clases/(?P<cliente_id>\d+)/nueva/$',login_required(CreateView.as_view(model=Clase)), name="clase_curso_nueva"),
     url(r'clases/nueva$',login_required(CreateView.as_view(model=Clase)), name="clase_nueva"),
@@ -23,4 +23,4 @@ urlpatterns = patterns("",
     #url(r"^profesor/libre/(?P<dia_semana>\d+)/$", libre_profesor, name="clases_profesor"),
     url(r"^aulas/$", login_required(clases_lista_aulas.as_view()), name="clases_lista_aulas"),
     url(r"^aula/(\d+)/$", login_required(clases_aula.as_view()), name="clases_aula"),
-)
+]
