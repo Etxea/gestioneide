@@ -1,6 +1,6 @@
                 <li class="top-search">
-                  
-                    <input class="ts-input" placeholder="Search..." type="text">
+                    <form class="form" action="{% url 'alumno_buscar' %}" method="get">{% csrf_token %}
+                    <input class="ts-input" placeholder="Search..." type="text" name="cadena" >
                     <i class="ts-reset zmdi zmdi-close"></i>
                     </form>
                 </li>

@@ -3,8 +3,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from gestioneide.models import *
 from forms import *
+
+
+import logging
+logger = logging.getLogger('gestioneide.debug')
+debug = logger.debug
 
 #Clase vase de lista de alumnos
 class AlumnoListView(ListView):
@@ -25,13 +31,18 @@ class AlumnoGrupoListView(AlumnoListView):
 class AlumnoBuscarView(AlumnoListView):
     #Solo listamos los que coinciden conla busqueda
     def get_queryset(self):
-        cadena = self.kwargs['cadena']
-        print "Buecamos los que coincidan con", cadena
+        #~ cadena = self.kwargs['cadena']
+        
+        cadena = self.request.GET.get("cadena")
         try:
-            return Alumno.objects.filter(activo=True).filter(nombre__icontains=cadena)
+            numero = int(cadena)
+            debug("tenemos el numero de alumno ",numero)
+            return Alumno.objects.filter(id=numero)
         except:
-            print "Error"
-            return Alumno.objects.filter(activo=True)
+            debug("No es un numero, buscamos los que coincidan con", cadena)
+            filtro = Q(nombre__icontains=cadena) | Q(apellido1__icontains=cadena) | Q(apellido2__icontains=cadena)
+            return Alumno.objects.filter(activo=True).filter(filtro)
+        
         
 class AlumnoCreateView(CreateView):
     form_class = AlumnoCreateForm

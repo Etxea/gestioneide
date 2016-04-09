@@ -197,6 +197,11 @@ LOGGING = {
             "level": "ERROR",
             "propagate": True,
         },
+        "gestioneide.debug": {
+            "handlers": ["file"],
+            "level": "ERROR",
+            "propagate": True,
+        },
     }
 }
 
