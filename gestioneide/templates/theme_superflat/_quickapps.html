@@ -4,30 +4,31 @@
                     </a>
                     
                     <div class="dropdown-menu pull-right" id="launch-apps">
-                        <div class="dropdown-header bg-teal">SUPERFLAT APPS</div>
+                        <div class="dropdown-header bg-teal">Acceso Directos</div>
                         
                         <div class="la-body">
                             <div class="lab-item">
-                                <a href="" class="bg-red">
-                                    <i class="zmdi zmdi-calendar"></i>
+                                <a href="{% url 'alumnos_lista' %}" class="bg-red">
+                                    <i class="zmdi zmdi-account"></i>
                                 </a>
-                                <small>Calendar</small>
+                                <small>Alumnos</small>
                             </div>
                             
                             <div class="lab-item">
-                                <a href="" class="bg-green">
-                                    <i class="zmdi zmdi-file-text"></i>
+                                <a href="{% url 'grupo_lista' %}" class="bg-green">
+                                    <i class="zmdi zmdi-group-work"></i>
                                 </a>
-                                <small>Files</small>
+                                <small>Grupos</small>
                             </div>
                             
                             <div class="lab-item">
-                                <a href="" class="bg-blue">
-                                    <i class="zmdi zmdi-email"></i>
+                                <a href="{% url 'informes' %}" class="bg-blue">
+                                    <i class="zmdi zmdi-attachment"></i>
                                 </a>
-                                <small>Mail</small>
+                                <small>Informes</small>
                             </div>
                             
+<!--
                             <div class="lab-item">
                                 <a href="" class="bg-orange">
                                     <i class="zmdi zmdi-trending-up"></i>
@@ -48,6 +49,7 @@
                                 </a>
                                 <small>Gallery</small>
                             </div>
+-->
                         </div>
                     </div>
                 </li>
