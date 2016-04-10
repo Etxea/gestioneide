@@ -112,10 +112,10 @@ class Alumno(models.Model):
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
     def __unicode__(self):
     #    return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
-        return "(%s) %s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
+        return "%s %s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
 
     def get_absolute_url(self):
-        return "/alumnos/%s/"%self.id
+        return reverse_lazy("alumno_detalle",args=[self.id])
     def validate_cuenta_bancaria(self):
         return True
     def grupos(self):

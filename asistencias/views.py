@@ -44,10 +44,10 @@ class AsistenciaGrupoCreateView(CreateView):
     #~ fields = ["alumno","confirmado","factura","metalico","precio"]
     fields = "__all__"
     def get_success_url(self):
-        return reverse_lazy("grupo_detalle",kwargs = {'pk' : self.object })
+        return reverse_lazy("grupo_detalle",kwargs = {'pk' : self.object.grupo.id })
     def get_initial(self):
         year = Year.objects.get(activo=True)
-        grupo = Grupo.objects.get(id=self.kwargs['alumno_id'])
+        grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         print "Establecemos el ano en ",year, "y el grupo",grupo
         return { 'year': year , 'grupo': grupo }        
 

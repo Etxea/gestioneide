@@ -73,6 +73,7 @@
             {% endfor %}
             {% include "grupos/asistencia_modal.html" %}
         </table>
+        <a class="btn btn-primary" href="{% url 'asistencia_nueva_grupo' object.id %}">Añadir alumno</a>
     </div>
 </div>    
 

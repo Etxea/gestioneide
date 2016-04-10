@@ -5,6 +5,7 @@
 
 {% include "pagination/pagination.html" %} 
 Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos.
+<a class="btn btn-primary pull-right" href="{% url 'alumno_nuevo' %}"><i class="zmdi zmdi-account-add"></i>&nbsp;&nbsp;<span>Nuevo</span></a>
 
 {% endblock %}
 {% block body %}
