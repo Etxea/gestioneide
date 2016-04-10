@@ -12,7 +12,7 @@
                 <td>Nombre</td>
                 <td>Email</td>
                 <td>Telefono</td>
-                <td>H. Pendientes</td>
+                
                 <td>Acciones</td>
                 </tr>
             </thead>
@@ -20,10 +20,10 @@
             {% for profesor in object_list %}
             <tr>
 
-                <td><a href="{{profesor.get_absolute_url}}">{{ profesor.user.username }}</a></td>
-                <td>{{ profesor.user.email }}</td>
+                <td><a href="{{profesor.get_absolute_url}}">{{ profesor.nombre }} {{ profesor.apellido }} </a></td>
+                <td>{{ profesor.email }}</td>
                 <td>{{ profesor.telefono }}</td>
-                <td>{{ profesor.get_horas_pendientes }}</td>
+                
                 <td>
                     <a href="{% url 'profesor_detalle' profesor.id %}"><span class="glyphicon glyphicon-search"></span></a>
                     <a href="{% url 'profesor_editar' profesor.id %}"><span class="glyphicon glyphicon-pencil"></span></a>

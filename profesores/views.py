@@ -24,6 +24,7 @@ class ProfesorDetailView(DetailView):
 
 class ProfesorDeleteView(DeleteView):
     model = Profesor
+    template_name = "profesores/profesor_confirm_delete.html"
     def get_success_url(self):
         return reverse_lazy("profesores_lista")
 

@@ -5,7 +5,7 @@
 {% block body %}
 
 <form action="" class="form"    method="post">{% csrf_token %}
-    <p>¿Estás seguro de que quieres borrar el profesor {{ object.user.username }}?</p>
+    <p>¿Estás seguro de que quieres borrar el profesor {{ object.nombre }} {{ object.apellido }} ?</p>
     <input type="submit" value="Confirmar" />
 </form>
 {% endblock %}
