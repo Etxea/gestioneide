@@ -1,11 +1,21 @@
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
-from gestioneide.models import Alumno
+from gestioneide.models import *
+from alumnos.views import *
+from asistencias.views import *
 
-# Create your views here.
+class AlumnosErroresListView(AlumnoListView):
+    #Solo listamos los activos y que estan en un grupo
+    def get_queryset(self):
+        return Alumno.objects.filter(activo=False).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
+class AsistenciasErroresListView(AsistenciaListView):
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        return Asistencia.objects.filter(year=year).filter(confirmado=False)
+        
 
 def export_alumnos_xls(request):
     import xlwt
