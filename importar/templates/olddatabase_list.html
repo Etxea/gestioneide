@@ -53,7 +53,7 @@ function load_olddb(id) {
             <tr>
                 <td><a href="{{ document.dbfile.url }}">{{ document.dbfile.name }}</a></td>
                 <td>{{ document.imported|yesno }}</td>
-                <td>{{ document.messages }}</td>
+                <td>{{ document.message }}</td>
                 <td>{{ document.errors }}</td>
                 <td><button onclick="load_olddb({{ document.id }})">Cargar</button></td>
             </tr>

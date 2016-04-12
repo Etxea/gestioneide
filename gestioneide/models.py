@@ -17,6 +17,11 @@ DIAS_SEMANA = (
     (4, _('Jueves')),
     (5, _('Viernes'))
 )
+TIPO_EVALUACION = (
+    (1, _('Otro')),
+    (2, _('elementary_intermediate')),
+    (3, _('upper_proficiency')),
+)
 
 TIPO_FESTIVO = (
     (1, _('Festivo')),
@@ -143,6 +148,7 @@ class Libro(models.Model):
 class Curso(models.Model):
     nombre = models.CharField(max_length=25,default="")
     precio = models.FloatField(default=100)
+    tipo_evaluacion = models.DecimalField(max_digits=1, decimal_places=0,choices=TIPO_EVALUACION)
     ##No obligatorios
     examen = models.CharField(max_length=25,default="",blank=True,null=True)
     nivel = models.CharField(max_length=25,default="",blank=True,null=True)
@@ -269,12 +275,39 @@ class Asistencia(models.Model):
 class Nota(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
-    grama = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    grama_baremo = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    expresion = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    expresion_baremo = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    lectura = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    lectura_baremo = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+
+    control = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    control_np = models.BooleanField(default=False)
+    control_na = models.BooleanField(default=False)
+    
+    grammar = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    grammar_np = models.BooleanField(default=False)
+    grammar_na = models.BooleanField(default=False)
+    
+    reading = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    reading_np = models.BooleanField(default=False)
+    reading_na = models.BooleanField(default=False)
+    
+    writing = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    writing_np = models.BooleanField(default=False)
+    writing_na = models.BooleanField(default=False)
+    
+    useofenglish = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    useofenglish_np = models.BooleanField(default=False)
+    useofenglish_na = models.BooleanField(default=False)
+
+    listenning = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    listenning_np = models.BooleanField(default=False)
+    listenning_na = models.BooleanField(default=False)
+
+    speaking = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    speaking_np = models.BooleanField(default=False)
+    speaking_na = models.BooleanField(default=False)
+
+    comportamiento = models.CharField(max_length=2,default="B")
+    comportamiento_np = models.BooleanField(default=False)
+    comportamiento_na = models.BooleanField(default=False)
+
     
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')

@@ -91,6 +91,12 @@ class OldDatabase(models.Model):
         busqueda = Curso.select()
         self.addMessage('<li>Encontrados %d cursos</li>'%busqueda.count())
         for curso in busqueda:
+            if curso.modelo_notas == "elementary_intermediate":
+                tipo_evaluacion=2
+            elif curso.modelo_notas == "upper_proficiency":
+                tipo_evaluacion=3
+            else:
+                tipo_evaluacion=1
             c = Curso_new(\
                 nombre = curso.nombre,\
                 precio = curso.precio,\
@@ -99,6 +105,7 @@ class OldDatabase(models.Model):
                 nivel = curso.nivel,\
                 nota_aprobado = curso.nota_aprobado,\
                 solo_examen_final = curso.solo_examen_final,\
+                tipo_evaluacion=tipo_evaluacion,\
             )
             c.save()
             for libro in curso.libros:
