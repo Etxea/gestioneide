@@ -9,7 +9,7 @@
 
 {% block body %}
 
-<h1>Notas grupo {{ grupo.nombre }} del trimestre {{ trimestre }}</h1>
+<h1>Notas grupo {{ grupo.nombre }} del trimestre {{ trimestre }} otro</h1>
 
 {{ notas_formset.non_field_errors }}
 
@@ -19,8 +19,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Alumno</th><th>Grama</th><th>Grama baremo</th><th>Expresion</th>
-				<th>Expresion baremo</th><th>Lectura</th><th>Lectura baremo</th><th></th>
+				<th>Alumno</th><th></th>
 			</tr>
 		</thead>
 		<tbody>    
@@ -30,7 +29,7 @@
 				{% with asistencia=asistencias|buscar:forloop.counter0 %}
 				<td> {{ asistencia.alumno }} </td>
 				{% for field in form %}
-					<td>{{ field }}  {{ field.errors }}</td>
+					<td>{{ field.label }} {{ field }}  {{ field.errors }}</td>
 				{% endfor %}
 				{% endwith %}
 			 </tr>
