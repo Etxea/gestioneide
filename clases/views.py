@@ -19,7 +19,7 @@ class ClaseCreateView(CreateView):
 class ClaseDeleteView(DeleteView):
     model = Clase
     def get_success_url(self):
-        return reverse_lazy("curso_detalle", kwargs={'pk': self.object.curso.pk})
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
 
 class ClaseCursoCreateView(ClaseCreateView):
     ##Recogemos los datos iniciales (clientes)
@@ -195,7 +195,8 @@ class nueva_clase_grupo(CreateView):
     model = Clase
     template_name = "clase_grupo_form.html"
     form_class = ClaseForm
-    success_url = "/clases"
+    def get_success_url(self):
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
     def get_context_data(self, **kwargs):
         context = super(nueva_clase_grupo, self).get_context_data(**kwargs)
         context['grupo_id'] = self.kwargs['grupo_id']

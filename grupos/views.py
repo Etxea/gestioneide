@@ -22,7 +22,6 @@ class GrupoListView(ListView):
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm
     template_name = "grupos/grupo_form.html"
-
     def get_success_url(self):
         return reverse_lazy("grupo_lista")
 

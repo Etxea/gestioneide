@@ -110,7 +110,7 @@ class Alumno(models.Model):
     email = models.EmailField(default="",blank=True,null=True)
     cuenta_bancaria = models.CharField(max_length=25,default="")
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
-    ciudad = models.CharField(max_length=25,default="")
+    ciudad = models.CharField(max_length=25,default="Santurtzi")
     cp = models.CharField(max_length=5,default="48980")
     dni = models.CharField(max_length=9,default="",blank=True,null=True)
     activo = models.BooleanField(default=True)
@@ -169,6 +169,11 @@ class Grupo(models.Model):
     menores = models.BooleanField(default=False)
     class Meta:
         ordering = ["nombre"]
+    def ver_precio(self):
+        if self.precio:
+            return self.precio
+        else:
+            return self.curso.precio
     def get_absolute_url(self):
         return reverse_lazy("grupo_detalle",args=[self.id]) 
     def confirmados(self):
@@ -260,6 +265,11 @@ class Asistencia(models.Model):
     precio = models.FloatField(null=True,blank=True)
     #~ notas = MultipleJoin('Notas')
     #~ faltas = MultipleJoin('Notas')
+    def ver_precio(self):
+        if self.precio:
+            return self.precio
+        else:
+            return self.grupo.ver_precio()
     def siguiente_asistencia_grupo(self):
         #Deberiamos sacar la lista de asistencia s dle grupo ordenadas por id, calcula nuestra posición y devolver el id de la siguiente
         count = 0

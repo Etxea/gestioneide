@@ -55,6 +55,22 @@ def ImprimirGrupos(request):
     f.close()
     return HttpResponse(pdf, content_type='application/pdf')
 
+def ImprimirGruposAlumnos(request):
+    data = {}
+    year = Year.objects.get(activo=True)
+    grupos = Grupo.objects.filter(year=year)
+    data['grupo_list'] = grupos
+    data['year'] = year.__unicode__()
+    template = get_template('grupos_alumnos_pdf.html')
+    html = template.render(Context(data))
+    f = open(os.path.join(settings.MEDIA_ROOT, 'grupos_alumnos_%s.pdf'%year), "w+b")
+    pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
+    f.seek(0)
+    pdf = f.read()
+    f.close()
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
 def ImprimirAlumnoMatricula(request,alumno_id):
     data = {}
     alumno = Alumno.objects.get(id=alumno_id)

@@ -1,0 +1,49 @@
+{% extends "theme_superflat/clean.html" %}
+
+{% load i18n %}
+{% load grupo_template_tags %}
+
+{% block body %}
+
+<style>
+    @page {
+        size: a4 portrait;
+        margin: 2cm;
+    }
+    th {
+        text-align: left;
+    }
+    td{
+        font-size: 120%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+<div class="row">    
+{% for grupo in grupo_list %}
+	  
+    <h1>{% trans "Grupo" %} {{grupo.nombre}} / {{year}}</h1>
+    <table class="table">
+        <thead>
+            <th style="text-align: left;">Alumno</th>
+            <th style="text-align: left;">Fech. Nacimiento</th>
+            <th style="text-align: left;">Confirmado</th>
+            <th>Observaciones</th>
+        </thead>
+        <tbody>
+            {% for asistencia in grupo.asistencia_set.all %}
+            <tr>
+                <td>{{ asistencia.alumno}}</td>
+                <td>{{ asistencia.alumno.fecha_nacimiento}}</td>
+                <td>{{ asistencia.confirmado|yesno}}</td>
+                <td></td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="page-break-after: always;"></div>
+{% endfor %}
+</div>
+{% endblock %}

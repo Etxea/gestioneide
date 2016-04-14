@@ -44,8 +44,8 @@
         </thead>
         {% for asistencia in object.asistencia_set.all %}
         <tr>
-            <td>{{ asistencia.year }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.grupo.confirmado }}</td>
-            <td>{{ asistencia.grupo.factura }}</td><td>{{ asistencia.grupo.metalico }}</td><td>{{ asistencia.grupo.precio }}</td>
+            <td>{{ asistencia.year }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.confirmado|yesno }}</td>
+            <td>{{ asistencia.factura|yesno }}</td><td>{{ asistencia.metalico|yesno }}</td><td>{{ asistencia.ver_precio }}</td>
             <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteGrupoModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}">Eliminar</button></td>
         </tr>
         {% endfor %}
