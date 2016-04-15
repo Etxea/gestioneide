@@ -1,10 +1,9 @@
 {% load i18n %}
 {% load bootstrap_tags %}
-<h1>Nueva clase</h1>
-<form action="{% url 'nueva_clase_grupo' grupo_id %}" method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <input type="submit" class="btn primary" value="Crear">
+<form action="{% url 'editar_clase_modal' object.id %}" method="post">
+	{{ form.as_p }}
+	{% csrf_token %}
+	<input type="submit" class="btn primary" value="Guardar">
 </form>
 
 <script>

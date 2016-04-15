@@ -205,9 +205,18 @@ class nueva_clase_grupo(CreateView):
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         return { 'grupo': grupo }
 
+class borrar_clase(DeleteView):
+    model = Clase
+    template_name = "clase_confirm_delete.html"
+    def get_success_url(self):
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
     
 class editar_clase(UpdateView):
     model = Clase
     template_name = "clase_editar.html"
     form_class = ClaseForm
-    success_url = "/clases"
+    def get_success_url(self):
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
+    
+class editar_clase_modal(editar_clase):
+    template_name = "clase_editar_modal.html"
