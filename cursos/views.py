@@ -14,6 +14,7 @@ from forms import *
 class CursosListView(ListView):
     model=Curso
     template_name="cursos/curso_list.html"
+    paginate_by = 50
 
 class CursoDetailView(DetailView):
     model = Curso
@@ -29,9 +30,12 @@ class CursoUpdateView(UpdateView):
     model = Curso
     fields = "__all__"
     template_name="cursos/curso_form.html"
+    def get_success_url(self):
+        return reverse_lazy("cursos_lista")
 
 class CursoDeleteView(DeleteView):
     model = Curso
+    template_name="cursos/curso_confirm_delete.html"
     def get_success_url(self):
         return reverse_lazy("cursos_lista")
 
@@ -41,7 +45,6 @@ class CursoCreateView(CreateView):
     template_name="cursos/curso_form.html"
     def get_success_url(self):
         return reverse_lazy("cursos_lista")
-
 
 ##Libros
 class LibroCreateView(CreateView):

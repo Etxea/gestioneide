@@ -152,13 +152,15 @@ class Curso(models.Model):
     ##No obligatorios
     examen = models.CharField(max_length=25,default="",blank=True,null=True)
     nivel = models.CharField(max_length=25,default="",blank=True,null=True)
-    libros = models.ManyToManyField('Libro')
+    libros = models.ManyToManyField('Libro',null=True,blank=True)
     nota_aprobado = models.FloatField(default=50)
     solo_examen_final = models.BooleanField(default=False)
     def get_absolute_url(self):
         return reverse_lazy("curso_editar",args=[self.id])
     def __unicode__(self):
          return "%s"%(self.nombre)
+    class Meta:
+        ordering = ["nombre"]
 
 class Grupo(models.Model):
     year = models.ForeignKey('Year')
