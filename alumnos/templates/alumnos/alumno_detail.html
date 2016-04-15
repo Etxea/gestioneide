@@ -46,7 +46,10 @@
         <tr>
             <td>{{ asistencia.year }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.confirmado|yesno }}</td>
             <td>{{ asistencia.factura|yesno }}</td><td>{{ asistencia.metalico|yesno }}</td><td>{{ asistencia.ver_precio }}</td>
-            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteGrupoModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}">Eliminar</button></td>
+            <td>
+                <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a> 
+                <button type="button" class="btn btn-warning zmdi zmdi-delete" data-toggle="modal" data-target="#deleteGrupoModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}">Eliminar</button>
+            </td>
         </tr>
         {% endfor %}
     </table>
