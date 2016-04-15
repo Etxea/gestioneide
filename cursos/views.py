@@ -35,12 +35,23 @@ class CursoDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy("cursos_lista")
 
-class CursosLibrosListView(ListView):
+class CursoCreateView(CreateView):
+    model = Curso
+    fields = "__all__"
+    template_name="cursos/curso_form.html"
+    def get_success_url(self):
+        return reverse_lazy("cursos_lista")
+
+
+##Libros
+class LibroCreateView(CreateView):
+    model = Libro
+    fields = "__all__"
+    template_name="cursos/libro_form.html"
+
+class LibroListView(ListView):
     model=Libro
 
-class CursosLibrosCreateView(CreateView):
-    model=Libro
-
-class CursoLibrolView(DetailView):
+class LibrolView(DetailView):
     model = Libro
     
