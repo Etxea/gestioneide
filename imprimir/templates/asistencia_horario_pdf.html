@@ -1,0 +1,80 @@
+{% extends "theme_superflat/clean.html" %}
+{% load i18n %}
+{% block body %}
+
+<style>
+    @page {
+        size: a4 portrait;
+        margin: 2cm;
+    }
+    th {
+        text-align: left;
+    }
+    td{
+        font-size: 120%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-2 pull-right" style="text-align:right">
+        <span style="text-align:right" >Numero Alumno: <b>{{asistencia.alumno.id }}</b></span>
+    </div>
+</div>
+
+
+<div class="row">
+    
+    <div class="col-md-12">
+        <h1 style="text-align:center">Escuelas EIDE S.L. : Departamentos de Idiomas</h1>    
+        <div>
+            <table>
+                <tr>
+                <td><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
+                </tr>
+                <tr>
+                <td><b>Grupo</b></td><td>{{asistencia.grupo.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h1 style="text-align:center" >Clases</h1>
+        <table class="table">
+            <thead>
+                <th>Día</th>
+                <th>Horario</th>
+                <th>Aula</th>
+                <th>Profesor</th>
+            </thead>
+            <tbody>
+                {% for clase in asistencia.grupo.clases.all %}
+                <tr>
+                    <td>{{ clase.get_dia_semana_display }}</td>
+                    <td>{{ clase.hora_inicio }}-{{ clase.hora_fin }}</td>
+                    <td>{{ clase.aula }}</td>
+                    <td>{{ clase.profesor }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h1 style="text-align:center" >Libros</h1>
+        <table class="table">
+            
+            <tbody>
+                {% for libro in asistencia.grupo.curso.libros.all %}
+                <tr>
+                    <td>{{ libro }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <h1 style="text-align:center">Calendario</h1>
+    Pendiente
+    
+    </div>
+</div>        
+{% endblock %}
