@@ -3,46 +3,62 @@
 {% block body %}
 
 <style>
-    @page {
-        size: a4 portrait;
-        margin: 2cm;
-    }
+@page {
+    size: a4 portrait;
+    @frame content_frame {
+        left: 60pt;
+        width: 480pt;
+        top: 60pt;
+        height: 712pt;
+        font-size: 120%;
+   }
+}
+
     th {
         text-align: left;
     }
-    td{
+    table{
         font-size: 120%;
         padding-top: 10px;
         padding-bottom: 10px;
+        border-width: 1px;
     }
 </style>
+<br />
 
-
-<div class="row">
-    <div class="col-md-2 pull-right" style="text-align:right">
-        <span style="text-align:right" >Numero Alumno: <b>{{asistencia.alumno.id }}</b></span>
-    </div>
+<div style="text-align:right">
+   Numero Alumno: <b>{{asistencia.alumno.id }}</b>
 </div>
 
-
+<hr />
+<br />
 <div class="row">
     
-    <div class="col-md-12">
+    <div class="col-md-12" style="text-align:center">
         <h1 style="text-align:center">Escuelas EIDE S.L. : Departamentos de Idiomas</h1>    
-        <div>
-            <table>
+<br />
+<br />
+<br />
+<br />
+        <div style="width: 60%;padding: 10px;text-align: left" >
+            <table style="border-top-width: 2px ;border-color: black" >
                 <tr>
-                <td><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
+                <td width="35%" ><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
                 </tr>
                 <tr>
-                <td><b>Grupo</b></td><td>{{asistencia.grupo.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
+                <td width="35%"><b>Grupo</b></td><td>{{asistencia.grupo.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
                 </tr>
             </table>
         </div>
         
+<br />
+<br />
+<hr />
+<br />
+<br />
         <h1 style="text-align:center" >Clases</h1>
-        <table class="table">
-            <thead>
+        <table class="table" style="text-align:left">
+            <thead style="text-align:left">
                 <th>Día</th>
                 <th>Horario</th>
                 <th>Aula</th>
@@ -60,13 +76,22 @@
             </tbody>
         </table>
 
+<br />
+<br />
+<hr />
+<br />
+<br />
         <h1 style="text-align:center" >Libros</h1>
-        <table class="table">
-            
+        <table class="table" width="100%"  style="text-align: left" >
+            <thead>
+                <th>ISBN</th>
+                <th>Título</th>
+            </thead>
             <tbody>
                 {% for libro in asistencia.grupo.curso.libros.all %}
                 <tr>
-                    <td>{{ libro }}</td>
+                    <td width="35%" >{{ libro.isbn }}</td>
+                    <td>{{ libro.titulo }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

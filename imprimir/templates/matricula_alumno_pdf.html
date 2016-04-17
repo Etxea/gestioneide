@@ -1,19 +1,28 @@
 {% extends "theme_superflat/clean.html" %}
 {% load i18n %}
 {% block body %}
+<style>
+@page {
+    size: a4 portrait;
+    @frame content_frame {
+        left: 60pt;
+        width: 480pt;
+        top: 60pt;
+        height: 712pt;
+   }
+}
+</style>
 
-<div class="row">
-    <div class="col-md-2 pull-right" style="text-align:right">
+    <div style="text-align:right">
         <span style="text-align:right" >Numero Alumno: <b>{{alumno.id }}</b></span>
     </div>
-</div>
-
-
-<div class="row">
+<br />
+<br />
     
-    <div class="col-md-12">
     <h1 style="text-align:center">Escuelas EIDE S.L. : Departamentos de Idiomas</h1>    
     
+<br />
+<br />
     <table class="table">
         <tr>
             <td><b>Nombre</b></td><td>{{alumno.nombre}}</td>
@@ -65,42 +74,41 @@
             <td>_________________</td>
         </tr>
         </table>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
+<br />
         <h1 style="text-align:center">NORMAS DEL CENTRO</h1>
+<br />
+<br />
         <div>El alumno al formalizar la presente matrícula acepta las condiciones siguientes:</div>
-        <ol>
-            <li>La duración del curso es la estipulada por la Dirección del Centro recogida en el calendario escolar que
-se entrega a principios de curso.</li>
-            <li>En concepto de inscripción, y SOLO POR UNA VEZ, se cobra una cantidad que no es susceptible de
+        <br />
+<br />
+        <table>
+           <tr><td>1.- La duración del curso es la estipulada por la Dirección del Centro recogida en el calendario escolar que
+se entrega a principios de curso.</td></tr>
+            <tr><td>2.- En concepto de inscripción, y SOLO POR UNA VEZ, se cobra una cantidad que no es susceptible de
 devolución una vez entregada. Aquellos alumnos que causen baja en el Centro antes de las fecha s
 fijadas como fin de curso en el Calendario Escolar, serán considerados como Alumnos Nuevos si desean
-reincorporarse al centro de nuevo, por lo que deberán abonar la cuota de inscripción.</li>
-            <li>El curso se abonará por meses naturales por adelantado (del 1 al 10 de cada mes) a través de
-domiciliación bancaria.</li>
-            <li>La dirección del Centro se reserva el derecho de cancelar las matrículas de aquellos alumnos cuya
-conducta afecte desfavorablemente la marcha de las actividades del centro.</li>
-            <li>El Centro se reserva el derecho de cancelar las clases de los grupos, cuyo número sea inferior a 4
-alumnos.</li>
-            <li>No se reembolsará ninguna cantidad cuando el alumno deje de asistir al curso o haya abonado algún
+reincorporarse al centro de nuevo, por lo que deberán abonar la cuota de inscripción.</td></tr>
+            <tr><td>3.- El curso se abonará por meses naturales por adelantado (del 1 al 10 de cada mes) a través de
+domiciliación bancaria.</td></tr>
+            <tr><td>4.- La dirección del Centro se reserva el derecho de cancelar las matrículas de aquellos alumnos cuya
+conducta afecte desfavorablemente la marcha de las actividades del centro.</td></tr>
+            <tr><td>5.- El Centro se reserva el derecho de cancelar las clases de los grupos, cuyo número sea inferior a 4
+alumnos.</td></tr>
+            <tr><td>6.- No se reembolsará ninguna cantidad cuando el alumno deje de asistir al curso o haya abonado algún
 importe del mismo antes de su comienzo. El alumno tendrá que notificar su baja en el centro antes del
-día 1 de cada mes, en caso contrario se cobrará el recibo íntegro.</li>
-            <li>En el caso de devolución de recibo bancario, el alumno abonará en caja el importe relativo a su curso
+día 1 de cada mes, en caso contrario se cobrará el recibo íntegro.</td></tr>
+            <tr><td>7.- En el caso de devolución de recibo bancario, el alumno abonará en caja el importe relativo a su curso
 más los gastos que se hayan producido. No se admitirán devoluciones de recibos una vez pasada una
-semana.</li>
-            <li>Tanto el equipamiento como el material pedagógico de uso general de los alumnos es propiedad de
-EIDE, y no deben, en ningún caso, ser retirados del centro.</li>
-            <li>La vigencia de la matrícula será para el curso escolar contratado.</li>
-            <li>La matrícula quedará renovada si el alumno entrega en Secretaría el documento de “renovación de
+semana.</td></tr>
+            <tr><td>8.- Tanto el equipamiento como el material pedagógico de uso general de los alumnos es propiedad de
+EIDE, y no deben, en ningún caso, ser retirados del centro.</td></tr>
+            <tr><td>9.- La vigencia de la matrícula será para el curso escolar contratado.</td></tr>
+            <tr><td>10.- La matrícula quedará renovada si el alumno entrega en Secretaría el documento de “renovación de
 matrícula” que se distribuye en el mes de Mayo de cada año, siendo el coste del curso el establecido en
-el listado de precios que corresponda al nuevo curso escolar.</li>
-            <li>Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</li>
-        </ol>
-    </div>
-</div>
+el listado de precios que corresponda al nuevo curso escolar.</td></tr>
+            <tr><td>11.- Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</td></tr>
+        </table>
 
 <br />
 <div class="row">
@@ -118,13 +126,18 @@ anteriormente detallado. En cualquier caso, podrá ejercitar gratuitamente los d
 acceso, rectificación, cancelación y oposición dirigiéndose al Responsable con dirección en 
 C/Genaro Oraa nº6, C.P. 48980, Santurtzi, Bizkaia, indicando en la comunicación LOPD.
         </div>
-        <ul>
-            <li>Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.</li>
-            <li>Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</li>
-        </ul>
+<br />
+<br />
+<br />
+        <table style="border: 1px;">
+            <tr><td width="5%">&nbsp;</td><td>Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.</td></tr>
+            <tr><td width="5%">&nbsp;</td><td>Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</td></tr>
+        </table>
         <br />
     </div>
 </div>
+<br />
+<br />
 <div class="row">
     <div class="col-md-12">
         <table>

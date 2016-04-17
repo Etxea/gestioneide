@@ -35,9 +35,10 @@ def link_callback(uri, rel):
     # make sure that file exists
     if not os.path.isfile(path):
             print "Tenemos el path que falla",path
-            raise Exception(
-                'media URI must start with %s or %s' % (sUrl, mUrl)
-            )
+            return path
+#            raise Exception(
+#                'media URI must start with %s or %s' % (sUrl, mUrl)
+#            )
     return path
 
 def ImprimirGrupos(request):
