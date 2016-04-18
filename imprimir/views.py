@@ -75,6 +75,11 @@ def ImprimirGruposAlumnos(request):
 def ImprimirAsistenciaHorario(request,asistencia_id):
     data = {}
     asistencia = Asistencia.objects.get(id=asistencia_id)
+    if not asistencia.confirmado:
+        print "Confirmamos la asistencia"
+        asistencia.confirmado = True
+        asistencia.save()
+    
     data['asistencia'] = asistencia
     template = get_template('asistencia_horario_pdf.html')
     html = template.render(Context(data))

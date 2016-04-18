@@ -23,9 +23,9 @@
             {% for asistencia in object_list %}
             <tr>
 				<td><a href="{% url 'asistencia_editar' asistencia.id %}">{{asistencia.id}}</a></td>
-				<td>{{ asistencia.alumno }}</td>
-				<td>{{ asistencia.grupo }}</td>
-				<td>{{ asistencia.precio }}</td>
+				<td><a href="{% url 'alumno_detalle' asistencia.alumno.id %}"> {{ asistencia.alumno }}</a></td>
+				<td><a href="{% url 'grupo_detalle' asistencia.grupo.id %}">{{ asistencia.grupo }}</a></td>
+				<td>{{ asistencia.ver_precio }}</td>
 				<td>{{ asistencia.metalico|yesno:"Si,No" }}</td>
 				<td>{{ asistencia.factura|yesno:"Si,No" }}</td>
 				<td>{{ asistencia.confirmado|yesno:"Si,No" }}</td>

@@ -56,7 +56,8 @@ class AsistenciaUpdateView(UpdateView):
     model = Asistencia
     fields = "__all__"
     def get_success_url(self):
-        return reverse_lazy("asistencia_lista")
+        
+        return reverse_lazy("alumno_detalle",args=[self.object.alumno.id])
 
 
 class AsistenciaDeleteView(DeleteView):
