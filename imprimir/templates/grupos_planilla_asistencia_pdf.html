@@ -15,10 +15,14 @@
 <div class="row">    
 {% for grupo in grupo_list %}
 	{% with dias_clase=grupo.id|grupo_dias_clase_mes:mes %}   
+    <br />
+    <br />
     <h1>{% trans "Grupo" %} {{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h1>
-    <table class="table">
+    <br />
+    <br />
+    <table class="table" border="1">
         <thead>
-            <th>Alumnos</th>
+            <th colspan="2">Día</th>
             {% for dia in dias_clase %}
             <th>{{ dia }}</th>
             {% endfor %}
@@ -26,7 +30,9 @@
         <tbody>
             {% for asistencia in grupo.asistencia_set.all %}
             <tr>
-                <td>{{ asistencia.alumno}}</td>
+                <td colspan="2" >{{ asistencia.alumno.apellido1}} 
+                    {{asistencia.alumno.apellido2}}, 
+                    {{asistencia.alumno.nombre}}</td>
                 {% for dia in dias_clase %}<td>  </td>{% endfor %}
             </tr>
             {% endfor %}
@@ -34,6 +40,8 @@
     </table>
     {% endwith %}
     <div style="page-break-after: always;"></div>
+    <div><pdf:nextpage /></div>
+
 {% endfor %}
 </div>
 {% endblock %}
