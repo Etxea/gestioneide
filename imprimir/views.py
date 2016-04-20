@@ -59,7 +59,14 @@ def ImprimirGrupos(request):
 def ImprimirGruposAlumnos(request):
     data = {}
     year = Year.objects.get(activo=True)
-    grupos = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+    if request.method == 'POST':
+        lista=request.POST.getlist('listagrupos')
+        print "tenemos la lista de grupos"
+        print lista
+        grupos = Grupo.objects.filter(year=year).filter(id__in=lista)
+    else:
+        grupos = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+
     data['grupo_list'] = grupos
     data['year'] = year.__unicode__()
     template = get_template('grupos_alumnos_pdf.html')

@@ -1,0 +1,20 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+        <form action="{% url 'imprimir_grupos_alumnos' %}" method="POST"> {% csrf_token %}
+        Elige (con la tecla ctrl) los grupos que quieras y dale a <button class="btn btn-primary" type="submit">Imprimir</button>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-10 col-xs-10">
+        <select id="listagrupos" multiple size="{{object_list.count}}" >
+            {% for grupo in object_list %}
+            <option value="{{grupo.id}}">{{grupo}}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+</div>
+{% endblock %}

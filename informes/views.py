@@ -15,6 +15,13 @@ class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
         year = Year.objects.get(activo=True)
         return Asistencia.objects.filter(year=year).filter(confirmado=False)
+
+class GruposAlumnosListView(ListView):
+    model = Grupo
+    template_name = "informes/grupos_alumnos.html"
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         
 
 def export_alumnos_xls(request):
