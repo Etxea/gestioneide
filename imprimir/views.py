@@ -66,6 +66,7 @@ def ImprimirGruposAlumnos(request):
     html = template.render(Context(data))
     f = open(os.path.join(settings.MEDIA_ROOT, 'grupos_alumnos_%s.pdf'%year), "w+b")
     pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
+    print "Tebenemos pisastatus",pisaStatus
     f.seek(0)
     pdf = f.read()
     f.close()
