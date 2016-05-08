@@ -113,8 +113,10 @@ function empty_year(id) {
 				<td>{{ year.activo|yesno:"Si,No" }}</td>
                 <td>
                     <button onclick="activate_year({{ year.id }})">Activar</button>
-                    <button onclick="clone_year({{ year.id }})">Copiar grupos</button>
-                    <button onclick="empty_year({{ year.id }})">Eliminar grupos</button>
+                    <!-- <button onclick="clone_year({{ year.id }})">Copiar
+                        grupos</button> -->
+                    <!-- <button onclick="empty_year({{ year.id }})">Eliminar
+                        grupos</button> -->
                 </td>
 			 </tr>
 			 {% endfor %}
