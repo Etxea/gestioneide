@@ -1,6 +1,6 @@
 {% block body %}
 <form id="asistencia-delete-from" action="{% url 'asistencia_borrar' object.id %}" class="form" method="post">{% csrf_token %}
-    <p>¿Estás seguro de que quieres borrar la asistencia al grupo{{ object.grupo }}?</p>
+    <p>¿Estás seguro de que quieres borrar la asistencia de {{ object.alumno }} al grupo{{ object.grupo }}?</p>
     <input type="submit" value="Confirmar" />
 </form>
 {% endblock %}
