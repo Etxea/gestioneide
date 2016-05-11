@@ -60,10 +60,15 @@ def ImprimirGruposAlumnos(request):
     data = {}
     year = Year.objects.get(activo=True)
     if request.method == 'POST':
-        lista=request.POST.getlist('listagrupos')
-        print "tenemos la lista de grupos"
-        print lista
-        grupos = Grupo.objects.filter(year=year).filter(id__in=lista)
+        if 'listagrupos' in request.POST:
+            lista=request.POST.getlist('listagrupos')
+            print "tenemos la lista de grupos"
+            print lista
+            grupos = Grupo.objects.filter(year=year).filter(id__in=lista)
+        if 'grupo_id' in request.POST:
+            grupo_id = request.POST['grupo_id']
+            print "Buscamos el grupo ",grupo_id
+            grupos = Grupo.objects.filter(year=year).filter(id=grupo_id)
     else:
         grupos = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
