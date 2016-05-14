@@ -12,3 +12,4 @@ xhtml2pdf==0.1a2
 django-xhtml2pdf
 xlwt
 MySQL-python
+django-fixture-magic

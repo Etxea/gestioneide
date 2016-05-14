@@ -136,6 +136,7 @@ INSTALLED_APPS = [
     "account",
     "metron",
     "pinax.eventlog",
+    'fixture_magic',
 
     # project
     "gestioneide",
