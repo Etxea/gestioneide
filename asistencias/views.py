@@ -65,7 +65,7 @@ class AsistenciaDeleteView(DeleteView):
     model = Asistencia
     ##FIXME esto deberia ser dinamico
     def get_success_url(self):
-        return reverse_lazy("asistencia_lista")
+        return reverse_lazy("grupo_detalle",kwargs = {'pk' : self.object.grupo.id })
 
 
 class AsistenciaDetailView(DetailView):

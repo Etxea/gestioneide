@@ -12,7 +12,7 @@ from django_xhtml2pdf.utils import render_to_pdf_response
 
 class GrupoListView(ListView):
     model=Grupo
-    paginate_by = 50
+    paginate_by = 100
     template_name = "grupos/grupo_list.html"
     def get_queryset(self):
         year = Year.objects.get(activo=True)
