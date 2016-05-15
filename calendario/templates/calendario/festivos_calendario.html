@@ -14,14 +14,14 @@
 			{% for semana in mes.calendario %}
 			<tr>
 			{% for dia in semana%}
-				{% with es_festivo_generico=dia|festivo es_festivo_eide=dia|festivo_eide %}
+                {% with es_festivo_generico=dia|festivo es_festivo_eide=dia|festivo_eide %}
 				<td {% if es_festivo_eide %}class="bg-info" {% endif %} 
 					{% if es_festivo_generico %}class="bg-warning" {% endif %} >					
 				{% if es_festivo_generico %}
 					{{dia.day}}
 				{% else %}
-					{% if es_festivo_eide %}
-					<a href="{% url 'festivo_editar' festivo_eide"><b class="">{{ dia.day }}</b></a>
+					{% if es_festivo_eide > 0 %}
+					<a href="{% url 'festivo_editar' es_festivo_eide %}"><b class="">{{ dia.day }}</b></a>
 					{% else %}
 					<a href="{% url 'festivo_nuevo' dia.year dia.month dia.day %}">{{ dia.day }}</a>
 					{% endif %}

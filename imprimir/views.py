@@ -94,6 +94,8 @@ def ImprimirAsistenciaHorario(request,asistencia_id):
         asistencia.save()
     
     data['asistencia'] = asistencia
+    year = Year.objects.get(activo=True)
+    data['lista_festivos'] =Festivo.objects.filter(year=year)
     template = get_template('asistencia_horario_pdf.html')
     html = template.render(Context(data))
     f = open(os.path.join(settings.MEDIA_ROOT, 'asistencia_horario_%s.pdf'%asistencia_id), "w+b")

@@ -81,9 +81,7 @@
 
 <br />
 <br />
-<hr />
-<br />
-<br />
+
         <h1 style="text-align:center" >Libros</h1>
         <table class="table" width="100%"  style="text-align: left" >
             <thead>
@@ -101,7 +99,14 @@
         </table>
 
     <h1 style="text-align:center">Calendario</h1>
-    Pendiente
+    <ul>
+        {% for festivo in lista_festivos %}
+        <li>
+            <b>{{ festivo.fecha }}</b>
+            <i>{{ festivo.anotacion }}</i>
+        </li>
+        {% endfor %}
+    </ul>
     
     </div>
 </div>        

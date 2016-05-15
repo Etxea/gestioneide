@@ -1,0 +1,27 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+
+
+{% block body %}
+<div class="row">
+    <table class="table">
+        <thead>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Anotacion</th>
+            <th>Acciones</th>
+        </thead>
+        <tbody>
+            {% for festivo in object_list %}
+            <tr>
+                <td>{{festivo.fecha}} ({{festivo.year}})</td>
+                <td>{{festivo.get_tipo_display}}</td>
+                <td>{{festivo.anotacion}}</td>
+                <td><a class="zmdi zmdi-pencil" href=""></a> <a class="zmdi zmdi-delete" href="{% url 'festivo_borrar' festivo.id %}"></a> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

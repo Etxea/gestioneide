@@ -17,4 +17,4 @@ def festivo_eide(dia):
         festivo = Festivo.objects.get(fecha=dia)
         return festivo.id
     except:
-        return False
+        return 0

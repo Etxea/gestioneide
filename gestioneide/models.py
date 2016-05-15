@@ -29,7 +29,10 @@ TIPO_FESTIVO = (
     (3, _('Fin Curso')),
     (4, _('Inicio vacaciones/Puente')),
     (5, _('Fin Vacaciones/Puente')),
-    (6, _('Festivo oficial'))
+    (6, _('Festivo oficial')),
+    (7, _('Inicio trimestre')),
+    (8, _('Fin trimestre'))
+    
 )
 
 DURACION = (
@@ -358,3 +361,5 @@ class Festivo(models.Model):
     fecha = models.DateField()
     anotacion = models.CharField(max_length=25,default="")
     tipo = models.DecimalField(max_digits=1, decimal_places=0,choices=TIPO_FESTIVO)
+    class Meta:
+        ordering = ['fecha']

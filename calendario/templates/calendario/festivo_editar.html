@@ -1,0 +1,27 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block extra_script %}
+<!-- para el datepicker -->
+{{ form.media }}
+<script>
+    $(function() {
+        $("#id_fecha").datetimepicker({"pickTime": false, "weekStart": 1, "language": "es-es", "format": "YYYY-MM-DD"});
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "Editar Festivo" %}</h1>
+
+    <form action="" method="post">{% csrf_token %}
+      {{ form|as_bootstrap }}
+      <br />
+      <div class="form-actions">
+      <a href="{% url 'festivos_calendario' %}" class="btn">Cancelar</a>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+    </form>
+{% endblock %}
