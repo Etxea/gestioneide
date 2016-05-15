@@ -98,13 +98,17 @@
             </tbody>
         </table>
 
+        <br />
+        <br />
     <h1 style="text-align:center">Calendario</h1>
+        <br />
     <ul>
         {% for festivo in lista_festivos %}
         <li>
             <b>{{ festivo.fecha }}</b>
             <i>{{ festivo.anotacion }}</i>
         </li>
+        <br />
         {% endfor %}
     </ul>
     
