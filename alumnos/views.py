@@ -1,8 +1,10 @@
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import View,CreateView, UpdateView, DeleteView
+from django.views.generic.detail import SingleObjectMixin
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.db.models import Q
 from gestioneide.models import *
 from forms import *
@@ -67,3 +69,19 @@ class AlumnoUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
 
+class AlumnoBajaView(View,SingleObjectMixin):
+    model = Alumno
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Hello, World!')
+    def post(self, request, *args, **kwargs):
+        # Look up the author we're interested in.
+        self.object = self.get_object()
+        print "Vamos a dar de baja al alumno", self.object
+        for asistencia in self.object.asistencia_set.all():
+            print "Borrando asistencia",asistencia
+            asistencia.delete()
+        hist = Historia(alumno=self.object,tipo="baja",anotacion="")
+        hist.save()
+        self.object.activo = False
+        self.object.save()
+        return HttpResponseRedirect(reverse_lazy("alumnos_lista"))

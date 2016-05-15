@@ -32,6 +32,27 @@
     <a class="btn btn-secondary" href="{% url 'imprimir_alumno_octavilla' alumno.id %}">
         <i class="zmdi zmdi-print"></i> Imprimir Octavilla
     </a>
+    <a class="btn btn-warning" data-toggle="modal" data-target="#bajaModal" >
+        <i class="zmdi zmdi-delete"></i> Dar de baja
+    </a>
+    <div class="modal fade" id="bajaModal" tabindex="-1" role="dialog" aria-labelledby="bajaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="bajaModalLabel">Dar de baja alumno</h4>
+          </div>
+          <div class="modal-body">
+               <form action="{% url 'alumno_baja' alumno.id %}" method="post">
+                   {% csrf_token %}
+                   Atención, ¿seguro que sea dar de baja el alumno?
+                   <input type="submit" class="btn btn-warning" / value="Baja">
+               </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <h2>Grupos </h2>
     <table class="table">
         <thead>
@@ -69,6 +90,7 @@
             <h4 class="modal-title" id="deleteGrupoModalLabel">Borrar asistencia</h4>
           </div>
           <div class="modal-body">
+             
           </div>
         </div>
       </div>

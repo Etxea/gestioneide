@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'nuevo/$',login_required(AlumnoCreateView.as_view()), name="alumno_nuevo"),
     url(r'editar/(?P<pk>\d+)/$',login_required(AlumnoUpdateView.as_view()), name="alumno_editar"),
     url(r'borrar/(?P<pk>\d+)/$',login_required(AlumnoDeleteView.as_view()), name="alumno_borrar"),
+    url(r'baja/(?P<pk>\d+)/$',login_required(AlumnoBajaView.as_view()), name="alumno_baja"),
     #url(r'buscar/(?P<cadena>\w+)/$',login_required(AlumnoBuscarView.as_view()), name="alumno_buscar"),
     url(r'buscar/$',login_required(AlumnoBuscarView.as_view()), name="alumno_buscar"),
     url(r'detalle/(?P<pk>\d+)/$',login_required(AlumnoDetailView.as_view()), name="alumno_detalle"),

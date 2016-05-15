@@ -115,6 +115,17 @@ class Alumno(models.Model):
     dni = models.CharField(max_length=9,default="",blank=True,null=True)
     activo = models.BooleanField(default=True)
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
+    #Hacemos un overrido de save para añadir entradas al historico
+    def save(self, *args, **kw):
+        if self.pk is not None:
+            orig = Alumno.objects.get(pk=self.pk)
+            if orig.activo == False and self.activo == True:
+                hist = Historia(alumno=self,tipo="alta",anotacion="Recuperamos alumno")
+                hist.save()
+            else:
+                hist = Historia(alumno=self,tipo="modificación",anotacion="Datos editados")
+                hist.save()
+        super(Alumno, self).save(*args, **kw)
     def __unicode__(self):
     #    return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
         return "%s %s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
@@ -134,6 +145,8 @@ class Historia(models.Model):
     fecha = models.DateField(auto_now_add=True)
     tipo = models.CharField(max_length=25,default="")
     anotacion = models.CharField(max_length=25,default="")
+    class Meta:
+        ordering = ['-fecha']
 
 class Libro(models.Model):
     titulo = models.CharField(max_length=50,default="")
