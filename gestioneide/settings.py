@@ -137,6 +137,7 @@ INSTALLED_APPS = [
     "metron",
     "pinax.eventlog",
     'fixture_magic',
+    #~ 'django_tables2',
 
     # project
     "gestioneide",

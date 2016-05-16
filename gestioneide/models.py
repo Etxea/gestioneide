@@ -7,6 +7,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
 from django.utils.dates import MONTHS
 from django.utils.timezone import now
+
+import django_tables2 as tables
+
 import datetime
 import calendar
 
@@ -68,6 +71,14 @@ class Aula(models.Model):
         return self.clases.filter(dia_semana=4)
     def clases_viernes(self):
         return self.clases.filter(dia_semana=5)
+
+class claseTable(tables.Table):
+    hora = tables.Column()
+    lunes = tables.Column()
+    martes = tables.Column()
+    miercoles = tables.Column()
+    jueves = tables.Column()
+    viernes = tables.Column()
         
 class Profesor(models.Model):
 #    user = models.OneToOneField(User)
@@ -82,9 +93,31 @@ class Profesor(models.Model):
         return "%s"%(self.nombre)
     def get_absolute_url(self):
         return "/profesores/%s/"%self.id
-    def clases_lunes(self):
-        return self.clases.filter(dia_semana=1).order_by('hora_inicio')
-        
+
+    def programacion_semana(self):
+        tabla_clases = []
+        for hora in range(8,22):
+            #print "Vamos con la hora %s"%hora
+            for cuarto in [0,30]:
+                fecha_consulta = datetime.time(hora,cuarto)
+                #print "Vamos con la fecha de consulta %s"%(fecha_consulta)
+                programacion_hora = ["%02d:%02d"%(hora,cuarto)]
+                for dia in range(1,6):
+                    print dia
+                    clase = Clase.objects.filter(dia_semana=dia,profesor=self, hora_inicio__lte=fecha_consulta,hora_fin__gte=fecha_consulta)
+                    if clase.count() == 1:
+                        clase = clase[0]
+                        #print "Anadimos la clase es: %s" % clase
+                        programacion_hora.append("%s-%s"%(clase.grupo,clase.aula))
+                    elif clase.count() > 1:
+                        programacion_hora.append("solape")
+                    else:
+                        programacion_hora.append("libre")
+                tabla_clases.append(programacion_hora)
+        #~ print "Clases"
+        #~ print tabla_clases
+        return tabla_clases
+        #~ return claseTable(clases)
     def get_horas_pendientes(self):
         pendiente_horas = 0
         pendiente_minutos = 0

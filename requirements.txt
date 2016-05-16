@@ -13,3 +13,4 @@ django-xhtml2pdf
 xlwt
 MySQL-python
 django-fixture-magic
+#django-tables2

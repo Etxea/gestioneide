@@ -2,9 +2,15 @@
 
 {% load i18n %}
 
+
+
+{% block page_header %}
+    <h1>{% trans "Profesor" %} {{object.nombre}} <a href="{% url 'profesor_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+{% endblock %}
+
 {% block body %}
 
-    <h1>{% trans "Profesor" %} {{object.nombre}} <a href="{% url 'profesor_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+<h2>Detalles</h2>
     
     <table class="table">
         <tr>
@@ -21,6 +27,32 @@
         </tr>
         
     </table>
+    <h2>Clases</h2>
     
+
+<table class="table">
+    <thead>
+        <th>Hora</th>
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miercoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+    </thead>
+    <tbody>
+        {% for hora in object.programacion_semana %}
+        <tr>
+            <td><b>{{hora.0}}</b></td>
+            <td>{{hora.1}}</td>
+            <td>{{hora.2}}</td>
+            <td>{{hora.3}}</td>
+            <td>{{hora.4}}</td>
+            <td>{{hora.5}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
 
 {% endblock %}
