@@ -298,10 +298,10 @@ class Year(models.Model):
     activo = models.BooleanField(default=1)
     def __unicode__(self):
         return "%s"%self.name
-    
+from django.db.models import Q    
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo')
+    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year.objects.get(activo=True)))
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
