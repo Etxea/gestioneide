@@ -69,6 +69,28 @@ class Aula(models.Model):
         return self.clases.filter(dia_semana=4)
     def clases_viernes(self):
         return self.clases.filter(dia_semana=5)
+    def programacion_semana(self):
+        tabla_clases = []
+        for hora in range(8,22):
+            grupos = Grupo.objects.filter(year=Year.objects.get(activo=True))
+            for cuarto in [0,30]:
+                fecha_consulta = datetime.time(hora,cuarto)
+                programacion_hora = ["%02d:%02d"%(hora,cuarto)]
+                for dia in range(1,6):
+                    print dia
+                    clase = Clase.objects.filter(dia_semana=dia,aula=self,\
+                            hora_inicio__lt=fecha_consulta,hora_fin__gte=fecha_consulta,grupo__in=grupos)
+                    if clase.count() == 1:
+                        clase = clase[0]
+                        #print "Anadimos la clase es: %s" % clase
+                        programacion_hora.append("%s-%s"%(clase.grupo,clase.aula))
+                    elif clase.count() > 1:
+                        programacion_hora.append("SOLAPE: %s vs %s"%\
+                                (clase[0].grupo,clase[1].grupo))
+                    else:
+                        programacion_hora.append("")
+                tabla_clases.append(programacion_hora)
+        return tabla_clases
 
 class Profesor(models.Model):
 #    user = models.OneToOneField(User)

@@ -25,7 +25,7 @@
     {% for aula in aulas_list %}
     
     <tr>
-		<td><a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
+		<td><a href="{% url 'aula_detalle' aula.id %}">{{ aula }}</a></td>
 <!--
 		<td>{{ aula.aforo }}</td>
 		<td>{{ aula.pdi|yesno }}</td>

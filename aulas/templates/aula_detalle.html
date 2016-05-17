@@ -12,21 +12,43 @@
                 <td><b>Nombre</b>: <a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
                 <td><b>Aforo</b>: {{ aula.aforo }}</td>
                 <td><b>PDI</b>: {{ aula.pdi }}</td>
+                <td>
+                    <a href="{% url 'aula_editar' aula.id %}">
+                        <i class="zmdi zmdi-pencil" >Editar</i>
+                  </a>
+                </td>
         </tr>
 
+    </tbody>
+</table>
+
+    <h2>Clases</h2>
+    
+
+<table class="table table-bordered table-condensed">
+    <thead>
+        <th>Hora</th>
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miercoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+    </thead>
+    <tbody>
+        {% for hora in aula.programacion_semana %}
         <tr>
-            <td span="4">Clases</td>
-        </tr>
-        {% for clase in aula.clases.all|dictsort:"dia_semana" %}
-        <tr>
-            <td >{{ clase.get_dia_semana_display }}</td>
-            <td><a href="{{ clase.profesor.get_absolute_url }}">{{ clase.profesor }}</a></td>
-            <td><a href="{{ clase.grupo.get_absolute_url }}">{{ clase.grupo }}</a></td>
-            <td>{{ clase.hora_inicio }} - {{ clase.hora_fin }}</td>
+            <td><b>{{hora.0}}</b></td>
+            <td>{{hora.1}}</td>
+            <td>{{hora.2}}</td>
+            <td>{{hora.3}}</td>
+            <td>{{hora.4}}</td>
+            <td>{{hora.5}}</td>
         </tr>
         {% endfor %}
     </tbody>
+
 </table>
+
 
 
 {% endblock %}
