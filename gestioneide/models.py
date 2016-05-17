@@ -96,7 +96,7 @@ class Profesor(models.Model):
                 for dia in range(1,6):
                     print dia
                     clase = Clase.objects.filter(dia_semana=dia,profesor=self,\
-                            hora_inicio__lte=fecha_consulta,hora_fin__gte=fecha_consulta,grupo__in=grupos)
+                            hora_inicio__lt=fecha_consulta,hora_fin__gte=fecha_consulta,grupo__in=grupos)
                     if clase.count() == 1:
                         clase = clase[0]
                         #print "Anadimos la clase es: %s" % clase
@@ -105,7 +105,7 @@ class Profesor(models.Model):
                         programacion_hora.append("SOLAPE: %s vs %s"%\
                                 (clase[0].grupo,clase[1].grupo))
                     else:
-                        programacion_hora.append("libre")
+                        programacion_hora.append("")
                 tabla_clases.append(programacion_hora)
         #~ print "Clases"
         #~ print tabla_clases
