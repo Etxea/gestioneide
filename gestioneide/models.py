@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
 from django.utils.dates import MONTHS
 from django.utils.timezone import now
+from django.db.models import Q    
 
 import datetime
 import calendar
@@ -50,6 +51,13 @@ DURACION = (
     (240, _('4h')),
     (270, _('4h y 1/2'))   
 )
+
+class Year(models.Model):
+    start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
+    name = models.CharField(max_length=8,default="201X-1X")
+    activo = models.BooleanField(default=1)
+    def __unicode__(self):
+        return "%s"%self.name
 
 class Aula(models.Model):
     nombre = models.CharField('Nombre',max_length=255,)
@@ -159,9 +167,9 @@ class Alumno(models.Model):
     telefono1 = models.CharField(max_length=9,default="")
     telefono2 = models.CharField(max_length=9,default="",blank=True,null=True)
     email = models.EmailField(default="",blank=True,null=True)
-    cuenta_bancaria = models.CharField(max_length=25,default="")
+    cuenta_bancaria = models.CharField(max_length=23,default="")
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
-    ciudad = models.CharField(max_length=25,default="Santurtzi")
+    ciudad = models.CharField(max_length=25,default="Santurtzi",blank=True,null=True)
     cp = models.CharField(max_length=5,default="48980")
     dni = models.CharField(max_length=9,default="",blank=True,null=True)
     activo = models.BooleanField(default=True)
@@ -313,17 +321,10 @@ class Clase(models.Model):
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     def __unicode__(self):
         return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
-        
-class Year(models.Model):
-    start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
-    name = models.CharField(max_length=8,default="201X-1X")
-    activo = models.BooleanField(default=1)
-    def __unicode__(self):
-        return "%s"%self.name
-from django.db.models import Q    
+
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year.objects.get(activo=True)))
+    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year.objects.get(activo=True))) #Comentar el limit choices para un primer import
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)

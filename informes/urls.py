@@ -10,6 +10,7 @@ urlpatterns = [
     #url(r"^$", login_required(TemplateView.as_view(template_name="informes/home.html")), name="informes"),
     url(r"^$", login_required(InformesHomeView.as_view()), name="informes"),
     url(r"alumnos/errores/$",login_required(AlumnosErroresListView.as_view()),name="listado_alumnos_errores"),
+    url(r"alumnos/banco/errores/$",login_required(AlumnosBancoErroresListView.as_view()),name="listado_alumnos_banco_errores"),
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()),name="listado_asistencias_errores"),
     url(r"alumnos/xls/$",login_required(export_alumnos_xls),name="listado_alumnos_xls"),
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls),name="listado_telefonos_alumnos_xls"),

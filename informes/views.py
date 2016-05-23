@@ -18,6 +18,12 @@ class AlumnosErroresListView(AlumnoListView):
     def get_queryset(self):
         return Alumno.objects.filter(activo=False).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
+class AlumnosBancoErroresListView(AlumnoListView):
+    #Solo listamos los activos y que estan en un grupo
+    def get_queryset(self):
+        return Alumno.objects.filter(activo=False).filter(cuenta_bancaria="0000-0000-00-0000000000")
+
+
 class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
         year = Year.objects.get(activo=True)
