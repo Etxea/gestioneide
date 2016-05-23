@@ -407,7 +407,7 @@ class Recibo(models.Model):
 class Festivo(models.Model):
     year = models.ForeignKey('Year')
     fecha = models.DateField()
-    anotacion = models.CharField(max_length=25,default="")
+    anotacion = models.CharField(max_length=50,default="")
     tipo = models.DecimalField(max_digits=1, decimal_places=0,choices=TIPO_FESTIVO)
     class Meta:
         ordering = ['fecha']
