@@ -298,5 +298,21 @@ class OldDatabase(models.Model):
         self.save()
         print "Terminado"
 
+    def fixbancos(self):
+        sqlhub.processConnection = connectionForURI('sqlite://'+self.dbfile.path)
+        from gestioneide.old_database_model import *
+        for persona in Alumno_new.objects.all():
+            try:
+                oldalumno = Alumno.get(id=persona.id)
+                #~ print "Tenemos el oldalumno",oldalumno.id
+                cuenta = "%04d-%04d-%02d-%010d"%(oldalumno.banco.codigo,oldalumno.sucursal,oldalumno.dc,oldalumno.cuenta)
+                #~ print "Tenemos el oldalumno",oldalumno.id,"con cuenta",cuenta
+                persona.cuenta_bancaria=cuenta
+                persona.save()
+            except:
+                print "Error importando la cuenta de", persona.id
+                print sys.exc_info()
+                    
+        
 class Document(models.Model):
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
