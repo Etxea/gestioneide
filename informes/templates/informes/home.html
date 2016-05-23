@@ -35,6 +35,14 @@
 <h1>Informes y estadísticas</h1>
     <ul>
     <li>Listado en formato excel de alumnos con año de nacimiento y grupos<a href="{% url 'listado_alumnos_xls' %}"><i class="zmdi zmdi zmdi-view-list"></i></a></li>
+    <li>Listado de números de telefonos</li>
+    <ul>
+    {% for year in years %}
+    <li><a href="{% url 'listado_telefonos_alumnos_xls'  year.id %}"><i
+            
+            class="zmdizmdi-view-list"></i>{{year}}</a></li>
+    {% endfor %}
+    </ul>
     <li>Listado de números de telefonos de menores</li>
     <li>Listado de números de telefonos de adultos</li>
     </ul>
