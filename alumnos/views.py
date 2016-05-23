@@ -41,8 +41,11 @@ class AlumnoBuscarView(AlumnoListView):
             return Alumno.objects.filter(id=numero)
         except:
             debug("No es un numero, buscamos los que el primer apellido coincidan con", cadena)
-            #~ filtro = Q(nombre__icontains=cadena) | Q(apellido1__icontains=cadena) | Q(apellido2__icontains=cadena)
-            filtro = Q(apellido1__icontains=cadena)
+            palabras = cadena.split(" ")
+            if len(palabras)>1:
+                filtro = Q(apellido1__icontains=palabras[0]) & Q(apellido2__icontains=palabras[1])
+            else:
+                filtro = Q(apellido1__icontains=cadena)
             return Alumno.objects.filter(activo=True).filter(filtro)
         
         
