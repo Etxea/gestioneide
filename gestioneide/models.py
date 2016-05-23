@@ -83,7 +83,7 @@ class Aula(models.Model):
                     if clase.count() == 1:
                         clase = clase[0]
                         #print "Anadimos la clase es: %s" % clase
-                        programacion_hora.append("%s-%s"%(clase.grupo,clase.aula))
+                        programacion_hora.append("%s-%s"%(clase.grupo,clase.profesor))
                     elif clase.count() > 1:
                         programacion_hora.append("SOLAPE: %s vs %s"%\
                                 (clase[0].grupo,clase[1].grupo))
