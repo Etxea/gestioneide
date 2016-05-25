@@ -4,8 +4,6 @@ from views import *
 
 from django.contrib.auth.decorators import login_required
 
-
-
 urlpatterns = [
     #url(r"^$", login_required(TemplateView.as_view(template_name="informes/home.html")), name="informes"),
     url(r"^$", login_required(InformesHomeView.as_view()), name="informes"),

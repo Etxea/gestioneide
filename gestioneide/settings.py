@@ -138,6 +138,7 @@ INSTALLED_APPS = [
     "pinax.eventlog",
     'fixture_magic',
     #~ 'django_tables2',
+    'wkhtmltopdf',
 
     # project
     "gestioneide",
