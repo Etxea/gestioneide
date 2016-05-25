@@ -1,28 +1,9 @@
-{% extends "theme_superflat/clean.html" %}
+{% extends "site_base.html" %}
 {% load i18n %}
 {% block body %}
 
 <style>
-@page {
-    size: a4 portrait;
-    @frame content_frame {
-        left: 60pt;
-        width: 480pt;
-        top: 70pt;
-        height: 712pt;
-        font-size: 120%;
-   }
-}
 
-    th {
-        text-align: left;
-    }
-    table{
-        font-size: 120%;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border-width: 1px;
-    }
 </style>
 <br />
 <br />
@@ -32,33 +13,20 @@
 </div>
 
 <hr />
-<br />
-<br />
-<br />
 <div class="row">
     
     <div class="col-md-12" style="text-align:center">
-        <h1 style="text-align:center">Escuelas EIDE S.L. : Departamentos de Idiomas</h1>    
-<br />
-<br />
-<br />
-<br />
-        <div style="width: 60%;padding: 10px;text-align: left" >
-            <table style="border-top-width: 2px ;border-color: black" >
+        <h1 style="text-align:center">EIDE</h1>    
+            <table style="border-top-width: 2px ;border-color: black"
+                class="table" >
                 <tr>
                 <td width="35%" ><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
                 </tr>
                 <tr>
-                <td width="35%"><b>Grupo</b></td><td>{{asistencia.grupo.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
+                <td width="35%"><b>Grupo</b></td><td>{{asistencia.grupo.nombre}}</td>
                 </tr>
             </table>
-        </div>
         
-<br />
-<br />
-<hr />
-<br />
-<br />
         <h1 style="text-align:center" >Clases</h1>
         <table class="table" style="text-align:left">
             <thead style="text-align:left">
@@ -79,9 +47,6 @@
             </tbody>
         </table>
 
-<br />
-<br />
-
         <h1 style="text-align:center" >Libros</h1>
         <table class="table" width="100%"  style="text-align: left" >
             <thead>
@@ -98,19 +63,12 @@
             </tbody>
         </table>
 
-        <br />
-        <br />
     <h1 style="text-align:center">Calendario</h1>
-        <br />
-    <ul>
         {% for festivo in lista_festivos %}
-        <li>
             <b>{{ festivo.fecha }}</b>
             <i>{{ festivo.anotacion }}</i>
-        </li>
-        <br />
+            <br />
         {% endfor %}
-    </ul>
     
     </div>
 </div>        

@@ -9,6 +9,7 @@ from django.template import Context
 from django.template.loader import get_template
 
 from xhtml2pdf import pisa
+from wkhtmltopdf.views import PDFTemplateView
 
 from gestioneide.models import *
 
@@ -36,9 +37,6 @@ def link_callback(uri, rel):
     if not os.path.isfile(path):
             print "Tenemos el path que falla",path
             return path
-#            raise Exception(
-#                'media URI must start with %s or %s' % (sUrl, mUrl)
-#            )
     return path
 
 def ImprimirGrupos(request):
@@ -84,7 +82,6 @@ def ImprimirGrupos(request):
     #~ f.close()
     #~ return HttpResponse(pdf, content_type='application/pdf')
 
-from wkhtmltopdf.views import PDFTemplateView
 
 class ImprimirGruposAlumnos(PDFTemplateView):
     filename='my_pdf.pdf'
@@ -96,38 +93,31 @@ class ImprimirGruposAlumnos(PDFTemplateView):
         context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         return context
 
-def ImprimirAsistenciaHorario(request,asistencia_id):
-    data = {}
-    asistencia = Asistencia.objects.get(id=asistencia_id)
-    if not asistencia.confirmado:
-        print "Confirmamos la asistencia"
-        asistencia.confirmado = True
-        asistencia.save()
+class ImprimirAsistenciaHorario(PDFTemplateView):
+    template_name='asistencia_horario_pdf.html'
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirAsistenciaHorario, self).get_context_data(**kwargs)
+        asistencia_id=kwargs['asistencia_id']
+        asistencia = Asistencia.objects.get(id=asistencia_id)
+        if not asistencia.confirmado:
+            print "Confirmamos la asistencia"
+            asistencia.confirmado = True
+            asistencia.save()
     
-    data['asistencia'] = asistencia
-    year = Year.objects.get(activo=True)
-    data['lista_festivos'] =Festivo.objects.filter(year=year)
-    template = get_template('asistencia_horario_pdf.html')
-    html = template.render(Context(data))
-    f = open(os.path.join(settings.MEDIA_ROOT, 'asistencia_horario_%s.pdf'%asistencia_id), "w+b")
-    pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
-    f.seek(0)
-    pdf = f.read()
-    f.close()
-    return HttpResponse(pdf, content_type='application/pdf')
+        context['asistencia'] = asistencia
+        year = Year.objects.get(activo=True)
+        context['lista_festivos'] =Festivo.objects.filter(year=year)
+        return context
 
-def ImprimirAlumnoMatricula(request,alumno_id):
-    data = {}
-    alumno = Alumno.objects.get(id=alumno_id)
-    data['alumno'] = alumno
-    template = get_template('matricula_alumno_pdf.html')
-    html = template.render(Context(data))
-    f = open(os.path.join(settings.MEDIA_ROOT, 'matricula_alumno_%s.pdf'%alumno_id), "w+b")
-    pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
-    f.seek(0)
-    pdf = f.read()
-    f.close()
-    return HttpResponse(pdf, content_type='application/pdf')
+class ImprimirAlumnoMatricula(PDFTemplateView):
+    filename='matricula.pdf'
+    template_name = 'matricula_alumno_pdf.html'
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirAlumnoMatricula, self).get_context_data(**kwargs)
+        alumno_id= kwargs['alumno_id']
+        alumno = Alumno.objects.get(id=alumno_id)
+        context['alumno'] = alumno
+        return context
     
 def ImprimirAlumnoOctavilla(request,alumno_id):
     data = {}
