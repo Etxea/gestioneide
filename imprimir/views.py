@@ -56,34 +56,45 @@ def ImprimirGrupos(request):
     f.close()
     return HttpResponse(pdf, content_type='application/pdf')
 
-def ImprimirGruposAlumnos(request):
-    data = {}
-    year = Year.objects.get(activo=True)
-    if request.method == 'POST':
-        if 'listagrupos' in request.POST:
-            lista=request.POST.getlist('listagrupos')
-            print "tenemos la lista de grupos"
-            print lista
-            grupos = Grupo.objects.filter(year=year).filter(id__in=lista)
-        if 'grupo_id' in request.POST:
-            grupo_id = request.POST['grupo_id']
-            print "Buscamos el grupo ",grupo_id
-            grupos = Grupo.objects.filter(year=year).filter(id=grupo_id)
-    else:
-        grupos = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+#~ def ImprimirGruposAlumnos(request):
+    #~ data = {}
+    #~ year = Year.objects.get(activo=True)
+    #~ if request.method == 'POST':
+        #~ if 'listagrupos' in request.POST:
+            #~ lista=request.POST.getlist('listagrupos')
+            #~ print "tenemos la lista de grupos"
+            #~ print lista
+            #~ grupos = Grupo.objects.filter(year=year).filter(id__in=lista)
+        #~ if 'grupo_id' in request.POST:
+            #~ grupo_id = request.POST['grupo_id']
+            #~ print "Buscamos el grupo ",grupo_id
+            #~ grupos = Grupo.objects.filter(year=year).filter(id=grupo_id)
+    #~ else:
+        #~ grupos = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+#~ 
+    #~ data['grupo_list'] = grupos
+    #~ data['year'] = year.__unicode__()
+    #~ template = get_template('grupos_alumnos_pdf.html')
+    #~ html = template.render(Context(data))
+    #~ f = open(os.path.join(settings.MEDIA_ROOT, 'grupos_alumnos_%s.pdf'%year), "w+b")
+    #~ pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
+    #~ print "Tebenemos pisastatus",pisaStatus
+    #~ f.seek(0)
+    #~ pdf = f.read()
+    #~ f.close()
+    #~ return HttpResponse(pdf, content_type='application/pdf')
 
-    data['grupo_list'] = grupos
-    data['year'] = year.__unicode__()
-    template = get_template('grupos_alumnos_pdf.html')
-    html = template.render(Context(data))
-    f = open(os.path.join(settings.MEDIA_ROOT, 'grupos_alumnos_%s.pdf'%year), "w+b")
-    pisaStatus = pisa.CreatePDF(html, dest=f, link_callback=link_callback)
-    print "Tebenemos pisastatus",pisaStatus
-    f.seek(0)
-    pdf = f.read()
-    f.close()
-    return HttpResponse(pdf, content_type='application/pdf')
+from wkhtmltopdf.views import PDFTemplateView
 
+class ImprimirGruposAlumnos(PDFTemplateView):
+    filename='my_pdf.pdf'
+    template_name = "grupos_alumnos_pdf.html"
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirGruposAlumnos, self).get_context_data(**kwargs)
+        year = Year.objects.get(activo=True)
+        context['year'] = year.__unicode__()
+        context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+        return context
 
 def ImprimirAsistenciaHorario(request,asistencia_id):
     data = {}

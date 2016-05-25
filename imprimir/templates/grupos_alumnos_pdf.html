@@ -1,4 +1,4 @@
-{% extends "theme_superflat/clean.html" %}
+{% extends "site_base.html" %}
 {% block body %}
 <style>
     @page {
@@ -19,21 +19,17 @@
 </style>
 
 {% for grupo in grupo_list %}
-<br /> 
-<br /> 
     <h1 style="text-align:center;">Grupo {{grupo.nombre}} / {{year}}</h1>
-<br /> 
-<br /> 
         <h2>Clases</h2>
-<br /> 
-<br /> 
-        <table border="1">
-            <tr>
+        <table class="table">
+            <thead>
+            
                 <th>Dia</th>
                 <th colspan="2">Horario</th>
                 <th>Aula</th>
                 <th>Prof</th>
-            </tr>
+            
+            </thead>
                 {% for clase in grupo.clases.all %}
                 <tr>
                     <td>{{clase.get_dia_semana_display}}</td>
@@ -43,11 +39,7 @@
                 </tr>
                 {% endfor %}
         </table>
-<br /> 
-<br /> 
 <h2>Alumnos</h2>
-<br /> 
-<br /> 
     <table class="table" border="1" >
         <thead>
             <th style="text-align: left;padding-top: 15px;">Alumno</th>

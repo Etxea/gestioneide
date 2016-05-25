@@ -14,3 +14,4 @@ xlwt
 MySQL-python
 django-fixture-magic
 #django-tables2
+django-wkhtmltopdf
