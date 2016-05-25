@@ -304,14 +304,18 @@ class OldDatabase(models.Model):
         for persona in Alumno_new.objects.all():
             try:
                 oldalumno = Alumno.get(id=persona.id)
-                #~ print "Tenemos el oldalumno",oldalumno.id
-                cuenta = "%04d-%04d-%02d-%010d"%(oldalumno.banco.codigo,oldalumno.sucursal,oldalumno.dc,oldalumno.cuenta)
-                #~ print "Tenemos el oldalumno",oldalumno.id,"con cuenta",cuenta
-                persona.cuenta_bancaria=cuenta
-                persona.save()
+                if str(oldalumno.telefono1) == str(persona.telefono1):
+                    #~ print "Tenemos el oldalumno",oldalumno.id
+                    cuenta = "%04d-%04d-%02d-%010d"%(oldalumno.banco.codigo,oldalumno.sucursal,oldalumno.dc,oldalumno.cuenta)
+                    #~ print "Tenemos el oldalumno",oldalumno.id,"con cuenta",cuenta
+                    persona.cuenta_bancaria=cuenta
+                    persona.save()
+                else:
+                    print "No cuanda el telefono de la persona con id",persona.id
+                    print oldalumno.telefono1, persona.telefono1
             except:
                 print "Error importando la cuenta de", persona.id
-                print sys.exc_info()
+    #            print sys.exc_info()
                     
         
 class Document(models.Model):
