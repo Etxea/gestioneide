@@ -63,11 +63,10 @@
             <tr><td>Menores</td><td>{{object.menores}}</td></tr>
         </table>
         <h3>Imprimir</h3>
-        <form action="{% url 'imprimir_grupos_alumnos' %}" method="POST"> 
-            {% csrf_token %}
-            <input hidden id="grupo_id" name="grupo_id" value="{{object.id}}" />
-            <input type="submit" class="btn zmdi zmdi-print" value="Imprimir ficha grupo" /> 
-        </form>
+        <a  class="btn zmdi zmdi-print" href="{% url 'imprimir_grupo_unico_alumnos' object.id %}">
+            Imprimir ficha grupo
+        </a>
+
     </div>
     <div class="col-lg-6"> 
         <h3>Alumnos</h3>
