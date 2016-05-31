@@ -13,34 +13,35 @@
     <h2>Planillas de asistencias de todos los grupos</h2>
         <table class="table">
             <tr>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 1 %}">Enero</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 2 %}">Febrero</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 3 %}">Marzo</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 4 %}">Abril</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 1 %}">Enero</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 2 %}">Febrero</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 3 %}">Marzo</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 4 %}">Abril</a></td>
             </tr>
             <tr>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 5 %}">Mayo</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 6 %}">Junio</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 5 %}">Mayo</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 6 %}">Junio</a></td>
                 <td><a href="">Julio</a></td>
                 <td><a href="">Agosto</a></td>
             </tr>
             <tr>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 9 %}">Setiembre</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 10 %}">Octubre</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 11 %}">Noviembre</a></td>
-                <td><a href="{% url 'imprimir_grupos_planilla_asistencia' 12 %}">Diciembre</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 9 %}">Setiembre</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 10 %}">Octubre</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 11 %}">Noviembre</a></td>
+                <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 12 %}">Diciembre</a></td>
             </tr>
         </table>
     
 <h1>Informes y estadísticas</h1>
     <ul>
-    <li>Listado en formato excel de alumnos con año de nacimiento y grupos<a href="{% url 'listado_alumnos_xls' %}"><i class="zmdi zmdi zmdi-view-list"></i></a></li>
+    <li>Listado en formato excel de alumnos con año de nacimiento y grupos<a target="_blank" href="{% url 'listado_alumnos_xls' %}"><i class="zmdi zmdi zmdi-view-list"></i></a></li>
     <li>Listado de números de telefonos</li>
     <ul>
     {% for year in years %}
-    <li><a href="{% url 'listado_telefonos_alumnos_xls'  year.id %}"><i
-            
-            class="zmdizmdi-view-list"></i>{{year}}</a></li>
+    <li><a target="_blank" href="{% url 'listado_telefonos_alumnos_xls'  year.id %}">
+        <i class="zmdizmdi-view-list"></i>{{year}}
+        </a>
+    </li>
     {% endfor %}
     </ul>
     <li>Listado de números de telefonos de menores</li>
@@ -53,8 +54,8 @@
     </ul>
     <h2>Alumnos</h2>
     <ul>
-        <li><a href="{% url 'listado_asistencias_errores' %}">Alumnos sin confirmar</a></li>
-        <li><a href="{% url 'listado_alumnos_errores' %}">Alumnos dados de baja y en grupos</a></li>
-        <li><a href="{% url 'listado_alumnos_banco_errores' %}">Cuentas bancarias mal</a></li>
+        <li><a target="_blank" href="{% url 'listado_asistencias_errores' %}">Alumnos sin confirmar</a></li>
+        <li><a target="_blank" href="{% url 'listado_alumnos_errores' %}">Alumnos dados de baja y en grupos</a></li>
+        <li><a target="_blank" href="{% url 'listado_alumnos_banco_errores' %}">Cuentas bancarias mal</a></li>
     </ul>
 {% endblock %}
