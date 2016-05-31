@@ -11,3 +11,4 @@ share/
 gestioneide/local_settings.py
 pip-selfcheck.json
 *.sql
+gestioneide.json
