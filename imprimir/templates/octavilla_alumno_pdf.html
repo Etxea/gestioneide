@@ -1,10 +1,16 @@
-{% extends "theme_superflat/clean.html" %}
+{% extends "site_base.html" %}
 {% load i18n %}
 {% block body %}
 
 <style>
+    body {
+        font-size: 18pt;
+    }
+    td {
+        font-size: 18pt;
+    }
     @page {
-        size: a6 landscape;
+        size: a5 landscape;
         margin: 2cm;
     }
 </style>
@@ -14,7 +20,7 @@
         <span style="text-align:right" >Numero Alumno: <b>{{alumno.id }}</b></span>
     </div>
 </div>
-
+<br />
 <div class="row">
     <div class="col-md-12">
     <table class="table">
@@ -22,47 +28,26 @@
             <td><b>Nombre</b></td><td>{{alumno.nombre}}</td>
             <td><b>Apellido(s)</b></td><td>{{alumno.apellido1}} {{alumno.apellido2}}</td>
         </tr>
+        <tr>
+            <td><b>DNI</b></td><td>{{ alumno.dni }}</td>
             <td><b>Fecha Nac.</b></td><td>{{alumno.fecha_nacimiento}}</td>
+        </tr>
+
             <td><b>Teléfonos</b></td><td>{{alumno.telefono1}} - {{alumno.telefono2}}</td>
+            <td><b>Fecha Alta</b></td> <td>{{ alumno.fecha_creacion }}</td>
         </tr>
         <tr>
-            <td>Fecha Nac.</td> <td>{{ alumno.fecha_nacimiento }}</td><td><b>E-mail</b></td><td><a href="mailto:{{alumno.email}}">{{alumno.email}}</a></td>
+            <td><b>E-mail</b></td><td>{{alumno.email}}</td>
+            <td><b>Ciudad</b> {{alumno.ciudad}} <b>CP</b>{{alumno.cp}}</td>
         </tr>
         <tr>
-            <td><b>Dirección</b></td><td>{{alumno.direccion}}</td>
-            <td><b>Ciudad</b> {{alumno.ciudad}} - <b>CP</b>{{alumno.cp}}</td>
+            <td><b>Dirección</b></td><td colspan="3">{{alumno.direccion}}</td>
         </tr>
         <tr>
-            <td>Cuenta</b></td><td>{{alumno.cuenta_bancaria}}</td>
+            <td ><b>Cuenta</b></td><td colspan="3">{{alumno.cuenta_bancaria}}</td>
         </tr>
     </table>
-    <table class="table">
-        <tr>
-            <td>Fecha Renovación Curso 20__/__</td>
-            <td>Fecha Renovación Curso 20__/__</td>
-            <td>Fecha de baja</td>
-        </tr>
-        <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
-        </tr>
-        <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
-        </tr>
-        <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
-        </tr>
-        <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
-        </tr>
-        </table>
+    
     </div>
 </div>
         

@@ -5,13 +5,6 @@
         size: a4 portrait;
         margin: 2cm;
     }
-    body {
-        font-size: 14pt;
-        padding-bottom: 5px;
-        padding-left: 15px;
-        padding-right: 5px;
-        padding-top: 15px;
-    }
     td {
         margin: 5px;
         vertical-align: middle;
@@ -34,8 +27,8 @@
                 <tr>
                     <td>{{clase.get_dia_semana_display}}</td>
                     <td>{{clase.hora_inicio}}</td><td>{{clase.hora_fin}}</td>
-                    <td><a href="{% url 'aula_detalle' clase.aula.id %}">{{clase.aula.nombre}}</a></td>
-                    <td><a href="{% url 'profesor_detalle' clase.profesor.id %}">{{clase.profesor}}</a></td>
+                    <td>{{clase.aula.nombre}}</td>
+                    <td>{{clase.profesor}}</td>
                 </tr>
                 {% endfor %}
         </table>
@@ -59,11 +52,9 @@
             {% endfor %}
         </tbody>
     </table>
-    <div style="page-break-after: always;"></div>
 
-    <div> 
-          <pdf:nextpage /> 
-      </div> 
+    <div style="page-break-after: always;"></div>
+    <div><pdf:nextpage /></div>
 
 {% endfor %}
 

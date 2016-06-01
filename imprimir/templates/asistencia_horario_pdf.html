@@ -64,12 +64,18 @@
         </table>
 
     <h1 style="text-align:center">Calendario</h1>
-        {% for festivo in lista_festivos %}
-            <b>{{ festivo.fecha }}</b>
-            <i>{{ festivo.anotacion }}</i>
-            <br />
-        {% endfor %}
-    
+    <br />
+        
+            <table class="table table-striped table-condensed">
+            {% for festivo in lista_festivos %}
+            <tr>
+            <td>    <b>{{ festivo.fecha }}</b></td>
+            <td><i>{{ festivo.anotacion }}</i></td>
+                
+            <tr>
+            {% endfor %}
+            <table>
+        
     </div>
 </div>        
 {% endblock %}
