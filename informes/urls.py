@@ -11,6 +11,7 @@ urlpatterns = [
     url(r"alumnos/banco/errores/$",login_required(AlumnosBancoErroresListView.as_view()),name="listado_alumnos_banco_errores"),
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()),name="listado_asistencias_errores"),
     url(r"alumnos/xls/$",login_required(export_alumnos_xls),name="listado_alumnos_xls"),
+    url(r"grupos/xls/$",login_required(export_grupos_xls),name="listado_grupos_xls"),
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls),name="listado_telefonos_alumnos_xls"),
     url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()),name="listado_grupos_alumnos")
     

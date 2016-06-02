@@ -6,6 +6,8 @@ from gestioneide.models import *
 from alumnos.views import *
 from asistencias.views import *
 
+import xlwt
+
 class InformesHomeView(TemplateView):
     template_name="informes/home.html"
     def get_context_data(self, **kwargs):
@@ -36,9 +38,58 @@ class GruposAlumnosListView(ListView):
         year = Year.objects.get(activo=True)
         return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         
+def export_grupos_xls(request):
+    ano = Year.objects.get(activo=True)
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=grupos.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Grupos")
+    
+    row_num = 0
+    
+    columns = [
+        (u"ID", 2000),
+        (u"Nombre", 4000),
+        (u"Curso", 6000),
+        (u"Clases", 8000),
+        (u"Alumno", 8000),
+        (u"Confirmados", 8000),
+    ]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+    
+    for grupo in Grupo.objects.filter(year=ano):
+        row_num += 1
+        clases = ""
+        for clase in grupo.clases.all():
+            clases = clases + "%s"%clase
+        row = [
+            grupo.pk,
+            grupo.nombre,
+            grupo.curso.__unicode__(),
+            clases,
+            grupo.asistencia_set.all().count(),
+            grupo.confirmados(),
+        ]
+        for col_num in xrange(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+            
+    wb.save(response)
+    return response
+
+
 
 def export_alumnos_xls(request):
-    import xlwt
+    
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=alumnos.xls'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -79,7 +130,7 @@ def export_alumnos_xls(request):
     return response
 
 def export_telefonos_alumnos_xls(request,ano):
-    import xlwt
+    
     ano = Year.objects.get(id=ano)
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=telefonos_alumnos.xls'
