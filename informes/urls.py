@@ -12,6 +12,8 @@ urlpatterns = [
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()),name="listado_asistencias_errores"),
     url(r"alumnos/xls/$",login_required(export_alumnos_xls),name="listado_alumnos_xls"),
     url(r"grupos/xls/$",login_required(export_grupos_xls),name="listado_grupos_xls"),
+    url(r"asistencias/no/xls/$",login_required(export_asistencias_no_confirmadas_xls),name="listado_asistencias_no_confirmadas_xls"),
+    url(r"asistencias/xls/$",login_required(export_asistencias_xls),name="listado_asistencias_xls"),
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls),name="listado_telefonos_alumnos_xls"),
     url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()),name="listado_grupos_alumnos")
     
