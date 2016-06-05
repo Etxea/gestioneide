@@ -16,6 +16,6 @@ class Command(BaseCommand):
    
         dbfile = OldDatabase.objects.get(id=int(args[0]))
         print "Vamos a importar ",dbfile.dbfile.path
-        dbfile.fixbanco()
+        dbfile.fixciudad()
         
                         

@@ -238,6 +238,7 @@ class OldDatabase(models.Model):
                 direccion = persona.direccion,\
                 observaciones = persona.observaciones,\
                 cp = persona.cp,\
+                ciudad = persona.ciudad,\
                 dni =persona.dni,)
             a.save()
         
@@ -309,6 +310,28 @@ class OldDatabase(models.Model):
                     cuenta = "%04d-%04d-%02d-%010d"%(oldalumno.banco.codigo,oldalumno.sucursal,oldalumno.dc,oldalumno.cuenta)
                     #~ print "Tenemos el oldalumno",oldalumno.id,"con cuenta",cuenta
                     persona.cuenta_bancaria=cuenta
+                    persona.save()
+                else:
+                    print "No cuanda el telefono de la persona con id",persona.id
+                    print oldalumno.telefono1, persona.telefono1
+            except:
+                print "Error importando la cuenta de", persona.id
+    #            print sys.exc_info()
+    def fixciudad(self):
+        sqlhub.processConnection = connectionForURI('sqlite://'+self.dbfile.path)
+        from gestioneide.old_database_model import *
+        for persona in Alumno_new.objects.all():
+            try:
+                oldalumno = Alumno.get(id=persona.id)
+                if str(oldalumno.telefono1) == str(persona.telefono1):
+                    #~ print "Tenemos el oldalumno",oldalumno.id
+                    ciudad = oldalumno.ciudad
+                    if len(ciudad) < 2:
+                        if oldalumno.cp == "48980":
+                            ciudad = "Santurtzi"
+                        else:
+                            ciudad = ""
+                    persona.ciudad=ciudad
                     persona.save()
                 else:
                     print "No cuanda el telefono de la persona con id",persona.id

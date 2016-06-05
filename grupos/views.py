@@ -7,9 +7,6 @@ from forms import *
 from gestioneide.models import *
 import calendar
 
-from django_xhtml2pdf.utils import render_to_pdf_response
-
-
 class GrupoListView(ListView):
     model=Grupo
     paginate_by = 100

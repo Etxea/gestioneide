@@ -8,8 +8,8 @@ pinax-eventlog==1.1.1
 django-localflavor==1.2
 sqlobject
 ipython
-xhtml2pdf==0.1a2
-django-xhtml2pdf
+#xhtml2pdf==0.1a2
+#django-xhtml2pdf
 xlwt
 MySQL-python
 django-fixture-magic
