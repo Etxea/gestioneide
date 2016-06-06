@@ -28,7 +28,9 @@ class AlumnoActivosListView(AlumnoListView):
 class AlumnoGrupoListView(AlumnoListView):
     #Solo listamos los activos y que estan en un grupo
     def get_queryset(self):
-        return Alumno.objects.filter(activo=True).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+        ano = Year.objects.get(activo=True)
+        lista = Asistencia.objects.filter(year=ano)
+        return Alumno.objects.filter(asistencia__in=lista)
 
 class AlumnoBuscarView(AlumnoListView):
     #Solo listamos los que coinciden conla busqueda
