@@ -224,7 +224,7 @@ class Curso(models.Model):
     ##No obligatorios
     examen = models.CharField(max_length=25,default="",blank=True,null=True)
     nivel = models.CharField(max_length=25,default="",blank=True,null=True)
-    libros = models.ManyToManyField('Libro',null=True,blank=True)
+    libros = models.ManyToManyField('Libro',blank=True)
     nota_aprobado = models.FloatField(default=50)
     solo_examen_final = models.BooleanField(default=False)
     def get_absolute_url(self):
@@ -324,7 +324,7 @@ class Clase(models.Model):
 
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year.objects.get(activo=True))) #Comentar el limit choices para un primer import
+    grupo = models.ForeignKey('Grupo')#,limit_choices_to=Q(year=Year.objects.get(activo=True))) #Comentar el limit choices para un primer import
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
