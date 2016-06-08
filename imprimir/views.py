@@ -51,6 +51,12 @@ class ImprimirAsistenciaHorario(PDFTemplateView):
 class ImprimirAlumnoMatricula(PDFTemplateView):
     filename='matricula.pdf'
     template_name = 'matricula_alumno_pdf.html'
+    cmd_options = {
+        'margin-bottom': 10,
+        'margin-top': 10,
+        'margin-left': 15,
+        'margin-right': 15
+    }
     def get_context_data(self, **kwargs):
         context = super(ImprimirAlumnoMatricula, self).get_context_data(**kwargs)
         alumno_id= kwargs['alumno_id']

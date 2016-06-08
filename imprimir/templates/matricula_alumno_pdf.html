@@ -1,23 +1,14 @@
 {% extends "site_base.html" %}
 {% load i18n %}
+{% load staticfiles %}
 {% block body %}
-<style>
-@page {
-    size: a4 portrait;
-    @frame content_frame {
-        left: 60pt;
-        width: 480pt;
-        top: 60pt;
-        height: 712pt;
-   }
-}
-</style>
 
+<div>
+    <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
     <div style="text-align:right">
         <span style="text-align:right" >Numero Alumno: <b>{{alumno.id }}</b></span>
     </div>
-    
-    <h1 style="text-align:center">EIDE Idiomas</h1>    
+</div>
     
     <table class="table">
         <tr>
@@ -116,7 +107,7 @@ C/Genaro Oraa nº6, C.P. 48980, Santurtzi, Bizkaia, indicando en la comunicació
 </div>
 <div class="row">
     <div class="col-md-12">
-        <table>
+        <table class="table">
             <thead>
                 <th>Firma del interesado (Padre, Madre, Tutor Legal)</th>
                 <th>EIDE - Departamento de Idiomas</th>
@@ -125,18 +116,14 @@ C/Genaro Oraa nº6, C.P. 48980, Santurtzi, Bizkaia, indicando en la comunicació
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
         </table>
     </div>
 </div>
-<br />
+<br /><br /><br />
 <div class="row">
     <div class="col-md-12">
         <div style="text-align:center" >
-            Genaro Oraá,6 - 48980 SANTURTZI (Spain)- Tlf. + 34 944 937 005 - FAX +34 944 615 723
+            Genaro Oraá,6 y Balleni 3 (Kabiezes)- 48980 SANTURTZI (Spain)- Tlf. + 34 944 937 005 - FAX +34 944 615 723
         </div>
         <br />
         <div style="text-align:center" >

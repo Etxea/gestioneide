@@ -235,6 +235,15 @@ AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
 
+#~ WKHTMLTOPDF_CMD_OPTIONS = {
+    #~ 'margin-bottom': "50",
+    #~ 'margin-top': "50",
+    #~ 'margin-left': "50",
+    #~ 'margin-right': "50"
+#~ }
+
+
+
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
