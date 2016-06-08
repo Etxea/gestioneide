@@ -34,6 +34,12 @@ class ImprimirGruposAlumnos(PDFTemplateView):
 
 class ImprimirAsistenciaHorario(PDFTemplateView):
     template_name='asistencia_horario_pdf.html'
+    cmd_options = {
+        'margin-bottom': 10,
+        'margin-top': 10,
+        'margin-left': 15,
+        'margin-right': 15
+    }
     def get_context_data(self, **kwargs):
         context = super(ImprimirAsistenciaHorario, self).get_context_data(**kwargs)
         asistencia_id=kwargs['asistencia_id']

@@ -1,5 +1,6 @@
 {% extends "site_base.html" %}
 {% load i18n %}
+{% load staticfiles %}
 {% block body %}
 
 <style>
@@ -7,25 +8,23 @@
 </style>
 <br />
 <br />
-
-<div style="text-align:right">
-   Numero Alumno: <b>{{asistencia.alumno.id }}</b>
+<div>
+    <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
+    <div style="text-align:right">
+        <span style="text-align:right" >Numero Alumno: <b>{{asistencia.alumno.id }}</b></span>
+    </div>
 </div>
 
-<hr />
-<div class="row">
-    
+<div class="row">    
     <div class="col-md-12" style="text-align:center">
-        <h1 style="text-align:center">EIDE</h1>    
-            <table style="border-top-width: 2px ;border-color: black"
-                class="table" >
-                <tr>
-                <td width="35%" ><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
-                </tr>
-                <tr>
-                <td width="35%"><b>Grupo</b></td><td>{{asistencia.grupo.nombre}}</td>
-                </tr>
-            </table>
+        <table style="border-top-width: 2px ;border-color: black" class="table" >
+            <tr>
+            <td width="35%" ><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
+            </tr>
+            <tr>
+            <td width="35%"><b>Grupo</b></td><td>{{asistencia.grupo.nombre}}</td>
+            </tr>
+        </table>
         
         <h1 style="text-align:center" >Clases</h1>
         <table class="table" style="text-align:left">
