@@ -1,9 +1,11 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import View,CreateView, UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
-from django.utils.decorators import method_decorator
+
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
+
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from gestioneide.models import *
@@ -50,22 +52,25 @@ class AlumnoBuscarView(AlumnoListView):
                 filtro = Q(apellido1__icontains=cadena)
             return Alumno.objects.filter(activo=True).filter(filtro)
         
-        
+@method_decorator(permission_required('gestioneide.alumno_add'),name='dispatch')
 class AlumnoCreateView(CreateView):
     form_class = AlumnoCreateForm
     template_name = "alumnos/alumno_form.html"
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
 
+@method_decorator(permission_required('gestioneide.alumno_view'),name='dispatch')
 class AlumnoDetailView(DetailView):
     model = Alumno
     template_name = "alumnos/alumno_detail.html"
 
+@method_decorator(permission_required('gestioneide.alumno_change'),name='dispatch')
 class AlumnoDeleteView(DeleteView):
     model = Alumno
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
 
+@method_decorator(permission_required('gestioneide.alumno_change'),name='dispatch')
 class AlumnoUpdateView(UpdateView):
     model = Alumno
     form_class = AlumnoCreateForm
@@ -73,6 +78,7 @@ class AlumnoUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
+
 
 class AlumnoBajaView(View,SingleObjectMixin):
     model = Alumno
