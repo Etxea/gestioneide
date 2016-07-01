@@ -20,7 +20,7 @@ class ImprimirGrupos(PDFTemplateView):
         return context
 
 class ImprimirGruposAlumnos(PDFTemplateView):
-    filename='my_pdf.pdf'
+    filename='listado_grupos_con_alumnos.pdf'
     template_name = "grupos_alumnos_pdf.html"
     def get_context_data(self, **kwargs):
         context = super(ImprimirGruposAlumnos, self).get_context_data(**kwargs)
@@ -84,7 +84,13 @@ class ImprimirAlumnoOctavilla(PDFTemplateView):
 class ImprimirGruposPlanillaAsistencia(PDFTemplateView):
     filename='grupos_planilla_asistencia.pdf'
     template_name = 'grupos_planilla_asistencia_pdf.html'
-    cmd_options = {"orientation": "landscape"}
+    cmd_options = {
+        "orientation": "landscape",
+        'margin-bottom': 10,
+        'margin-top': 10,
+        'margin-left': 15,
+        'margin-right': 15
+        }
     def get_context_data(self, **kwargs):
         context = super(ImprimirGruposPlanillaAsistencia, self).get_context_data(**kwargs)
         mes= int(kwargs['mes'])
