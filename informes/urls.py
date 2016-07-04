@@ -10,6 +10,7 @@ urlpatterns = [
     url(r"alumnos/errores/$",login_required(AlumnosErroresListView.as_view()),name="listado_alumnos_errores"),
     url(r"alumnos/banco/errores/$",login_required(AlumnosBancoErroresListView.as_view()),name="listado_alumnos_banco_errores"),
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()),name="listado_asistencias_errores"),
+    url(r"asistencias/descuento/$",login_required(AsistenciasDescuentoListView.as_view()),name="listado_asistencias_descuento"),
     url(r"alumnos/xls/$",login_required(export_alumnos_xls),name="listado_alumnos_xls"),
     url(r"grupos/xls/$",login_required(export_grupos_xls),name="listado_grupos_xls"),
     url(r"asistencias/no/xls/$",login_required(export_asistencias_no_confirmadas_xls),name="listado_asistencias_no_confirmadas_xls"),

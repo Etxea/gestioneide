@@ -20,6 +20,7 @@ class AlumnosErroresListView(AlumnoListView):
     def get_queryset(self):
         return Alumno.objects.filter(activo=False).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
+
 class AlumnosBancoErroresListView(AlumnoListView):
     #Solo listamos los activos y que estan en un grupo
     def get_queryset(self):
@@ -30,6 +31,12 @@ class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
         year = Year.objects.get(activo=True)
         return Asistencia.objects.filter(year=year).filter(confirmado=False)
+
+class AsistenciasDescuentoListView(AsistenciaListView):
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        return Asistencia.objects.filter(year=year).filter(precio__isnull=False)
+
 
 class GruposAlumnosListView(ListView):
     model = Grupo
