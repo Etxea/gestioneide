@@ -2,11 +2,15 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
+
+import xlwt
+from wkhtmltopdf.views import PDFTemplateView
+
 from gestioneide.models import *
 from alumnos.views import *
 from asistencias.views import *
 
-import xlwt
+
 
 class InformesHomeView(TemplateView):
     template_name="informes/home.html"
@@ -14,6 +18,15 @@ class InformesHomeView(TemplateView):
         context = super(InformesHomeView, self).get_context_data(**kwargs)
         context['years'] = Year.objects.all()
         return context
+
+class ProfesoresClasesView(PDFTemplateView):
+    filename='profesores_clases.pdf'
+    template_name = "informes/listado_profesores_clases.html"
+    def get_context_data(self, **kwargs):
+        context = super(ProfesoresClasesView, self).get_context_data(**kwargs)
+        context["profesores_list"]=Profesor.objects.all()
+        return context
+        
 
 class AlumnosErroresListView(AlumnoListView):
     #Solo listamos los activos y que estan en un grupo

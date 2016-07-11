@@ -1,0 +1,19 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+{% for profesor in profesores_list %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+
+        <h2>{{profesor}}</h2>
+        {% include "profesores/profesor_tabla_clases.html" %}
+        
+    </div>
+</div>
+<div style="page-break-after: always;"></div>
+<div><pdf:nextpage /></div>
+{% endfor %}
+
+
+{% endblock %}
