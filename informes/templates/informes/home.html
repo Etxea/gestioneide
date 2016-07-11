@@ -35,8 +35,9 @@
 <h1>Informes y estadísticas</h1>
     <ul>
         <li><a href="{% url 'listado_profesores_clases' %}">Listado de Profesores y sus clases</li>
-    <li>Listado en formato excel de alumnos con año de nacimiento y grupos<a target="_blank" href="{% url 'listado_alumnos_xls' %}"><i class="zmdi zmdi zmdi-view-list"></i></a></li>
-    <li>Listado de números de telefonos</li>
+        <li><a href="{% url 'listado_aulas_clases' %}">Listado de Aulas y sus clases</li>
+        <li>Listado en formato excel de alumnos con año de nacimiento y grupos<a target="_blank" href="{% url 'listado_alumnos_xls' %}"><i class="zmdi zmdi zmdi-view-list"></i></a></li>
+        <li>Listado de números de telefonos</li>
     <ul>
     {% for year in years %}
     <li><a target="_blank" href="{% url 'listado_telefonos_alumnos_xls'  year.id %}">

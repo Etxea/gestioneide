@@ -8,6 +8,7 @@ urlpatterns = [
     #url(r"^$", login_required(TemplateView.as_view(template_name="informes/home.html")), name="informes"),
     url(r"^$", login_required(InformesHomeView.as_view()), name="informes"),
     url(r"profesores/clases/$",login_required(ProfesoresClasesView.as_view()),name="listado_profesores_clases"),
+    url(r"aulas/clases/$",login_required(AulasClasesView.as_view()),name="listado_aulas_clases"),
     url(r"alumnos/errores/$",login_required(AlumnosErroresListView.as_view()),name="listado_alumnos_errores"),
     url(r"alumnos/banco/errores/$",login_required(AlumnosBancoErroresListView.as_view()),name="listado_alumnos_banco_errores"),
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()),name="listado_asistencias_errores"),

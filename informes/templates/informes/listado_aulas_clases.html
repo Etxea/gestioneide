@@ -1,0 +1,15 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+{% for aula in aulas_list %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <h2>{{aula}}</h2>
+        {% include "aula_tabla_clases.html" %}
+    </div>
+</div>
+<div style="page-break-after: always;"></div>
+<div><pdf:nextpage /></div>
+{% endfor %}
+{% endblock %}

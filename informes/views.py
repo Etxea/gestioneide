@@ -26,6 +26,14 @@ class ProfesoresClasesView(PDFTemplateView):
         context = super(ProfesoresClasesView, self).get_context_data(**kwargs)
         context["profesores_list"]=Profesor.objects.all()
         return context
+
+class AulasClasesView(PDFTemplateView):
+    filename='aulas_clases.pdf'
+    template_name = "informes/listado_aulas_clases.html"
+    def get_context_data(self, **kwargs):
+        context = super(AulasClasesView, self).get_context_data(**kwargs)
+        context["aulas_list"]=Aula.objects.all()
+        return context
         
 
 class AlumnosErroresListView(AlumnoListView):

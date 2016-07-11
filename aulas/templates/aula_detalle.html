@@ -5,49 +5,27 @@
 {% block head_title %}{% trans "Detalle del aula" %} {{ aula.id }}{% endblock %}
 
 {% block body %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
 
-<table class="table">
-    <tbody>
-         <tr>
-                <td><b>Nombre</b>: <a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
-                <td><b>Aforo</b>: {{ aula.aforo }}</td>
-                <td><b>PDI</b>: {{ aula.pdi }}</td>
-                <td>
-                    <a href="{% url 'aula_editar' aula.id %}">
-                        <i class="zmdi zmdi-pencil" >Editar</i>
-                  </a>
-                </td>
-        </tr>
-
-    </tbody>
-</table>
-
-    <h2>Clases</h2>
-    
-
-<table class="table table-bordered table-condensed">
-    <thead>
-        <th>Hora</th>
-        <th>Lunes</th>
-        <th>Martes</th>
-        <th>Miercoles</th>
-        <th>Jueves</th>
-        <th>Viernes</th>
-    </thead>
-    <tbody>
-        {% for hora in aula.programacion_semana %}
-        <tr>
-            <td><b>{{hora.0}}</b></td>
-            <td>{{hora.1}}</td>
-            <td>{{hora.2}}</td>
-            <td>{{hora.3}}</td>
-            <td>{{hora.4}}</td>
-            <td>{{hora.5}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-
-</table>
+        <table class="table">
+            <tbody>
+                 <tr>
+                        <td><b>Nombre</b>: <a href="{% url 'aula_editar' aula.id %}">{{ aula }}</a></td>
+                        <td><b>Aforo</b>: {{ aula.aforo }}</td>
+                        <td><b>PDI</b>: {{ aula.pdi }}</td>
+                        <td>
+                            <a href="{% url 'aula_editar' aula.id %}">
+                                <i class="zmdi zmdi-pencil" >Editar</i>
+                          </a>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Clases</h2>
+        {% include "aula_tabla_clases.html" %}
+    </div>
+</div>
 
 
 
