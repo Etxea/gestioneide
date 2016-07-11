@@ -17,6 +17,7 @@ class ProfesorCreateView(CreateView):
 
 class ProfesorDetailView(DetailView):
     model = Profesor
+    context_object_name = "profesor"
     template_name = "profesores/profesor_detail.html"
 
 class ProfesorDeleteView(DeleteView):

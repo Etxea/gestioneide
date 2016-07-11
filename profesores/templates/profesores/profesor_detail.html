@@ -5,7 +5,7 @@
 
 
 {% block page_header %}
-    <h1>{% trans "Profesor" %} {{object.nombre}} <a href="{% url 'profesor_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    <h1>{% trans "Profesor" %} {{profesor.nombre}} <a href="{% url 'profesor_editar' profesor.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
 {% endblock %}
 
 {% block body %}
@@ -14,45 +14,23 @@
     
     <table class="table">
         <tr>
-            <td>Nombre</td><td>{{object.nombre}}</td>
+            <td>Nombre</td><td>{{profesor.nombre}}</td>
         </tr>
         <tr>
-            <td>Apellido(s)</td><td>{{object.apellido}}</td>
+            <td>Apellido(s)</td><td>{{profesor.apellido}}</td>
         </tr>
         <tr>
-            <td>Teléfono</td><td>{{object.telefono}}</td>
+            <td>Teléfono</td><td>{{profesor.telefono}}</td>
         </tr>
         <tr>
-            <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
+            <td>E-mail</td><td><a href="mailto:{{profesor.email}}">{{profesor.email}}</a></td>
         </tr>
         
     </table>
     <h2>Clases</h2>
     
+{% include "profesores/profesor_tabla_clases.html" %}
 
-<table class="table table-bordered table-condensed">
-    <thead>
-        <th>Hora</th>
-        <th>Lunes</th>
-        <th>Martes</th>
-        <th>Miercoles</th>
-        <th>Jueves</th>
-        <th>Viernes</th>
-    </thead>
-    <tbody>
-        {% for hora in object.programacion_semana %}
-        <tr>
-            <td><b>{{hora.0}}</b></td>
-            <td>{{hora.1}}</td>
-            <td>{{hora.2}}</td>
-            <td>{{hora.3}}</td>
-            <td>{{hora.4}}</td>
-            <td>{{hora.5}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-
-</table>
 
 
 {% endblock %}
