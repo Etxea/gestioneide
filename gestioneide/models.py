@@ -12,6 +12,8 @@ from django.db.models import Q
 import datetime
 import calendar
 
+from utils import *
+
 DIAS_SEMANA = (
     (1, _('Lunes')),
     (2, _('Martes')),
@@ -346,6 +348,7 @@ class Asistencia(models.Model):
                 return  self.grupo.asistencia_set.all()[count].id
     def anterior_asistencia_grupo(self):
         return 0
+
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 
@@ -384,7 +387,6 @@ class Nota(models.Model):
     comportamiento = models.CharField(max_length=2,default="B")
     comportamiento_np = models.BooleanField(default=False)
     comportamiento_na = models.BooleanField(default=False)
-
     
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
@@ -398,12 +400,34 @@ class Recibo(models.Model):
     mes = models.DecimalField(max_digits=1,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
     grupos = models.ManyToManyField(Grupo)
+    #~ fichero_csb19 = models.TextField(default="")
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
     def get_total_alumnos(self):
-        return self.grupos.all().aggregate(Count('asistencia'))
+        return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
     def csb19(self):
-        return "000000000000000000000000"
+        fichero_csb19=""
+        hoy=datetime.date.today()
+        fecha_confeccion=self.fecha_creacion.strftime('%d%m%y')
+        fecha_cargo=hoy.strftime('%d%m%y')
+        importe_recibos=0
+        numero_recibos=0
+        #~ logging.debug( "Vamos a facturar el día %s en concepto de %s"%(fecha_cargo,fecha_confeccion) )
+        #Vamos con la cabecera del presentador
+        fichero_csb19=csb19_crear_presentador(fecha_confeccion)
+        #Vamos con la cabecera del ordenante
+        fichero_csb19=csb19_crear_ordenante(fichero_csb19,fecha_confeccion,fecha_cargo)
+        # Ahora los cargos
+        for grupo in self.grupos.all():
+            for asistencia in grupo.asistencia_set.all():
+                print "Generamos cobro para la asistencia",asistencia
+                if asistencia.metalico:
+                    print "Paga en metalico"
+                else:
+                    fichero_csb19,importe_recibos,numero_recibos = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia)
+        print "Hemos creado %s recibos que sumanan un total de %s €"%(numero_recibos,importe_recibos)
+        fichero_csb19 = csb19_crear_totales(fichero_csb19,numero_recibos,importe_recibos)
+        return fichero_csb19
 
 class Festivo(models.Model):
     year = models.ForeignKey('Year')
