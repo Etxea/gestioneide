@@ -29,7 +29,9 @@ class ImprimirGruposAlumnos(PDFTemplateView):
         if 'grupo_id' in kwargs:
             context['grupo_list'] = Grupo.objects.filter(id=kwargs['grupo_id'])
         else:
-            context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+            #context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+            #Sacamos todos los grupos por incidencia #49
+            context['grupo_list'] = Grupo.objects.filter(year=year)
         return context
 
 class ImprimirAsistenciaHorario(PDFTemplateView):

@@ -45,7 +45,7 @@
                     <td>
                         <a href="{% url 'borrar_clase' clase.id %}" id=borrar_clase" class="btn" ><i class="zmdi zmdi-delete"></i></a>
                         <a href="{% url 'editar_clase' clase.id %}" id=editar_clase" class="btn" 
-                        data-toggle="modal" data-target="#deleteAsistenciaModal" data-delete_url="{% url 'editar_clase_modal' clase.id %}" >
+                        data-toggle="modal" data-target="#claseEditarModal" data-edit_url="{% url 'editar_clase_modal' clase.id %}" >
                             <i class="zmdi zmdi-edit"></i>
                         </a>
                     </td>

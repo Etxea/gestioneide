@@ -19,6 +19,10 @@ class ReciboCreateView(CreateView):
     model = Recibo
     template_name = "recibo_create.html"
     form_class = ReciboCreateForm
+    def get_initial(self):
+        year = Year.objects.get(activo=True)
+        return { 'year': year }
+
         
 class ReciboDetailView(DetailView):
     model = Recibo

@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load bootstrap_tags %}
 <form action="{% url 'editar_clase_modal' object.id %}" method="post">
-	{{ form.as_p }}
+	{{ form	| as_bootstrap }}
 	{% csrf_token %}
 	<input type="submit" class="btn primary" value="Guardar">
 </form>

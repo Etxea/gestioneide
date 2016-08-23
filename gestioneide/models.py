@@ -89,7 +89,7 @@ class Aula(models.Model):
                 for dia in range(1,6):
                     print dia
                     clase = Clase.objects.filter(dia_semana=dia,aula=self,\
-                            hora_inicio__lt=fecha_consulta,hora_fin__gte=fecha_consulta,grupo__in=grupos)
+                            hora_inicio__lte=fecha_consulta,hora_fin__gt=fecha_consulta,grupo__in=grupos)
                     if clase.count() == 1:
                         clase = clase[0]
                         #print "Anadimos la clase es: %s" % clase
@@ -397,14 +397,34 @@ class Falta(models.Model):
 class Recibo(models.Model):
     year = models.ForeignKey('Year')
     fecha_creacion = models.DateField(auto_now_add=True)
-    mes = models.DecimalField(max_digits=1,decimal_places=0,choices=MONTHS.items())
+    mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
-    grupos = models.ManyToManyField(Grupo)
-    #~ fichero_csb19 = models.TextField(default="")
+    grupos_sueltos = models.BooleanField(default=False)
+    grupos = models.ManyToManyField(Grupo,blank=True)
+    fichero_csb19 = models.TextField(default="",blank=True)
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
     def get_total_alumnos(self):
-        return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
+        if self.grupos_sueltos:
+            return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
+        else:
+            return Grupo.objects.filter(year=Year.objects.get(activo=True)).aggregate(Count('asistencia'))['asistencia__count']
+    def get_alumnos_metalico(self):
+        if self.grupos_sueltos:
+            alumnos_metalico=0
+            for grupo in self.grupos.all():
+                alumnos_metalico =+ grupo.asistencia_set.filter(metalico=True).count()            
+            return alumnos_metalico
+        else:
+            return Asistencia.objects.filter(year=Year.objects.get(activo=True)).filter(metalico=True).count()
+    def get_alumnos_factura(self):
+        if self.grupos_sueltos:
+            alumnos_factura=0
+            for grupo in self.grupos.all():
+                alumnos_factura =+ grupo.asistencia_set.filter(factura=True).count()            
+            return alumnos_factura
+        else:
+            return Asistencia.objects.filter(year=Year.objects.get(activo=True)).filter(factura=True).count()
     def csb19(self):
         fichero_csb19=""
         hoy=datetime.date.today()
@@ -418,13 +438,18 @@ class Recibo(models.Model):
         #Vamos con la cabecera del ordenante
         fichero_csb19=csb19_crear_ordenante(fichero_csb19,fecha_confeccion,fecha_cargo)
         # Ahora los cargos
-        for grupo in self.grupos.all():
+        if self.grupos_sueltos:
+            lista = self.grupos.all()
+        else:
+            lista = Grupo.objects.filter(year=Year.objects.get(activo=True))
+        
+        for grupo in lista:
             for asistencia in grupo.asistencia_set.all():
                 print "Generamos cobro para la asistencia",asistencia
                 if asistencia.metalico:
                     print "Paga en metalico"
                 else:
-                    fichero_csb19,importe_recibos,numero_recibos = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia)
+                    fichero_csb19,importe_recibos,numero_recibos = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia,self.mes,self.medio_mes)
         print "Hemos creado %s recibos que sumanan un total de %s €"%(numero_recibos,importe_recibos)
         fichero_csb19 = csb19_crear_totales(fichero_csb19,numero_recibos,importe_recibos)
         return fichero_csb19

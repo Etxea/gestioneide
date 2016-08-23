@@ -1,8 +1,7 @@
 {% load i18n %}
-{% load bootstrap_tags %}
-<h1>Nueva clase</h1>
+{% load bootstrap %}
 <form action="{% url 'nueva_clase_grupo' grupo_id %}" method="post">
-    {{ form.as_p }}
+    {{ form|bootstrap }}
     {% csrf_token %}
     <input type="submit" class="btn primary" value="Crear">
 </form>

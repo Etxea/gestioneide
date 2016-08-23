@@ -1,6 +1,6 @@
 <table class="table table-bordered table-condensed">
     <thead>
-        <th>Hora</th>
+        <th>Horario</th>
         <th>Lunes</th>
         <th>Martes</th>
         <th>Miercoles</th>
@@ -11,11 +11,11 @@
         {% for hora in aula.programacion_semana %}
         <tr>
             <td><b>{{hora.0}}</b></td>
-            <td>{{hora.1}}</td>
-            <td>{{hora.2}}</td>
-            <td>{{hora.3}}</td>
-            <td>{{hora.4}}</td>
-            <td>{{hora.5}}</td>
+            <td {% if hora.1|length > 1 %} style="background-color: lightblue;" {% endif %} >{{hora.1}}</td>
+            <td {% if hora.2|length > 1 %} style="background-color: lightblue;" {% endif %} >{{hora.2}}</td>
+            <td {% if hora.3|length > 1 %} style="background-color: lightblue;" {% endif %} >{{hora.3}}</td>
+            <td {% if hora.4|length > 1 %} style="background-color: lightblue;" {% endif %} >{{hora.4}}</td>
+            <td {% if hora.5|length > 1 %} style="background-color: lightblue;" {% endif %} >{{hora.5}}</td>
         </tr>
         {% endfor %}
     </tbody>

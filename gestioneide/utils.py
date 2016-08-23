@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 from django.conf import settings
+from django.utils.dates import MONTHS
 
 def csb19_crear_presentador(fecha_confeccion):
     """Funcion que crea el campo presentador y lo añade al contenido"""
@@ -34,18 +34,22 @@ def csb19_crear_ordenante(contenido,fecha_confeccion, fecha_cargo):
     contenido += cabecera_ordenante
     return contenido
     
-def csb19_crear_individual(contenido,importe_recibos,numero_recibos,asistencia):
+def csb19_crear_individual(contenido,importe_recibos,numero_recibos,asistencia,mes,medio_mes):
     ##Recibimos la asistencia y de ella sacamos: id, nombre, CCC, importe y concepto
     id = asistencia.id
-    nombre=asistencia.__unicode__()
-    ccc=asistencia.alumno.cuenta_bancaria
-    importe=asistencia.ver_precio()
-    concepto=asistencia.grupo
+    nombre="%s %s"%(asistencia.alumno.apellido1,asistencia.alumno.apellido2)
+    ccc=asistencia.alumno.cuenta_bancaria.replace("-","")
+    
+    if medio_mes:
+        importe=float(asistencia.ver_precio())/2
+    else:
+        importe=asistencia.ver_precio()
+    concepto="EIDE: %s, %s"%(asistencia.grupo.nombre,MONTHS[mes])
     #Sumamos el importe al total
     try:
         importe_recibos += float(importe)
     except:
-        print "NO hemos podido genrerar el import para %s %s"%(nombre,importe)
+        print "NO hemos podido generar el import para %s %s"%(nombre,importe)
     numero_recibos += 1
     cod_reg = "56"
     cod_dato = "80"
@@ -109,9 +113,9 @@ def csb19_crear_totales(contenido,numero_recibos,importe_recibos):
     return contenido
 
 def csb19_normalizar(campo,longitud):
-    """Fucnion que normaliza el campo: Lo pasa a mayusculas, lo recorta
-        a longitud si hace falta o lo rellena con espacios hasta la longitud"""
-    campo = str(campo)
+    """Funcion que normaliza el campo: Lo pasa a mayúsculas, lo recorta
+        a la longitud si hace falta o lo rellena con espacios hasta la longitud"""
+    #~ campo = str(campo)
     campo = campo.upper()
     if len(campo)>longitud:
         #recortamos hasta longitud
