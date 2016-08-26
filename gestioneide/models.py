@@ -409,6 +409,14 @@ class Recibo(models.Model):
             return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
         else:
             return Grupo.objects.filter(year=Year.objects.get(activo=True)).aggregate(Count('asistencia'))['asistencia__count']
+    def get_grupos(self):
+        if self.grupos_sueltos:
+            lista = self.grupos.all()
+        else:
+            lista = Grupo.objects.filter(year=Year.objects.get(activo=True))
+        return lista
+    def get_alumnos_recibo(self):
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(metalico=False).order_by('alumno__cuenta_bancaria')
     def get_alumnos_metalico(self):
         if self.grupos_sueltos:
             alumnos_metalico=0
@@ -438,11 +446,7 @@ class Recibo(models.Model):
         #Vamos con la cabecera del ordenante
         fichero_csb19=csb19_crear_ordenante(fichero_csb19,fecha_confeccion,fecha_cargo)
         # Ahora los cargos
-        if self.grupos_sueltos:
-            lista = self.grupos.all()
-        else:
-            lista = Grupo.objects.filter(year=Year.objects.get(activo=True))
-        
+        lista_grupos = self.get_grupos()
         for grupo in lista:
             for asistencia in grupo.asistencia_set.all():
                 print "Generamos cobro para la asistencia",asistencia

@@ -28,6 +28,10 @@ class ReciboDetailView(DetailView):
     model = Recibo
     template_name = "recibo_detail.html"
 
+class ReciboInformeView(DetailView):
+    model = Recibo
+    template_name = "recibo_informe.html"
+
 class ReciboFicheroView(View,SingleObjectMixin):
     model = Recibo
     template_name = "recibo_fichero.html"

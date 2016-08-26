@@ -1,0 +1,37 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Recibo{% endblock %}
+
+
+{% block body %}
+
+<div class="form-group">
+		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
+</div>
+	
+<table role="table" class="table">
+	<tr>
+		<td><b>Alumno</b></td>
+		<td>Grupo</td>
+		<td>Cuenta</td>
+		<td>Importe</td>
+	</tr>
+	
+	{% for asistencia in recibo.get_alumnos_recibo %}
+	<tr>
+		<td>{{ asistencia.alumno }}</td>
+		<td>{{ asistencia.grupo }}</td>
+		<td>{{ asistencia.alumno.cuenta_bancaria }}</td>
+		<td  align="right">{{asistencia.ver_precio }} €</td>
+	</tr>
+	{% endfor %}
+	
+	
+</table>
+
+
+{% endblock %}
