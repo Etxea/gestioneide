@@ -417,22 +417,13 @@ class Recibo(models.Model):
         return lista
     def get_alumnos_recibo(self):
         return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(metalico=False).order_by('alumno__cuenta_bancaria')
+        
     def get_alumnos_metalico(self):
-        if self.grupos_sueltos:
-            alumnos_metalico=0
-            for grupo in self.grupos.all():
-                alumnos_metalico =+ grupo.asistencia_set.filter(metalico=True).count()            
-            return alumnos_metalico
-        else:
-            return Asistencia.objects.filter(year=Year.objects.get(activo=True)).filter(metalico=True).count()
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(metalico=True)
+        
     def get_alumnos_factura(self):
-        if self.grupos_sueltos:
-            alumnos_factura=0
-            for grupo in self.grupos.all():
-                alumnos_factura =+ grupo.asistencia_set.filter(factura=True).count()            
-            return alumnos_factura
-        else:
-            return Asistencia.objects.filter(year=Year.objects.get(activo=True)).filter(factura=True).count()
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(factura=True)
+        
     def csb19(self):
         fichero_csb19=""
         hoy=datetime.date.today()

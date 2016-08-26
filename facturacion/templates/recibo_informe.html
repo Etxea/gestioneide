@@ -1,7 +1,7 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
-{% load evaluacion_extra_tags %}
+{% load facturacion_extra_tags %}
 {% load bootstrap %}
 
 {% block head_title %}Recibo{% endblock %}
@@ -12,7 +12,40 @@
 <div class="form-group">
 		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
 </div>
-	
+
+<h3>Metálico</h3>
+<table role="table" class="table">
+	<tr>
+		<td><b>Alumno</b></td>
+		<td>Grupo</td>
+		<td>Importe</td>
+	</tr>
+	{% for asistencia in recibo.get_alumnos_metalico %}
+	<tr>
+		<td>{{ asistencia.alumno }}</td>
+		<td>{{ asistencia.grupo }}</td>
+		<td  align="right">{{ asistencia.ver_precio|calcular_precio:recibo.medio_mes }} €</td>
+	</tr>
+	{% endfor %}	
+</table>
+
+<h3>Factura</h3>
+<table role="table" class="table">
+	<tr>
+		<td><b>Alumno</b></td>
+		<td>Grupo</td>
+		<td>Importe</td>
+	</tr>
+	{% for asistencia in recibo.get_alumnos_factura %}
+	<tr>
+		<td>{{ asistencia.alumno }}</td>
+		<td>{{ asistencia.grupo }}</td>
+		<td  align="right">{{ asistencia.ver_precio|calcular_precio:recibo.medio_mes }} €</td>
+	</tr>
+	{% endfor %}	
+</table>
+
+<h3>Recibos</h3>
 <table role="table" class="table">
 	<tr>
 		<td><b>Alumno</b></td>
@@ -20,17 +53,14 @@
 		<td>Cuenta</td>
 		<td>Importe</td>
 	</tr>
-	
 	{% for asistencia in recibo.get_alumnos_recibo %}
 	<tr>
 		<td>{{ asistencia.alumno }}</td>
 		<td>{{ asistencia.grupo }}</td>
 		<td>{{ asistencia.alumno.cuenta_bancaria }}</td>
-		<td  align="right">{{asistencia.ver_precio }} €</td>
+		<td  align="right">{{ asistencia.ver_precio|calcular_precio:recibo.medio_mes }} €</td>
 	</tr>
-	{% endfor %}
-	
-	
+	{% endfor %}	
 </table>
 
 

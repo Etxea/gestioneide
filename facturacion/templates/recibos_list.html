@@ -19,7 +19,7 @@
 			 <td><a href="{{ recibo.get_absolute_url }}" >{{ recibo.fecha_creacion }}</a></td>
 			 <td>{{ recibo.get_mes_display }}</td><td>{{ recibo.medio_mes|yesno }}</td>
 			 <td><a href="{% url 'recibo_fichero' recibo.id %}" ><span class="glyphicon glyphicon-list"></span></a></td>
-			 <td><span class="glyphicon glyphicon-print"></span></td>
+			 <td><a href="{% url 'recibo_informe' recibo.id %}" ><span class="glyphicon glyphicon-print"></span></a></td>
 		 </tr>
 		 {% endfor %}
 	</tbody>
