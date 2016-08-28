@@ -1,0 +1,44 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+
+{% include "pagination/pagination.html" %} 
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos.
+
+{% endblock %}
+{% block body %}
+Total: {{alumnos_list.count}}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover table-bordered bootgrid-table table-striped">
+            <thead>
+                <tr>
+                <td>ID</td>
+                <td>Apellidos, Nombre</td>
+                <td>Cuenta</td>
+<!--
+                <td>Grupo(s)</td>
+-->
+                </tr>
+            </thead>
+            <tbody>
+            {% for alumno in alumnos_list %}
+            <tr>
+                <td><a href="{{alumno.get_absolute_url}}">{{ alumno.id }}</a> ({{ alumno.activo|yesno }})</td>
+                <td>{{ alumno.apellido1 }} {{ alumno.apellido2 }}, {{ alumno.nombre }}</td>
+                <td>{{ alumno.cuenta_bancaria }}</td>
+<!--
+                <td>
+                    {% for asistencia in alumno.asistencia_set.all %}
+                    <a href="{% url 'grupo_detalle' asistencia.grupo.id %}">{{asistencia.grupo.nombre}}</a>
+                    {% endfor %}
+                    </td>
+-->
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.dates import MONTHS
+import re
 
 def csb19_crear_presentador(fecha_confeccion):
     """Funcion que crea el campo presentador y lo añade al contenido"""
@@ -144,3 +145,23 @@ def csb19_ajustar(numero,longitud, num_decimales=0):
 ##            print "Hacen falta ceros a la izquierda..."
         numero = '0'*(longitud-len(numero))+numero
     return numero
+
+
+def validar_ccc(value):
+    if len(value) != 24:
+        return False
+    print "Validando la cuenta",value
+    m = re.match(r'^(\d{4})[ -]?(\d{4})[ -]?(\d{2})[ -]?(\d{10})$', value)
+    entity, office, checksum, account = m.groups()
+    if get_checksum('00' + entity + office) + get_checksum(account) == checksum:
+        return True
+    else:
+        return False
+
+
+def get_checksum(d):
+    control_str = [1, 2, 4, 8, 5, 10, 9, 7, 3, 6]
+    digits = [int(digit) * int(control) for digit, control in zip(d, control_str)]
+    return str(11 - sum(digits) % 11).replace('10', '1').replace('11', '0')
+
+

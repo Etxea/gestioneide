@@ -14,7 +14,7 @@ import logging
 logger = logging.getLogger('gestioneide.debug')
 debug = logger.debug
 
-#Clase vase de lista de alumnos
+#Clase base de lista de alumnos
 class AlumnoListView(ListView):
     model=Alumno
     paginate_by = 75
@@ -42,14 +42,13 @@ class AlumnoBuscarView(AlumnoListView):
             debug("tenemos el numero de alumno ",numero)
             return Alumno.objects.filter(id=numero)
         except:
-            debug("No es un numero, buscamos los que el primer apellido coincidan con", cadena)
+            debug("No es un numero, buscamos los que el primer apellido coincida con", cadena)
             palabras = cadena.split(" ")
             if len(palabras)>1:
                 filtro = (Q(apellido1__icontains=palabras[0]) & Q(apellido2__icontains=palabras[1])) | (Q(nombre__icontains=palabras[0]) & Q(apellido1__icontains=palabras[1]))
             else:
                 filtro = Q(apellido1__icontains=cadena)
             return Alumno.objects.filter(activo=True).filter(filtro)
-        
         
 class AlumnoCreateView(CreateView):
     form_class = AlumnoCreateForm

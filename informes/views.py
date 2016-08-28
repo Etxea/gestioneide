@@ -7,6 +7,7 @@ import xlwt
 from wkhtmltopdf.views import PDFTemplateView
 
 from gestioneide.models import *
+from gestioneide.utils import validar_ccc
 from alumnos.views import *
 from asistencias.views import *
 
@@ -41,12 +42,17 @@ class AlumnosErroresListView(AlumnoListView):
     def get_queryset(self):
         return Alumno.objects.filter(activo=False).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
-
-class AlumnosBancoErroresListView(AlumnoListView):
-    #Solo listamos los activos y que estan en un grupo
-    def get_queryset(self):
-        return Alumno.objects.filter(activo=False).filter(cuenta_bancaria="0000-0000-00-0000000000")
-
+class AlumnosBancoErroresListView(TemplateView):
+    template_name="informes/alumnos_cuenta_mal.html"
+    def get_context_data(self, **kwargs):
+        context = super(AlumnosBancoErroresListView, self).get_context_data(**kwargs)
+        lista_alumnos = []
+        year = Year.objects.get(activo=True)
+        for asistencia in Asistencia.objects.filter(year=year).filter(metalico=False):
+            if not validar_ccc(asistencia.alumno.cuenta_bancaria):
+                lista_alumnos.append(asistencia.alumno)
+        context['alumnos_list'] = lista_alumnos
+        return context
 
 class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
