@@ -13,8 +13,12 @@ class GrupoListView(ListView):
     template_name = "grupos/grupo_list.html"
     def get_queryset(self):
         year = Year.objects.get(activo=True)
-        #~ print "Listamos los grupos del ano",year
-        return Grupo.objects.filter(year=year).order_by('nombre')
+        #Si es staff ve todos los grupos
+        if self.request.user.is_staff:
+            return Grupo.objects.filter(year=year).order_by('nombre')
+        #Sino limitamos los grupos a los cuales el profesor da clase
+        else:
+            return Grupo.objects.filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
         
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm

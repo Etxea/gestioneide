@@ -4,7 +4,8 @@ from django.db.models import Count
 
 from django.utils.translation import gettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.models import User
+from django.utils.text import slugify
+from django.contrib.auth.models import User, Group
 from django.utils.dates import MONTHS
 from django.utils.timezone import now
 from django.db.models import Q    
@@ -103,7 +104,7 @@ class Aula(models.Model):
         return tabla_clases
 
 class Profesor(models.Model):
-#    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     nombre = models.CharField(max_length=25,default="")
     apellido = models.CharField(max_length=50,default="")
     telefono = models.CharField(max_length=9,default="")
@@ -115,6 +116,29 @@ class Profesor(models.Model):
         return "%s"%(self.nombre)
     def get_absolute_url(self):
         return "/profesores/%s/"%self.id
+
+    def create_user(self):
+        try:
+            pg = Group.objects.get(name="profesores")            
+        except:
+            pg = Group(name="profesores")
+            pg.save()
+        if self.user == None:
+            try:
+                u = User.objects.get(username=slugify(self.nombre))
+                self.user=u
+                u.groups.add(pg)
+                u.save()
+                self.save()
+            except:
+                print "No hay usuario generamos uno para ",self.nombre
+                u = User(username=slugify(self.nombre),email=self.email)
+                u.save()
+                u.set_password("S3cr3t0")
+                u.groups.add(pg)
+                u.save()
+                self.user=u
+                self.save()
 
     def programacion_semana(self):
         tabla_clases = []

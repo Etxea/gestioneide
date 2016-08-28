@@ -16,7 +16,10 @@ class EvaluacionListView(ListView):
     #Solo listamos los que tengan asistencias
     def get_queryset(self):
         year = Year.objects.get(activo=True)
-        return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+        if self.request.user.is_staff:
+            return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+        else:
+            return Grupo.objects.filter(year=year).filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id))).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
     def get_context_data(self, **kwargs):
         context = super(EvaluacionListView, self).get_context_data(**kwargs)

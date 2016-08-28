@@ -43,6 +43,7 @@
     </li>
     -->
 	<li class="sm-sub">
+		{% if request.user.is_staff %}
 		<a href="/alumnos" >
 			<i class="zmdi zmdi-view-list"></i>
 			<span>Alumnos</span>
@@ -58,15 +59,18 @@
 			</li>
 		</ul>
 	</li>
-	<li class="sm-sub" >
-		<a href="" >
+	{% endif %}
+	<li {% if request.user.is_staff %}class="sm-sub"{% endif %} >
+		<a href="{% url 'grupo_lista' %}" >
 			<i class="zmdi zmdi zmdi-view-list"></i>
 			<span>Grupos</span>
 		</a>
+		{% if request.user.is_staff %}
 		<ul>
 			<li>
 				<a href="{% url 'grupo_lista' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Grupos</span></a>
 			</li>
+			
 			<li>
 				<a href="{% url 'imprimir_grupos' %}" target="_blank" ><i class="zmdi zmdi-print"></i>Imprimir lista de Grupos</a>
 			</li>
@@ -74,17 +78,19 @@
 				<a href="{% url 'imprimir_grupos_alumnos' %}" target="_blank" ><i class="zmdi zmdi-print"></i>Imprimir Lista de Grupos con alumnos</a>
 			</li>
 		</ul>
-	</li>
-	<li>
-		<a href="/calendario">
-			<i class="zmdi zmdi-calendar"></i>
-			<span>Calendario</span>
-		</a>
+		{% endif %}
 	</li>
 	<li>
 		<a href="{% url 'evaluacion' %}">
 			<i class="zmdi zmdi-check-all"></i>
 			<span>Evaluacion</span>
+		</a>
+	</li>
+	{% if request.user.is_staff %}
+	<li>
+		<a href="/calendario">
+			<i class="zmdi zmdi-calendar"></i>
+			<span>Calendario</span>
 		</a>
 	</li>
 	<li>
@@ -93,6 +99,7 @@
 			<span>Recibos</span>
 		</a>
 	</li>
+	
 	<li class="sm-sub">
 		<a href="">
 			<i class="zmdi zmdi-settings"></i>
@@ -114,5 +121,6 @@
 			<span>Informes</span>
 		</a>
 	</li>
+	{% endif %}
 	{% endif %}
 </ul>

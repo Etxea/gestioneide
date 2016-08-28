@@ -5,7 +5,9 @@
 
 {% include "pagination/pagination.html" %} 
 Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
+{% if request.user.is_staff %}
 <a class="btn btn-primary pull-right" href="{% url 'grupo_nuevo' %}">Nuevo</a>
+{% endif %}
 {% endblock %}
 
 {% block body %}
@@ -14,7 +16,6 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
         <table class="table">
             <thead>
                 <tr>
-                <td>ID</td>
                 <td>Nombre</td>
                 <td>Curso</td>
                 <td>Clases</td>
@@ -25,8 +26,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
             <tbody>
             {% for grupo in object_list %}
             <tr>
-                <td><a href="{{grupo.get_absolute_url}}">{{ grupo.id }}</a></td>
-                <td>{{ grupo.nombre }}</td>
+                <td><a href="{{grupo.get_absolute_url}}">{{ grupo.id }} - {{ grupo.nombre }}</a></td>
                 <td>{{ grupo.curso }}</td>
                 <td>
                     {%for clase in grupo.clases.all %}

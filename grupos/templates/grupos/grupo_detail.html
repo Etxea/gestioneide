@@ -1,8 +1,19 @@
 {% extends "site_base.html"%}
 {% load i18n %}
+{% block page_header %}
+<h1>{% trans "Grupo" %} {{object.nombre}} 
+    {% if request.user.is_staff %}
+    <a href="{% url 'grupo_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a> 
+    <a href="{% url 'grupo_borrar' object.id %}"><span class="glyphicon glyphicon-trash"></span></a> 
+    {% endif %}
+</h1>    
+{% endblock %}
+
 {% block body %}
+
 <div class="row">
-    <h1>{% trans "Grupo" %} {{object.nombre}} <a href="{% url 'grupo_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="{% url 'grupo_borrar' object.id %}"><span class="glyphicon glyphicon-trash"></span></a> </h1>    
+    
+    {% if request.user.is_staff %}
     <div class="col-md-12">
 		<div class="btn-group" role="group" aria-label="...">
 		<button class="btn">Planilla asistencia</button>
@@ -25,6 +36,7 @@
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 2%}">2</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 3%}">3</a>
     </div>
+    {% endif %}
     </div>
 </div>
 <div class="row">
@@ -42,6 +54,7 @@
                 <tr>
                     <td>{{clase.get_dia_semana_display}}</td><td>{{clase.hora_inicio}}</td><td>{{clase.hora_fin}}</td>
                     <td><a href="{% url 'aula_detalle' clase.aula.id %}">{{clase.aula.nombre}}</a></td><td><a href="{% url 'profesor_detalle' clase.profesor.id %}">{{clase.profesor}}</a></td>
+                    {% if request.user.is_staff %}
                     <td>
                         <a href="{% url 'borrar_clase' clase.id %}" id=borrar_clase" class="btn" ><i class="zmdi zmdi-delete"></i></a>
                         <a href="{% url 'editar_clase' clase.id %}" id=editar_clase" class="btn" 
@@ -49,23 +62,28 @@
                             <i class="zmdi zmdi-edit"></i>
                         </a>
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% if request.user.is_staff %}
         {% include 'grupos/clase_modal.html' %}
         {% include 'grupos/clase_editar_modal.html' %}
+        {% endif %}
         <h3>Resumen</h3>
         <table class="table">
             <tr><td>Nombre</td><td>{{object.nombre}}</td></tr>
-            <tr><td>Precio</td><td>{{object.get_precio}}</td></tr>
+            <tr><td>Precio</td><td>{{object.get_precio}} €</td></tr>
             <tr><td>Num Max. Alumnos</td><td>{{object.num_max}}</td></tr>
-            <tr><td>Menores</td><td>{{object.menores}}</td></tr>
+            <tr><td>Menores</td><td>{{object.menores|yesno}}</td></tr>
         </table>
+        {% if request.user.is_staff %}
         <h3>Imprimir</h3>
         <a  class="btn zmdi zmdi-print" href="{% url 'imprimir_grupo_unico_alumnos' object.id %}">
             Imprimir ficha grupo
         </a>
+        {% endif %}
 
     </div>
     <div class="col-lg-6"> 
@@ -78,6 +96,7 @@
             <tr>
                
                 <td><a href="{% url 'alumno_detalle' asistencia.alumno.id%}">{{asistencia.alumno.id}} - {{asistencia.alumno.nombre}},{{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</a></td>
+                {% if request.user.is_staff %}
                 <td>
                     {% if not asistencia.confirmado %}
                         <a class="btn btn-primary zmdi zmdi-check" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Confirmar</a>
@@ -86,11 +105,12 @@
                     <a class="btn zmdi zmdi-edit" href="{% url 'asistencia_editar' asistencia.id %}"></a>
                     <button type="button" class="btn zmdi zmdi-delete" data-toggle="modal" data-target="#deleteAsistenciaModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}"></button>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
             {% include "grupos/asistencia_modal.html" %}
         </table>
-        <a class="btn btn-primary" href="{% url 'asistencia_nueva_grupo' object.id %}">Añadir alumno</a>
+        {% if request.user.is_staff %}<a class="btn btn-primary" href="{% url 'asistencia_nueva_grupo' object.id %}">Añadir alumno</a>{% endif %}
     </div>
 </div>    
 
