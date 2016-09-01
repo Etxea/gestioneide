@@ -1,26 +1,31 @@
-# Create your views here.
+## FIXME habria que renombrar las clases para que sean CamelCase , editar tambien en urls.
+## FIXME habria que eliminar o al menos comentar lo que no se use
+
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from utils import _getWeekDetails
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 from gestioneide.models import *
 from forms import *
 
+@method_decorator(permission_required('gestioneide.clase_add'),name='dispatch')
 class ClaseCreateView(CreateView):
     model = Clase
     form_class = ClaseForm
 
+@method_decorator(permission_required('gestioneide.clase_delete'),name='dispatch')
 class ClaseDeleteView(DeleteView):
     model = Clase
     def get_success_url(self):
         return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
 
+@method_decorator(permission_required('gestioneide.clase_add'),name='dispatch')
 class ClaseCursoCreateView(ClaseCreateView):
     ##Recogemos los datos iniciales (clientes)
     def get_initial(self):
@@ -124,6 +129,8 @@ def vista_semana_profesor(request, numero, id_profesor):
         {"numero_semana": numero, "inicio_semana": inicio_semana, "fin_semana": fin_semana, \
         "clases_semana": clases_semana,"profesor": profesor, "profesores": profesores})
 
+@method_decorator(permission_required('gestioneide.clase_view'),name='dispatch')
+#Fixme que solo lo vea el admin  el propio profe
 class clases_profesor(ListView):
     model = Clase
     context_object_name = "clases_list"
@@ -141,7 +148,8 @@ class clases_profesor(ListView):
         # Add in the publisher
         context['profesor'] = self.profesor
         return context
-        
+
+@method_decorator(permission_required('gestioneide.clase_view'),name='dispatch')        
 class clases_lista_profesores(ListView):
     model = Profesor
     template_name="clases_profesores.html"
@@ -154,7 +162,8 @@ class clases_lista_profesores(ListView):
         hoy = datetime.date.today()
         context['num_semana'] = hoy.isocalendar()[1]
         return context
-    
+
+@method_decorator(permission_required('gestioneide.clase_view'),name='dispatch')    
 class clases_lista_aulas(ListView):
     model = Aula
     template_name="clases_aulas.html"
@@ -167,6 +176,8 @@ class clases_lista_aulas(ListView):
         hoy = datetime.date.today()
         context['num_semana'] = hoy.isocalendar()[1]
         return context
+
+@method_decorator(permission_required('gestioneide.clase_view'),name='dispatch')
 class clases_aula(ListView):
     model = Clase
     context_object_name = "clases_list"
@@ -185,12 +196,14 @@ class clases_aula(ListView):
         context['aula'] = self.aula
         return context
 
+@method_decorator(permission_required('gestioneide.clase_add'),name='dispatch')
 class nueva_clase(CreateView):
     model = Clase
     template_name = "clase_form.html"
     form_class = ClaseForm
     success_url = "/clases"
 
+@method_decorator(permission_required('gestioneide.clase_add'),name='dispatch')
 class nueva_clase_grupo(CreateView):
     model = Clase
     template_name = "clase_grupo_form.html"
@@ -205,18 +218,21 @@ class nueva_clase_grupo(CreateView):
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         return { 'grupo': grupo }
 
+@method_decorator(permission_required('gestioneide.clase_delete'),name='dispatch')
 class borrar_clase(DeleteView):
     model = Clase
     template_name = "clase_confirm_delete.html"
     def get_success_url(self):
         return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
-    
+
+@method_decorator(permission_required('gestioneide.clase_change'),name='dispatch')    
 class editar_clase(UpdateView):
     model = Clase
     template_name = "clase_editar.html"
     form_class = ClaseForm
     def get_success_url(self):
         return reverse_lazy("grupo_detalle", kwargs={'pk': self.object.grupo.pk})
-    
+
+@method_decorator(permission_required('gestioneide.clase_change'),name='dispatch')    
 class editar_clase_modal(editar_clase):
     template_name = "clase_editar_modal.html"

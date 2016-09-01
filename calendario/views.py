@@ -2,19 +2,23 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from forms import *
 from gestioneide.models import *
 import calendar
 
+@method_decorator(permission_required('gestioneide.festivo_delete'),name='dispatch')
 class BorrarFestivo(DeleteView):
     model = Festivo
     template_name = "calendario/festivo_confirm_delete.html"
     success_url = "/calendario"
+
+@method_decorator(permission_required('gestioneide.festivo_view'),name='dispatch')
 class ListaFestivos(ListView):
     model = Festivo
     template_name = "calendario/festivos_lista.html"
 
+@method_decorator(permission_required('gestioneide.festivo_view'),name='dispatch')
 class CalendarioFestivos(ListView):
     model = Festivo
     template_name = "calendario/festivos_calendario.html"
@@ -33,13 +37,14 @@ class CalendarioFestivos(ListView):
         context['meses'] = meses
         return context
 
+@method_decorator(permission_required('gestioneide.festivo_change'),name='dispatch')
 class EditarFestivo(UpdateView):
     model = Festivo
     template_name = "calendario/festivo_editar.html"
     fields = "__all__"
     success_url = "/calendario"
 
-
+@method_decorator(permission_required('gestioneide.festivo_add'),name='dispatch')
 class NuevoFestivo(CreateView):
     model = Festivo
     success_url = "/calendario"
@@ -54,7 +59,7 @@ class NuevoFestivo(CreateView):
 		    'year': year
 	    }
 
-  
+@method_decorator(permission_required('gestioneide.festivo_view'),name='dispatch')  
 class DetalleFestivo(DetailView):
     model = Festivo
     template_name = "festivo_detalle.html"

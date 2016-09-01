@@ -5,16 +5,18 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from gestioneide.models import *
 from forms import *
 
+@method_decorator(permission_required('gestioneide.recibo_view'),name='dispatch')
 class ReciboListView(ListView):
     model = Recibo
     template_name = "recibos_list.html"
 
+@method_decorator(permission_required('gestioneide.recibo_add'),name='dispatch')
 class ReciboCreateView(CreateView):
     model = Recibo
     template_name = "recibo_create.html"
@@ -23,15 +25,17 @@ class ReciboCreateView(CreateView):
         year = Year.objects.get(activo=True)
         return { 'year': year }
 
-        
+@method_decorator(permission_required('gestioneide.recibo_view'),name='dispatch')
 class ReciboDetailView(DetailView):
     model = Recibo
     template_name = "recibo_detail.html"
 
+@method_decorator(permission_required('gestioneide.recibo_view'),name='dispatch')
 class ReciboInformeView(DetailView):
     model = Recibo
     template_name = "recibo_informe.html"
 
+@method_decorator(permission_required('gestioneide.recibo_view'),name='dispatch')
 class ReciboFicheroView(View,SingleObjectMixin):
     model = Recibo
     template_name = "recibo_fichero.html"
@@ -42,5 +46,6 @@ class ReciboFicheroView(View,SingleObjectMixin):
         response.write(fichero)
         return response
 
+@method_decorator(permission_required('gestioneide.recibo_delete'),name='dispatch')
 class ReciboDeleteView(DeleteView):
     model = Recibo

@@ -1,29 +1,35 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.decorators import login_required, permission_required
 from gestioneide.models import *
 
+@method_decorator(permission_required('gestioneide.aula_view'),name='dispatch')
 class ListaAulas(ListView):
     model = Aula
     template_name="aulas.html"
     context_object_name = "aulas_list"
-   
+
+@method_decorator(permission_required('gestioneide.aula_create'),name='dispatch')   
 class NuevaAula(CreateView):
 	model = Aula
 	template_name="aula_nueva.html"
 	fields="__all__"
 	success_url = '/aulas/' ## FIXME esto deberia ser un reverse
-	
+
+@method_decorator(permission_required('gestioneide.aula_change'),name='dispatch')	
 class EditarAula(UpdateView):
 	model = Aula
 	template_name="aula_editar.html"
 	fields = '__all__'
 	success_url = "/aulas/"
 
+@method_decorator(permission_required('gestioneide.aula_view'),name='dispatch')
 class DetalleAula(DetailView):
 	model = Aula
 	context_object_name ="aula"
 	template_name="aula_detalle.html"
 
+##FIXME  esto va sin permisos. deberia tener?
 
 def get_clases_dia(fecha,aula=None,profesor=None):
     """funcion que devuelve todas las clases que hay en un dia concreto""" 
