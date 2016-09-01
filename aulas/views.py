@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from gestioneide.models import *
 
