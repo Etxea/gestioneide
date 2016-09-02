@@ -4,14 +4,18 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, DetailView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
 
 from models import *
 from forms import *
 
+@method_decorator(permission_required('gestioneide.olddatabase_view',raise_exception=True),name='dispatch')
 class DbListView(ListView):
     model = OldDatabase
     template_name = 'olddatabase_list.html'
 
+@permission_required('gestioneide.olddatabase_view',raise_exception=True)
 def list(request):
     # Handle file upload
     if request.method == 'POST':
@@ -35,6 +39,7 @@ def list(request):
         context_instance=RequestContext(request)
     )
 
+@permission_required('gestioneide.olddatabase_view',raise_exception=True)
 def load_olddb(request):
     print "Somos load_olddb"
     if request.method == 'POST':
@@ -53,7 +58,7 @@ def load_olddb(request):
             content_type="application/json"
         )
 
-
+@permission_required('gestioneide.olddatabase_add',raise_exception=True)
 def upload(request):
     # Handle file upload
     if request.method == 'POST':

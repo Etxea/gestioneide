@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
 
 import xlwt
 from wkhtmltopdf.views import PDFTemplateView
@@ -11,8 +13,7 @@ from gestioneide.utils import validar_ccc
 from alumnos.views import *
 from asistencias.views import *
 
-
-
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class InformesHomeView(TemplateView):
     template_name="informes/home.html"
     def get_context_data(self, **kwargs):
@@ -20,6 +21,7 @@ class InformesHomeView(TemplateView):
         context['years'] = Year.objects.all()
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ProfesoresClasesView(PDFTemplateView):
     filename='profesores_clases.pdf'
     template_name = "informes/listado_profesores_clases.html"
@@ -28,6 +30,7 @@ class ProfesoresClasesView(PDFTemplateView):
         context["profesores_list"]=Profesor.objects.all()
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AulasClasesView(PDFTemplateView):
     filename='aulas_clases.pdf'
     template_name = "informes/listado_aulas_clases.html"
@@ -36,12 +39,14 @@ class AulasClasesView(PDFTemplateView):
         context["aulas_list"]=Aula.objects.all()
         return context
         
-
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AlumnosErroresListView(AlumnoListView):
     #Solo listamos los activos y que estan en un grupo
     def get_queryset(self):
         return Alumno.objects.filter(activo=False).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
+#FIXME este permiso debería ser mas especifico porque hay datos sensibles
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AlumnosBancoErroresListView(TemplateView):
     template_name="informes/alumnos_cuenta_mal.html"
     def get_context_data(self, **kwargs):
@@ -54,24 +59,27 @@ class AlumnosBancoErroresListView(TemplateView):
         context['alumnos_list'] = lista_alumnos
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
         year = Year.objects.get(activo=True)
         return Asistencia.objects.filter(year=year).filter(confirmado=False)
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AsistenciasDescuentoListView(AsistenciaListView):
     def get_queryset(self):
         year = Year.objects.get(activo=True)
         return Asistencia.objects.filter(year=year).filter(precio__isnull=False)
 
-
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class GruposAlumnosListView(ListView):
     model = Grupo
     template_name = "informes/grupos_alumnos.html"
     def get_queryset(self):
         year = Year.objects.get(activo=True)
         return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
-        
+
+@permission_required('gestioneide.informes_view',raise_exception=True)
 def export_grupos_xls(request):
     ano = Year.objects.get(activo=True)
     response = HttpResponse(content_type='application/ms-excel')
@@ -120,8 +128,7 @@ def export_grupos_xls(request):
     wb.save(response)
     return response
 
-
-
+@permission_required('gestioneide.informes_view',raise_exception=True)
 def export_alumnos_xls(request):
     
     response = HttpResponse(content_type='application/ms-excel')
@@ -163,10 +170,11 @@ def export_alumnos_xls(request):
     wb.save(response)
     return response
 
-
+@permission_required('gestioneide.informes_view',raise_exception=True)
 def export_asistencias_no_confirmadas_xls(request):
     return export_asistencias_xls(request,"noconfirmadas")
 
+@permission_required('gestioneide.informes_view',raise_exception=True)
 def export_asistencias_xls(request,filtro=False):
     ano = Year.objects.get(activo=True)
     response = HttpResponse(content_type='application/ms-excel')
@@ -216,7 +224,7 @@ def export_asistencias_xls(request,filtro=False):
     wb.save(response)
     return response
 
-
+@permission_required('gestioneide.informes_view',raise_exception=True)
 def export_telefonos_alumnos_xls(request,ano):
     
     ano = Year.objects.get(id=ano)

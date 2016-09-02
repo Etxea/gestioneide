@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 import os
 import calendar
@@ -9,6 +11,7 @@ from wkhtmltopdf.views import PDFTemplateView
 
 from gestioneide.models import *
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirGrupos(PDFTemplateView):
     filename='grupos.pdf'
     template_name = "grupos_pdf.html"    
@@ -19,6 +22,7 @@ class ImprimirGrupos(PDFTemplateView):
         context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirGruposAlumnos(PDFTemplateView):
     filename='listado_grupos_con_alumnos.pdf'
     template_name = "grupos_alumnos_pdf.html"
@@ -34,6 +38,7 @@ class ImprimirGruposAlumnos(PDFTemplateView):
             context['grupo_list'] = Grupo.objects.filter(year=year)
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirAsistenciaHorario(PDFTemplateView):
     template_name='asistencia_horario_pdf.html'
     cmd_options = {
@@ -56,6 +61,7 @@ class ImprimirAsistenciaHorario(PDFTemplateView):
         context['lista_festivos'] =Festivo.objects.filter(year=year)
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirAlumnoMatricula(PDFTemplateView):
     filename='matricula.pdf'
     template_name = 'matricula_alumno_pdf.html'
@@ -71,7 +77,8 @@ class ImprimirAlumnoMatricula(PDFTemplateView):
         alumno = Alumno.objects.get(id=alumno_id)
         context['alumno'] = alumno
         return context
-    
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')    
 class ImprimirAlumnoOctavilla(PDFTemplateView):
     filename='octavilla_alumno_pdf.pdf'
     template_name = 'octavilla_alumno_pdf.html'
@@ -83,6 +90,7 @@ class ImprimirAlumnoOctavilla(PDFTemplateView):
         context['alumno'] = alumno
         return context
 
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirGruposPlanillaAsistencia(PDFTemplateView):
     filename='grupos_planilla_asistencia.pdf'
     template_name = 'grupos_planilla_asistencia_pdf.html'

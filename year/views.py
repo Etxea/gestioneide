@@ -2,13 +2,18 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
+
 from gestioneide.models import *
 
+@method_decorator(permission_required('gestioneide.year_add',raise_exception=True),name='dispatch')
 class YearListView(ListView):
     model=Year
     paginate_by = 50
     template_name = "year/year_list.html"
-        
+
+@method_decorator(permission_required('gestioneide.year_add',raise_exception=True),name='dispatch')        
 class YearCreateView(CreateView):
     template_name = "year/year_form.html"
     model = Year
@@ -16,6 +21,7 @@ class YearCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("year_lista")
 
+@method_decorator(permission_required('gestioneide.year_add',raise_exception=True),name='dispatch')
 class YearUpdateView(UpdateView):
     template_name = "year/year_form.html"
     model = Year
@@ -23,17 +29,18 @@ class YearUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy("year_lista")
 
-
+@method_decorator(permission_required('gestioneide.year_add',raise_exception=True),name='dispatch')
 class YearDeleteView(DeleteView):
     template_name = "year/year_deleteconfirm.html"
     def get_success_url(self):
         return reverse_lazy("year_lista")
 
-
+@method_decorator(permission_required('gestioneide.year_add',raise_exception=True),name='dispatch')
 class YearDetailView(DetailView):
     model = Year
     template_name = "year/year_detail.html"
 
+@permission_required('gestioneide.year_add',raise_exception=True)
 def year_activate(request):
     if request.method == 'POST':
         year_id = request.POST.get('id')
@@ -48,6 +55,7 @@ def year_activate(request):
     else:
         return HttpResponseRedirect(reverse('year_lista'))
 
+@permission_required('gestioneide.year_add',raise_exception=True)
 def year_clone(request):
     if request.method == 'POST':
         year_id = request.POST.get('id')
@@ -80,7 +88,8 @@ def year_clone(request):
         return JsonResponse({'state':'ok','msg': "clone done"})
     else:
         return HttpResponseRedirect(reverse('year_lista'))
-    
+
+@permission_required('gestioneide.year_add',raise_exception=True)    
 def year_empty(request):
     if request.method == 'POST':
         year_id = request.POST.get('id')
