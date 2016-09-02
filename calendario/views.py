@@ -7,18 +7,18 @@ from forms import *
 from gestioneide.models import *
 import calendar
 
-@method_decorator(permission_required('gestioneide.festivo_delete'),name='dispatch')
+@method_decorator(permission_required('gestioneide.festivo_delete',raise_exception=True),name='dispatch')
 class BorrarFestivo(DeleteView):
     model = Festivo
     template_name = "calendario/festivo_confirm_delete.html"
     success_url = "/calendario"
 
-@method_decorator(permission_required('gestioneide.festivo_view'),name='dispatch')
+@method_decorator(permission_required('gestioneide.festivo_view',raise_exception=True),name='dispatch')
 class ListaFestivos(ListView):
     model = Festivo
     template_name = "calendario/festivos_lista.html"
 
-@method_decorator(permission_required('gestioneide.festivo_view'),name='dispatch')
+@method_decorator(permission_required('gestioneide.festivo_view',raise_exception=True),name='dispatch')
 class CalendarioFestivos(ListView):
     model = Festivo
     template_name = "calendario/festivos_calendario.html"
@@ -37,14 +37,14 @@ class CalendarioFestivos(ListView):
         context['meses'] = meses
         return context
 
-@method_decorator(permission_required('gestioneide.festivo_change'),name='dispatch')
+@method_decorator(permission_required('gestioneide.festivo_change',raise_exception=True),name='dispatch')
 class EditarFestivo(UpdateView):
     model = Festivo
     template_name = "calendario/festivo_editar.html"
     fields = "__all__"
     success_url = "/calendario"
 
-@method_decorator(permission_required('gestioneide.festivo_add'),name='dispatch')
+@method_decorator(permission_required('gestioneide.festivo_add',raise_exception=True),name='dispatch')
 class NuevoFestivo(CreateView):
     model = Festivo
     success_url = "/calendario"
@@ -59,7 +59,7 @@ class NuevoFestivo(CreateView):
 		    'year': year
 	    }
 
-@method_decorator(permission_required('gestioneide.festivo_view'),name='dispatch')  
+@method_decorator(permission_required('gestioneide.festivo_view',raise_exception=True),name='dispatch')  
 class DetalleFestivo(DetailView):
     model = Festivo
     template_name = "festivo_detalle.html"

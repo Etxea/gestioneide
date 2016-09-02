@@ -51,25 +51,25 @@ class AlumnoBuscarView(AlumnoListView):
                 filtro = Q(apellido1__icontains=cadena)
             return Alumno.objects.filter(activo=True).filter(filtro)
 
-@method_decorator(permission_required('gestioneide.alumno_add'),name='dispatch')        
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')        
 class AlumnoCreateView(CreateView):
     form_class = AlumnoCreateForm
     template_name = "alumnos/alumno_form.html"
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
 
-@method_decorator(permission_required('gestioneide.alumno_view'),name='dispatch')
+@method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoDetailView(DetailView):
     model = Alumno
     template_name = "alumnos/alumno_detail.html"
 
-@method_decorator(permission_required('gestioneide.alumno_add'),name='dispatch')
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class AlumnoDeleteView(DeleteView):
     model = Alumno
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
 
-@method_decorator(permission_required('gestioneide.alumno_add'),name='dispatch')
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class AlumnoUpdateView(UpdateView):
     model = Alumno
     form_class = AlumnoCreateForm

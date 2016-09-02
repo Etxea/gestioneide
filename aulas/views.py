@@ -4,27 +4,27 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from gestioneide.models import *
 
-@method_decorator(permission_required('gestioneide.aula_view'),name='dispatch')
+@method_decorator(permission_required('gestioneide.aula_view',raise_exception=True),name='dispatch')
 class ListaAulas(ListView):
     model = Aula
     template_name="aulas.html"
     context_object_name = "aulas_list"
 
-@method_decorator(permission_required('gestioneide.aula_create'),name='dispatch')   
+@method_decorator(permission_required('gestioneide.aula_create',raise_exception=True),name='dispatch')   
 class NuevaAula(CreateView):
 	model = Aula
 	template_name="aula_nueva.html"
 	fields="__all__"
 	success_url = '/aulas/' ## FIXME esto deberia ser un reverse
 
-@method_decorator(permission_required('gestioneide.aula_change'),name='dispatch')	
+@method_decorator(permission_required('gestioneide.aula_change',raise_exception=True),name='dispatch')	
 class EditarAula(UpdateView):
 	model = Aula
 	template_name="aula_editar.html"
 	fields = '__all__'
 	success_url = "/aulas/"
 
-@method_decorator(permission_required('gestioneide.aula_view'),name='dispatch')
+@method_decorator(permission_required('gestioneide.aula_view',raise_exception=True),name='dispatch')
 class DetalleAula(DetailView):
 	model = Aula
 	context_object_name ="aula"
