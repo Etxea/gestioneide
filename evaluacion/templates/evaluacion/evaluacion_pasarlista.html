@@ -1,0 +1,65 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+
+{% block head_title %}Pasar{% endblock %}
+
+{% block body %}
+
+<h1>Pasar lista {{ grupo.nombre }} del mes {{ mes }}</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th>
+                {% for dia in dias_clase %}
+                <th>Dia {{dia}}<br /> P/F/J</th>
+                {% endfor %}
+			</tr>
+		</thead>
+		<tbody>    
+		{% for asistencia in object.asistencia_set.all %}
+			<tr>
+				
+				<td>{{ asistencia.alumno }}</td>
+                {% for dia in dias_clase %}
+                <td>
+                    <input id="{{asistencia.id}}_{{dia}}" name="{{asistencia.id}}_{{dia}}" onclick="on_presente_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
+                    <input id="{{asistencia.id}}_{{dia}}" name="{{asistencia.id}}_{{dia}}" onclick="on_falta_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
+                    <input id="{{asistencia.id}}_{{dia}}" name="{{asistencia.id}}_{{dia}}" onclick="on_justificada_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
+                </td>
+                {% endfor %}                
+				
+				
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+    <div class="alert">
+        <b>P</b>: Presente<br />
+        <b>F</b>: Falta<br />
+        <b>J</b>: Justificada<br />
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+function on_presente_click(asistencia,dia)
+{
+    console.log("Creando presente para el día: "+dia+" y el aistencia "+asistencia);
+}
+
+function on_falta_click(asistencia,dia)
+{
+    console.log("Creando la falta para el día: "+dia+" y el asistencia "+asistencia);
+}
+
+function on_justificada_click(asistencia,dia)
+{
+    console.log("Creando justificada para el día: "+dia+" y el asistencia "+asistencia);
+}
+</script>
+
+{% endblock %}

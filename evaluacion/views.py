@@ -165,6 +165,16 @@ class FaltasGrupo(DetailView):
         context['trimestre'] = self.kwargs['trimestre']
         return context
     
+class PasarListaGrupoView(DetailView):
+    model = Grupo
+    template_name="evaluacion/evaluacion_pasarlista.html"
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(PasarListaGrupoView, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['mes'] = self.kwargs['mes']
+        context['dias_clase'] = [1,2,3,4,5,6]
+        return context
     
 class NotaCreateView(CreateView):
     model = Nota

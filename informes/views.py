@@ -45,7 +45,7 @@ class AlumnosErroresListView(AlumnoListView):
     def get_queryset(self):
         return Alumno.objects.filter(activo=False).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
-#FIXME este permiso debería ser mas especifico porque hay datos sensibles
+#FIXME este permiso deberia ser mas especifico porque hay datos sensibles
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AlumnosBancoErroresListView(TemplateView):
     template_name="informes/alumnos_cuenta_mal.html"
