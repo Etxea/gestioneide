@@ -1,13 +1,20 @@
 {% extends "site_base.html"%}
 {% load i18n %}
 
+{% block title %}
+Listado de asistencias
+{% endblock %}
+
+{% block page_header %}
+{% include "pagination/pagination.html" %} 
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos.
+{% endblock %}
+
 {% block body %}
 
 <div class="row">
-    <div class="col-md-10 col-xs-12">
-        <h4>Listado de Asistencias</h4>
-     
-        <table class="table">
+    <div class="col-md-12">
+        <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
                 <tr>
                 <td>ID</td>
@@ -26,7 +33,12 @@
 				<td><a href="{% url 'alumno_detalle' asistencia.alumno.id %}"> {{ asistencia.alumno }}</a></td>
 				<td><a href="{% url 'grupo_detalle' asistencia.grupo.id %}">{{ asistencia.grupo }}</a></td>
 				<td>{{ asistencia.ver_precio }}</td>
-				<td>{{ asistencia.metalico|yesno:"Si,No" }}</td>
+				<td>{{ asistencia.metalico|yesno:"Si,No" }}
+                    <a class="btn btn-small btn-primary" onclick="on_metalico_click({{asistencia.id}})"">
+                        <i class="zmdi zmdi-card"></i>
+                    </a>
+
+                </td>
 				<td>{{ asistencia.factura|yesno:"Si,No" }}</td>
 				<td>{{ asistencia.confirmado|yesno:"Si,No" }}</td>
 			 </tr>
@@ -34,10 +46,42 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-2">
-    <h4>Acciones</h4>
-    {% include "pagination/pagination.html" %}
-    <a href="{% url 'asistencia_nuevo' %}"><button>Nuevo</button></a>
-    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function on_metalico_click(asistencia)
+{
+    $('body').addClass('wait');
+
+    console.log("Pasamos a metálico la asistencia: "+asistencia);
+    $.ajax({
+        url : "{% url 'asistencia_set_domiciliacion' %}",
+        type : "POST", 
+        data : { id : asistencia,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+             },
+        
+        success : function(json) {
+            console.log("success"); // another sanity check
+            console.log(json); // log the returned json to the console
+            $('body').removeClass('wait');
+            //FIXME un reload?
+            
+            console.log("reload");
+            document.location.reload();
+        },
+        
+        error : function(xhr,errmsg,err) {
+            console.log("ERROR",errmsg,err);
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            $('body').removeClass('wait');
+        }
+        
+
+    });
+    
+}
+</script>
 {% endblock %}

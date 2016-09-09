@@ -77,3 +77,16 @@ class AsistenciaDeleteView(DeleteView):
 class AsistenciaDetailView(DetailView):
     model = Asistencia
     template_name = "asistencias/asistencia_detail.html"
+
+@permission_required('gestioneide.year_add',raise_exception=True)
+def asistencia_domiciliacion(request):
+    if request.method == 'POST':
+        asistencia_id = request.POST.get('id')
+        asistencia = Asistencia.objects.get(id=asistencia_id)
+        
+        asistencia.metalico=False
+        asistencia.save()
+        
+        return JsonResponse({'state':'ok','msg': "done"})
+    else:
+        return HttpResponseRedirect(reverse('asistencia_lista'))

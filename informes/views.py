@@ -72,6 +72,13 @@ class AsistenciasDescuentoListView(AsistenciaListView):
         return Asistencia.objects.filter(year=year).filter(precio__isnull=False)
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class AsistenciasMetalicoListView(AsistenciaListView):
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        return Asistencia.objects.filter(year=year).filter(metalico=True)
+
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class GruposAlumnosListView(ListView):
     model = Grupo
     template_name = "informes/grupos_alumnos.html"
