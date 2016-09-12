@@ -96,10 +96,10 @@ class ImprimirGruposPlanillaAsistencia(PDFTemplateView):
     template_name = 'grupos_planilla_asistencia_pdf.html'
     cmd_options = {
         "orientation": "landscape",
-        'margin-bottom': 10,
-        'margin-top': 10,
-        'margin-left': 15,
-        'margin-right': 15
+        'margin-bottom': 15,
+        'margin-top': 15,
+        'margin-left': 25,
+        'margin-right': 25
         }
     def get_context_data(self, **kwargs):
         context = super(ImprimirGruposPlanillaAsistencia, self).get_context_data(**kwargs)

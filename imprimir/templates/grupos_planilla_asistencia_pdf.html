@@ -6,15 +6,13 @@
 {% block body %}
 
 {% for grupo in grupo_list %}
-    <div class="row">    
+    <div class="row" style="margin-right: 10px;margin-left: 10px;">    
 	{% with dias_clase=grupo.id|grupo_dias_clase_mes:mes %}   
-    <br />
-    <br />
-    <h1>{% trans "Grupo" %} {{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h1>
-    <h2>Clases</h2>
+    
+    <h2>{{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h2>
+<!--
         <table class="table">
-            <thead>
-            
+            <thead>            
                 <th>Dia</th>
                 <th colspan="2">Horario</th>
                 <th>Aula</th>
@@ -29,46 +27,25 @@
                 </tr>
                 {% endfor %}
         </table>
-    <h2>Libros</h2>
-        <table class="table">
-<!--
-            <thead>
-            
-                <th>Titulo</th>
-                <th>Editorial</th>
-                <th>Autor</th>            
-                <th>ISBN</th>            
-            </thead>
 -->
-                {% for libro in grupo.curso.libros.all %}
+        <table class="table" border="1">
+            <thead>
+                <th colspan="2">Día</th>
+                {% for dia in dias_clase %}
+                <th>{{ dia }}</th>
+                {% endfor %}
+            </thead>
+            <tbody>
+                {% for asistencia in grupo.asistencia_set.all %}
                 <tr>
-                    <td>{{libro.titulo}}</td>
-                    <td>{{libro.editorial}}</td>
-                    <td>{{libro.autor}}</td>
-                    <td>{{libro.isbn}}</td>
+                    <td colspan="2" >{{ asistencia.alumno.apellido1}} 
+                        {{asistencia.alumno.apellido2}}, 
+                        {{asistencia.alumno.nombre}}</td>
+                    {% for dia in dias_clase %}<td>  </td>{% endfor %}
                 </tr>
                 {% endfor %}
+            </tbody>
         </table>
-
-    <br />
-    <table class="table" border="1">
-        <thead>
-            <th colspan="2">Día</th>
-            {% for dia in dias_clase %}
-            <th>{{ dia }}</th>
-            {% endfor %}
-        </thead>
-        <tbody>
-            {% for asistencia in grupo.asistencia_set.all %}
-            <tr>
-                <td colspan="2" >{{ asistencia.alumno.apellido1}} 
-                    {{asistencia.alumno.apellido2}}, 
-                    {{asistencia.alumno.nombre}}</td>
-                {% for dia in dias_clase %}<td>  </td>{% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
     {% endwith %}
     <div style="page-break-after: always;"></div>
 </div>
