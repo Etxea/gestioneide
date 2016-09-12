@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -171,9 +172,29 @@ class PasarListaGrupoView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(PasarListaGrupoView, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
+        
+        dias_clase = self.object.get_dias_clase_mes(int(self.kwargs['mes']))
+        presentes = []
+        faltas = []
+        justificadas = []
+        
+        presentes_queryset = Falta.objects.filter(mes=self.kwargs['mes'])
+        for presente in presentes_queryset:
+            presentes.append("%s_%s_%s"%(presente.asistencia.id,presente.mes,presente.dia))
+        
+        faltas_queryset = Falta.objects.filter(mes=self.kwargs['mes'])
+        for falta in faltas_queryset:
+            faltas.append("%s_%s_%s"%(falta.asistencia.id,falta.mes,falta.dia))
+        
+        justificadas_queryset = Justificada.objects.filter(mes=self.kwargs['mes'])
+        for justificada in justificadas_queryset:
+            justificadas.append("%s_%s_%s"%(justificada.asistencia.id,justificada.mes,justificada.dia))
+        
+        context['presentes'] = presentes
+        context['faltas'] = faltas
+        context['justificadas'] = justificadas
         context['mes'] = self.kwargs['mes']
-        context['dias_clase'] = [1,2,3,4,5,6]
+        context['dias_clase'] = dias_clase
         return context
     
 class NotaCreateView(CreateView):
@@ -198,3 +219,36 @@ class NotaCreateView(CreateView):
             print "Tenemos una evaluacion de otro tipo"
             return NotaCreateForm
 
+
+class AjaxableResponseMixin(object):
+    """
+    Mixin to add AJAX support to a form.
+    Must be used with an object-based FormView (e.g. CreateView)
+    """
+    def form_invalid(self, form):
+        response = super(AjaxableResponseMixin, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        # We make sure to call the parent's form_valid() method because
+        # it might do some processing (in the case of CreateView, it will
+        # call form.save() for example).
+        response = super(AjaxableResponseMixin, self).form_valid(form)
+        if self.request.is_ajax():
+            print "somo ajaxianos"
+            data = {
+                'pk': self.object.pk,
+            }
+            return JsonResponse(data)
+        else:
+            print "NO somo ajaxianos"
+            return response
+
+class FaltaCreateView(AjaxableResponseMixin, CreateView):
+    model = Falta
+    template_name = "evaluacion/falta_form.html"
+    fields = '__all__'
+    success_url = reverse_lazy('evaluacion')

@@ -23,12 +23,20 @@
 			<tr>
 				
 				<td>{{ asistencia.alumno }}</td>
-                {% for dia in dias_clase %}
+                
+		{% for dia in dias_clase %}
+		
                 <td>
-                    <input id="{{asistencia.id}}_{{dia}}" name="{{asistencia.id}}_{{dia}}" onclick="on_presente_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
-                    <input id="{{asistencia.id}}_{{dia}}" name="{{asistencia.id}}_{{dia}}" onclick="on_falta_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
-                    <input id="{{asistencia.id}}_{{dia}}" name="{{asistencia.id}}_{{dia}}" onclick="on_justificada_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
+                    <input id="{{asistencia.id}}_{{dia}}_presente" {% presente_checked asistencia.id mes dia %} 
+			name="{{asistencia.id}}_{{dia}}_presente" onclick="on_presente_click({{asistencia.id}},{{dia}})" 
+			type="checkbox"> </input>
+                    <input id="{{asistencia.id}}_{{dia}}_falta" {% falta_checked asistencia.id mes dia %}
+			name="{{asistencia.id}}_{{dia}}_falta" onclick="on_falta_click({{asistencia.id}},{{dia}})" 
+			type="checkbox"> </input>
+                    <input id="{{asistencia.id}}_{{dia}}_justificada" {% justificada_checked asistencia.id mes dia %}
+			name="{{asistencia.id}}_{{dia}}_justificada" onclick="on_justificada_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
                 </td>
+		
                 {% endfor %}                
 				
 				
@@ -49,6 +57,39 @@
 function on_presente_click(asistencia,dia)
 {
     console.log("Creando presente para el día: "+dia+" y el aistencia "+asistencia);
+    $('body').addClass('wait');
+    input = $("#"+asistencia+"_"+dia+"_presente")[0];
+    if (input.checked) {
+	console.log("Marcamos como presente");
+	$.ajax({
+		url : "{% url 'falta_nueva' %}",
+		type : "POST", 
+		data : { asistencia: asistencia,
+			dia: dia,
+			mes: {{mes}},
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+
+		success : function(json) {
+			console.log("success"); // another sanity check
+			console.log(json); // log the returned json to the console
+			$('body').removeClass('wait');
+		},
+		
+		error : function(xhr,errmsg,err) {
+		    console.log("ERROR",errmsg,err);
+		    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+		    $('body').removeClass('wait');
+		}
+        
+
+	});
+    } else {
+	    console.log("Eliminamos como presente");
+    }
+    
+     
+
 }
 
 function on_falta_click(asistencia,dia)

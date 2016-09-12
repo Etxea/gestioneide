@@ -414,9 +414,19 @@ class Nota(models.Model):
     
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
-    mes = models.DecimalField(max_digits=1,decimal_places=0)
-    justificadas = models.DecimalField(max_digits=3,decimal_places=0,default="0")
-    faltas = models.DecimalField(max_digits=3,decimal_places=0,default="0")
+    mes = models.DecimalField(max_digits=2,decimal_places=0)
+    dia = models.DecimalField(max_digits=2,decimal_places=0)
+    
+class Justificada(models.Model):
+    asistencia = models.ForeignKey('Asistencia')
+    mes = models.DecimalField(max_digits=2,decimal_places=0)
+    dia = models.DecimalField(max_digits=2,decimal_places=0)
+
+class Presencia(models.Model):
+    asistencia = models.ForeignKey('Asistencia')
+    mes = models.DecimalField(max_digits=2,decimal_places=0)
+    dia = models.DecimalField(max_digits=2,decimal_places=0)
+
 
 class Recibo(models.Model):
     year = models.ForeignKey('Year')
