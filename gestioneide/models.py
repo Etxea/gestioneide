@@ -354,7 +354,7 @@ class Asistencia(models.Model):
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
-    metalico = models.BooleanField(default=True)
+    metalico = models.BooleanField(default=False)
     precio = models.FloatField(null=True,blank=True)
     #~ notas = MultipleJoin('Notas')
     #~ faltas = MultipleJoin('Notas')
