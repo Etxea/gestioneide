@@ -9,11 +9,6 @@
 
 {% block body %}
 
-<div class="form-group">
-		<!--<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Volver</a>-->
-		<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Descargar fichero CSB19</a>
-		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
-</div>
 	
 <table role="table" class="table">
 	<tr>
@@ -37,6 +32,14 @@
 		<td colspan="2">Total</td><td align="right">{{ recibo.get_total_alumnos }} alumnos</td>
 	</tr>
 </table>
+
+<div class="form-group">
+		<!--<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Volver</a>-->
+		<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Descargar fichero CSB19</a>
+		<a class="btn btn-primary" href="{% url 'recibo_informe' recibo.id %}"
+            >Ver Informe</a>
+		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
+</div>
 
 
 {% endblock %}

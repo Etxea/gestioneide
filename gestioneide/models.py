@@ -434,7 +434,7 @@ class Recibo(models.Model):
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
     grupos_sueltos = models.BooleanField(default=False)
-    grupos = models.ManyToManyField(Grupo,blank=True)
+    grupos = models.ManyToManyField(Grupo,blank=True,limit_choices_to=Q(year=Year.objects.get(activo=True)))
     fichero_csb19 = models.TextField(default="",blank=True)
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
@@ -472,7 +472,7 @@ class Recibo(models.Model):
         fichero_csb19=csb19_crear_ordenante(fichero_csb19,fecha_confeccion,fecha_cargo)
         # Ahora los cargos
         lista_grupos = self.get_grupos()
-        for grupo in lista:
+        for grupo in lista_grupos:
             for asistencia in grupo.asistencia_set.all():
                 print "Generamos cobro para la asistencia",asistencia
                 if asistencia.metalico:
