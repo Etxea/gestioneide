@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.dates import MONTHS
+from unidecode import unidecode
 import re
 
 def csb19_crear_presentador(fecha_confeccion):
@@ -9,7 +10,7 @@ def csb19_crear_presentador(fecha_confeccion):
     cod_reg = "51"
     cod_dato = "80"
     relleno_b3 = ' '*6
-    relleno_d = ' '*20
+    relleno_d = ' '*(60-len(settings.CSB19["nombre"]))
     relleno_e3 = ' '*12
     relleno_f = ' '*40
     relleno_g = ' '*14
@@ -25,12 +26,13 @@ def csb19_crear_ordenante(contenido,fecha_confeccion, fecha_cargo):
     cod_reg = "53"
     cod_dato = "80"
     procedimiento= "01"
+    relleno_nombre = ' '*(40-len(settings.CSB19["nombre"]))
     relleno_e1= ' '*8
     relleno_e3= ' '*10
     relleno_f = ' '*40
     relleno_g = ' '*14
     cabecera_ordenante = cod_reg + cod_dato + settings.NIF + settings.CSB19["sufijo"] + fecha_confeccion + fecha_cargo + \
-        settings.CSB19["nombre"] + settings.CSB19["banco"] + settings.CSB19["oficina"] + settings.CSB19["dc"] + \
+        settings.CSB19["nombre"] + relleno_nombre + settings.CSB19["banco"] + settings.CSB19["oficina"] + settings.CSB19["dc"] + \
         settings.CSB19["cuenta"] + relleno_e1 + procedimiento + relleno_e3 + relleno_f + relleno_g + '\r\n'
     contenido += cabecera_ordenante
     return contenido
@@ -39,13 +41,15 @@ def csb19_crear_individual(contenido,importe_recibos,numero_recibos,asistencia,m
     ##Recibimos la asistencia y de ella sacamos: id, nombre, CCC, importe y concepto
     id = asistencia.id
     nombre="%s %s"%(asistencia.alumno.apellido1,asistencia.alumno.apellido2)
+    nombre=unidecode(nombre)
     ccc=asistencia.alumno.cuenta_bancaria.replace("-","")
     
     if medio_mes:
         importe=float(asistencia.ver_precio())/2
     else:
         importe=asistencia.ver_precio()
-    concepto="EIDE: %s, %s"%(asistencia.grupo.nombre,MONTHS[mes])
+    concepto=u"EIDE: %s, %s"%(asistencia.grupo.nombre,MONTHS[mes])
+    concepto=unidecode(concepto)
     #Sumamos el importe al total
     try:
         importe_recibos += float(importe)
