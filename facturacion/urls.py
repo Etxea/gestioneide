@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'recibo/(?P<pk>\d+)/fichero/$',login_required(ReciboFicheroView.as_view()), name="recibo_fichero"),
     url(r'recibo/(?P<pk>\d+)/$',login_required(ReciboDetailView.as_view()), name="recibo_detalle"),
     url(r'recibo/(?P<pk>\d+)/informe$',login_required(ReciboInformeView.as_view()), name="recibo_informe"),
+    url(r'recibo/(?P<pk>\d+)/xls$',login_required(ReciboInformeExcelView), name="recibo_informe_xls"),
 ]

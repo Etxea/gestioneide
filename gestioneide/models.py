@@ -449,6 +449,10 @@ class Recibo(models.Model):
         else:
             lista = Grupo.objects.filter(year=Year.objects.get(activo=True))
         return lista
+    
+    def get_alumnos(self):
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).order_by('alumno__cuenta_bancaria')
+    
     def get_alumnos_recibo(self):
         return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(metalico=False).order_by('alumno__cuenta_bancaria')
         
