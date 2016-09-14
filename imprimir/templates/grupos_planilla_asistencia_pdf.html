@@ -6,18 +6,43 @@
 {% block body %}
 
 {% for grupo in grupo_list %}
-    <div class="row" style="margin-right: 10px;margin-left: 10px;">    
+<style>
+table {
+      border-collapse: collapse;
+}
+table td, table th {
+      border: 1px solid black;
+}
+table tr:first-child th {
+      border-top: 0;
+}
+table tr:last-child td {
+      border-bottom: 0;
+}
+table tr td:first-child,
+table tr th:first-child {
+      border-left: 0;
+}
+table tr td:last-child,
+table tr th:last-child {
+      border-right: 0;
+}
+</style>
+<div class="row" style="margin-right: 10px;margin-left: 10px;">    
+
 	{% with dias_clase=grupo.id|grupo_dias_clase_mes:mes %}   
     
     <h2>{{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h2>
-<!--
         <table class="table">
+            <!--
             <thead>            
                 <th>Dia</th>
                 <th colspan="2">Horario</th>
                 <th>Aula</th>
                 <th>Prof</th>            
             </thead>
+            -->
+            <tbody>
                 {% for clase in grupo.clases.all %}
                 <tr>
                     <td>{{clase.get_dia_semana_display}}</td>
@@ -26,11 +51,11 @@
                     <td>{{clase.profesor}}</td>
                 </tr>
                 {% endfor %}
+            </tbody>
         </table>
--->
         <table class="table" border="1">
             <thead>
-                <th colspan="2">Día</th>
+                <th colspan="1">Día</th>
                 {% for dia in dias_clase %}
                 <th>{{ dia }}</th>
                 {% endfor %}
@@ -38,7 +63,7 @@
             <tbody>
                 {% for asistencia in grupo.asistencia_set.all %}
                 <tr>
-                    <td colspan="2" >{{ asistencia.alumno.apellido1}} 
+                    <td colspan="1" >{{ asistencia.alumno.apellido1}} 
                         {{asistencia.alumno.apellido2}}, 
                         {{asistencia.alumno.nombre}}</td>
                     {% for dia in dias_clase %}<td>  </td>{% endfor %}
