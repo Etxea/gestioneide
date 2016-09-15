@@ -32,16 +32,14 @@ table tr th:last-child {
 
 	{% with dias_clase=grupo.id|grupo_dias_clase_mes:mes %}   
     
-    <h2>{{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h2>
+    <h1>{{grupo.nombre}} {{ mes_nombre }} / {{ano}}</h1>
         <table class="table">
-            <!--
             <thead>            
                 <th>Dia</th>
                 <th colspan="2">Horario</th>
                 <th>Aula</th>
                 <th>Prof</th>            
             </thead>
-            -->
             <tbody>
                 {% for clase in grupo.clases.all %}
                 <tr>
@@ -53,6 +51,26 @@ table tr th:last-child {
                 {% endfor %}
             </tbody>
         </table>
+        <br />
+        <h2>Libros</h2>
+        <table class="table">
+            <thead>
+            
+                <th>Titulo</th>
+                <th>Editorial</th>
+                <th>Autor</th>            
+                <th>ISBN</th>            
+            </thead>
+                {% for libro in grupo.curso.libros.all %}
+                <tr>
+                    <td>{{libro.titulo}}</td>
+                    <td>{{libro.editorial}}</td>
+                    <td>{{libro.autor}}</td>
+                    <td>{{libro.isbn}}</td>
+                </tr>
+                {% endfor %}
+        </table>
+        <h2>Alumnos</h2>
         <table class="table" border="1">
             <thead>
                 <th colspan="1">Día</th>
@@ -65,7 +83,9 @@ table tr th:last-child {
                 <tr>
                     <td colspan="1" >{{ asistencia.alumno.apellido1}} 
                         {{asistencia.alumno.apellido2}}, 
-                        {{asistencia.alumno.nombre}}</td>
+                        {{asistencia.alumno.nombre}}
+                        ({{asistencia.alumno.fecha_nacimiento|date:"Y" }})
+                    </td>
                     {% for dia in dias_clase %}<td>  </td>{% endfor %}
                 </tr>
                 {% endfor %}
