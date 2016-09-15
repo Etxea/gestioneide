@@ -320,7 +320,7 @@ class Grupo(models.Model):
         dias_clase = []
         for dia in self.clases.all():
             dias_semana_clase.append(dia.dia_semana)
-        
+        print dias_semana_clase
         year = Year.objects.get(activo=True)
         ano = year.start_year
         if mes < 8 :
@@ -329,7 +329,8 @@ class Grupo(models.Model):
         for semana in cal.monthdays2calendar(ano,mes):
             for dia in semana:
                 #COmprobamos que ese dia de la semana haya clase y no sea 0 (es de otro mes)
-                if ( dia[1] in dias_semana_clase ) and ( dia[0] > 0 ):
+                #Sumanos 1 al dia ya que empiezan desde 0 y en bbd empezamos desde 1
+                if ( dia[1]+1 in dias_semana_clase ) and ( dia[0] > 0 ):
                     fecha = "%s-%s-%s"%(ano,mes,dia[0])
                     try:
                         festivo = Festivo.objects.get(fecha=fecha)
