@@ -95,7 +95,7 @@ class ImprimirGruposPlanillaAsistencia(PDFTemplateView):
     filename='grupos_planilla_asistencia.pdf'
     template_name = 'grupos_planilla_asistencia_pdf.html'
     cmd_options = {
-        "orientation": "landscape",
+#        "orientation": "landscape",
         'margin-bottom': 15,
         'margin-top': 15,
         'margin-left': 25,
