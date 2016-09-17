@@ -175,24 +175,35 @@ class PasarListaGrupoView(DetailView):
         
         dias_clase = self.object.get_dias_clase_mes(int(self.kwargs['mes']))
         presentes = []
+        presentes_id = []
         faltas = []
+        faltas_id = []
         justificadas = []
+        justificadas_id = []
         
-        presentes_queryset = Falta.objects.filter(mes=self.kwargs['mes'])
+        presentes_queryset = Presencia.objects.filter(mes=self.kwargs['mes'])
         for presente in presentes_queryset:
             presentes.append("%s_%s_%s"%(presente.asistencia.id,presente.mes,presente.dia))
+            presentes_id.append(presente.id)
         
         faltas_queryset = Falta.objects.filter(mes=self.kwargs['mes'])
         for falta in faltas_queryset:
             faltas.append("%s_%s_%s"%(falta.asistencia.id,falta.mes,falta.dia))
+            faltas_id.append(falta.id)
         
         justificadas_queryset = Justificada.objects.filter(mes=self.kwargs['mes'])
         for justificada in justificadas_queryset:
             justificadas.append("%s_%s_%s"%(justificada.asistencia.id,justificada.mes,justificada.dia))
+            justificadas_id.append(justificada.id)
         
         context['presentes'] = presentes
         context['faltas'] = faltas
         context['justificadas'] = justificadas
+        
+        context['presentes_id'] = presentes_id
+        context['faltas_id'] = faltas_id
+        context['justificadas_id'] = justificadas_id
+        
         context['mes'] = self.kwargs['mes']
         context['dias_clase'] = dias_clase
         return context
@@ -251,4 +262,8 @@ class FaltaCreateView(AjaxableResponseMixin, CreateView):
     model = Falta
     template_name = "evaluacion/falta_form.html"
     fields = '__all__'
+    success_url = reverse_lazy('evaluacion')
+
+class FaltaDeleteView(AjaxableResponseMixin, DeleteView):
+    model = Falta
     success_url = reverse_lazy('evaluacion')

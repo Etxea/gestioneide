@@ -28,13 +28,13 @@
 		
                 <td>
                     <input id="{{asistencia.id}}_{{dia}}_presente" {% presente_checked asistencia.id mes dia %} 
-			name="{{asistencia.id}}_{{dia}}_presente" onclick="on_presente_click({{asistencia.id}},{{dia}})" 
+			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'presente')" 
 			type="checkbox"> </input>
                     <input id="{{asistencia.id}}_{{dia}}_falta" {% falta_checked asistencia.id mes dia %}
-			name="{{asistencia.id}}_{{dia}}_falta" onclick="on_falta_click({{asistencia.id}},{{dia}})" 
+			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'falta')" 
 			type="checkbox"> </input>
                     <input id="{{asistencia.id}}_{{dia}}_justificada" {% justificada_checked asistencia.id mes dia %}
-			name="{{asistencia.id}}_{{dia}}_justificada" onclick="on_justificada_click({{asistencia.id}},{{dia}})" type="checkbox"> </input>
+			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'justificada')" type="checkbox"> </input>
                 </td>
 		
                 {% endfor %}                
@@ -54,15 +54,16 @@
 {% block scripts %}
 <script>
 
-function on_presente_click(asistencia,dia)
+function on_checkbox_click(asistencia,dia,tipo)
 {
-    console.log("Creando presente para el día: "+dia+" y el aistencia "+asistencia);
+    console.log("Creando "+tipo+" para el día: "+dia+" y el aistencia "+asistencia);
     $('body').addClass('wait');
-    input = $("#"+asistencia+"_"+dia+"_presente")[0];
+    input = $("#"+asistencia+"_"+dia+"_"+tipo)[0];
+    console.log("Tenemos el name",input.name);
     if (input.checked) {
-	console.log("Marcamos como presente");
+	console.log("Creamos "+tipo);
 	$.ajax({
-		url : "{% url 'falta_nueva' %}",
+		url : "/evaluacion/"+tipo+"/nueva/",
 		type : "POST", 
 		data : { asistencia: asistencia,
 			dia: dia,
@@ -79,28 +80,40 @@ function on_presente_click(asistencia,dia)
 		error : function(xhr,errmsg,err) {
 		    console.log("ERROR",errmsg,err);
 		    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+		    input.checked=false;
 		    $('body').removeClass('wait');
 		}
-        
-
 	});
     } else {
-	    console.log("Eliminamos como presente");
+	elemento_id = input.name.replace(/'/g,"");
+	console.log("Eliminamos como presente ");
+	deleteUrl = "/evaluacion/"+tipo+"/"+elemento_id+"/borrar/";
+	console.log(deleteUrl);
+	$.ajax({
+		url : deleteUrl,
+		type : "POST", 
+		data : {
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+
+		success : function(json) {
+			console.log("success"); // another sanity check
+			//console.log(json); // log the returned json to the console
+			$('body').removeClass('wait');
+		},
+		
+		error : function(xhr,errmsg,err) {
+		    console.log("ERROR",errmsg,err);
+		    //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+		    input.checked = true;
+		    $('body').removeClass('wait');
+		}
+
+
+	});    
     }
-    
-     
-
 }
 
-function on_falta_click(asistencia,dia)
-{
-    console.log("Creando la falta para el día: "+dia+" y el asistencia "+asistencia);
-}
-
-function on_justificada_click(asistencia,dia)
-{
-    console.log("Creando justificada para el día: "+dia+" y el asistencia "+asistencia);
-}
 </script>
 
 {% endblock %}
