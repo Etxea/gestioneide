@@ -3,9 +3,6 @@
 {% load i18n %}
 
 {% block head_title %}Evaluacion{% endblock %}
-{% block page_header %}
-<h1>Evaluacion</h1>
-{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -23,7 +20,7 @@
 				<tr>
 					<td>{{grupo.nombre}}</td>
 					{% for mes in meses %}
-					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'faltas_grupo' grupo.id mes %}"></a></td>
+					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'evaluacion_pasarlista_grupo_mes' grupo.id mes %}"></a></td>
 					{% endfor %}
 					
 				</tr>

@@ -165,6 +165,23 @@ class FaltasGrupo(DetailView):
         # Add in a QuerySet of all the books
         context['trimestre'] = self.kwargs['trimestre']
         return context
+
+class PasarListaView(ListView):
+    model = Grupo
+    template_name = "evaluacion/evaluacion_pasarlista_lista.html"
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(PasarListaView, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['meses'] = [9,10,11,12,1,2,3,4,5,6,7]
+        return context
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        if self.request.user.is_staff:
+            return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+        else:
+            return Grupo.objects.filter(year=year).filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id))).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
+
     
 class PasarListaGrupoView(DetailView):
     model = Grupo

@@ -3,52 +3,58 @@
 {% load i18n %}
 {% load evaluacion_extra_tags %}
 
-{% block head_title %}Pasar{% endblock %}
+{% block head_title %}
+Pasar lista {{ grupo.nombre }} del mes {{ mes }}
+
+{% endblock %}
+
+{% block page_header %}
+Pasar lista {{ grupo.nombre }} del mes {{ mes }}
+{% endblock %}
+
 
 {% block body %}
 
-<h1>Pasar lista {{ grupo.nombre }} del mes {{ mes }}</h1>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Alumno</th>
-                {% for dia in dias_clase %}
-                <th>Dia {{dia}}<br /> P/F/J</th>
-                {% endfor %}
-			</tr>
-		</thead>
-		<tbody>    
-		{% for asistencia in object.asistencia_set.all %}
-			<tr>
-				
-				<td>{{ asistencia.alumno }}</td>
-                
+<table class="table">
+	<thead>
+		<tr>
+			<th>Alumno</th>
+	{% for dia in dias_clase %}
+	<th colspan="3">Dia {{dia}}<br /> P/F/J</th>
+	{% endfor %}
+		</tr>
+	</thead>
+	<tbody>    
+	{% for asistencia in object.asistencia_set.all %}
+	    <tr>
+		<td>{{ asistencia.alumno }}</td>                
 		{% for dia in dias_clase %}
-		
-                <td>
-                    <input id="{{asistencia.id}}_{{dia}}_presente" {% presente_checked asistencia.id mes dia %} 
+		<td class="alert alert-success">
+		    <input id="{{asistencia.id}}_{{dia}}_presente" {% presente_checked asistencia.id mes dia %} 
 			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'presente')" 
 			type="checkbox"> </input>
-                    <input id="{{asistencia.id}}_{{dia}}_falta" {% falta_checked asistencia.id mes dia %}
+		</td>
+		<td class="alert alert-danger">
+		    <input id="{{asistencia.id}}_{{dia}}_falta" {% falta_checked asistencia.id mes dia %}
 			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'falta')" 
 			type="checkbox"> </input>
-                    <input id="{{asistencia.id}}_{{dia}}_justificada" {% justificada_checked asistencia.id mes dia %}
+		</td>
+		<td class="alert alert-warning" style="border-right: thick double black;">
+		    <input id="{{asistencia.id}}_{{dia}}_justificada" {% justificada_checked asistencia.id mes dia %}
 			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'justificada')" type="checkbox"> </input>
-                </td>
-		
-                {% endfor %}                
-				
-				
-			 </tr>
-		{% endfor %}
-		</tbody>
-    </table>
-    <div class="alert">
-        <b>P</b>: Presente<br />
-        <b>F</b>: Falta<br />
-        <b>J</b>: Justificada<br />
-    </div>
+		</td>
+		{% endfor %}                
+			
+			
+	    </tr>
+	{% endfor %}
+</tbody>
+</table>
+<div class="alert alert-info">
+<b>P</b>: Presente<br />
+<b>F</b>: Falta<br />
+<b>J</b>: Justificada<br />
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -61,57 +67,57 @@ function on_checkbox_click(asistencia,dia,tipo)
     input = $("#"+asistencia+"_"+dia+"_"+tipo)[0];
     console.log("Tenemos el name",input.name);
     if (input.checked) {
-	console.log("Creamos "+tipo);
-	$.ajax({
-		url : "/evaluacion/"+tipo+"/nueva/",
-		type : "POST", 
-		data : { asistencia: asistencia,
-			dia: dia,
-			mes: {{mes}},
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
+        console.log("Creamos "+tipo);
+        $.ajax({
+                url : "/evaluacion/"+tipo+"/nueva/",
+                type : "POST", 
+                data : { asistencia: asistencia,
+                        dia: dia,
+                        mes: {{mes}},
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
 
-		success : function(json) {
-			console.log("success"); // another sanity check
-			console.log(json); // log the returned json to the console
-			input.name=json.pk;
-			$('body').removeClass('wait');
-		},
-		
-		error : function(xhr,errmsg,err) {
-		    console.log("ERROR",errmsg,err);
-		    //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-		    input.checked=false;
-		    $('body').removeClass('wait');
-		}
-	});
+                success : function(json) {
+                        console.log("success"); // another sanity check
+                        console.log(json); // log the returned json to the console
+                        input.name=json.pk;
+                        $('body').removeClass('wait');
+                },
+                
+                error : function(xhr,errmsg,err) {
+                    console.log("ERROR",errmsg,err);
+                    //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    input.checked=false;
+                    $('body').removeClass('wait');
+                }
+        });
     } else {
-	elemento_id = input.name.replace(/'/g,"");
-	console.log("Eliminamos como presente ");
-	deleteUrl = "/evaluacion/"+tipo+"/"+elemento_id+"/borrar/";
-	console.log(deleteUrl);
-	$.ajax({
-		url : deleteUrl,
-		type : "POST", 
-		data : {
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
+        elemento_id = input.name.replace(/'/g,"");
+        console.log("Eliminamos como presente ");
+        deleteUrl = "/evaluacion/"+tipo+"/"+elemento_id+"/borrar/";
+        console.log(deleteUrl);
+        $.ajax({
+                url : deleteUrl,
+                type : "POST", 
+                data : {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
 
-		success : function(json) {
-			console.log("success"); // another sanity check
-			//console.log(json); // log the returned json to the console
-			$('body').removeClass('wait');
-		},
-		
-		error : function(xhr,errmsg,err) {
-		    console.log("ERROR",errmsg,err);
-		    //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-		    input.checked = true;
-		    $('body').removeClass('wait');
-		}
+                success : function(json) {
+                        console.log("success"); // another sanity check
+                        //console.log(json); // log the returned json to the console
+                        $('body').removeClass('wait');
+                },
+                
+                error : function(xhr,errmsg,err) {
+                    console.log("ERROR",errmsg,err);
+                    //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    input.checked = true;
+                    $('body').removeClass('wait');
+                }
 
 
-	});    
+        });    
     }
 }
 
