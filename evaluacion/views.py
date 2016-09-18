@@ -267,3 +267,23 @@ class FaltaCreateView(AjaxableResponseMixin, CreateView):
 class FaltaDeleteView(AjaxableResponseMixin, DeleteView):
     model = Falta
     success_url = reverse_lazy('evaluacion')
+
+class JustificadaCreateView(AjaxableResponseMixin, CreateView):
+    model = Justificada
+    template_name = "evaluacion/Justificada_form.html"
+    fields = '__all__'
+    success_url = reverse_lazy('evaluacion')
+
+class JustificadaDeleteView(AjaxableResponseMixin, DeleteView):
+    model = Justificada
+    success_url = reverse_lazy('evaluacion')
+
+class PresenciaCreateView(AjaxableResponseMixin, CreateView):
+    model = Presencia
+    template_name = "evaluacion/presencia_form.html"
+    fields = '__all__'
+    success_url = reverse_lazy('evaluacion')
+
+class PresenciaDeleteView(AjaxableResponseMixin, DeleteView):
+    model = Presencia
+    success_url = reverse_lazy('evaluacion')

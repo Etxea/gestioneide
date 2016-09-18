@@ -74,12 +74,13 @@ function on_checkbox_click(asistencia,dia,tipo)
 		success : function(json) {
 			console.log("success"); // another sanity check
 			console.log(json); // log the returned json to the console
+			input.name=json.pk;
 			$('body').removeClass('wait');
 		},
 		
 		error : function(xhr,errmsg,err) {
 		    console.log("ERROR",errmsg,err);
-		    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+		    //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 		    input.checked=false;
 		    $('body').removeClass('wait');
 		}

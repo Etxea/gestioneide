@@ -18,7 +18,16 @@ urlpatterns = [
     url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/editar/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<pk>\d+)/borrar/$',login_required(DeleteView.as_view(model=Nota)), name="nota_borrar"),
     url(r'falta/nueva/$',login_required(FaltaCreateView.as_view()), name="falta_nueva"),
+    
+    url(r'presente/nueva/$',login_required(PresenciaCreateView.as_view()), name="presencia_nueva"),
+    url(r'presente/(?P<pk>\d+)/editar/$',login_required(UpdateView.as_view(model=Presencia)), name="presencia_editar"),
+    url(r'presente/(?P<pk>\d+)/borrar/$',login_required(PresenciaDeleteView.as_view()), name="presencia_borrar"),
+    
     url(r'falta/grupo/(?P<pk>\d+)/(?P<mes>\d+)/$',login_required(FaltasGrupoView), name="faltas_grupo"),
     url(r'falta/(?P<pk>\d+)/editar/$',login_required(UpdateView.as_view(model=Falta)), name="falta_editar"),
-    url(r'falta/(?P<pk>\d+)/borrar/$',login_required(FaltaDeleteView.as_view()), name="falta_borrar")
+    url(r'falta/(?P<pk>\d+)/borrar/$',login_required(FaltaDeleteView.as_view()), name="falta_borrar"),
+    
+    url(r'justificada/nueva/$',login_required(JustificadaCreateView.as_view()), name="justificada_nueva"),
+    url(r'justificada/(?P<pk>\d+)/editar/$',login_required(UpdateView.as_view(model=Justificada)), name="justificada_editar"),
+    url(r'justificada/(?P<pk>\d+)/borrar/$',login_required(JustificadaDeleteView.as_view()), name="justificada_borrar")
 ]

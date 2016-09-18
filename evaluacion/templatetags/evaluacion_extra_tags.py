@@ -31,7 +31,7 @@ def justificada_checked(context,asistencia,mes,dia):
     id_falta = "%s_%s_%s"%(asistencia,mes,dia)
     if id_falta in context['justificadas']:
         pos = context['justificadas'].index(id_falta)
-        justificada_id = context['justificadass_id'][pos]
+        justificada_id = context['justificadas_id'][pos]
         return "name='%s' checked='true'"%justificada_id
     else:
         return ""
