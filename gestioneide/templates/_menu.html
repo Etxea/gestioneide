@@ -45,7 +45,7 @@
 	<li class="sm-sub">
 		{% if request.user.is_staff %}
 		<a href="/alumnos" >
-			<i class="zmdi zmdi-view-list"></i>
+			<i class="zmdi zmdi-account"></i>
 			<span>Alumnos</span>
 		</a>
 		<ul>
@@ -62,7 +62,7 @@
 	{% endif %}
 	<li {% if request.user.is_staff %}class="sm-sub"{% endif %} >
 		<a href="{% url 'grupo_lista' %}" >
-			<i class="zmdi zmdi zmdi-view-list"></i>
+			<i class="zmdi zmdi zmdi-collection-bookmark"></i>
 			<span>Grupos</span>
 		</a>
 		{% if request.user.is_staff %}
@@ -80,10 +80,17 @@
 		</ul>
 		{% endif %}
 	</li>
+        {% if request.user.is_staff %}
+	<li>
+		<a href="{% url 'turismo_home' %}">
+			<i class="zmdi zmdi-card-travel"></i>
+			<span>Turismo</span>
+		</a>
+	</li>
 	<li>
 		<a href="{% url 'evaluacion' %}">
-			<i class="zmdi zmdi-check-all"></i>
-			<span>Evaluacion</span>
+			<i class="zmdi zmdi-graduation-cap"></i>
+			<span>Evaluación</span>
 		</a>
 	</li>
 	{% if request.user.is_staff %}
@@ -93,6 +100,7 @@
 			<span>Calendario</span>
 		</a>
 	</li>
+        {% endif %}
 	<li>
 		<a href="{% url 'recibos' %}">
 			<i class="zmdi zmdi-money-box"></i>

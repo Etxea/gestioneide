@@ -157,6 +157,7 @@ INSTALLED_APPS = [
     "imprimir",
     "year",
     "asistencias",
+    "turismo",
 ]
 
 # A sample logging configuration. The only tangible logging

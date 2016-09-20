@@ -1,0 +1,36 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+Cursos Turismo 
+<a class="btn btn-primary" href="{% url 'turismo_asignatura_nueva' %}">Nueva asignatura</a>
+<a class="btn btn-primary" href="{% url 'turismo_asistencia_nueva' %}">Nueva asistencia</a>
+<a class="btn btn-primary" href="{% url 'turismo_clase_nueva' %}">Nueva clase</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        {% for curso in object_list %}
+        <h1>{{curso}}</h1>
+        <table class="table">
+            {% for asignatura in curso.asignaturas.all %}
+            <tr>
+                <td>
+                    <a href="{% url 'turismo_asignatura_detalle' asignatura.id %}">{{asignatura}}</a>
+                </td>
+                <td>{{asignatura.profesor}}</td>
+                <td>
+                    {% for clase in asignatura.clases_turismo.all %}
+                    {{clase}} 
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

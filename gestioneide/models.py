@@ -495,3 +495,34 @@ class Festivo(models.Model):
     tipo = models.DecimalField(max_digits=1, decimal_places=0,choices=TIPO_FESTIVO)
     class Meta:
         ordering = ['fecha']
+
+class TurismoCurso(models.Model):
+    year = models.ForeignKey('Year')
+    nombre = models.CharField(max_length=50,default="")
+    def __unicode__(self):
+        return "%s - %s"%(self.year,self.nombre)
+
+class TurismoAsignatura(models.Model):
+    curso = models.ForeignKey('TurismoCurso',related_name='asignaturas')
+    nombre = models.CharField(max_length=50,default="")
+    profesor = models.ForeignKey('Profesor')
+    def __unicode__(self):
+        return "%s - %s"%(self.curso,self.nombre)
+
+class TurismoAsistencia(models.Model):
+    asignatura = models.ForeignKey('TurismoAsignatura')
+    alumno = models.ForeignKey('Alumno')
+    def __unicode__(self):
+        return "%s-%s"%(self.asignatura,self.alumno)
+
+class TurismoClase(models.Model):
+    dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
+    aula = models.ForeignKey(Aula,related_name='clases_turismo')
+    profesor = models.ForeignKey(Profesor,related_name='clases_turismo')
+    asignatura = models.ForeignKey(TurismoAsignatura,related_name='clases_turismo')
+    hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
+    hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
+    def __unicode__(self):
+        return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
+
+
