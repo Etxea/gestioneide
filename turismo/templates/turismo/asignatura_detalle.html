@@ -3,25 +3,75 @@
 {% load bootstrap_tags %}
 
 {% block page_header %}
-Asignatura {{ object }}
+Asignatura {{ asignatura }}
 {% endblock %}
 
 {% block body %}
 <h2>Clases</h2>
 <table class="table">
-    {% for clase in object.clases_turismo.all %}
+    {% for clase in asignatura.clases_turismo.all %}
     <tr>
         <td>{{clase}}</td>
+        <td>
+        {% if request.user.is_staff %}
+        <a href="{% url 'editar_clase' clase.id %}" id=editar_clase" class="btn" 
+            data-toggle="modal" data-target="#claseEditarModal" data-edit_url="{% url 'turismo_clase_editar' clase.id %}" >
+            <i class="zmdi zmdi-edit"></i>
+        </a>
+        </td>
+        <td>
+            <a href="{% url 'turismo_clase_borrar' clase.id %}" id=borrar_clase" class="btn">
+                <i class="zmdi zmdi-delete"></i>
+            </a> 
+        </td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
+{% if request.user.is_staff %}
+{% include 'turismo/clase_modal.html' %}
+{% include 'turismo/clase_editar_modal.html' %}
+{% endif %}
 <h2>Alumnos</h2>
 <table class="table">
-    {% for asistencia in object.turismoasistencia_set.all %}
+    {% for asistencia in asignatura.turismoasistencia_set.all %}
     <tr>
         <td>{{asistencia.alumno}}</td>
     </tr>
     {% endfor %}
 </table>
-
+{% if request.user.is_staff %}<a class="btn btn-primary" href="{% url 'turismo_asistencia_nueva' %}">Añadir alumno</a>{% endif %}
+{% include "turismo/asistencia_modal.html" %}
 {% endblock %}
+
+{% block scripts %}
+<script>
+    
+$('#claseModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var asignatura_id = button.data('asignatura_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = "/turismo/clase/nueva/asignatura/"+asignatura_id+"/";
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+
+$('#claseEditarModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var asignatura_id = button.data('asignatura_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = button.data('edit_url');
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+
+$('#deleteAsistenciaModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var delete_url = button.data('delete_url') // Extract info from data-* attributes
+  var modal = $(this)
+  console.log("Cargamos el form de ",delete_url)
+  modal.find('.modal-body').load(delete_url)
+});
+</script>
+{% endblock %}
+

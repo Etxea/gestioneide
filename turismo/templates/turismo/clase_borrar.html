@@ -1,0 +1,20 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block page_header %}
+Cursos Turismo
+{% endblock %}
+
+{% block body %}
+
+<form action="" method="post">{% csrf_token %}
+
+<br />
+<div class="form-actions">
+<a href="{% url 'turismo_asignatura_detalle' object.asignatura.id %}" class="btn">Cancelar</a>
+<button type="submit" class="btn btn-primary">Borrar</button>
+</div>
+</form>
+
+{% endblock %}

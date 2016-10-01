@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load bootstrap_tags %}
+
+
+<form action="{% url 'turismo_clase_nueva' %}" method="post">{% csrf_token %}
+{{ form|as_bootstrap }}
+<br />
+<div class="form-actions">
+<button type="submit" class="btn btn-primary">Guardar</button>
+</div>
+</form>
+
