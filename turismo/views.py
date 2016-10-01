@@ -58,7 +58,7 @@ class TurismoClaseAsignaturaCreateView(TurismoClaseCreateView):
         super(TurismoClaseAsignaturaCreateView, self).get_initial()
         asignatura = TurismoAsignatura.objects.get(pk=self.kwargs['asignatura_id'])
         user = self.request.user
-        self.initial = {"asignatura":asignatura.id}
+        self.initial = {"asignatura":asignatura.id,"profesor":asignatura.profesor}
         return self.initial
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
