@@ -15,6 +15,10 @@ debug = logger.debug
 class TurismoView(ListView):
     model = TurismoCurso
     template_name = "turismo/home.html"
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)    
+        return TurismoCurso.objects.filter(year=year).order_by('nombre')
+
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
 class TurismoAsignaturaCreateView(CreateView):
@@ -22,6 +26,7 @@ class TurismoAsignaturaCreateView(CreateView):
     fields = "__all__"
     template_name = "turismo/asignatura_nueva.html"
     success_url = "/turismo"
+
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
 class TurismoAsignaturaDetailView(DetailView):
@@ -35,6 +40,12 @@ class TurismoAsistenciaCreateView(CreateView):
     fields = "__all__"
     template_name = "turismo/asistencia_nueva.html"
     success_url = "/turismo"
+    def get_initial(self):
+        super(TurismoAsistenciaCreateView, self).get_initial()
+        asignatura = TurismoAsignatura.objects.get(pk=self.kwargs['asignatura_id'])
+        self.initial = {"asignatura":asignatura.id}
+        return self.initial
+
     
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
 class TurismoAsistenciaDetailView(DetailView):

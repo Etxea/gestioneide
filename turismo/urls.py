@@ -15,7 +15,7 @@ urlpatterns = [
     url(r"clase/(?P<pk>\d+)/borrar$", TurismoClaseDeleteView.as_view(), name="turismo_clase_borrar"),
     url(r"asignatura/nueva/$", TurismoAsignaturaCreateView.as_view(), name="turismo_asignatura_nueva"),
     url(r"asignatura/(?P<pk>\d+)/$", TurismoAsignaturaDetailView.as_view(), name="turismo_asignatura_detalle"),
-    url(r"asistencia/nueva/$", TurismoAsistenciaCreateView.as_view(), name="turismo_asistencia_nueva"),
+    url(r"asistencia/nueva/(?P<asignatura_id>\d+)/$", TurismoAsistenciaCreateView.as_view(), name="turismo_asistencia_nueva"),
     url(r"asistencia/(?P<pk>\d+)/$", TurismoAsistenciaDetailView.as_view(), name="turismo_asistencia_detalle"),
     
 ]

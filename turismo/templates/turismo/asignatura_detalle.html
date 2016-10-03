@@ -40,7 +40,7 @@ Asignatura {{ asignatura }}
     </tr>
     {% endfor %}
 </table>
-{% if request.user.is_staff %}<a class="btn btn-primary" href="{% url 'turismo_asistencia_nueva' %}">Añadir alumno</a>{% endif %}
+{% if request.user.is_staff %}<a class="btn btn-primary" href="{% url 'turismo_asistencia_nueva' asignatura.id %}">Añadir alumno</a>{% endif %}
 {% include "turismo/asistencia_modal.html" %}
 {% endblock %}
 

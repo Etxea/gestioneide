@@ -523,6 +523,6 @@ class TurismoClase(models.Model):
     hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     def __unicode__(self):
-        return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
+        return "%s/%s-%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin)
 
 

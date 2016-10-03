@@ -224,6 +224,9 @@ FIXTURE_DIRS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+EMAIL_HOST="localhost"
+EMAIL_PORT="25"
+
 ACCOUNT_OPEN_SIGNUP = False
 ACCOUNT_EMAIL_UNIQUE = False
 ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = False
