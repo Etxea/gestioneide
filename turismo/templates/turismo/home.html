@@ -3,7 +3,7 @@
 
 {% block page_header %}
 Cursos Turismo 
-
+<a class="btn btn-primary" href="{% url 'turismo_curso_nuevo' %}">Nuevo curso</a>
 <a class="btn btn-primary" href="{% url 'turismo_asignatura_nueva' %}">Nueva asignatura</a>
 {% endblock %}
 
@@ -12,7 +12,9 @@ Cursos Turismo
 <div class="row">
     <div class="col-md-12 col-xs-12">
         {% for curso in object_list %}
-        <h1>{{curso}}</h1>
+        <h1>{{curso}}<a href="{% url 'turismo_curso_borrar' curso.id%}">
+        <i class="zmdi zmdi-delete"></i>
+        </a></h1>
         <table class="table">
             {% for asignatura in curso.asignaturas.all %}
             <tr>

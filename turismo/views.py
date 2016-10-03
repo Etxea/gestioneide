@@ -21,12 +21,29 @@ class TurismoView(ListView):
 
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
+class TurismoCursoDeleteView(DeleteView):
+    model = TurismoCurso
+    template_name = "turismo/curso_delete.html"
+    success_url = "/turismo"
+
+@method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
+class TurismoCursoCreateView(CreateView):
+    model = TurismoCurso
+    fields = "__all__"
+    template_name = "turismo/curso_nuevo.html"
+    success_url = "/turismo"
+    def get_initial(self):
+        super(TurismoCursoCreateView, self).get_initial()
+        year = Year.objects.get(activo=True)
+        self.initial = {"year":year}
+        return self.initial
+
+@method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
 class TurismoAsignaturaCreateView(CreateView):
     model = TurismoAsignatura
     fields = "__all__"
     template_name = "turismo/asignatura_nueva.html"
     success_url = "/turismo"
-
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
 class TurismoAsignaturaDetailView(DetailView):
