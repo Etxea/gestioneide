@@ -225,7 +225,8 @@ FIXTURE_DIRS = [
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 EMAIL_HOST="localhost"
-EMAIL_PORT="25"
+EMAIL_PORT="587"
+DEFAULT_FROM_EMAIL = "gestionweb@eide.es"
 
 ACCOUNT_OPEN_SIGNUP = False
 ACCOUNT_EMAIL_UNIQUE = False

@@ -78,15 +78,16 @@
 				<a href="{% url 'imprimir_grupos_alumnos' %}" target="_blank" ><i class="zmdi zmdi-print"></i>Imprimir Lista de Grupos con alumnos</a>
 			</li>
 		</ul>
-		{% endif %}
+        {% endif %}
 	</li>
-        {% if request.user.is_staff %}
+    {% if request.user.is_staff %}
 	<li>
 		<a href="{% url 'turismo_home' %}">
 			<i class="zmdi zmdi-card-travel"></i>
 			<span>Turismo</span>
 		</a>
 	</li>
+    {% endif %}
 	<li>
 		<a href="{% url 'evaluacion' %}">
 			<i class="zmdi zmdi-graduation-cap"></i>
@@ -100,7 +101,6 @@
 			<span>Calendario</span>
 		</a>
 	</li>
-        {% endif %}
 	<li>
 		<a href="{% url 'recibos' %}">
 			<i class="zmdi zmdi-money-box"></i>
