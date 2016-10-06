@@ -163,13 +163,15 @@ def export_alumnos_xls(request):
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
     
-    for alumno in Alumno.objects.filter(activo=True):
+    year = Year.objects.get(activo=True)
+    for asistencia in Asistencia.objects.filter(year=year):
+        alumno = asistencia.alumno
         row_num += 1
         row = [
             alumno.pk,
             "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
             alumno.fecha_nacimiento.isoformat(),
-            alumno.asistencia_set.all()[0].grupo.nombre
+            "%s (%s)"%(asistencia.grupo.nombre,year)
         ]
         for col_num in xrange(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
