@@ -2,7 +2,7 @@
                     <a href="" data-toggle="dropdown">
                         <i class="zmdi zmdi-apps"></i>    
                     </a>
-                    
+                    {% if request.user.is_staff %}                    
                     <div class="dropdown-menu pull-right" id="launch-apps">
                         <div class="dropdown-header bg-teal">Acceso Directos</div>
                         
@@ -52,4 +52,5 @@
 -->
                         </div>
                     </div>
+                    {% endif %}
                 </li>
