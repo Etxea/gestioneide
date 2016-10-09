@@ -31,6 +31,11 @@
 	<tr>
 		<td colspan="2">Total</td><td align="right">{{ recibo.get_total_alumnos }} alumnos</td>
 	</tr>
+        <tr><td colspan="3">Datos tras generar recibo</td></tr>
+        <tr><td colspan="2">Número de recibo</td><td align="right">{{ recibo.recibos_generados }} recibos</td>
+        <tr><td colspan="2">Número de metalicos</td><td align="right">{{ recibo.metalicos }} pago metálico</td>
+        <tr><td colspan="2">Total</td><td align="right">{{ recibo.importe_total }} €</td>
+        <tr><td colspan="2">errores</td><td align="right">{{ recibo.errores }}</td>
 </table>
 
 <div class="form-group">

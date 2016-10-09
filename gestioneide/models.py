@@ -462,6 +462,10 @@ class Recibo(models.Model):
     grupos_sueltos = models.BooleanField(default=False)
     grupos = models.ManyToManyField(Grupo,blank=True,limit_choices_to=Q(year=Year.objects.get(activo=True)))
     fichero_csb19 = models.TextField(default="",blank=True)
+    importe_total = models.FloatField(default=0,blank=True)
+    recibos_generados = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
+    metalicos = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
+    errores = models.TextField(default="",blank=True)
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
     def get_total_alumnos(self):
@@ -495,6 +499,7 @@ class Recibo(models.Model):
         fecha_cargo=hoy.strftime('%d%m%y')
         importe_recibos=0
         numero_recibos=0
+        
         #~ logging.debug( "Vamos a facturar el día %s en concepto de %s"%(fecha_cargo,fecha_confeccion) )
         #Vamos con la cabecera del presentador
         fichero_csb19=csb19_crear_presentador(fecha_confeccion)
@@ -507,9 +512,16 @@ class Recibo(models.Model):
                 print "Generamos cobro para la asistencia",asistencia
                 if asistencia.metalico:
                     print "Paga en metalico"
+                    self.metalicos=+1
                 else:
-                    fichero_csb19,importe_recibos,numero_recibos = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia,self.mes,self.medio_mes)
-        print "Hemos creado %s recibos que sumanan un total de %s €"%(numero_recibos,importe_recibos)
+                    fichero_csb19,importe_recibos,numero_recibos,error = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia,self.mes,self.medio_mes)
+                    self.importe_total=+importe_recibos
+                    self.recibos_generados=+numero_recibos
+                    if len(error) > 0:
+                        self.errores=self.errores+"<br />"+error
+
+        print "Hemos creado %s recibos que sumanan un total de %s €"%(self.recibos_generados,self.importe_total)
+        self.save()
         fichero_csb19 = csb19_crear_totales(fichero_csb19,numero_recibos,importe_recibos)
         return fichero_csb19
 

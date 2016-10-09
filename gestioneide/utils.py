@@ -39,6 +39,7 @@ def csb19_crear_ordenante(contenido,fecha_confeccion, fecha_cargo):
     
 def csb19_crear_individual(contenido,importe_recibos,numero_recibos,asistencia,mes,medio_mes):
     ##Recibimos la asistencia y de ella sacamos: id, nombre, CCC, importe y concepto
+    error = ""
     id = asistencia.id
     nombre="%s %s"%(asistencia.alumno.apellido1,asistencia.alumno.apellido2)
     nombre=unidecode(nombre)
@@ -54,7 +55,7 @@ def csb19_crear_individual(contenido,importe_recibos,numero_recibos,asistencia,m
     try:
         importe_recibos += float(importe)
     except:
-        print "NO hemos podido generar el import para %s %s"%(nombre,importe)
+        error="NO hemos podido generar el import para %s %s"%(nombre,importe)
     numero_recibos += 1
     cod_reg = "56"
     cod_dato = "80"
@@ -72,7 +73,7 @@ def csb19_crear_individual(contenido,importe_recibos,numero_recibos,asistencia,m
     individual = cod_reg + cod_dato + settings.NIF + settings.CSB19["sufijo"] + csb19_ajustar(id,12) + nombre + \
         ccc + importe + relleno_f + concepto + relleno_h + '\r\n'
     contenido += individual
-    return contenido,importe_recibos,numero_recibos
+    return contenido,importe_recibos,numero_recibos,error
 
 def csb19_crear_total_ordenante(contenido,numero_recibos,importe_recibos):
     cod_reg  = "58"
