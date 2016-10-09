@@ -16,16 +16,19 @@ debug = logger.debug
 
 #Clase base de lista de alumnos
 
+@method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoListView(ListView):
     model=Alumno
     paginate_by = 75
     template_name = "alumnos/alumno_list.html"
         
+@method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoActivosListView(AlumnoListView):
     #Solo listamos los activos
     def get_queryset(self):
         return Alumno.objects.filter(activo=True)
 
+@method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoGrupoListView(AlumnoListView):
     #Solo listamos los activos y que estan en un grupo
     def get_queryset(self):
@@ -33,6 +36,7 @@ class AlumnoGrupoListView(AlumnoListView):
         lista = Asistencia.objects.filter(year=ano)
         return Alumno.objects.filter(asistencia__in=lista)
 
+@method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoBuscarView(AlumnoListView):
     #Solo listamos los que coinciden conla busqueda
     def get_queryset(self):
@@ -78,6 +82,7 @@ class AlumnoUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy("alumnos_lista")
 
+@method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoBajaView(View,SingleObjectMixin):
     model = Alumno
     def get(self, request, *args, **kwargs):

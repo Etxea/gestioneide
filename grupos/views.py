@@ -8,6 +8,7 @@ from forms import *
 from gestioneide.models import *
 import calendar
 
+@method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
 class GrupoListView(ListView):
     model=Grupo
     paginate_by = 100
@@ -29,6 +30,7 @@ class GrupoCreateView(CreateView):
         return reverse_lazy("grupo_lista")
 
 
+@method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
 class GrupoDetailView(DetailView):
     model = Grupo
     template_name = "grupos/grupo_detail.html"
