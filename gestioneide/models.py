@@ -402,9 +402,11 @@ class Asistencia(models.Model):
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 
+    
 class Nota(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
+    fecha_creacion = models.DateField(auto_now_add=True)
 
     control = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     control_np = models.BooleanField(default=False)

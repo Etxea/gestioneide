@@ -9,6 +9,7 @@ from gestioneide.models import Curso as Curso_new
 from gestioneide.models import Grupo as Grupo_new
 from gestioneide.models import Clase as Clase_new
 from gestioneide.models import Aula as Aula_new
+from gestioneide.models import Nota as Nota_new
 from gestioneide.models import Historia as Historia_new
 from gestioneide.models import Profesor as Profesor_new
 
@@ -340,6 +341,67 @@ class OldDatabase(models.Model):
                 print "Error importando la cuenta de", persona.id
     #            print sys.exc_info()
                     
-        
+    def doImportNotas(self,ano):
+        year = Year.objects.get(start_year=ano)
+        print "Vamos a importar las notas del año",year
+        sqlhub.processConnection = connectionForURI('sqlite://'+self.dbfile.path)
+        from gestioneide.old_database_model import *
+        print "Limpiamos"
+        Nota_new.objects.filter(asistencia__in=Asistencia_new.objects.filter(year=year)).delete()
+        busqueda = Asistencia.select()
+        self.addMessage('<li>Encontrados %d asistencias, la vamos a importar al ano: %s</li>'%(busqueda.count(),year))
+        for asis in busqueda:
+            alumno = Alumno_new.objects.get(id=asis.alumno.id)
+            try:
+                asistencia = Asistencia_new.objects.get(alumno=alumno,year=year)
+            except:
+                print "No hemos encontrado la asistencia del alumno ",alumno,"el año ",year
+                continue
+            #~ print "Importando la notas del asistencia %s"%asistencia
+            for trimestre in 1,2,3:
+                try:
+                    nota_old = Nota.select(AND(Nota.q.asistencia==asis,Nota.q.trimestre==trimestre))[0]
+                except:
+                    print "No hemos encontrado la nota del alumno",alumno,"el año",year,"trimestre",trimestre
+                #~ print "Nota vieja",nota_old
+                n = Nota_new(\
+                    asistencia = asistencia,\
+                    trimestre = trimestre,\
+
+                    control = nota_old.control ,\
+                    control_np = nota_old.control_np ,\
+                    control_na = nota_old.control_na ,\
+
+                    grammar = nota_old.grammar ,\
+                    grammar_np = nota_old.grammar_np ,\
+                    grammar_na = nota_old.grammar_na ,\
+                    
+                    reading = nota_old.reading ,\
+                    reading_np = nota_old.reading_np ,\
+                    reading_na = nota_old.reading_na ,\
+                    
+                    writing = nota_old.writing ,\
+                    writing_np = nota_old.writing_np ,\
+                    writing_na = nota_old.writing_na ,\
+                    
+                    useofenglish = nota_old.useofenglish ,\
+                    useofenglish_np = nota_old.useofenglish_np ,\
+                    useofenglish_na = nota_old.useofenglish_na ,\
+
+                    #~ listenning = nota_old.listenning ,\
+                    #~ listenning_np = nota_old.listenning_np ,\
+                    #~ listenning_na = nota_old.listenning_na ,\
+
+                    speaking = nota_old.speaking ,\
+                    speaking_np = nota_old.speaking_np ,\
+                    speaking_na = nota_old.speaking_na ,\
+
+                    comportamiento = nota_old.comportamiento ,\
+                    comportamiento_np = nota_old.comportamiento_np if nota_old.comportamiento_np else False ,\
+                    comportamiento_na = nota_old.comportamiento_na if nota_old.comportamiento_na else False,\
+                )
+                n.save()
+
+
 class Document(models.Model):
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
