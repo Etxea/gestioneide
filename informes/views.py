@@ -280,3 +280,19 @@ def export_telefonos_alumnos_xls(request,ano):
             
     wb.save(response)
     return response
+
+#~ @permission_required('gestioneide.informes_view',raise_exception=True)
+class NotasAnoListView(ListView):
+    model = Nota
+    template_name = "informes/informes_notas_ano.html"
+    context_object_name = 'notas_list'
+    def get_queryset(self):
+        year = Year.objects.get(start_year=self.kwargs['ano'])
+        print "Vamos a sacar las asistencias del ano",year
+        asistencias = Asistencia.objects.filter(year=year)
+        print "Tenemos la sasistencias",asistencias.count()
+        return Nota.objects.filter(asistencia__in=asistencias,trimestre=3)
+    def get_context_data(self, **kwargs):
+        context = super(NotasAnoListView, self).get_context_data(**kwargs)
+        context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
+        return context

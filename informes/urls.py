@@ -19,7 +19,8 @@ urlpatterns = [
     url(r"asistencias/no/xls/$",login_required(export_asistencias_no_confirmadas_xls),name="listado_asistencias_no_confirmadas_xls"),
     url(r"asistencias/xls/$",login_required(export_asistencias_xls),name="listado_asistencias_xls"),
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls),name="listado_telefonos_alumnos_xls"),
-    url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()),name="listado_grupos_alumnos")
+    url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()),name="listado_grupos_alumnos"),
+    url(r"notas/ano/(?P<ano>\d+)/$",login_required(NotasAnoListView.as_view()),name="listado_notas_ano"),
     
     #~ url(r"notas/$", EvaluacionListView.as_view(template_name="evaluacion/evaluacion_notas.html"), name="evaluacion_notas"),    
 ]
