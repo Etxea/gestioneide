@@ -3,7 +3,7 @@ from django.db import models
 
 from gestioneide.models import Alumno as Alumno_new
 from gestioneide.models import Asistencia as Asistencia_new
-from gestioneide.models import Year
+from gestioneide.models import Year, LegacyFalta
 from gestioneide.models import Libro as Libro_new
 from gestioneide.models import Curso as Curso_new
 from gestioneide.models import Grupo as Grupo_new
@@ -348,6 +348,7 @@ class OldDatabase(models.Model):
         from gestioneide.old_database_model import *
         print "Limpiamos"
         Nota_new.objects.filter(asistencia__in=Asistencia_new.objects.filter(year=year)).delete()
+        LegacyFalta.objects.filter(asistencia__in=Asistencia_new.objects.filter(year=year)).delete()
         busqueda = Asistencia.select()
         self.addMessage('<li>Encontrados %d asistencias, la vamos a importar al ano: %s</li>'%(busqueda.count(),year))
         for asis in busqueda:
@@ -401,7 +402,12 @@ class OldDatabase(models.Model):
                     comportamiento_na = nota_old.comportamiento_na if nota_old.comportamiento_na else False,\
                 )
                 n.save()
-
+            legacyfalta = LegacyFalta(asistencia=asistencia,faltas=0,justificadas=0)
+            for falta in Falta.select(Falta.q.asistencia==asis):
+                legacyfalta.faltas=+int(falta.faltas)
+                legacyfalta.justificadas=+int(falta.justificadas)
+            legacyfalta.save()
+                
 
 class Document(models.Model):
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')

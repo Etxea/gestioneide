@@ -16,7 +16,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <tr>
                 <td>Alumno</td>
                 <td>Grupo</td>
-                <td>Faltas</td>
+                <td>Faltas/Justificadas</td>
                 <!-- <td>Trimestre</td> -->
                 <td>Gra.</td>
                 <td>Read</td>
@@ -32,7 +32,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
             <tr>
                 <td>{{nota.asistencia.alumno}}</td>
                 <td>{{nota.asistencia.grupo}}</td>
-                <td>-</td>
+                <td>{{nota.ver_legacy_faltas}}</td>
 <!--                <td>{{nota.trimestre}}</td> -->
                 <td>{{nota.grammar}}</td>
                 <td>{{nota.reading}}</td>

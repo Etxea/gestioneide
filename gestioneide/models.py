@@ -439,6 +439,11 @@ class Nota(models.Model):
     comportamiento = models.CharField(max_length=2,default="B")
     comportamiento_np = models.BooleanField(default=False)
     comportamiento_na = models.BooleanField(default=False)
+    def ver_legacy_faltas(self):
+        try:
+            return self.asistencia.legacyfalta_set.all()[0].__unicode__()
+        except:
+            return "-/-"
     
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
@@ -450,6 +455,13 @@ class Justificada(models.Model):
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 
+class LegacyFalta(models.Model):
+    asistencia = models.ForeignKey('Asistencia')
+    faltas = models.DecimalField(max_digits=3,decimal_places=0)
+    justificadas = models.DecimalField(max_digits=3,decimal_places=0)
+    def __unicode__(self):
+        return "%s/%s"%(self.faltas,self.justificadas)
+    
 class Presencia(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
