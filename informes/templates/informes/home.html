@@ -46,15 +46,17 @@
         </a>
     </li>
     {% endfor %}
-    <h3>Listado de notas y faltas</h3>
+    </ul>
+    <li><h3>Listado de notas y faltas</h3></li>
+    <ul>
     {% for year in years %}
     <li><a target="_blank" href="{% url 'listado_notas_ano' year.start_year %}">
         <i class="zmdizmdi-view-list"></i>{{year}}
         </a>
     </li>
     {% endfor %}
-
     </ul>
+
     <li>Listado de números de telefonos de menores</li>
     <li>Listado de números de telefonos de adultos</li>
     </ul>
