@@ -291,7 +291,7 @@ class NotasAnoListView(ListView):
         print "Vamos a sacar las asistencias del ano",year
         asistencias = Asistencia.objects.filter(year=year)
         print "Tenemos la sasistencias",asistencias.count()
-        return Nota.objects.filter(asistencia__in=asistencias,trimestre=3)
+        return Nota.objects.filter(asistencia__in=asistencias,trimestre=3).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
     def get_context_data(self, **kwargs):
         context = super(NotasAnoListView, self).get_context_data(**kwargs)
         context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
