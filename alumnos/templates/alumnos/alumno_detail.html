@@ -2,9 +2,11 @@
 
 {% load i18n %}
 
+{% block page_header %}<h1> {{object.id}} {{object.apellido1}} {{object.apellido2}}, {{object.nombre}}</h1>{% endblock %}
+
 {% block body %}
 
-    <h1>{% trans "Alumno" %} {{object.apellido1}} {{object.apellido2}}, {{object.nombre}} <a href="{% url 'alumno_editar' object.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    
     <h2>Información</h2>
     <table class="table">
         <tr>
@@ -35,6 +37,9 @@
     </a>
     <a class="btn btn-warning" data-toggle="modal" data-target="#bajaModal" >
         <i class="zmdi zmdi-delete"></i> Dar de baja
+    </a>
+    <a class="btn btn-primary" href="{% url 'alumno_editar' object.id %}">
+        <i class="glyphicon glyphicon-pencil"></i> Editar
     </a>
     <div class="modal fade" id="bajaModal" tabindex="-1" role="dialog" aria-labelledby="bajaModalLabel">
       <div class="modal-dialog" role="document">
@@ -80,8 +85,62 @@
         </tr>
         {% endfor %}
     </table>
-    
     <a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
+    <h2>Observaciones</h2>
+    <table class="table table-hover table-bordered bootgrid-table table-striped">
+        <thead>
+            <th>Anotación</th>
+            <th>Fecha</th>
+            <th>Usuario</th>
+        </thead>
+        <tbody>
+            {% for anotacion in object.anotacion_set.all %}
+            <tr>
+            <td>{{anotacion.texto}}</td>
+            <td>{{anotacion.fecha}}</td>
+            <td>{{anotacion.creador.username}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="{% url 'alumno_anotacion_nueva' object.id %}">Añadir anotacion</a>
+    <h2>Notas</h2>
+    <table class="table table-hover table-bordered bootgrid-table table-striped">
+            <thead>
+                <tr>
+                <td>Grupo</td>
+                <td>Faltas/Justificadas</td>
+                <td>Trimestre</td>
+                <td>Gra.</td>
+                <td>Read</td>
+                <td>Wri.</td>
+                <td>Use.</td>
+                <td>Lis.</td>
+                <td>Spe.</td>
+                <td>Com.</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for asistencia in object.asistencia_set.all %}
+            {% for nota in asistencia.notas_set.all %}
+            <tr>
+                <td>{{nota.asistencia.grupo}}</td>
+                <td>{{nota.ver_legacy_faltas}}</td>
+                <td>{{nota.trimestre}}</td> 
+                <td>{{nota.grammar}}</td>
+                <td>{{nota.reading}}</td>
+                <td>{{nota.writing}}</td>
+                <td>{{nota.useofenglish}}</td>
+                <td>{{nota.listenning}}</td>
+                <td>{{nota.speaking}}</td>
+                <td>{{nota.comportamiento}}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    
+    
     
     <div class="modal fade" id="deleteGrupoModal" tabindex="-1" role="dialog" aria-labelledby="deleteGrupoModalLabel">
       <div class="modal-dialog" role="document">

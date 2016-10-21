@@ -258,6 +258,14 @@ class Historia(models.Model):
     class Meta:
         ordering = ['-fecha']
 
+class Anotacion(models.Model):
+    alumno = models.ForeignKey('Alumno')
+    fecha = models.DateField(auto_now_add=True)
+    creador = models.ForeignKey(User)#, editable=False)
+    texto = models.CharField(max_length=500,default="")
+    class Meta:
+        ordering = ['-fecha']
+
 class Libro(models.Model):
     titulo = models.CharField(max_length=50,default="")
     autor = models.CharField(max_length=25,default="",blank=True)

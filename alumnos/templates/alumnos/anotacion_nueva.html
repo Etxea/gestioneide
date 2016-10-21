@@ -1,0 +1,17 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+
+    <h1>{% trans "Nuevo Anotación" %}</h1>
+
+    <form action="" method="post">{% csrf_token %}
+      {{ form|as_bootstrap }}
+      <br />
+      <div class="form-actions">
+      <a href="" class="btn">Cancelar</a>
+      <button type="submit">Guardar</button>
+    </div>
+    </form>
+{% endblock %}
