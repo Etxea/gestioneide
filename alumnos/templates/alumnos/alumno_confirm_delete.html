@@ -3,9 +3,10 @@
 {% load i18n %}
 
 {% block body %}
-
-<form action="" class="form"    method="post">{% csrf_token %}
-    <p>¿Estás seguro de que quieres borrar el profesor {{ object.user.username }}?</p>
-    <input type="submit" value="Confirmar" />
-</form>
+<div class="row">
+    <form action="" class="form" method="post">{% csrf_token %}
+        <p>¿Estás seguro de que quieres borrar el profesor {{ object.user.username }}?</p>
+        <input class="btn btn-warning zmdi zmdi-delete" type="submit" value="Borrar" />
+    </form>
+</div>
 {% endblock %}

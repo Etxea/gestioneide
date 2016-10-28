@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'buscar/$',login_required(AlumnoBuscarView.as_view()), name="alumno_buscar"),
     url(r'detalle/(?P<pk>\d+)/$',login_required(AlumnoDetailView.as_view()), name="alumno_detalle"),
     url(r'anotacion/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoAnotacionCreateView.as_view()), name="alumno_anotacion_nueva"),
+    url(r'anotacion/(?P<pk>\d+)/borrar',login_required(AlumnoAnotacionDeleteView.as_view()), name="alumno_anotacion_borrar"),
 ]

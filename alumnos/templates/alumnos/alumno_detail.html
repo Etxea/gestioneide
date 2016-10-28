@@ -99,6 +99,7 @@
             <td>{{anotacion.texto}}</td>
             <td>{{anotacion.fecha}}</td>
             <td>{{anotacion.creador.username}}</td>
+                <td><a href="{% url 'alumno_anotacion_borrar' anotacion.id %}" class="btn btn-warning zmdi zmdi-delete">Eliminar</a></td>
             </tr>
             {% endfor %}
         </tbody>

@@ -117,4 +117,8 @@ class AlumnoAnotacionCreateView(CreateView):
         #~ self.initial = {"alumno":alumno.id}
         #~ return self.initial
 
-
+class AlumnoAnotacionDeleteView(DeleteView):
+    model = Anotacion
+    template_name = "alumnos/anotacion_borrar.html"
+    def get_success_url(self):
+        return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})
