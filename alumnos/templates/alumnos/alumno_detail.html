@@ -85,9 +85,10 @@
         </tr>
         {% endfor %}
     </table>
-    <a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
-    <h2>Observaciones</h2>
-    <table class="table table-hover table-bordered bootgrid-table table-striped">
+<a class="btn btn-primary" href="{% url 'alumno_anotacion_nueva' object.id %}">Añadir anotacion</a>
+<a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
+<h2>Observaciones</h2>
+<table class="table table-hover table-bordered bootgrid-table table-striped">
         <thead>
             <th>Anotación</th>
             <th>Fecha</th>
@@ -104,8 +105,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-primary" href="{% url 'alumno_anotacion_nueva' object.id %}">Añadir anotacion</a>
-    <h2>Notas</h2>
+<h2>Notas</h2>
     <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
                 <tr>

@@ -1,17 +1,17 @@
 {% extends "site_base.html"%}
 {% load bootstrap_tags %}
 {% load i18n %}
-
+{% block page_header %}
+<h1>{% trans "Nuevo Anotación" %}</h1>
+{% endblock %}
 {% block body %}
-
-    <h1>{% trans "Nuevo Anotación" %}</h1>
-
-    <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap }}
-      <br />
-      <div class="form-actions">
-      <a href="" class="btn">Cancelar</a>
-      <button type="submit">Guardar</button>
-    </div>
+<div class="row">
+    <form action="" method="post" class="form">{% csrf_token %}
+        {{ form|as_bootstrap }}
+        <div class="form-actions">
+        <a href="" class="btn">Cancelar</a>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        </div>
     </form>
+</div>
 {% endblock %}
