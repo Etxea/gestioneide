@@ -3,13 +3,14 @@
 {% load i18n %}
 {% load evaluacion_extra_tags %}
 
-{% block head_title %}Faltas{% endblock %}
+{% block head_title %}Faltas Mes{% endblock %}
 
+{% block page_header %}
+<h1>Faltas del mes {{ mes }}</h1>
+{% endblock %}
 
 {% block body %}
-
-<h1>Faltas del mes {{ mes }}</h1>
-
+<div>
 	<table class="table">
 		<thead>
 			<tr>
@@ -21,9 +22,10 @@
 			<tr>
 				<td> {{ asistencia.alumno }} </td>
 				<td> {{ asistencia.grupo }} </td>
-				<td> {{ asistencia.faltas_mes }} </td>
+                <td {% if asistencia.faltas_mes > 3  %} class="bg-danger" {% endif %} > {{ asistencia.faltas_mes }} </td>
 			 </tr>
 		{% endfor %}
 		</tbody>
     </table>
+</div>
 {% endblock %}
