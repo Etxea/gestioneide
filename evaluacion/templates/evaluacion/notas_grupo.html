@@ -25,9 +25,9 @@
 		<tbody>    
 		{% for form in notas_formset %}
 			<tr>
-				{% comment %}  {{ form | bootstrap_inline }}<br /> {% endcomment %} 
+				{% comment %}  {{ form | bootstrap_inline }}<br /> {% endcomment %}
 				{% with asistencia=asistencias|buscar:forloop.counter0 %}
-				<td> {{ asistencia.alumno }} </td>
+				<td> {{ asistencia.alumno }} ({{ asistencia.id }}) </td>
 				{% for field in form %}
 					<td>{{ field.label }} {{ field }}  {{ field.errors }}</td>
 				{% endfor %}

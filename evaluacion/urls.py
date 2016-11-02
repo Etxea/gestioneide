@@ -6,8 +6,6 @@ from gestioneide.models import Nota,Falta
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, permission_required
 
-
-
 urlpatterns = [
     url(r"^$", login_required(EvaluacionListView.as_view()), name="evaluacion"),
     url(r"notas/$", login_required(EvaluacionListView.as_view(template_name="evaluacion/evaluacion_notas.html")), name="evaluacion_notas"),
@@ -25,6 +23,7 @@ urlpatterns = [
     url(r'presente/(?P<pk>\d+)/borrar/$',login_required(PresenciaDeleteView.as_view()), name="presencia_borrar"),
     
     url(r'falta/grupo/(?P<pk>\d+)/(?P<mes>\d+)/$',login_required(FaltasGrupoView), name="faltas_grupo"),
+    url(r'falta/mes/(?P<mes>\d+)/$',login_required(FaltasMesView.as_view()), name="faltas_mes"),
     url(r'falta/(?P<pk>\d+)/editar/$',login_required(UpdateView.as_view(model=Falta)), name="falta_editar"),
     url(r'falta/(?P<pk>\d+)/borrar/$',login_required(FaltaDeleteView.as_view()), name="falta_borrar"),
     

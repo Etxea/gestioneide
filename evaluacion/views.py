@@ -166,6 +166,19 @@ class FaltasGrupo(DetailView):
         context['trimestre'] = self.kwargs['trimestre']
         return context
 
+class FaltasMesView(ListView):
+    model = Falta
+    template_name = "evaluacion/faltas_mes.html"
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(FaltasMesView, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['mes'] = self.kwargs['mes']
+        return context
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        return Asistencia.objects.filter(year=year).annotate(faltas_mes=Count('falta')).filter(falta__mes=self.kwargs['mes']).order_by('-faltas_mes')
+
 class PasarListaView(ListView):
     model = Grupo
     template_name = "evaluacion/evaluacion_pasarlista_lista.html"

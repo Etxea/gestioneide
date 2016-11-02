@@ -4,15 +4,15 @@
 
 {% block body %}
 
-    <h1>{% trans "Nueva Nota" %}</h1>
+    <h1>Nota {{ asistencia.alumno }} / {{ asistencia.grupo }} / {{ trimestre }} </h1>
     <div>Creando nota para la asistencia {{ asistencia.id }} y el trimestre {{ trimestre }} del grupo {{ asistencia.grupo.nombre }}. La siguiente es {{ asistencia.siguiente_asistencia_grupo }}. La anterior es {{ asistencia.anterior_asistencia_grupo }}</div>
     <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap }}
+      {{ form|as_bootstrap_horizontal }}
       <br />
       <div class="form-actions">
-
-      <button type="submit">Enviar</button>
-      
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Guardar</button>
+     </div>
     </div>
     </form>
 {% endblock %}

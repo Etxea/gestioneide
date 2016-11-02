@@ -1,0 +1,29 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+
+{% block head_title %}Faltas{% endblock %}
+
+
+{% block body %}
+
+<h1>Faltas del mes {{ mes }}</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th><th>Grupo</th><th>Faltas</th>
+			</tr>
+		</thead>
+		<tbody>    
+		{% for asistencia in object_list %}
+			<tr>
+				<td> {{ asistencia.alumno }} </td>
+				<td> {{ asistencia.grupo }} </td>
+				<td> {{ asistencia.faltas_mes }} </td>
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+{% endblock %}
