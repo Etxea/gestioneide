@@ -7,8 +7,16 @@
 
 {% block body %} 
 
+<div class="row">
 <h1>Planillas de asistencias de todos los grupos</h1>
+<div class="col-md-8 col-md-offset-2">
     <table class="table">
+        <tr>
+            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 9  %}">Septiembre</a></td>
+            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 10 %}">Octubre</a></td>
+            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 11 %}">Noviembre</a></td>
+            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 12 %}">Diciembre</a></td>
+        </tr>
         <tr>
             <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 1 %}">Enero</a></td>
             <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 2 %}">Febrero</a></td>
@@ -21,14 +29,35 @@
             <td><a href="">Julio</a></td>
             <td><a href="">Agosto</a></td>
         </tr>
+    </table>
+</div>
+</div>
+<div class="row">
+<h1>Listado de faltas por mes</h1>
+<div class="col-md-8 col-md-offset-2">
+    <table class="table">
         <tr>
-            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 9 %}">Setiembre</a></td>
-            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 10 %}">Octubre</a></td>
-            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 11 %}">Noviembre</a></td>
-            <td><a target="_blank" href="{% url 'imprimir_grupos_planilla_asistencia' 12 %}">Diciembre</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 9  %}">Septiembre</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 10 %}">Octubre</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 11 %}">Noviembre</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 12 %}">Diciembre</a></td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="{% url 'faltas_mes' 1 %}">Enero</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 2 %}">Febrero</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 3 %}">Marzo</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 4 %}">Abril</a></td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="{% url 'faltas_mes' 5 %}">Mayo</a></td>
+            <td><a target="_blank" href="{% url 'faltas_mes' 6 %}">Junio</a></td>
+            <td><a href="">Julio</a></td>
+            <td><a href="">Agosto</a></td>
         </tr>
     </table>
-
+</div>
+</div>
+<div class="col-md-12">
 <h1>Informes y estadísticas</h1>
     <h2>Listados</h2>
     <ul>
@@ -73,4 +102,5 @@
         <li><a target="_blank" href="{% url 'listado_alumnos_errores' %}">Alumnos dados de baja y en grupos</a></li>
         <li><a target="_blank" href="{% url 'listado_alumnos_banco_errores' %}">Cuentas bancarias mal</a></li>
     </ul>
+</div>
 {% endblock %}
