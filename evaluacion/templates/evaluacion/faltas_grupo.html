@@ -35,11 +35,11 @@
     </table>
     
     <div class="form-group">
-	
+
 		<button type="submit" class="btn btn-primary">Submit</button>
 		<a class="btn btn-secondary" href="{% url 'faltas_grupo' grupo.prev_by_nombre mes%}">Anterior</a>
 		<a class="btn" href="{% url 'faltas_grupo' grupo.next_by_nombre mes%}">Siguiente</a>
-	
+
     </div>
 </form>
 {% endblock %}

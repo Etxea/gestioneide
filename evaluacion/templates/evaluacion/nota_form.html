@@ -1,18 +1,34 @@
 {% extends "site_base.html"%}
 {% load bootstrap_tags %}
+{% load evaluacion_extra_tags %}
 {% load i18n %}
 
-{% block body %}
-
+{% block page_header %}
     <h1>Nota {{ asistencia.alumno }} / {{ asistencia.grupo }} / {{ trimestre }} </h1>
-    <div>Creando nota para la asistencia {{ asistencia.id }} y el trimestre {{ trimestre }} del grupo {{ asistencia.grupo.nombre }}. La siguiente es {{ asistencia.siguiente_asistencia_grupo }}. La anterior es {{ asistencia.anterior_asistencia_grupo }}</div>
+{% endblock %}
+
+{% block body %}
     <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap_horizontal }}
-      <br />
-      <div class="form-actions">
+
+<div class="row">
+    <div class="form-group">
+
+        {% for field in form.fields %}
+        <div class="col-xs-1">
+            {{ field }}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% nota_input form field %}
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+    
     <div class="form-actions">
         <button class="btn btn-primary" type="submit">Guardar</button>
-     </div>
     </div>
+    
     </form>
+
 {% endblock %}

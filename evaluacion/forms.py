@@ -13,12 +13,13 @@ class NotaCreateForm(ModelForm):
     class Meta:
         model = Nota
         fields = ('reading','reading_np','useofenglish','useofenglish_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np')
+        exclude = ('id',)
         widgets = {
-            'reading': forms.NumberInput(attrs={'max':100,'width':'3','size':'3','maxlength': '3'}),
-            'useofenglish': forms.NumberInput(attrs={'max':100,'size':'2','maxlength': '2'}),
-            'writing': forms.NumberInput(attrs={'max':100,'size':'2','maxlength': '2'}),
-            'speaking': forms.NumberInput(attrs={'max':100,'size':'2','maxlength': '2'}),
-            'listenning': forms.NumberInput(attrs={'max':100,'size':'2','maxlength': '2'})
+            'reading': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'width':'3','size':'3','maxlength': '3'}),
+            'useofenglish': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'}),
+            'writing': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'}),
+            'speaking': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'}),
+            'listenning': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'})
         }
 
 class UpperNotaCreateFrom(NotaCreateForm):

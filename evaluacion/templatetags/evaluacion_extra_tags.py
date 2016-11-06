@@ -36,3 +36,9 @@ def justificada_checked(context,asistencia,mes,dia):
     else:
         return ""
 
+
+##Notas
+@register.simple_tag(takes_context=True)
+def nota_input(context, form, field_name):
+    field =form.fields[field_name]
+    return field.widget.render(field_name,field.initial)

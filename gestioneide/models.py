@@ -410,42 +410,41 @@ class Asistencia(models.Model):
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 
-    
 class Nota(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
     fecha_creacion = models.DateField(auto_now_add=True)
 
     control = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    control_np = models.BooleanField(default=False)
+    control_np = models.BooleanField("NP",default=False)
     control_na = models.BooleanField(default=False)
     
     grammar = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    grammar_np = models.BooleanField(default=False)
+    grammar_np = models.BooleanField("NP",default=False)
     grammar_na = models.BooleanField(default=False)
     
     reading = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    reading_np = models.BooleanField(default=False)
+    reading_np = models.BooleanField("NP",default=False)
     reading_na = models.BooleanField(default=False)
     
     writing = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    writing_np = models.BooleanField(default=False)
+    writing_np = models.BooleanField("NP",default=False)
     writing_na = models.BooleanField(default=False)
     
     useofenglish = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    useofenglish_np = models.BooleanField(default=False)
+    useofenglish_np = models.BooleanField("NP",default=False)
     useofenglish_na = models.BooleanField(default=False)
 
     listenning = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    listenning_np = models.BooleanField(default=False)
+    listenning_np = models.BooleanField("NP",default=False)
     listenning_na = models.BooleanField(default=False)
 
     speaking = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    speaking_np = models.BooleanField(default=False)
+    speaking_np = models.BooleanField("NP",default=False)
     speaking_na = models.BooleanField(default=False)
 
     comportamiento = models.CharField(max_length=2,default="B")
-    comportamiento_np = models.BooleanField(default=False)
+    comportamiento_np = models.BooleanField("NP",default=False)
     comportamiento_na = models.BooleanField(default=False)
     def ver_legacy_faltas(self):
         try:

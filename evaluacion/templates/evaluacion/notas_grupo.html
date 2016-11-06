@@ -6,15 +6,20 @@
 
 {% block head_title %}Faltas{% endblock %}
 
+{% block page_header %}
+    <h1>Notas grupo {{ grupo.nombre }} del trimestre {{ trimestre }} otro</h1>
+{% endblock %}
 
 {% block body %}
 
-<h1>Notas grupo {{ grupo.nombre }} del trimestre {{ trimestre }} otro</h1>
-
-{{ notas_formset.non_field_errors }}
+    {{ notas_formset.non_field_errors }}
 
 <form role="form" method="post" action="{% url 'notas_grupo' grupo.id trimestre %}">
 	{% csrf_token %}
+    <div class="form-group">
+		<a class="btn btn-secondary" href="{% url 'notas_grupo' grupo.prev_by_nombre trimestre %}">Anterior</a>
+		<a class="btn" href="{% url 'notas_grupo' grupo.next_by_nombre trimestre %}">Siguiente</a>
+    </div>
 	{{ notas_formset.management_form }}
 	<table class="table">
 		<thead>
@@ -38,11 +43,9 @@
     </table>
     
     <div class="form-group">
-	
 		<button type="submit" class="btn btn-primary">Submit</button>
 		<a class="btn btn-secondary" href="{% url 'notas_grupo' grupo.prev_by_nombre trimestre %}">Anterior</a>
 		<a class="btn" href="{% url 'notas_grupo' grupo.next_by_nombre trimestre %}">Siguiente</a>
-	
     </div>
 </form>
 
