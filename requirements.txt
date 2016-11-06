@@ -16,3 +16,5 @@ django-fixture-magic
 #django-tables2
 django-wkhtmltopdf
 unidecode
+gunicorn==19.6.0
+
