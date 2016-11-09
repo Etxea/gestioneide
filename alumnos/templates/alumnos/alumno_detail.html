@@ -71,7 +71,9 @@
         </thead>
         {% for asistencia in object.asistencia_set.all %}
         <tr>
-            <td>{{ asistencia.year }}</td><td>{{ asistencia.grupo.nombre }}</td><td>{{ asistencia.confirmado|yesno }}</td>
+            <td>{{ asistencia.year }}</td>
+            <td><a href="{% url 'grupo_detalle' asistencia.grupo.id %}" >{{ asistencia.grupo.nombre }}</a></td>
+            <td>{{ asistencia.confirmado|yesno }}</td>
             <td>{{ asistencia.factura|yesno }}</td><td>{{ asistencia.metalico|yesno }}</td><td>{{ asistencia.ver_precio }}</td>
             <td>
                 <a class="btn btn-primary zmdi zmdi-edit" href="{% url 'asistencia_editar' asistencia.id %}"></a> 
