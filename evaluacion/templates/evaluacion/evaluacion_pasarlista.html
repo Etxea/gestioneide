@@ -19,9 +19,9 @@ Pasar lista {{ grupo.nombre }} del mes {{ mes }}
 	<thead>
 		<tr>
 			<th>Alumno</th>
-	{% for dia in dias_clase %}
-	<th colspan="3">Dia {{dia}}<br /> P/F/J</th>
-	{% endfor %}
+	        {% for dia in dias_clase %}
+        	<th colspan="3">Dia {{dia}}<br /> P/F/J</th>
+        	{% endfor %}
 		</tr>
 	</thead>
 	<tbody>    
@@ -44,9 +44,16 @@ Pasar lista {{ grupo.nombre }} del mes {{ mes }}
 			onclick="on_checkbox_click({{asistencia.id}},{{dia}},'justificada')" type="checkbox"> </input>
 		</td>
 		{% endfor %}                
-			
-			
 	    </tr>
+
+        {% if forloop.counter == 5 or forloop.counter == 10 %}
+		<tr>
+			<th></th>
+	        {% for dia in dias_clase %}
+        	<th colspan="3">Dia {{dia}}<br /> P/F/J</th>
+        	{% endfor %}
+		</tr>
+        {% endif %}
 	{% endfor %}
 </tbody>
 </table>
