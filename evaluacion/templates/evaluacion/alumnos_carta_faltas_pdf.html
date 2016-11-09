@@ -1,0 +1,32 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+
+{% block head_title %}Faltas Mes{% endblock %}
+
+{% block page_header %}
+<h1>Faltas del mes {{ mes }}</h1>
+{% endblock %}
+
+{% block body %}
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th><th>Grupo</th><th>Faltas</th><th>Justificadas</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for asistencia in object_list %}
+			<tr>
+				<td> {{ asistencia.alumno }} </td>
+				<td> {{ asistencia.grupo }} </td>
+                <td {% if asistencia.faltas_mes > 3  %} class="bg-danger" {% endif %} > {{ asistencia.faltas_mes }} </td>
+                <td>{{ asistencia.justificadas_mes }}</td>
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+</div>
+{% endblock %}

@@ -115,3 +115,17 @@ class ImprimirGruposPlanillaAsistencia(PDFTemplateView):
         context['mes'] = mes
         context['mes_nombre'] = calendar.month_name[mes]
         return context
+
+class ImprimirAlumnosCartaFaltas(ListView):
+    model = Asistencia
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirAlumnosCartaFaltas, self).get_context_data(**kwargs)
+        mes= int(kwargs['mes'])
+        year = Year.objects.get(activo=True)
+        return context
+    def get_queryset(self):
+        year = Year.objects.get(activo=True)
+        return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).annotate(faltas_mes=Count('falta')).\
+            filter(justificada__mes=self.kwargs['mes']).annotate(justificadas_mes=Count('justificada')).filter(faltas_mes>4)order_by('-faltas_mes')
+    filename = 'alumnos_carta_faltas.pdf'
+    template_name = 'alumnos_carta_faltas_pdf.html'
