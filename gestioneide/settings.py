@@ -76,6 +76,9 @@ STATICFILES_FINDERS = [
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = "%(((6#nr1e+-mzzs&7v3%rdxp(x3$yyp7b)ep^_htq+*iubib3"
 
+SESSION_COOKIE_AGE = 30 * 60 #
+
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
