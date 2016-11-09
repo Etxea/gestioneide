@@ -156,7 +156,6 @@ class NotasGrupo(DetailView):
         context['notas_formset'] = notas_formset
         return context
 
-
 class NotaCreateView(CreateView):
     model = Nota
     template_name = "evaluacion/nota_form.html"
@@ -186,7 +185,6 @@ class NotaCreateView(CreateView):
             print "Tenemos una evaluacion de otro tipo"
             return NotaCreateForm
 
-
 class FaltasGrupo(DetailView):
     model = Grupo
     template_name = "evaluacion/faltas_grupo.html"
@@ -208,7 +206,8 @@ class FaltasMesView(ListView):
         return context
     def get_queryset(self):
         year = Year.objects.get(activo=True)
-        return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).annotate(faltas_mes=Count('falta')).order_by('-faltas_mes')
+        return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).annotate(faltas_mes=Count('falta')).\
+            filter(justificada__mes=self.kwargs['mes']).annotate(justificadas_mes=Count('justificada')).order_by('-faltas_mes')
 
 class PasarListaView(ListView):
     model = Grupo

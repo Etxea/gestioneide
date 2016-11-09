@@ -14,7 +14,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Alumno</th><th>Grupo</th><th>Faltas</th>
+				<th>Alumno</th><th>Grupo</th><th>Faltas</th><th>Justificadas</th>
 			</tr>
 		</thead>
 		<tbody>    
@@ -23,6 +23,7 @@
 				<td> {{ asistencia.alumno }} </td>
 				<td> {{ asistencia.grupo }} </td>
                 <td {% if asistencia.faltas_mes > 3  %} class="bg-danger" {% endif %} > {{ asistencia.faltas_mes }} </td>
+                <td>{{ asistencia.justificadas_mes }}</td>
 			 </tr>
 		{% endfor %}
 		</tbody>
