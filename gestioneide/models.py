@@ -8,7 +8,12 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
 from django.utils.dates import MONTHS
 from django.utils.timezone import now
-from django.db.models import Q    
+from django.db.models import Q
+from django.conf import settings
+if "mailer" in settings.INSTALLED_APPS:
+    from mailer import send_mail, mail_admins
+else:
+    from django.core.mail import send_mail, mail_admins
 
 import datetime
 import calendar
@@ -456,6 +461,26 @@ class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
+
+    def save(self, *args, **kwargs):
+        #evitamos duplicar faltas el mismo día por error
+        if Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).filter(dia=self.dia).count() > 0:
+            print "Ya tiene falta ese día! no la guardamos."
+            return
+        else:
+            super(Falta, self).save(*args, **kwargs)  # Call the "real" save() method.
+            #Si el grupo es de menores y suma cinco mandamos mail
+            if self.asistencia.grupo.menores:
+                print "es un grupo de menores contamos las faltas"
+                num_faltas_mes = Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).count()
+                print "tiene %s faltas"%num_faltas_mes
+                if num_faltas_mes > 3:
+                    print "Mandamos mail"
+                    subject="[Gestion Alumnos]Aviso de faltas %s en el mes %s"%(self.asistencia.alumno,self.mes)
+                    message="El alumno %s en el grupo %s a sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
+                    print "Mandamos mail: %s \n %s"%(subject,message)
+                    mail_admins(subject,message)
+
     
 class Justificada(models.Model):
     asistencia = models.ForeignKey('Asistencia')
