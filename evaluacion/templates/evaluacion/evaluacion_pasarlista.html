@@ -72,6 +72,24 @@ function on_checkbox_click(asistencia,dia,tipo)
     console.log("Creando "+tipo+" para el día: "+dia+" y el aistencia "+asistencia);
     $('body').addClass('wait');
     input = $("#"+asistencia+"_"+dia+"_"+tipo)[0];
+    //FIXME esto es muy guarro :P
+    if (tipo=="falta") {
+        otro_input_1_tipo="justificada";
+        otro_input_2_tipo="presente";
+
+    } else if (tipo=="justificada")
+    {
+        otro_input_1_tipo="falta";
+        otro_input_2_tipo="presente";
+
+    } else {
+        otro_input_1_tipo="falta";
+        otro_input_2_tipo="justificada";
+    }
+    otro_input_1=$("#"+asistencia+"_"+dia+"_"+otro_input_1_tipo)[0];
+    otro_input_2=$("#"+asistencia+"_"+dia+"_"+otro_input_2_tipo)[0];
+    console.log(otro_input_1);
+    console.log(otro_input_2);
     console.log("Tenemos el name",input.name);
     if (input.checked) {
         console.log("Creamos "+tipo);
@@ -88,7 +106,10 @@ function on_checkbox_click(asistencia,dia,tipo)
                         console.log("success"); // another sanity check
                         console.log(json); // log the returned json to the console
                         input.name=json.pk;
+                        otro_input_1.disabled=true;
+                        otro_input_2.disabled=true;
                         $('body').removeClass('wait');
+
                 },
                 
                 error : function(xhr,errmsg,err) {
@@ -113,6 +134,8 @@ function on_checkbox_click(asistencia,dia,tipo)
                 success : function(json) {
                         console.log("success"); // another sanity check
                         //console.log(json); // log the returned json to the console
+                        otro_input_1.disabled=false;
+                        otro_input_2.disabled=false;
                         $('body').removeClass('wait');
                 },
                 
