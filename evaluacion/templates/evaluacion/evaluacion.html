@@ -28,7 +28,16 @@ Evaluación
 					{% endfor %}
 					
 				</tr>
+			    {% if forloop.counter|divisibleby:"10" %}
+                     <thead>
+                        <th>Grupo</th>
+                        {% for mes in meses %}
+                        <th>{{ mes }}</th>
+                        {% endfor %}
+                      </thead>
+				{% endif %}
 				{% endfor %}
+
             </tbody>
         </table>
     </div>
@@ -47,7 +56,12 @@ Evaluación
 					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 2 %}"></a></td>
 					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 3 %}"></a></td>
 				</tr>
-				{% endfor %}
+                {% if forloop.counter|divisibleby:"10" %}
+                    <thead>
+                        <th>Grupo</th><th>Trim. 1</th><th>Trim. 3</th><th>Trim. 3</th>
+                    </thead>
+				{% endif %}
+                {% endfor %}
             </tbody>
         </table>
     </div>
