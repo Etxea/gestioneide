@@ -481,7 +481,6 @@ class Falta(models.Model):
                     print "Mandamos mail: %s \n %s"%(subject,message)
                     mail_admins(subject,message)
 
-    
 class Justificada(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
@@ -498,7 +497,6 @@ class Presencia(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
-
 
 class Recibo(models.Model):
     year = models.ForeignKey('Year')

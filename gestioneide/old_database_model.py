@@ -151,8 +151,8 @@ class Curso(SQLObject):
     nivel = UnicodeCol(default="")
     libros = RelatedJoin('Libro')
     nota_aprobado = FloatCol(default=50)
-    modelo_notas = UnicodeCol(default="")
-    solo_examen_final = BoolCol(default=0)
+    #modelo_notas = UnicodeCol(default="")
+    #solo_examen_final = BoolCol(default=0)
 
 class Grupo(SQLObject):
     nombre = UnicodeCol()
@@ -160,7 +160,7 @@ class Grupo(SQLObject):
     curso = ForeignKey('Curso',cascade='null')
     alumnos = MultipleJoin('Asistencia')
     num_max = DecimalCol(size=2,precision=0,default=14) #El tamaño default no es lo mejor que esté aquí, pero bueno
-    menores = BoolCol(default=0)
+    #menores = BoolCol(default=0)
 
 
 ##class Provincia(SQLObject):

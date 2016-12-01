@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'patataman'
-from importar.models import OldDatabase
+from importar.models import OldDatabase, Year
 from django.core.management.base import BaseCommand, CommandError
 
 class Command(BaseCommand):
@@ -12,7 +12,9 @@ class Command(BaseCommand):
         if len(args)<2:
              for old in OldDatabase.objects.all():
                  print "ID: %s archivo %s"%(old.id,old.dbfile)
-             raise CommandError('Falta fichero origen')
+             for year in Year.objects.all():
+                 print "ID: %s archivo %s"%(year.id,year)
+             raise CommandError('Falta fichero origen y/o ano')
    
         dbfile = OldDatabase.objects.get(id=int(args[0]))
         ano=int(args[1])
