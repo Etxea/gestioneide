@@ -456,6 +456,33 @@ class Nota(models.Model):
             return self.asistencia.legacyfalta_set.all()[0].__unicode__()
         except:
             return "-/-"
+    def media(self):
+        print self.asistencia.grupo.curso.tipo_evaluacion
+        if self.asistencia.grupo.curso.tipo_evaluacion == 2: #"elementary_intermediate":
+            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listening']
+
+        elif self.asistencia.grupo.curso.tipo_evaluacion == 3: #"upper_proficiency":
+            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listening']
+
+        else:
+            lista_materias = ['grammar']
+        lista_notas = []
+        print lista_materias,self.grammar
+        for materia in lista_materias:
+            # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
+            nota_temp = getattr(self, materia)
+            print "hemos leido",nota_temp
+            lista_notas.append(nota_temp)
+                # ~ print "Lista", lista_notas
+        total = float(0)
+        for nota in lista_notas:
+            total = total + float(nota)
+        numero = float(len(lista_notas))
+        media = (total / numero)
+        print "Total, numero notas, media", total, numero, media
+        return media
+
+        #nota_final = nota_media(lista_notas)
     
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
