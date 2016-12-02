@@ -206,8 +206,19 @@ class FaltasMesView(ListView):
         return context
     def get_queryset(self):
         year = Year.objects.get(activo=True)
-        return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).annotate(faltas_mes=Count('falta')).\
-            filter(justificada__mes=self.kwargs['mes']).annotate(justificadas_mes=Count('justificada')).order_by('-faltas_mes')
+        #return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).annotate(faltas_mes=Count('falta')).\
+        #    filter(justificada__mes=self.kwargs['mes']).annotate(justificadas_mes=Count('justificada')).order_by('-faltas_mes')
+        #return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).filter(falta__year=year).annotate(faltas_mes=Count('falta')).order_by('-faltas_mes')
+        lista = []
+        mes = self.kwargs['mes']
+        for asis in Asistencia.objects.filter(year=year):
+            faltas = Falta.objects.filter(asistencia=asis,mes=mes).count()
+            justificadas = Justificada.objects.filter(asistencia=asis,mes=mes).count()
+            if faltas > 0 or justificadas > 0:
+                lista.append({'asistencia':asis,'faltas_mes':faltas,'justificadas_mes':justificadas})
+            else:
+                pass
+        return lista
 
 class PasarListaView(ListView):
     model = Grupo
