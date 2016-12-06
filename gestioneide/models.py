@@ -459,10 +459,10 @@ class Nota(models.Model):
     def media(self):
         print self.asistencia.grupo.curso.tipo_evaluacion
         if self.asistencia.grupo.curso.tipo_evaluacion == 2: #"elementary_intermediate":
-            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listening']
+            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listenning']
 
         elif self.asistencia.grupo.curso.tipo_evaluacion == 3: #"upper_proficiency":
-            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listening']
+            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listenning']
 
         else:
             lista_materias = ['grammar']

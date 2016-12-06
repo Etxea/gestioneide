@@ -25,7 +25,8 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <td>Lis.</td>
                 <td>Spe.</td>
                 <td>Com.</td>
-                    <td><b>Media</b></td>
+                <td>Tipo</td>
+                <td><b>Media</b></td>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +43,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <td>{{nota.listenning}}</td>
                 <td>{{nota.speaking}}</td>
                 <td>{{nota.comportamiento}}</td>
+                <td>{{nota.asistencia..grupo.curso.tipo_evaluacion}}</td>
                 <td>{{nota.media}}</td>
             </tr>
             {% endfor %}
