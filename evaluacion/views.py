@@ -4,9 +4,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+
+from wkhtmltopdf.views import PDFTemplateView
 
 from gestioneide.models import *
 from forms import *
@@ -218,7 +220,33 @@ class FaltasMesView(ListView):
                 lista.append({'asistencia':asis,'faltas_mes':faltas,'justificadas_mes':justificadas})
             else:
                 pass
-        return lista
+        return sorted(lista, key=lambda student: student['faltas_mes'], reverse=True)
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class FaltasMesCartas(PDFTemplateView):
+    filename='cartas_faltas.pdf'
+    template_name = "evaluacion/faltas_mes_cartas.html"
+    cmd_options = {
+        'margin-bottom': 20,
+        'margin-top': 20,
+        'margin-left': 25,
+        'margin-right': 25
+    }
+    def get_context_data(self, **kwargs):
+        context = super(FaltasMesCartas, self).get_context_data(**kwargs)
+        year = Year.objects.get(activo=True)
+        context['mes'] = self.kwargs['mes']
+        lista = []
+        mes = self.kwargs['mes']
+        for asis in Asistencia.objects.filter(year=year):
+            faltas = Falta.objects.filter(asistencia=asis,mes=mes).count()
+            justificadas = Justificada.objects.filter(asistencia=asis,mes=mes).count()
+            if faltas > 3:
+                lista.append({'asistencia':asis,'faltas_mes':faltas,'justificadas_mes':justificadas})
+            else:
+                pass
+        context['lista']=lista
+        return context
 
 class PasarListaView(ListView):
     model = Grupo
