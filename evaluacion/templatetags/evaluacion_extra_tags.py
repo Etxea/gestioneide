@@ -5,6 +5,10 @@ register = template.Library()
 def buscar(d, key):
     return d[key]
 
+@register.filter
+def mes_texto(mes):
+    import calendar
+    return calendar.month_name[int(mes)]
 
 @register.simple_tag(takes_context=True)
 def presente_checked(context,asistencia,mes,dia):

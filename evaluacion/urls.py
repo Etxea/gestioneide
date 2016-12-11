@@ -24,6 +24,7 @@ urlpatterns = [
     
     url(r'falta/grupo/(?P<pk>\d+)/(?P<mes>\d+)/$',login_required(FaltasGrupoView), name="faltas_grupo"),
     url(r'falta/mes/(?P<mes>\d+)/$',login_required(FaltasMesView.as_view()), name="faltas_mes"),
+    url(r'falta/mes/(?P<mes>\d+)/cartas$',login_required(FaltasMesCartas.as_view()), name="faltas_mes_cartas"),
     url(r'falta/(?P<pk>\d+)/editar/$',login_required(UpdateView.as_view(model=Falta)), name="falta_editar"),
     url(r'falta/(?P<pk>\d+)/borrar/$',login_required(FaltaDeleteView.as_view()), name="falta_borrar"),
     

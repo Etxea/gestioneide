@@ -34,23 +34,53 @@
 </div>
 <div class="row">
 <h1>Listado de faltas por mes</h1>
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-9 col-md-offset-1">
     <table class="table">
         <tr>
-            <td><a target="_blank" href="{% url 'faltas_mes' 9  %}">Septiembre</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 10 %}">Octubre</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 11 %}">Noviembre</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 12 %}">Diciembre</a></td>
-        </tr>
-        <tr>
-            <td><a target="_blank" href="{% url 'faltas_mes' 1 %}">Enero</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 2 %}">Febrero</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 3 %}">Marzo</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 4 %}">Abril</a></td>
-        </tr>
-        <tr>
-            <td><a target="_blank" href="{% url 'faltas_mes' 5 %}">Mayo</a></td>
-            <td><a target="_blank" href="{% url 'faltas_mes' 6 %}">Junio</a></td>
+            <td>Septiembre  
+                <a target="_blank" href="{% url 'faltas_mes' 9 %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 9 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Octubre     
+                <a target="_blank" href="{% url 'faltas_mes' 10 %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 10 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Noviembre   
+                <a target="_blank" href="{% url 'faltas_mes' 11 %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 11 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Diciembre   
+                <a target="_blank" href="{% url 'faltas_mes' 12 %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 12 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+        </tr>               
+        <tr>                
+            <td>Enero       
+                <a target="_blank" href="{% url 'faltas_mes' 1  %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 1 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Febrero     
+                <a target="_blank" href="{% url 'faltas_mes' 2  %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 2 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Marzo       
+                <a target="_blank" href="{% url 'faltas_mes' 3  %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 3 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Abril       
+                <a target="_blank" href="{% url 'faltas_mes' 4  %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 4 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+        </tr>               
+        <tr>                
+            <td>Mayo        
+                <a target="_blank" href="{% url 'faltas_mes' 5  %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 5 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
+            <td>Junio       
+                <a target="_blank" href="{% url 'faltas_mes' 6  %}"><i class="zmdi zmdi-format-list-bulleted"></i>Lista</a>
+                <a target="_blank" href="{% url 'faltas_mes_cartas' 6 %}"><i class="zmdi zmdi-email"></i>Cartas</a>
+            </td>
             <td><a href="">Julio</a></td>
             <td><a href="">Agosto</a></td>
         </tr>

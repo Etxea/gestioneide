@@ -1,0 +1,54 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags%}
+
+{% block body %}
+
+{% for carta in lista %}
+<br />
+<br />
+<br />
+<br />
+<div class="row" style="margin-right: 10px;margin-left: 10px;">    
+    <div style="text-align:right">
+        <span style="text-align:right" >{{carta.asistencia.alumno.nombre }} {{carta.asistencia.alumno.apellido1}} {{carta.asistencia.alumno.apellido2}}</span><br />
+        <span style="text-align:right" >{{carta.asistencia.alumno.direccion }}</span><br />
+        <span style="text-align:right" >{{carta.asistencia.alumno.ciudad}} {{carta.asistencia.alumno.cp}}</span><br />
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="row" style="margin-right: 10px;margin-left: 10px;">    
+    <div style="text-align:center">
+        <h2>Faltas Mes</h2>
+    </div>
+    <br />
+    <br />
+    <br />
+    <p>La presente carta es para informarle de que el alumno 
+    <b>{{carta.asistencia.alumno.nombre }} {{carta.asistencia.alumno.apellido1}} {{carta.asistencia.alumno.apellido2}}</b> 
+    ha faltado {{carta.faltas_mes}} veces a las clases del grupo {{carta.asistencia.grupo}} durante el mes de {{ mes|mes_texto}}</p>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="row" style="margin-right: 10px;margin-left: 10px;">    
+    <div style="text-align:center" ><b>Secretaria general</b></div>
+</div>
+<div style="page-break-after: always;"></div>
+<div><pdf:nextpage /></div>
+{% endfor %}
+
+{% endblock %}
