@@ -29,7 +29,7 @@ class EvaluacionListView(ListView):
         context['meses'] = [9,10,11,12,1,2,3,4,5,6,7]
         return context
 
-def NotasGrupoView(request,pk,trimestre):
+def NotasGrupoTrimestreView(request,pk,trimestre):
     grupo = get_object_or_404(Grupo, pk=pk)
     tipo_evaluacion = grupo.curso.tipo_evaluacion
     print "Tenemos el grupo %s y tipo evaluacion %s"%(grupo,tipo_evaluacion)
@@ -39,20 +39,9 @@ def NotasGrupoView(request,pk,trimestre):
     #~ context['grupo_anterior']=grupo.get_previous_by_nombre()
     context['asistencias']=grupo.asistencia_set.all()
     #elegimos el tipo de formset y template
-    if tipo_evaluacion == 2:
-        print "Teneos una evaluacion de tipo elementary_intermediate"
-        NotaFomsetClass = ElementayNotaFormSet
-        template="evaluacion/notas_grupo_elementary.html"
 
-    elif tipo_evaluacion == 3:
-        print "Teneos una evaluacion de tipo elementary_intermediate"
-        NotaFomsetClass = UpperNotaFormSet
-        template="evaluacion/notas_grupo_upper.html"
-    else:
-        print "Teneos una evaluacion de tipo elementary_intermediate"
-        NotaFomsetClass = NotaFormSet
-        template="evaluacion/notas_grupo.html"
-
+    NotaFomsetClass = NotaTrimestralFormSet
+    template="evaluacion/notas_grupo_trimestre.html"
     if request.method == 'POST':
         notas_formset = NotaFomsetClass(request.POST, request.FILES)
         context['notas_formset']=notas_formset
@@ -69,14 +58,64 @@ def NotasGrupoView(request,pk,trimestre):
         for asistencia in grupo.asistencia_set.all().order_by('id'):
             print "Buscando la nota del trimestre %s de la asistencia %s"%(trimestre,asistencia.id)
             lista_asistencias.append(asistencia.id)
-            obj, created = Nota.objects.get_or_create(trimestre=trimestre, asistencia=asistencia)
-        notas_formset = NotaFomsetClass(queryset=Nota.objects.filter(asistencia__in=lista_asistencias,trimestre=trimestre).order_by('asistencia__id'))
+            obj, created = NotaTrimestral.objects.get_or_create(trimestre=trimestre, asistencia=asistencia)
+        notas_formset = NotaFomsetClass(queryset=NotaTrimestral.objects.filter(asistencia__in=lista_asistencias,trimestre=trimestre).order_by('asistencia__id'))
         #print notas_formset
         context['notas_formset']=notas_formset
-        
-    
+
+
     return render_to_response(template, context)
-        
+
+def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
+    grupo = get_object_or_404(Grupo, pk=pk)
+    tipo_evaluacion = grupo.curso.tipo_evaluacion
+    print "Tenemos el grupo %s y tipo evaluacion %s" % (grupo, tipo_evaluacion)
+    context = RequestContext(request, {'cuatrimestre': cuatrimestre})
+    context['grupo'] = grupo
+    # ~ context['grupo_siguiente']=grupo.get_next_by_nombre()
+    # ~ context['grupo_anterior']=grupo.get_previous_by_nombre()
+    context['asistencias'] = grupo.asistencia_set.all()
+    # elegimos el tipo de formset y template
+    if tipo_evaluacion == 2:
+        print "Teneos una evaluacion de tipo elementary_intermediate"
+        NotaFomsetClass = ElementayNotaFormSet
+        template = "evaluacion/notas_grupo_elementary.html"
+
+    elif tipo_evaluacion == 3:
+        print "Tenemos una evaluacion de tipo elementary"
+        NotaFomsetClass = ElementayNotaFormSet
+        template = "evaluacion/notas_grupo_elementary.html"
+    elif tipo_evaluacion == 4:
+        print "Teneos una evaluacion de tipo upper"
+        NotaFomsetClass = UpperNotaFormSet
+        template = "evaluacion/notas_grupo_upper.html"
+
+    if request.method == 'POST':
+        notas_formset = NotaFomsetClass(request.POST, request.FILES)
+        context['notas_formset'] = notas_formset
+        if notas_formset.is_valid():
+            # do something with the formset.cleaned_data
+            if notas_formset.is_valid():
+                print "Guardamos"
+                notas_formset.save()
+            pass
+        else:
+            print "Formset mal"
+    else:
+        lista_asistencias = []
+        for asistencia in grupo.asistencia_set.all().order_by('id'):
+            print "Buscando la nota del cuatrimestre %s de la asistencia %s" % (cuatrimestre, asistencia.id)
+            lista_asistencias.append(asistencia.id)
+            obj, created = NotaCuatrimestral.objects.get_or_create(cuatrimestre=cuatrimestre, asistencia=asistencia)
+        notas_formset = NotaFomsetClass(
+            queryset=NotaCuatrimestral.objects.filter(asistencia__in=lista_asistencias, cuatrimestre=cuatrimestre).order_by(
+                'asistencia__id'))
+        # print notas_formset
+        context['notas_formset'] = notas_formset
+
+    return render_to_response(template, context)
+
+
 def FaltasGrupoView(request,pk,mes):
     grupo = get_object_or_404(Grupo, pk=pk)
     context = RequestContext(request,{'mes': mes})

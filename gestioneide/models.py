@@ -29,8 +29,9 @@ DIAS_SEMANA = (
 )
 TIPO_EVALUACION = (
     (1, _('Otro')),
-    (2, _('elementary_intermediate')),
-    (3, _('upper_proficiency')),
+    (2, _('elementary_preintermediate')),
+    (3, _('intermediate')),
+    (4, _('prefirst_proficiency')),
 )
 
 TIPO_FESTIVO = (
@@ -483,7 +484,72 @@ class Nota(models.Model):
         return media
 
         #nota_final = nota_media(lista_notas)
-    
+
+
+class NotaCuatrimestral(models.Model):
+    asistencia = models.ForeignKey('Asistencia')
+    cuatrimestre = models.DecimalField(max_digits=1, decimal_places=0)
+    fecha_creacion = models.DateField(auto_now_add=True)
+
+    grammar = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    grammar_np = models.BooleanField("NP", default=False)
+
+    reading = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    reading_np = models.BooleanField("NP", default=False)
+
+    writing = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    writing_np = models.BooleanField("NP", default=False)
+
+    reading_writing = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    reading_writing_np = models.BooleanField("NP", default=False)
+
+    useofenglish = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    useofenglish_np = models.BooleanField("NP", default=False)
+
+    listenning = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    listenning_np = models.BooleanField("NP", default=False)
+
+    speaking = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    speaking_np = models.BooleanField("NP", default=False)
+
+
+    def media(self):
+        print self.asistencia.grupo.curso.tipo_evaluacion
+        if self.asistencia.grupo.curso.tipo_evaluacion == 2:  # "elementary_intermediate":
+            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listenning']
+
+        elif self.asistencia.grupo.curso.tipo_evaluacion == 3:  # "upper_proficiency":
+            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listenning']
+
+        else:
+            lista_materias = ['grammar']
+        lista_notas = []
+        print lista_materias, self.grammar
+        for materia in lista_materias:
+            # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
+            nota_temp = getattr(self, materia)
+            print "hemos leido", nota_temp
+            lista_notas.append(nota_temp)
+            # ~ print "Lista", lista_notas
+        total = float(0)
+        for nota in lista_notas:
+            total = total + float(nota)
+        numero = float(len(lista_notas))
+        media = (total / numero)
+        print "Total, numero notas, media", total, numero, media
+        return media
+
+        # nota_final = nota_media(lista_notas)
+
+
+class NotaTrimestral(models.Model):
+    asistencia = models.ForeignKey('Asistencia')
+    trimestre = models.DecimalField(max_digits=1,decimal_places=0)
+    fecha_creacion = models.DateField(auto_now_add=True)
+
+    nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+
+
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)

@@ -14,3 +14,4 @@ pip-selfcheck.json
 *.sql
 gestioneide.json
 old_data*
+nohup.out

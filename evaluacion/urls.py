@@ -12,9 +12,10 @@ urlpatterns = [
     url(r"pasarlista/$", login_required(PasarListaView.as_view()), name="evaluacion_pasarlista"),
     url(r"pasarlista/grupo/(?P<pk>\d+)/(?P<mes>\d+)/$", login_required(PasarListaGrupoView.as_view()), name="evaluacion_pasarlista_grupo_mes"),
     url(r"faltas/$", login_required(EvaluacionListView.as_view(template_name="evaluacion/evaluacion_faltas.html")), name="evaluacion_faltas"),
-    url(r'nota/grupo/(?P<pk>\d+)/(?P<trimestre>\d+)/$',login_required(NotasGrupoView), name="notas_grupo"),
-    url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
-    url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/editar/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
+    url(r'nota/grupo/(?P<pk>\d+)/(?P<trimestre>\d+)/$',login_required(NotasGrupoTrimestreView), name="notas_grupo"),
+    url(r'nota/grupo/(?P<pk>\d+)/(?P<cuatrimestre>\d+)/cuatrimestre$',login_required(NotasGrupoCuatrimestreView), name="notas_cuatrimestre_grupo"),
+    url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
+    url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre/editar/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<pk>\d+)/borrar/$',login_required(DeleteView.as_view(model=Nota)), name="nota_borrar"),
     url(r'falta/nueva/$',login_required(FaltaCreateView.as_view()), name="falta_nueva"),
     
