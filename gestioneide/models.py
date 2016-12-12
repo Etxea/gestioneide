@@ -329,17 +329,24 @@ class Grupo(models.Model):
             return self.precio
         else:
             return self.curso.precio
-    def next_by_nombre(self):
+    def next_by_nombre(self,cuatrimestre=False):
         year = Year.objects.get(activo=True)
-        posicion = int(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count())
-        total = len(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0))
+        if cuatrimestre:
+            filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
+        else:
+            filtro=Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
+        posicion = int(filtro.filter(nombre__lt = self.nombre).count())
+        total = len(filtro)
         print "Somo el %s de %s"%(posicion,total)
         if posicion == total:
             return self.id
         else:
-            return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion+1].id
-            
-    def prev_by_nombre(self):
+            return filtro[posicion+1].id
+
+    def next_by_nombre_quatrimestre(self):
+        self.next_by_nombre(cuatrimestre=True)
+
+    def prev_by_nombre(self,cuatrimestre=False):
         year = Year.objects.get(activo=True)
         posicion = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count()
         total = len(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0))
@@ -348,7 +355,9 @@ class Grupo(models.Model):
             return self.id
         else:
             return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion-1].id
-            
+
+    def prev_by_nombre_quatrimestre(self):
+        self.prev_by_nombre(cuatrimestre=True)
     def __unicode__(self):
         return "%s"%(self.nombre)
     def get_absolute_url(self):

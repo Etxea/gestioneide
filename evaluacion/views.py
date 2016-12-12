@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from datetime import date
 from wkhtmltopdf.views import PDFTemplateView
 
 from gestioneide.models import *
@@ -114,7 +115,6 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
         context['notas_formset'] = notas_formset
 
     return render_to_response(template, context)
-
 
 def FaltasGrupoView(request,pk,mes):
     grupo = get_object_or_404(Grupo, pk=pk)
@@ -278,6 +278,8 @@ class FaltasMesCartas(PDFTemplateView):
         lista = []
         mes = self.kwargs['mes']
         for asis in Asistencia.objects.filter(year=year):
+            if date.today().year - asis.alumno.fecha_nacimiento.year > 19:
+                continue
             faltas = Falta.objects.filter(asistencia=asis,mes=mes).count()
             justificadas = Justificada.objects.filter(asistencia=asis,mes=mes).count()
             if faltas > 3:
