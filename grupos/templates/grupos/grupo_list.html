@@ -21,6 +21,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
                 <td>Clases</td>
                 <td>Conf. / Sin Conf.</td>
                 <td>Menores</td>
+                <td>Evaluacion</td>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +36,8 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
                 </td>
                 
                 <td>{{ grupo.confirmados }} / {{ grupo.sin_confirmar }}</td>
-                <td>{{ grupo.menores }}</td>
+                <td>{{ grupo.menores|yesno }}</td>
+                <td>{{ grupo.curso.get_tipo_evaluacion_display }}</td>
             </tr>
             {% endfor %}
             </tbody>

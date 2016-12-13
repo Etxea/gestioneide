@@ -27,6 +27,7 @@ class NotaTrimestralCreateForm(ModelForm):
     class Meta:
         model = NotaTrimestral
         exclude = ('id',)
+        fields = ['nota','observaciones']
 
 
 class ElementaryNotaCreateForm(NotaCreateForm):

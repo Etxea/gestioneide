@@ -28,10 +28,10 @@ DIAS_SEMANA = (
     (5, _('Viernes'))
 )
 TIPO_EVALUACION = (
-    (1, _('Otro')),
-    (2, _('elementary_preintermediate')),
-    (3, _('intermediate')),
-    (4, _('prefirst_proficiency')),
+    (1, _('Trimestral')),
+    (2, _('Elementary/Prei Intermediate')),
+    (3, _('Intermediate')),
+    (4, _('Upper/[Pre]First/Advance/Proficiency')),
 )
 
 TIPO_FESTIVO = (
@@ -550,14 +550,12 @@ class NotaCuatrimestral(models.Model):
 
         # nota_final = nota_media(lista_notas)
 
-
 class NotaTrimestral(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
     fecha_creacion = models.DateField(auto_now_add=True)
-
     nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-
+    observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
 
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')

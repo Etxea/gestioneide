@@ -23,6 +23,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
                     <th>Precio</th>
                     <th>Exámen</th>
                     <th>Nivel</th>
+                    <th>Evaluación</th>
 					<th>Nota Apobado</th>
 					<th>Sólo examen final</th>
                     <th>Libros</th>
@@ -36,8 +37,9 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
                 <td>{{curso.precio}}€</td>
                 <td>{{curso.examen}}</td>
                 <td>{{curso.nivel}}</td>
+                <td>{{curso.get_tipo_evaluacion_display}}</td>
                 <td>{{curso.nota_aprobado}}</td>
-                <td>{{curso.solo_examen_final}}</td>
+                <td>{{curso.solo_examen_final|yesno}}</td>
                 <td>
 					{% for libro in curso.libros.all %}
 						<a href="{{libro.get_absolute_url}}">{{libro}}</a><br />
