@@ -334,7 +334,7 @@ class Grupo(models.Model):
         if cuatrimestre:
             filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
         else:
-            filtro=Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
+            filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
         posicion = int(filtro.filter(nombre__lt = self.nombre).count())
         total = len(filtro)
         print "Somo el %s de %s"%(posicion,total)
@@ -348,8 +348,15 @@ class Grupo(models.Model):
 
     def prev_by_nombre(self,cuatrimestre=False):
         year = Year.objects.get(activo=True)
-        posicion = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre').filter(nombre__lt = self.nombre).count()
-        total = len(Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0))
+        if cuatrimestre:
+            filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(
+                asistencia__count__gt=0).order_by('nombre')
+        else:
+            filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(
+                asistencia__count__gt=0).order_by('nombre')
+
+        posicion = filtro.filter(nombre__lt = self.nombre).count()
+        total = len(filtro)
         print "Somo el %s de %s"%(posicion,total)
         if posicion == 0:
             return self.id

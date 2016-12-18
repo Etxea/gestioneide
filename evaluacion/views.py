@@ -73,6 +73,7 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
     print "Tenemos el grupo %s y tipo evaluacion %s" % (grupo, tipo_evaluacion)
     context = RequestContext(request, {'cuatrimestre': cuatrimestre})
     context['grupo'] = grupo
+    context['cuatrimestre'] = cuatrimestre
     # ~ context['grupo_siguiente']=grupo.get_next_by_nombre()
     # ~ context['grupo_anterior']=grupo.get_previous_by_nombre()
     context['asistencias'] = grupo.asistencia_set.all()
