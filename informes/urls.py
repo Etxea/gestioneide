@@ -21,6 +21,7 @@ urlpatterns = [
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls),name="listado_telefonos_alumnos_xls"),
     url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()),name="listado_grupos_alumnos"),
     url(r"notas/ano/(?P<ano>\d+)/$",login_required(NotasAnoListView.as_view()),name="listado_notas_ano"),
+    url(r"notas/trimestre/(?P<trimestre>\d+)/$",login_required(export_notas_trimestre_xls),name="listado_notas_trimestre"),
     
     #~ url(r"notas/$", EvaluacionListView.as_view(template_name="evaluacion/evaluacion_notas.html"), name="evaluacion_notas"),    
 ]

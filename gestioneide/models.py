@@ -422,6 +422,44 @@ class Asistencia(models.Model):
     def anterior_asistencia_grupo(self):
         return 0
 
+    def faltas_trimestre(self,trimestre):
+        meses = []
+        if trimestre==1:
+           meses = [9,8,10,11,12]
+	elif trimestre==2:
+           meses = [1,2,3]
+	elif trimestre==2:
+           meses = [4,5,6]
+        return self.falta_set.filter(mes__in=meses).count()
+
+    def faltas_trimestre(self,trimestre):
+        meses = []
+        if trimestre==1:
+           meses = [9,8,10,11,12]
+	elif trimestre==2:
+           meses = [1,2,3]
+	elif trimestre==2:
+           meses = [4,5,6]
+        return self.justificada_set.filter(mes__in=meses).count()
+
+    def nota_trimestre(self,trimestre):
+        nota = "0"
+        observaciones = "No presentado"
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            nota = notaquery[0].nota
+            observaciones = notaquery[0].observaciones
+        return nota,observaciones
+
+    def nota_quatrimestre(self,quatrimestre):
+        nota = "0"
+        observaciones = "No presentado"
+        notaquery = self.notaquatrimestral_set.filter(quatrimestre=quatrimestre)
+        if notaquery.count() > 0:
+            nota = notaquery[0].nota
+            observaciones = notaquery[0].observaciones
+        return nota,observaciones
+
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 

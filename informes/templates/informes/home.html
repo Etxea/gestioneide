@@ -87,6 +87,17 @@
     </table>
 </div>
 </div>
+    <h1>Listado Notas</h1>
+        <table class="table table-hover">
+            <tr>
+                <td><a href="{% url 'listado_notas_trimestre' 1 %}"> 1º Trim </a></td>
+                <td><a href="{% url 'listado_notas_trimestre' 1 %}"> 1º Quat.</a></td>
+                <td><a href="{% url 'listado_notas_trimestre' 2 %}"> 2º Trim </a></td>
+                <td><a href="{% url 'listado_notas_trimestre' 2 %}"> 2º Quat.</a></td>
+                <td><a href="{% url 'listado_notas_trimestre' 3 %}"> 3º Trim </a></td>
+            </tr>
+</table>
+            
 <div class="col-md-12">
 <h1>Informes y estadísticas</h1>
     <h2>Listados</h2>

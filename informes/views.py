@@ -281,6 +281,67 @@ def export_telefonos_alumnos_xls(request,ano):
     wb.save(response)
     return response
 
+@permission_required('gestioneide.informes_view',raise_exception=True)
+def export_notas_trimestre_xls(request,trimestre):
+    
+    ano = Year.objects.get(activo=True)
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=notas_trimestre.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Notas")
+    
+    row_num = 0
+    
+    columns = [
+        (u"ID", 2000),
+        (u"Apellidos",6000),
+        (u"Nombre", 4000),
+        (u"Direccion", 8000),
+        (u"CP", 2000),
+        (u"Ciudad", 4000),
+        (u"Grupo", 8000),
+        (u"Nota", 2000),
+        (u"Faltas", 2000),
+        (u"Justificadas", 2000),
+        (u"observaciones", 8000),
+    ]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+    
+    for asis in Asistencia.objects.filter(year=ano):
+        alumno = asis.alumno
+        nota,observaciones = asis.nota_trimestre(trimestre)
+        faltas = asis.faltas_trimestre(trimestre)    
+        justificadas = asis.faltas_trimestre(trimestre)    
+        row_num += 1
+        row = [
+            alumno.id,
+            "%s %s"%(alumno.apellido1,alumno.apellido2),
+            alumno.nombre,
+            u"%s"%alumno.direccion,
+            alumno.cp,
+            u"%s"%alumno.ciudad,
+            asis.grupo.nombre,
+	    nota,
+            faltas,
+            justificadas,
+            observaciones
+        ]
+        for col_num in xrange(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+            
+    wb.save(response)
+    return response
+
 #~ @permission_required('gestioneide.informes_view',raise_exception=True)
 class NotasAnoListView(ListView):
     model = Nota
