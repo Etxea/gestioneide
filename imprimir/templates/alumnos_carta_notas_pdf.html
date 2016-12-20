@@ -1,0 +1,46 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block body %}
+
+{% for asistencia in asistencia_list %}
+<div>
+    <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
+    <div style="text-align:right">
+        <span style="text-align:right" >
+            <b>
+                {{ asistencia.alumno.nombre }}
+                {{ asistencia.alumno.apellido1 }}
+                {{ asistencia.alumno.apellido2 }}
+            </b>
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.direccion }}
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.cp }}
+                {{ asistencia.alumno.ciudad }}
+        </span><br />
+    </div>
+</div>
+<div>
+    <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
+    <div>
+        Período de la Evaluación: <b>{{ trimestre }}</b>
+    </div>
+    <div>
+        Nombre del alumno: <b>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</b>
+    </div>
+    <div>
+    Grupo: <b>{{ asistencia.grupo }}</b>
+    </div>
+    <div>
+    Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
+    </div>
+    
+    <div style="page-break-after: always;"></div>
+</div>
+<div><pdf:nextpage /></div>
+{% endfor %}
+
+{% endblock %}

@@ -131,3 +131,22 @@ class ImprimirAlumnosCartaFaltas(ListView):
         return Asistencia.objects.filter(year=year).filter(falta__mes=mes).annotate(faltas_mes=Count('falta')).filter(justificada__mes=mes).annotate(justificadas_mes=Count('justificada')).order_by('-faltas_mes')
     filename = 'alumnos_carta_faltas.pdf'
     template_name = 'alumnos_carta_faltas_pdf.html'
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class ImprimirCartaNotasTrimestre(PDFTemplateView):
+    filename='carta_notas_trimestre.pdf'
+    template_name = "alumnos_carta_notas_pdf.html"
+    cmd_options = {
+        'margin-bottom': 15,
+        'margin-top': 15,
+        'margin-left': 25,
+        'margin-right': 25
+    }
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirCartaNotasTrimestre, self).get_context_data(**kwargs)
+        year = Year.objects.get(activo=True)
+        context['year'] = year.__unicode__()
+        trimestre = int(self.kwargs['trimestre'])
+        grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        context['asistencia_list'] = grupo.asistencia_set.all()
+        return context

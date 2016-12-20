@@ -324,6 +324,18 @@ class Grupo(models.Model):
         for clase in self.clases.all():
             ret = ret + " " + clase.__unicode__()
         return ret
+    def get_profesores(self):
+        profesores = []
+        for clase in self.clases.all():
+            profesor = clase.profesor
+            if profesor in profesores:
+                continue
+            else:
+                profesores.append(profesor)
+        texto = ""
+        for profesor in profesores:
+            texto = "%s / %s"%(texto,profesor)
+        return texto
     def get_precio(self):
         if self.precio:
             return self.precio
