@@ -451,7 +451,7 @@ class Asistencia(models.Model):
            meses = [4,5,6]
         return self.falta_set.filter(mes__in=meses).count()
 
-    def faltas_trimestre(self,trimestre):
+    def justificadas_trimestre(self,trimestre):
         meses = []
         if trimestre==1:
            meses = [9,8,10,11,12]
@@ -461,13 +461,23 @@ class Asistencia(models.Model):
            meses = [4,5,6]
         return self.justificada_set.filter(mes__in=meses).count()
 
-    def nota_trimestre(self,trimestre):
+    def get_nota_trimestre(self,trimestre):
         nota = "0"
-        observaciones = "No presentado"
         notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
         if notaquery.count() > 0:
             nota = notaquery[0].nota
+        return nota
+
+    def get_observaciones_trimestre(self,trimestre):
+        observaciones = ""
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
             observaciones = notaquery[0].observaciones
+        return observaciones
+
+    def nota_trimestre(self,trimestre):
+        nota = self.get_nota_trimestre(trimestre)
+        observaciones = self.get_observaciones_trimestre(trimestre)
         return nota,observaciones
 
     def nota_quatrimestre(self,quatrimestre):

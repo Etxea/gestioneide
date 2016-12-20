@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 {% load i18n %}
 {% load staticfiles %}
+{% load evaluacion_extra_tags %}
 {% block body %}
 
 {% for asistencia in asistencia_list %}
@@ -23,10 +24,22 @@
         </span><br />
     </div>
 </div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 <div>
     <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
     <div>
-        Período de la Evaluación: <b>{{ trimestre }}</b>
+        Período de la Evaluación: <b>Trimestre: {{ trimestre }}</b>
     </div>
     <div>
         Nombre del alumno: <b>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</b>
@@ -37,7 +50,70 @@
     <div>
     Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
     </div>
-    
+    <div>
+        Faltas de asistencias: <b>{{ asistencia|faltas_trimestre:trimestre }}</b> Faltas justificadas <b>{{ asistencia|justificadas_trimestre:trimestre }}</b>
+    </div>
+<br />
+<br />
+<br />
+<br />
+</div>
+    <div style="text-align:center">
+    <table>
+        <thead>
+            <th> Trimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+            <th> Trimestre 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+            <th> Trimestre 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+        </thead>
+        <tbody>
+        <tr>
+            <td> {{ asistencia|notas_trimestre:1 }} </td>
+            <td> {{ asistencia|notas_trimestre:2 }} </td>
+            <td> {{ asistencia|notas_trimestre:3 }} </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+<br />
+<br />
+<br />
+<br />
+<div>
+    <h2>Observaciones del profesorado</h2>
+<br />
+<br />
+<br />
+    {{  asistencia|observaciones_trimestre:trimestre }}
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</div>
+    <div style="text-align:center">
+    <table>
+        <tr>
+            <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>Firma de los padres</td>
+        </tr>
+        <tr>
+            <td><br /> <br /><br /><br /><br /><br />
+<br />
+<br />
+<br />
+<br />
+                <td>
+        </tr>
+    </table>
+    </div>
+    <div>
+
     <div style="page-break-after: always;"></div>
 </div>
 <div><pdf:nextpage /></div>

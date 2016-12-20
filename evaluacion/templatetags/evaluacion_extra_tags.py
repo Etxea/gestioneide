@@ -10,6 +10,22 @@ def mes_texto(mes):
     import calendar
     return calendar.month_name[int(mes)]
 
+@register.filter
+def faltas_trimestre(asistencia, trimestre):
+    return asistencia.faltas_trimestre(trimestre)
+
+@register.filter
+def justificadas_trimestre(asistencia, trimestre):
+    return asistencia.justificadas_trimestre(trimestre)
+
+@register.filter
+def notas_trimestre(asistencia, trimestre):
+    return asistencia.get_nota_trimestre(trimestre)
+
+@register.filter
+def observaciones_trimestre(asistencia, trimestre):
+    return asistencia.get_observaciones_trimestre(trimestre)
+
 @register.simple_tag(takes_context=True)
 def presente_checked(context,asistencia,mes,dia):
     id_falta = "%s_%s_%s"%(asistencia,mes,dia)

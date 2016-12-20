@@ -147,6 +147,7 @@ class ImprimirCartaNotasTrimestre(PDFTemplateView):
         year = Year.objects.get(activo=True)
         context['year'] = year.__unicode__()
         trimestre = int(self.kwargs['trimestre'])
+        context['trimestre'] = trimestre
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         context['asistencia_list'] = grupo.asistencia_set.all()
         return context
