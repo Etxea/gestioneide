@@ -300,10 +300,10 @@ def export_notas_trimestre_xls(request,trimestre):
         (u"CP", 2000),
         (u"Ciudad", 4000),
         (u"Grupo", 8000),
-        (u"Nota", 2000),
-        (u"Faltas", 2000),
-        (u"Justificadas", 2000),
-        (u"observaciones", 8000),
+        (u"Nota", 1000),
+        (u"Faltas", 1000),
+        (u"Justificadas", 1000),
+        (u"Observaciones", 8000),
     ]
 
     font_style = xlwt.XFStyle()
@@ -316,12 +316,10 @@ def export_notas_trimestre_xls(request,trimestre):
 
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
-    
+    import random 
     for asis in Asistencia.objects.filter(year=ano):
         alumno = asis.alumno
         nota,observaciones = asis.nota_trimestre(trimestre)
-        faltas = asis.faltas_trimestre(trimestre)    
-        justificadas = asis.faltas_trimestre(trimestre)    
         row_num += 1
         row = [
             alumno.id,
@@ -331,9 +329,11 @@ def export_notas_trimestre_xls(request,trimestre):
             alumno.cp,
             u"%s"%alumno.ciudad,
             asis.grupo.nombre,
-	    nota,
-            faltas,
-            justificadas,
+	        nota,
+            "%d"%asis.faltas_trimestre(trimestre),
+            "%d"%asis.justificadas_trimestre(trimestre),
+            #random.randint(1, 10),
+            #random.randint(1, 10),
             observaciones
         ]
         for col_num in xrange(len(row)):

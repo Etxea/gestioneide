@@ -36,8 +36,6 @@
 <br />
 <br />
 <br />
-<br />
-<br />
     <div>
         Período de la Evaluación: <b>Trimestre: {{ trimestre }}</b>
     </div>
@@ -56,11 +54,13 @@
 <br />
 <br />
 <br />
-<br />
 </div>
-    <div style="text-align:center">
+    <h2 style="text-align:center">Controles de Vocabulario y Gramática</h2>
+<br />
+    <div style="text-align:center;width=100%">
     <table>
         <thead>
+            <th>&nbsp;</th>
             <th> Trimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </th>
             <th> Trimestre 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -70,6 +70,7 @@
         </thead>
         <tbody>
         <tr>
+            <td> Nota Media Trimestral &nbsp;&nbsp;</td>
             <td> {{ asistencia|notas_trimestre:1 }} </td>
             <td> {{ asistencia|notas_trimestre:2 }} </td>
             <td> {{ asistencia|notas_trimestre:3 }} </td>
@@ -79,21 +80,74 @@
     </div>
 <br />
 <br />
-<br />
-<br />
-<div>
+{% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
+    <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
+    <table style="width=100%">
+        <thead>
+            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+            <th> Quatrimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+            <th> Quatrimestre 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+        </thead>
+        <tbody>
+        {% if asistencia.grupo.curso.tipo_evaluacion = 2 %}
+        <tr>
+            <td> Reading  & Writting</td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td> Reading </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        <tr>
+            <td> Writing </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        {% endif %}
+        {% if asistencia.grupo.curso.tipo_evaluacion = 4 %}
+        <tr>
+            <td> Use of english &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td> Speaking </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        <tr>
+            <td> Listening </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        <tr>
+            <td> Nota Media </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endif %}
+<div style="width=100%">
     <h2>Observaciones del profesorado</h2>
 <br />
 <br />
-<br />
+    <div style="text-align:center;width=100%">
     {{  asistencia|observaciones_trimestre:trimestre }}
-    <br />
-    <br />
-    <br />
+    </div>
     <br />
     <br />
 </div>
-    <div style="text-align:center">
+    <div style="text-align:center;width=100%">
     <table>
         <tr>
             <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -107,12 +161,16 @@
 <br />
 <br />
 <br />
-<br />
                 <td>
         </tr>
     </table>
     </div>
     <div>
+        <div style="text-align:center;width=100%">
+            Genaro Oraá 6, 48980 Santurtzi –94 493 70 05 <br />
+            Plaza Balleni 3 (Kabiezes) 48980 Santurtzi –946037112<br />
+            www.eide.es – eide@eide.es <br />
+        </div>
 
     <div style="page-break-after: always;"></div>
 </div>

@@ -445,19 +445,21 @@ class Asistencia(models.Model):
         meses = []
         if trimestre==1:
            meses = [9,8,10,11,12]
-	elif trimestre==2:
+        elif trimestre==2:
            meses = [1,2,3]
-	elif trimestre==2:
+        elif trimestre==2:
            meses = [4,5,6]
-        return self.falta_set.filter(mes__in=meses).count()
+        #return self.falta_set.filter(mes__in=meses).count()
+        faltas = Falta.objects.filter(asistencia=self).filter(mes__in=meses).count()
+        return faltas
 
     def justificadas_trimestre(self,trimestre):
         meses = []
         if trimestre==1:
            meses = [9,8,10,11,12]
-	elif trimestre==2:
+        elif trimestre==2:
            meses = [1,2,3]
-	elif trimestre==2:
+        elif trimestre==2:
            meses = [4,5,6]
         return self.justificada_set.filter(mes__in=meses).count()
 
