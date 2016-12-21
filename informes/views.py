@@ -300,9 +300,9 @@ def export_notas_trimestre_xls(request,trimestre):
         (u"CP", 2000),
         (u"Ciudad", 4000),
         (u"Grupo", 8000),
-        (u"Nota", 1000),
-        (u"Faltas", 1000),
-        (u"Justificadas", 1000),
+        (u"Nota", 2000),
+        (u"Faltas", 2000),
+        (u"Justificadas", 2000),
         (u"Observaciones", 8000),
     ]
 
