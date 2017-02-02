@@ -1,5 +1,7 @@
 from django import template
 register = template.Library()
+from django.utils.translation import ugettext as _
+
 
 @register.filter
 def buscar(d, key):
@@ -8,7 +10,7 @@ def buscar(d, key):
 @register.filter
 def mes_texto(mes):
     import calendar
-    return calendar.month_name[int(mes)]
+    return _(calendar.month_name[int(mes)])
 
 @register.filter
 def faltas_trimestre(asistencia, trimestre):
