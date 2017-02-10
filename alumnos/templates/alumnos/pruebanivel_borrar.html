@@ -1,0 +1,14 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+<div class="borrar">
+<form action="" class="form" method="post">{% csrf_token %}
+    <div class="form-group">
+    <label>¿Estás seguro de que quieres borrar la prueba de nivel ?</label>
+    <button class="btn btn-warning zmdi zmdi-delete" type="submit" > Borrar </button>
+    </div>
+</form>
+</div>
+{% endblock %}
