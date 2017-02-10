@@ -99,6 +99,7 @@ class AlumnoBajaView(View,SingleObjectMixin):
         self.object.activo = False
         self.object.save()
         return HttpResponseRedirect(reverse_lazy("alumnos_lista"))
+
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class AlumnoAnotacionCreateView(CreateView):
     model = Anotacion
@@ -120,5 +121,24 @@ class AlumnoAnotacionCreateView(CreateView):
 class AlumnoAnotacionDeleteView(DeleteView):
     model = Anotacion
     template_name = "alumnos/anotacion_borrar.html"
+    def get_success_url(self):
+        return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
+class AlumnoPruebaNivelCreateView(CreateView):
+    model = PruebaNivel
+    template_name = "alumnos/pruebanivel_nueva.html"
+    fields = ["resultado","nivel_recomendado","observaciones"]
+    def get_success_url(self):
+        return reverse_lazy("alumno_detalle", kwargs={'pk': self.object.alumno.pk})
+    def form_valid(self, form):
+        form.instance.creador = self.request.user
+        alumno = Alumno.objects.get(pk=self.kwargs['alumno_id'])
+        form.instance.alumno = alumno
+        return super(AlumnoPruebaNivelCreateView, self).form_valid(form)
+
+class AlumnoPruebaNivelDeleteView(DeleteView):
+    model = PruebaNivel
+    template_name = "alumnos/pruebanivel_borrar.html"
     def get_success_url(self):
         return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})

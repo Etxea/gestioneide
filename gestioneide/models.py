@@ -494,6 +494,13 @@ class Asistencia(models.Model):
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 
+class PruebaNivel(models.Model):
+    alumno = models.ForeignKey('Alumno')
+    fecha_creacion = models.DateField(auto_now_add=True)
+    resultado = models.DecimalField(max_digits=2,decimal_places=0,default=0)
+    nivel_recomendado = models.ForeignKey('Curso')
+    observaciones = models.TextField(max_length=350,default="")
+
 class Nota(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
@@ -562,7 +569,6 @@ class Nota(models.Model):
         return media
 
         #nota_final = nota_media(lista_notas)
-
 
 class NotaCuatrimestral(models.Model):
     asistencia = models.ForeignKey('Asistencia')

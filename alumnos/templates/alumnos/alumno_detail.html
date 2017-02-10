@@ -108,19 +108,20 @@
         </tbody>
     </table>
 <h2>Notas</h2>
+
     <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
                 <tr>
-                <td>Grupo</td>
-                <td>Faltas/Justificadas</td>
-                <td>Trimestre</td>
-                <td>Gra.</td>
-                <td>Read</td>
-                <td>Wri.</td>
-                <td>Use.</td>
-                <td>Lis.</td>
-                <td>Spe.</td>
-                <td>Com.</td>
+                <th>Grupo</th>
+                <th>Faltas/Justificadas</th>
+                <th>Trimestre</th>
+                <th>Gra.</th>
+                <th>Read</th>
+                <th>Wri.</th>
+                <th>Use.</th>
+                <th>Lis.</th>
+                <th>Spe.</th>
+                <th>Com.</th>
                 </tr>
             </thead>
             <tbody>
@@ -142,6 +143,27 @@
             {% endfor %}
             </tbody>
         </table>
+    <h2>Prueba de nivel</h2>
+        <table class="table table-hover table-bordered bootgrid-table table-striped">
+            <thead>
+                <th>Fecha</th>
+                <th>Resutado</th>
+                <th>Nivel recomendado</th>
+                <th>Observaciones</th>
+            </thead>
+            <tbody>
+                {% for prueba in alumno.pruebanivel_set.all %}
+                <tr>
+                    <td>{{ prueba.fecha_creacion }}</td>
+                    <td>{{ prueba.resultado }}</td>
+                    <td>{{ prueba.nivel_recomendado }}</td>
+                    <td>{{ prueba.observaciones }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="{% url 'alumno_pruebanivel_nueva' alumno.id %}">Añadir resultado prueba nivel</a>
+    <br />
     
     
     
