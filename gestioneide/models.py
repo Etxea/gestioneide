@@ -29,10 +29,16 @@ DIAS_SEMANA = (
 )
 TIPO_EVALUACION = (
     (1, _('Trimestral')),
-    (2, _('Elementary/Prei Intermediate')),
+    (2, _('Elementary/Pre Intermediate')),
     (3, _('Intermediate')),
     (4, _('Upper/[Pre]First/Advance/Proficiency')),
 )
+
+LISTA_MATERIAS_TIPO_EVALUACION = {
+    2: ['reading_writing','speaking','listenning' ],
+    3: ['reading','writing','speaking','listenning'],
+    4: ['reading','writing','speaking','listenning','useofenglish']
+}
 
 TIPO_FESTIVO = (
     (1, _('Festivo')),
@@ -603,21 +609,11 @@ class NotaCuatrimestral(models.Model):
 
 
     def media(self):
-        print self.asistencia.grupo.curso.tipo_evaluacion
-        if self.asistencia.grupo.curso.tipo_evaluacion == 2:  # "elementary_intermediate":
-            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listenning']
-
-        elif self.asistencia.grupo.curso.tipo_evaluacion == 3:  # "upper_proficiency":
-            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listenning']
-
-        else:
-            lista_materias = ['grammar']
+        lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.asistencia.grupo.curso.tipo_evaluacion]
         lista_notas = []
-        print lista_materias, self.grammar
         for materia in lista_materias:
             # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
             nota_temp = getattr(self, materia)
-            print "hemos leido", nota_temp
             lista_notas.append(nota_temp)
             # ~ print "Lista", lista_notas
         total = float(0)
@@ -625,7 +621,6 @@ class NotaCuatrimestral(models.Model):
             total = total + float(nota)
         numero = float(len(lista_notas))
         media = (total / numero)
-        print "Total, numero notas, media", total, numero, media
         return media
 
         # nota_final = nota_media(lista_notas)

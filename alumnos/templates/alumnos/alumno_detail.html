@@ -1,6 +1,7 @@
 {% extends "site_base.html"%}
 
 {% load i18n %}
+{% load evaluacion_extra_tags %}
 
 {% block page_header %}<h1> {{object.id}} {{object.apellido1}} {{object.apellido2}}, {{object.nombre}}</h1>{% endblock %}
 
@@ -112,32 +113,36 @@
     <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
                 <tr>
-                <th>Grupo</th>
-                <th>Faltas/Justificadas</th>
-                <th>Trimestre</th>
-                <th>Gra.</th>
-                <th>Read</th>
-                <th>Wri.</th>
-                <th>Use.</th>
-                <th>Lis.</th>
-                <th>Spe.</th>
-                <th>Com.</th>
+                    <th>Grupo</th>
+                    <th>Faltas/Justificadas</th>
+                    <th>Trimestre</th>
+                    <th>Gra.</th>
+                    <th>Read</th>
+                    <th>Wri.</th>
+                    <th>Read. / Wri.</th>
+                    <th>Use.</th>
+                    <th>Lis.</th>
+                    <th>Spe.</th>
+                    <th>Compor.</th>
+                    <th>Media</th>
                 </tr>
             </thead>
             <tbody>
             {% for asistencia in object.asistencia_set.all %}
-            {% for nota in asistencia.notas_set.all %}
+            {% for nota in asistencia.notacuatrimestral_set.all %}
             <tr>
                 <td>{{nota.asistencia.grupo}}</td>
                 <td>{{nota.ver_legacy_faltas}}</td>
-                <td>{{nota.trimestre}}</td> 
-                <td>{{nota.grammar}}</td>
-                <td>{{nota.reading}}</td>
-                <td>{{nota.writing}}</td>
-                <td>{{nota.useofenglish}}</td>
-                <td>{{nota.listenning}}</td>
-                <td>{{nota.speaking}}</td>
+                <td>{{nota.cuatrimestre}}</td>
+                <td>{%  nota_display nota 'grammar' %}</td>
+                <td>{%  nota_display nota 'reading' %}</td>
+                <td>{%  nota_display nota 'writing' %}</td>
+                <td>{%  nota_display nota 'reading_writing' %}</td>
+                <td>{%  nota_display nota 'useofenglish' %}</td>
+                <td>{%  nota_display nota 'listenning' %}</td>
+                <td>{%  nota_display nota 'speaking' %}</td>
                 <td>{{nota.comportamiento}}</td>
+                <td>{{ nota.media }}</td>
             </tr>
             {% endfor %}
             {% endfor %}

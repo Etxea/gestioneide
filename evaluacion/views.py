@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse
@@ -48,12 +48,13 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
         context['notas_formset']=notas_formset
         if notas_formset.is_valid():
             # do something with the formset.cleaned_data
-            if notas_formset.is_valid():
-                print "Guardamos"
-                notas_formset.save()
+            notas_formset.save()
+            ##Volvemos a la lista de grupos
             pass
         else:
             print "Formset mal"
+            ##Volvemoa renderizar con los errores
+            context['notas_formset'] = notas_formset
     else:
         lista_asistencias = []
         for asistencia in grupo.asistencia_set.all().order_by('id'):
@@ -64,12 +65,12 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
         #print notas_formset
         context['notas_formset']=notas_formset
 
-
     return render_to_response(template, context)
 
 def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
     grupo = get_object_or_404(Grupo, pk=pk)
     tipo_evaluacion = grupo.curso.tipo_evaluacion
+    template = "evaluacion/notas_grupo_cuatrimestre.html"
     print "Tenemos el grupo %s y tipo evaluacion %s" % (grupo, tipo_evaluacion)
     context = RequestContext(request, {'cuatrimestre': cuatrimestre})
     context['grupo'] = grupo
@@ -79,30 +80,26 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
     context['asistencias'] = grupo.asistencia_set.all()
     # elegimos el tipo de formset y template
     if tipo_evaluacion == 2:
-        print "Teneos una evaluacion de tipo elementary_intermediate"
+        print "Tenemos una evaluacion de tipo elementary_intermediate"
         NotaFomsetClass = ElementayNotaFormSet
-        template = "evaluacion/notas_grupo_elementary.html"
-
     elif tipo_evaluacion == 3:
         print "Tenemos una evaluacion de tipo elementary"
         NotaFomsetClass = ElementayNotaFormSet
-        template = "evaluacion/notas_grupo_elementary.html"
     elif tipo_evaluacion == 4:
         print "Teneos una evaluacion de tipo upper"
         NotaFomsetClass = UpperNotaFormSet
-        template = "evaluacion/notas_grupo_upper.html"
+
 
     if request.method == 'POST':
         notas_formset = NotaFomsetClass(request.POST, request.FILES)
         context['notas_formset'] = notas_formset
         if notas_formset.is_valid():
-            # do something with the formset.cleaned_data
-            if notas_formset.is_valid():
-                print "Guardamos"
-                notas_formset.save()
-            pass
+            notas_formset.save()
+            ## Volvemos a la lista
+            return redirect(reverse_lazy('evaluacion'))
         else:
             print "Formset mal"
+            context['notas_formset'] = notas_formset
     else:
         lista_asistencias = []
         for asistencia in grupo.asistencia_set.all().order_by('id'):
