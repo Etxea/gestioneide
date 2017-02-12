@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+
+    <table class="table table-hover table-bordered bootgrid-table table-striped">
+            <thead>
+                <tr>
+                    <th>Grupo</th>
+                    <th>Faltas/Justificadas</th>
+                    <th>Cuatrimestre</th>
+                    <th>Gra.</th>
+                    <th>Read</th>
+                    <th>Wri.</th>
+                    <th>Read. / Wri.</th>
+                    <th>Use.</th>
+                    <th>Lis.</th>
+                    <th>Spe.</th>
+                    <th>Compor.</th>
+                    <th>Media</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for asistencia in object.asistencia_set.all %}
+            {% for nota in asistencia.notacuatrimestral_set.all %}
+            <tr>
+                <td>{{nota.asistencia.grupo}}</td>
+                <td>{{nota.ver_legacy_faltas}}</td>
+                <td>{{nota.cuatrimestre}}</td>
+                <td>{%  nota_display nota 'grammar' %}</td>
+                <td>{%  nota_display nota 'reading' %}</td>
+                <td>{%  nota_display nota 'writing' %}</td>
+                <td>{%  nota_display nota 'reading_writing' %}</td>
+                <td>{%  nota_display nota 'useofenglish' %}</td>
+                <td>{%  nota_display nota 'listenning' %}</td>
+                <td>{%  nota_display nota 'speaking' %}</td>
+                <td>{{nota.comportamiento}}</td>
+                <td>{{ nota.media }}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>

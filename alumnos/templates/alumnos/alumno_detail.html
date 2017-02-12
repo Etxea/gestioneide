@@ -109,45 +109,8 @@
         </tbody>
     </table>
 <h2>Notas</h2>
-
-    <table class="table table-hover table-bordered bootgrid-table table-striped">
-            <thead>
-                <tr>
-                    <th>Grupo</th>
-                    <th>Faltas/Justificadas</th>
-                    <th>Cuatrimestre</th>
-                    <th>Gra.</th>
-                    <th>Read</th>
-                    <th>Wri.</th>
-                    <th>Read. / Wri.</th>
-                    <th>Use.</th>
-                    <th>Lis.</th>
-                    <th>Spe.</th>
-                    <th>Compor.</th>
-                    <th>Media</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for asistencia in object.asistencia_set.all %}
-            {% for nota in asistencia.notacuatrimestral_set.all %}
-            <tr>
-                <td>{{nota.asistencia.grupo}}</td>
-                <td>{{nota.ver_legacy_faltas}}</td>
-                <td>{{nota.cuatrimestre}}</td>
-                <td>{%  nota_display nota 'grammar' %}</td>
-                <td>{%  nota_display nota 'reading' %}</td>
-                <td>{%  nota_display nota 'writing' %}</td>
-                <td>{%  nota_display nota 'reading_writing' %}</td>
-                <td>{%  nota_display nota 'useofenglish' %}</td>
-                <td>{%  nota_display nota 'listenning' %}</td>
-                <td>{%  nota_display nota 'speaking' %}</td>
-                <td>{{nota.comportamiento}}</td>
-                <td>{{ nota.media }}</td>
-            </tr>
-            {% endfor %}
-            {% endfor %}
-            </tbody>
-        </table>
+    {% include "alumnos/tabla_notas_trimestre.html" %}
+    {% include "alumnos/tabla_notas_cuatrimestre.html" %}
     <h2>Prueba de nivel</h2>
         <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
@@ -169,7 +132,20 @@
         </table>
         <a class="btn btn-primary" href="{% url 'alumno_pruebanivel_nueva' alumno.id %}">Añadir resultado prueba nivel</a>
     <br />
-    
+    <h2>Exámenes Cambridge</h2>
+        <table class="table table-hover table-bordered bootgrid-table table-striped">
+            <thead>
+                <th>Fecha</th>
+                <th>Resutado</th>
+                <th>Observaciones</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="{% url 'alumno_pruebanivel_nueva' alumno.id %}">Añadir resultado prueba nivel</a>
+    <br />
+
     
     
     <div class="modal fade" id="deleteGrupoModal" tabindex="-1" role="dialog" aria-labelledby="deleteGrupoModalLabel">
