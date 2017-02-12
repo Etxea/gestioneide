@@ -19,7 +19,14 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Alumno</th><th></th>
+				<th>Alumno</th>
+                {% with notas_formset|first as form %}
+                {% for field in form %}
+                    {%  if field.label != "Id" %}
+					<th>{{ field.label }}</th>
+                    {% endif %}
+				{% endfor %}
+                {%  endwith %}
 			</tr>
 		</thead>
 		<tbody>    
@@ -29,7 +36,9 @@
 				{% with asistencia=asistencias|buscar:forloop.counter0 %}
 				<td> {{ asistencia.alumno }} </td>
 				{% for field in form %}
-					<td>{{ field.label }} {{ field }}  {{ field.errors }}</td>
+                    {%  if field.label != "Id" %}
+					<td>{{ field }}  {{ field.errors }}</td>
+                    {% endif %}
 				{% endfor %}
 				{% endwith %}
 			 </tr>
