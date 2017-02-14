@@ -136,14 +136,22 @@
         <table class="table table-hover table-bordered bootgrid-table table-striped">
             <thead>
                 <th>Fecha</th>
+                <th>Nivel</th>
                 <th>Resutado</th>
                 <th>Observaciones</th>
             </thead>
             <tbody>
-
+                {% for prueba in alumno.resultadocambridge_set.all %}
+                <tr>
+                    <td>{{ prueba.ano }}</td>
+                    <td>{{ prueba.get_nivel_display }}</td>
+                    <td>{{ prueba.get_resultado_display }}</td>
+                    <td>{{ prueba.observaciones }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
-        <a class="btn btn-primary" href="{% url 'alumno_pruebanivel_nueva' alumno.id %}">Añadir resultado prueba nivel</a>
+        <a class="btn btn-primary" href="{% url 'alumno_resultadocambridge_nuevo' alumno.id %}">Añadir resultado exámen Cambridge</a>
     <br />
 
     

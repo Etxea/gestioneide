@@ -33,6 +33,20 @@ TIPO_EVALUACION = (
     (3, _('Intermediate')),
     (4, _('Upper/[Pre]First/Advance/Proficiency')),
 )
+RESULTADOS_CAMBRIDGE = (
+    (1,_('A: Sobresaliente')),
+    (2,_('B: Notable')),
+    (3,_('C: Aprobado')),
+    (4,_('D: Suspendido')),
+)
+
+NIVELES_CAMBRIDGE = (
+    (1,_('KET')),
+    (2,_('PET')),
+    (3,_('FCE')),
+    (4,_('CAE')),
+    (5,_('CPE')),
+)
 
 LISTA_MATERIAS_TIPO_EVALUACION = {
     2: ['reading_writing','speaking','listenning' ],
@@ -51,6 +65,7 @@ TIPO_FESTIVO = (
     (8, _('Fin trimestre'))
     
 )
+
 
 DURACION = (
     (15, _('1/4 hora')),
@@ -510,6 +525,13 @@ class PruebaNivel(models.Model):
     fecha_creacion = models.DateField(auto_now_add=True)
     resultado = models.DecimalField(max_digits=2,decimal_places=0,default=0)
     nivel_recomendado = models.ForeignKey('Curso')
+    observaciones = models.TextField(max_length=350,default="")
+
+class ResultadoCambridge(models.Model):
+    alumno = models.ForeignKey('Alumno')
+    ano = models.DecimalField(max_digits=4,decimal_places=0,default=2016)
+    nivel = models.DecimalField(max_digits=1,decimal_places=0,default=1,choices=NIVELES_CAMBRIDGE)
+    resultado = models.DecimalField(max_digits=2,decimal_places=0,default=1,choices=RESULTADOS_CAMBRIDGE)
     observaciones = models.TextField(max_length=350,default="")
 
 class Nota(models.Model):
