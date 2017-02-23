@@ -585,6 +585,7 @@ class NotaCuatrimestral(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     cuatrimestre = models.DecimalField(max_digits=1, decimal_places=0)
     fecha_creacion = models.DateField(auto_now_add=True)
+    observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
 
     grammar = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     grammar_np = models.BooleanField("NP", default=False)
