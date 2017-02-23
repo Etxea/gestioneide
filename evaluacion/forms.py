@@ -33,17 +33,17 @@ class NotaTrimestralCreateForm(ModelForm):
 class ElementaryNotaCreateForm(NotaCreateForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ['reading_writing','reading_writing_np', 'speaking','speaking_np','listenning','listenning_np' ]
+        fields = ['reading_writing','reading_writing_np', 'speaking','speaking_np','listenning','listenning_np','observaciones']
 
 class IntermediateNotaCreateFrom(NotaCreateForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np']
+        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np','observaciones']
 
 class UpperNotaCreateFrom(NotaCreateForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np','useofenglish','useofenglish_np']
+        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np','useofenglish','useofenglish_np','observaciones']
 
 
 NotaFormSet = modelformset_factory(NotaCuatrimestral,form=NotaCreateForm,extra=0)

@@ -16,6 +16,7 @@
                     <th>Spe.</th>
                     <th>Compor.</th>
                     <th>Media</th>
+                    <th>Observaciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,8 +33,9 @@
                 <td>{%  nota_display nota 'useofenglish' %}</td>
                 <td>{%  nota_display nota 'listenning' %}</td>
                 <td>{%  nota_display nota 'speaking' %}</td>
-                <td>{{nota.comportamiento}}</td>
+                <td>{{ nota.comportamiento }}</td>
                 <td>{{ nota.media }}</td>
+                <td>{{ nota.observaciones }}</td>
             </tr>
             {% endfor %}
             {% endfor %}
