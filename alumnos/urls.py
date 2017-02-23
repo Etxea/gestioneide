@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'anotacion/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoAnotacionCreateView.as_view()), name="alumno_anotacion_nueva"),
     url(r'anotacion/(?P<pk>\d+)/borrar',login_required(AlumnoAnotacionDeleteView.as_view()), name="alumno_anotacion_borrar"),
     url(r'pruebanivel/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoPruebaNivelCreateView.as_view()), name="alumno_pruebanivel_nueva"),
-    url(r'pruebanivel/(?P<pk>\d+)/borrar',login_required(AlumnoPruebaNivelDeleteView.as_view()), name="alumno_pruebanivel_borrar"),
+    url(r'pruebanivel/(?P<pk>\d+)/borrar',login_required(AlumnoPruebaNivelDeleteView.as_view()), name="alumno_pruebanivel_borrar"),url(r'pruebanivel/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoPruebaNivelCreateView.as_view()), name="alumno_pruebanivel_nueva"),
+    url(r'cambridge/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoResultadoCambridgeCreateView.as_view()), name="alumno_resultadocambridge_nuevo"),
+    url(r'cambridge/(?P<pk>\d+)/borrar',login_required(AlumnoResultadoCambridgeDeleteView.as_view()), name="alumno_resultadocambridge_borrar"),
 ]
