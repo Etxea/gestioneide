@@ -83,8 +83,8 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
         print "Tenemos una evaluacion de tipo elementary_intermediate"
         NotaFomsetClass = ElementayNotaFormSet
     elif tipo_evaluacion == 3:
-        print "Tenemos una evaluacion de tipo elementary"
-        NotaFomsetClass = ElementayNotaFormSet
+        print "Tenemos una evaluacion de tipo intermediate"
+        NotaFomsetClass = IntermediateNotaFormSet
     elif tipo_evaluacion == 4:
         print "Teneos una evaluacion de tipo upper"
         NotaFomsetClass = UpperNotaFormSet
