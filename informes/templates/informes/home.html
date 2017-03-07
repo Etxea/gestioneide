@@ -124,8 +124,12 @@
     <h2>Listado de notas y faltas</h2>
     <ul>
     {% for year in years %}
-    <li><a target="_blank" href="{% url 'listado_notas_ano' year.start_year %}">
-        <i class="zmdizmdi-view-list"></i>{{year}}
+    <li>
+        <a target="_blank" href="{% url 'listado_notas_trimestre_ano' year.start_year %}">
+        <i class="zmdizmdi-view-list"></i>{{year}} Trimestrales
+        </a> ||
+        <a target="_blank" href="{% url 'listado_notas_cuatrimestre_ano' year.start_year %}">
+        <i class="zmdizmdi-view-list"></i>{{year}} Cuarimestrales
         </a>
     </li>
     {% endfor %}

@@ -342,9 +342,80 @@ def export_notas_trimestre_xls(request,trimestre):
     wb.save(response)
     return response
 
+
+@permission_required('gestioneide.informes_view', raise_exception=True)
+def export_notas_cuatrimestre_xls(request, ano):
+    ano = Year.objects.get(start_year=ano)
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=notas_%s_cuatrimestre.xls'%(ano)
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Notas %s Cuatrimestre"%(ano))
+
+    row_num = 0
+
+    columns = [
+        (u"ID", 2000),
+        (u"Apellidos", 6000),
+        (u"Nombre", 4000),
+        (u"Direccion", 8000),
+        (u"CP", 2000),
+        (u"Ciudad", 4000),
+        (u"Grupo", 8000),
+        (u"Cuatrimestre", 2000),
+        (u"Grammar", 2000),
+        (u"Reading", 2000),
+        (u"Writing", 2000),
+        (u"Read./Wri.", 2000),
+        (u"Use of english", 2000),
+        (u"Listenning", 2000),
+        (u"Speaking", 2000),
+        (u"Media", 2000),
+        (u"Observaciones", 8000),
+    ]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+    import random
+    for asis in Asistencia.objects.filter(year=ano):
+        for nota in asis.notacuatrimestral_set.all():
+            row_num += 1
+            row = [
+                asis.alumno.id,
+                "%s %s" % (asis.alumno.apellido1, asis.alumno.apellido2),
+                asis.alumno.nombre,
+                u"%s" % asis.alumno.direccion,
+                asis.alumno.cp,
+                u"%s" % asis.alumno.ciudad,
+                asis.grupo.nombre,
+                nota.cuatrimestre,
+                nota.grammar,
+                nota.reading,
+                nota.writing,
+                nota.reading_writing,
+                nota.useofenglish,
+                nota.listenning,
+                nota.speaking,
+                nota.media(),
+                nota.observaciones
+            ]
+            for col_num in xrange(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response
+
+
 #~ @permission_required('gestioneide.informes_view',raise_exception=True)
-class NotasAnoListView(ListView):
-    model = Nota
+class NotasTrimestralesAnoListView(ListView):
+    model = NotaTrimestral
     template_name = "informes/informes_notas_ano.html"
     context_object_name = 'notas_list'
     def get_queryset(self):
@@ -352,8 +423,23 @@ class NotasAnoListView(ListView):
         print "Vamos a sacar las asistencias del ano",year
         asistencias = Asistencia.objects.filter(year=year)
         print "Tenemos la sasistencias",asistencias.count()
-        return Nota.objects.filter(asistencia__in=asistencias,trimestre=3).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
+        return NotaTrimestral.objects.filter(asistencia__in=asistencias,trimestre=3).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
     def get_context_data(self, **kwargs):
-        context = super(NotasAnoListView, self).get_context_data(**kwargs)
+        context = super(NotasTrimestralesAnoListView, self).get_context_data(**kwargs)
+        context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
+        return context
+#~ @permission_required('gestioneide.informes_view',raise_exception=True)
+class NotasCuatrimestralesAnoListView(ListView):
+    model = NotaCuatrimestral
+    template_name = "informes/informes_notas_cuatrimestrales_ano.html"
+    context_object_name = 'notas_list'
+    def get_queryset(self):
+        year = Year.objects.get(start_year=self.kwargs['ano'])
+        print "Vamos a sacar las asistencias del ano",year
+        asistencias = Asistencia.objects.filter(year=year)
+        print "Tenemos la sasistencias",asistencias.count()
+        return NotaCuatrimestral.objects.filter(asistencia__in=asistencias).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
+    def get_context_data(self, **kwargs):
+        context = super(NotasCuatrimestralesAnoListView, self).get_context_data(**kwargs)
         context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
         return context

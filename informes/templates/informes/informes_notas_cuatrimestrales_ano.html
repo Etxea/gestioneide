@@ -17,7 +17,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <td>Alumno</td>
                 <td>Grupo</td>
                 <td>Faltas/Justificadas</td>
-                <td>Trimestre</td>
+                <td>Cuatrimestre</td>
                 <td>Gra.</td>
                 <td>Read</td>
                 <td>Wri.</td>
@@ -35,7 +35,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <td>{{nota.asistencia.alumno}}</td>
                 <td>{{nota.asistencia.grupo}}</td>
                 <td>{{nota.ver_legacy_faltas}}</td>
-                <td>{{nota.trimestre}}</td>
+                <td>{{nota.cuatrimestre}}</td>
                 <td>{{nota.grammar}}</td>
                 <td>{{nota.reading}}</td>
                 <td>{{nota.writing}}</td>
@@ -43,7 +43,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <td>{{nota.listenning}}</td>
                 <td>{{nota.speaking}}</td>
                 <td>{{nota.comportamiento}}</td>
-                <td>{{nota.asistencia..grupo.curso.tipo_evaluacion}}</td>
+                <td>{{nota.asistencia.grupo.curso.get_tipo_evaluacion_display}}</td>
                 <td>{{nota.media}}</td>
             </tr>
             {% endfor %}
