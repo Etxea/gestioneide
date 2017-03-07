@@ -140,7 +140,7 @@ class AlumnoPruebaNivelCreateView(CreateView):
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class AlumnoPruebaNivelDeleteView(DeleteView):
     model = PruebaNivel
-    template_name = "alumnos/pruebanivel_borrar.html"
+    template_name = "alumnos/confirmar_borrar.html"
     def get_success_url(self):
         return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})
 
@@ -160,6 +160,6 @@ class AlumnoResultadoCambridgeCreateView(CreateView):
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class AlumnoResultadoCambridgeDeleteView(DeleteView):
     model = ResultadoCambridge
-    template_name = "alumnos/pruebanivel_borrar.html"
+    template_name = "alumnos/confirmar_borrar.html"
     def get_success_url(self):
         return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})

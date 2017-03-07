@@ -103,7 +103,8 @@
             <td>{{anotacion.texto}}</td>
             <td>{{anotacion.fecha}}</td>
             <td>{{anotacion.creador.username}}</td>
-                <td><a href="{% url 'alumno_anotacion_borrar' anotacion.id %}" class="btn btn-warning zmdi zmdi-delete">Eliminar</a></td>
+                <td><a href="{% url 'alumno_anotacion_borrar' anotacion.id %}"
+                       class="btn btn-warning zmdi zmdi-delete">Eliminar</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -126,6 +127,8 @@
                     <td>{{ prueba.resultado }}</td>
                     <td>{{ prueba.nivel_recomendado }}</td>
                     <td>{{ prueba.observaciones }}</td>
+                    <td><a class="btn btn-warning zmdi zmdi-delete"
+                           href="{%  url 'alumno_pruebanivel_borrar' prueba.id %}"> Borrar </a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -139,6 +142,7 @@
                 <th>Nivel</th>
                 <th>Resutado</th>
                 <th>Observaciones</th>
+                <th></th>
             </thead>
             <tbody>
                 {% for prueba in alumno.resultadocambridge_set.all %}
@@ -147,6 +151,8 @@
                     <td>{{ prueba.get_nivel_display }}</td>
                     <td>{{ prueba.get_resultado_display }}</td>
                     <td>{{ prueba.observaciones }}</td>
+                    <td><a class="btn btn-warning zmdi zmdi-delete"
+                           href="{%  url 'alumno_resultadocambridge_borrar' prueba.id %}"> Borrar </a></td>
                 </tr>
                 {% endfor %}
             </tbody>
