@@ -77,7 +77,6 @@ class AsistenciasMetalicoListView(AsistenciaListView):
         year = Year.objects.get(activo=True)
         return Asistencia.objects.filter(year=year).filter(metalico=True)
 
-
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class GruposAlumnosListView(ListView):
     model = Grupo
@@ -361,16 +360,45 @@ def export_notas_cuatrimestre_xls(request, ano):
         (u"CP", 2000),
         (u"Ciudad", 4000),
         (u"Grupo", 8000),
-        (u"Cuatrimestre", 2000),
-        (u"Grammar", 2000),
-        (u"Reading", 2000),
-        (u"Writing", 2000),
-        (u"Read./Wri.", 2000),
-        (u"Use of english", 2000),
-        (u"Listenning", 2000),
-        (u"Speaking", 2000),
-        (u"Media", 2000),
-        (u"Observaciones", 8000),
+        (u"T1. Nota", 2000),
+        (u"T1. Observaciones", 2000),
+        (u"T1. Faltas", 2000),
+        (u"T1. Justificadas", 2000),
+        (u"T2. Nota", 2000),
+        (u"T2. Observaciones", 2000),
+        (u"T2. Faltas", 2000),
+        (u"T2. Justificadas", 2000),
+        (u"T3. Nota", 2000),
+        (u"T3. Observaciones", 2000),
+        (u"T3. Faltas", 2000),
+        (u"T3. Justificadas", 2000),
+        (u"Q1. Grammar", 2000),
+        (u"Q1. Reading", 2000),
+        (u"Q1. Writing", 2000),
+        (u"Q1. Read./Wri.", 2000),
+        (u"Q1. Use of english", 2000),
+        (u"Q1. Listenning", 2000),
+        (u"Q1. Speaking", 2000),
+        (u"Q1. Media", 2000),
+        (u"Q1. Observaciones", 8000),
+        (u"Q2. Grammar", 2000),
+        (u"Q2. Reading", 2000),
+        (u"Q2. Writing", 2000),
+        (u"Q2. Read./Wri.", 2000),
+        (u"Q2. Use of english", 2000),
+        (u"Q2. Listenning", 2000),
+        (u"Q2. Speaking", 2000),
+        (u"Q2. Media", 2000),
+        (u"Q2. Observaciones", 8000),
+        (u"Q3. Grammar", 2000),
+        (u"Q3. Reading", 2000),
+        (u"Q3. Writing", 2000),
+        (u"Q3. Read./Wri.", 2000),
+        (u"Q3. Use of english", 2000),
+        (u"Q3. Listenning", 2000),
+        (u"Q3. Speaking", 2000),
+        (u"Q3. Media", 2000),
+        (u"Q3. Observaciones", 8000),
     ]
 
     font_style = xlwt.XFStyle()
@@ -383,35 +411,55 @@ def export_notas_cuatrimestre_xls(request, ano):
 
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
-    import random
+
     for asis in Asistencia.objects.filter(year=ano):
-        for nota in asis.notacuatrimestral_set.all():
-            row_num += 1
-            row = [
-                asis.alumno.id,
-                "%s %s" % (asis.alumno.apellido1, asis.alumno.apellido2),
-                asis.alumno.nombre,
-                u"%s" % asis.alumno.direccion,
-                asis.alumno.cp,
-                u"%s" % asis.alumno.ciudad,
-                asis.grupo.nombre,
-                nota.cuatrimestre,
-                nota.grammar,
-                nota.reading,
-                nota.writing,
-                nota.reading_writing,
-                nota.useofenglish,
-                nota.listenning,
-                nota.speaking,
-                nota.media(),
-                nota.observaciones
-            ]
-            for col_num in xrange(len(row)):
-                ws.write(row_num, col_num, row[col_num], font_style)
+        row_num += 1
+        row = [
+            asis.alumno.id,
+            "%s %s" % (asis.alumno.apellido1, asis.alumno.apellido2),
+            asis.alumno.nombre,
+            u"%s" % asis.alumno.direccion,
+            asis.alumno.cp,
+            u"%s" % asis.alumno.ciudad,
+            asis.grupo.nombre
+        ]
+        meses_trimestre = { 1: [9,10,11,12], 2: [1,2,3], 3: [4,5,6]}
+        for trimestre in 1, 2, 3:
+            resultados = asis.notatrimestral_set.filter(trimestre=trimestre)
+            if len(resultados) > 0:
+                for nota in resultados:
+                    row.append(nota.nota)
+                    row.append(nota.observaciones)
+                    faltas = 0
+                    justificadas = 0
+                    for mes in meses_trimestre[trimestre]:
+                        faltas =+ Falta.objects.filter(asistencia=asis,mes=mes).count()
+                        justificadas =+ Justificada.objects.filter(asistencia=asis,mes=mes).count()
+                    row.append(faltas)
+                    row.append(justificadas)
+            else:
+                row.append("")
+                row.append("")
+                row.append("")
+                row.append("")
+
+        for cuatrimestre in 1,2,3:
+            for nota in asis.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre):
+                row.append(nota.grammar)
+                row.append(nota.reading)
+                row.append(nota.writing)
+                row.append(nota.reading_writing)
+                row.append(nota.useofenglish)
+                row.append(nota.listenning)
+                row.append(nota.speaking)
+                row.append(nota.media())
+                row.append(nota.observaciones)
+                
+        for col_num in xrange(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
 
     wb.save(response)
     return response
-
 
 #~ @permission_required('gestioneide.informes_view',raise_exception=True)
 class NotasTrimestralesAnoListView(ListView):
@@ -429,6 +477,7 @@ class NotasTrimestralesAnoListView(ListView):
         context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
         return context
 #~ @permission_required('gestioneide.informes_view',raise_exception=True)
+
 class NotasCuatrimestralesAnoListView(ListView):
     model = NotaCuatrimestral
     template_name = "informes/informes_notas_cuatrimestrales_ano.html"
