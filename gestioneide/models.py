@@ -63,9 +63,7 @@ TIPO_FESTIVO = (
     (6, _('Festivo oficial')),
     (7, _('Inicio trimestre')),
     (8, _('Fin trimestre'))
-    
-)
-
+    )
 
 DURACION = (
     (15, _('1/4 hora')),
@@ -803,5 +801,3 @@ class TurismoClase(models.Model):
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     def __unicode__(self):
         return "%s/%s-%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin)
-
-

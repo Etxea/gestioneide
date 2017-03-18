@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -201,6 +203,12 @@ def export_asistencias_xls(request,filtro=False):
         (u"Apellidos, Nombre", 6000),
         (u"Fecha Nac.", 8000),
         (u"Grupo", 8000),
+        (u"Telefono1", 6000),
+        (u"Telefono2", 6000),
+        (u"Dirección", 6000),
+        (u"Localidad", 6000),
+        (u"CP", 2000),
+
     ]
 
     font_style = xlwt.XFStyle()
@@ -224,7 +232,12 @@ def export_asistencias_xls(request,filtro=False):
             alumno.pk,
             "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
             alumno.fecha_nacimiento.isoformat(),
-            alumno.asistencia_set.all()[0].grupo.nombre
+            alumno.asistencia_set.all()[0].grupo.nombre,
+            alumno.telefono1,
+            alumno.telefono2,
+            alumno.direccion,
+            alumno.ciudad,
+            alumno.cp
         ]
         for col_num in xrange(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
