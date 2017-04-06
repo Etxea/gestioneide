@@ -26,8 +26,11 @@ class NotaCreateForm(ModelForm):
 class NotaTrimestralCreateForm(ModelForm):
     class Meta:
         model = NotaTrimestral
-        exclude = ('id',)
-        fields = ['nota','observaciones']
+        #exclude = ('id',)
+        fields = ['id','nota','np','observaciones']
+        widgets = {
+            'id': forms.HiddenInput()
+        }
 
 
 class ElementaryNotaCreateForm(NotaCreateForm):

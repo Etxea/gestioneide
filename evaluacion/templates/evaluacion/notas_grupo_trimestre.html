@@ -36,9 +36,7 @@
 				{% with asistencia=asistencias|buscar:forloop.counter0 %}
 				<td> {{ asistencia.alumno }} </td>
 				{% for field in form %}
-                    {%  if field.label != "Id" %}
 					<td>{{ field }}  {{ field.errors }}</td>
-                    {% endif %}
 				{% endfor %}
 				{% endwith %}
 			 </tr>
