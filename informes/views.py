@@ -313,6 +313,7 @@ def export_notas_trimestre_xls(request,trimestre):
         (u"Ciudad", 4000),
         (u"Grupo", 8000),
         (u"Nota", 2000),
+        (u"NP", 1000),
         (u"Faltas", 2000),
         (u"Justificadas", 2000),
         (u"Observaciones", 8000),
@@ -331,7 +332,7 @@ def export_notas_trimestre_xls(request,trimestre):
     import random 
     for asis in Asistencia.objects.filter(year=ano):
         alumno = asis.alumno
-        nota,observaciones = asis.nota_trimestre(trimestre)
+        nota,observaciones,np = asis.nota_trimestre(trimestre)
         row_num += 1
         row = [
             alumno.id,
@@ -342,6 +343,7 @@ def export_notas_trimestre_xls(request,trimestre):
             u"%s"%alumno.ciudad,
             asis.grupo.nombre,
 	        nota,
+            np,
             "%d"%asis.faltas_trimestre(trimestre),
             "%d"%asis.justificadas_trimestre(trimestre),
             #random.randint(1, 10),

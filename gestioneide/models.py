@@ -494,6 +494,15 @@ class Asistencia(models.Model):
             nota = notaquery[0].nota
         return nota
 
+    def get_np_trimestre(self,trimestre):
+        nota = "0"
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            np = notaquery[0].np
+        else:
+            np = False
+        return np
+
     def get_observaciones_trimestre(self,trimestre):
         observaciones = ""
         notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
@@ -503,8 +512,9 @@ class Asistencia(models.Model):
 
     def nota_trimestre(self,trimestre):
         nota = self.get_nota_trimestre(trimestre)
+        np = self.get_np_trimestre(trimestre)
         observaciones = self.get_observaciones_trimestre(trimestre)
-        return nota,observaciones
+        return nota,observaciones,np
 
     def nota_quatrimestre(self,quatrimestre):
         nota = "0"
