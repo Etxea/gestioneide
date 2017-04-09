@@ -86,6 +86,8 @@ class Year(models.Model):
     activo = models.BooleanField(default=1)
     def __unicode__(self):
         return "%s"%self.name
+    def get_activo(self):
+        return Year.objects.get(activo=True)
 
 class Aula(models.Model):
     nombre = models.CharField('Nombre',max_length=255,)
@@ -108,7 +110,7 @@ class Aula(models.Model):
     def programacion_semana(self):
         tabla_clases = []
         for hora in range(8,22):
-            grupos = Grupo.objects.filter(year=Year.objects.get(activo=True))
+            grupos = Grupo.objects.filter(year=Year().get_activo())
             for cuarto in [0,30]:
                 fecha_consulta = datetime.time(hora,cuarto)
                 programacion_hora = ["%02d:%02d"%(hora,cuarto)]
@@ -194,7 +196,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username
         tabla_clases = []
         for hora in range(8,22):
             #print "Vamos con la hora %s"%hora
-            grupos = Grupo.objects.filter(year=Year.objects.get(activo=True))
+            grupos = Grupo.objects.filter(year=Year().get_activo())
             for cuarto in [0,30]:
                 fecha_consulta = datetime.time(hora,cuarto)
                 #print "Vamos con la fecha de consulta %s"%(fecha_consulta)
@@ -361,7 +363,7 @@ class Grupo(models.Model):
         else:
             return self.curso.precio
     def next_by_nombre(self,cuatrimestre=False):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         if cuatrimestre:
             filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
         else:
@@ -378,7 +380,7 @@ class Grupo(models.Model):
         self.next_by_nombre(cuatrimestre=True)
 
     def prev_by_nombre(self,cuatrimestre=False):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         if cuatrimestre:
             filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(
                 asistencia__count__gt=0).order_by('nombre')
@@ -412,7 +414,7 @@ class Grupo(models.Model):
         for dia in self.clases.all():
             dias_semana_clase.append(dia.dia_semana)
         print dias_semana_clase
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         ano = year.start_year
         if mes < 8 :
             ano = ano + 1 
@@ -442,7 +444,7 @@ class Clase(models.Model):
 
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year.objects.get(activo=True))) #Comentar el limit choices para un primer import
+    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
@@ -711,7 +713,7 @@ class Recibo(models.Model):
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
     grupos_sueltos = models.BooleanField(default=False)
-    grupos = models.ManyToManyField(Grupo,blank=True,limit_choices_to=Q(year=Year.objects.get(activo=True)))
+    grupos = models.ManyToManyField(Grupo,blank=True,limit_choices_to=Q(year=Year().get_activo()))
     fichero_csb19 = models.TextField(default="",blank=True)
     importe_total = models.FloatField(default=0,blank=True)
     recibos_generados = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
@@ -723,12 +725,12 @@ class Recibo(models.Model):
         if self.grupos_sueltos:
             return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
         else:
-            return Grupo.objects.filter(year=Year.objects.get(activo=True)).aggregate(Count('asistencia'))['asistencia__count']
+            return Grupo.objects.filter(year=Year().get_activo()).aggregate(Count('asistencia'))['asistencia__count']
     def get_grupos(self):
         if self.grupos_sueltos:
             lista = self.grupos.all()
         else:
-            lista = Grupo.objects.filter(year=Year.objects.get(activo=True))
+            lista = Grupo.objects.filter(year=Year().get_activo())
         return lista
     
     def get_alumnos(self):

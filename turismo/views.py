@@ -16,7 +16,7 @@ class TurismoView(ListView):
     model = TurismoCurso
     template_name = "turismo/home.html"
     def get_queryset(self):
-        year = Year.objects.get(activo=True)    
+        year = Year().get_activo()    
         return TurismoCurso.objects.filter(year=year).order_by('nombre')
 
 
@@ -34,7 +34,7 @@ class TurismoCursoCreateView(CreateView):
     success_url = "/turismo"
     def get_initial(self):
         super(TurismoCursoCreateView, self).get_initial()
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         self.initial = {"year":year}
         return self.initial
 

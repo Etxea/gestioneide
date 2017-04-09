@@ -2,7 +2,7 @@ from models import Year
 
 def current_year_processor(request):
     try:
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
     except:
         year = None
     return {'year': year }

@@ -12,7 +12,7 @@ class AsistenciaListView(ListView):
     paginate_by = 50
     template_name = "asistencias/asistencia_list.html"
     def get_queryset(self):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         return Asistencia.objects.filter(year=year)
 
 @method_decorator(permission_required('gestioneide.asistencia_add',raise_exception=True),name='dispatch')        
@@ -24,7 +24,7 @@ class AsistenciaCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("asistencia_lista")
     def get_initial(self):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         print "Establecemos el ano en ",year
         return { 'year': year }
 
@@ -37,7 +37,7 @@ class AsistenciaAlumnoCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("alumno_detalle",kwargs = {'pk' : self.object })
     def get_initial(self):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         alumno = Alumno.objects.get(id=self.kwargs['alumno_id'])
         print "Establecemos el ano en ",year,"y el alumno en",alumno
         return { 'year': year , 'alumno': alumno }        
@@ -51,7 +51,7 @@ class AsistenciaGrupoCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("grupo_detalle",kwargs = {'pk' : self.object.grupo.id })
     def get_initial(self):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         print "Establecemos el ano en ",year, "y el grupo",grupo
         return { 'year': year , 'grupo': grupo }        

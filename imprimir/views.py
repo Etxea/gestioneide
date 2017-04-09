@@ -19,7 +19,7 @@ class ImprimirGrupos(PDFTemplateView):
     template_name = "grupos_pdf.html"    
     def get_context_data(self, **kwargs):
         context = super(ImprimirGrupos, self).get_context_data(**kwargs)
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         context['year'] = year.__unicode__()
         context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         return context
@@ -30,7 +30,7 @@ class ImprimirGruposAlumnos(PDFTemplateView):
     template_name = "grupos_alumnos_pdf.html"
     def get_context_data(self, **kwargs):
         context = super(ImprimirGruposAlumnos, self).get_context_data(**kwargs)
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         context['year'] = year.__unicode__()
         if 'grupo_id' in kwargs:
             context['grupo_list'] = Grupo.objects.filter(id=kwargs['grupo_id'])
@@ -59,7 +59,7 @@ class ImprimirAsistenciaHorario(PDFTemplateView):
             asistencia.save()
     
         context['asistencia'] = asistencia
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         context['lista_festivos'] =Festivo.objects.filter(year=year)
         return context
 
@@ -106,7 +106,7 @@ class ImprimirGruposPlanillaAsistencia(PDFTemplateView):
     def get_context_data(self, **kwargs):
         context = super(ImprimirGruposPlanillaAsistencia, self).get_context_data(**kwargs)
         mes= int(kwargs['mes'])
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         context['year'] = year.__unicode__()
         context['grupo_list'] = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         ano = year.start_year
@@ -123,14 +123,14 @@ class ImprimirAlumnosCartaFaltas(ListView):
     def get_context_data(self, **kwargs):
         context = super(ImprimirAlumnosCartaFaltas, self).get_context_data(**kwargs)
         #mes= int(kwargs['mes'])
-        #year = Year.objects.get(activo=True)
+        #year = Year().get_activo()
         return context
     def get_queryset(self):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         mes= int(self.kwargs['mes'])
         return Asistencia.objects.filter(year=year).filter(falta__mes=mes).annotate(faltas_mes=Count('falta')).filter(justificada__mes=mes).annotate(justificadas_mes=Count('justificada')).order_by('-faltas_mes')
     filename = 'alumnos_carta_faltas.pdf'
-    template_name = 'alumnos_carta_faltas_pdf.html'
+    template_name = 'Year().get_activo()'
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirCartaNotasTrimestre(PDFTemplateView):
@@ -144,7 +144,7 @@ class ImprimirCartaNotasTrimestre(PDFTemplateView):
     }
     def get_context_data(self, **kwargs):
         context = super(ImprimirCartaNotasTrimestre, self).get_context_data(**kwargs)
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         context['year'] = year.__unicode__()
         trimestre = int(self.kwargs['trimestre'])
         context['trimestre'] = trimestre

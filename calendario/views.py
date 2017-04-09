@@ -25,7 +25,7 @@ class CalendarioFestivos(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(CalendarioFestivos, self).get_context_data(**kwargs)
-	year = Year.objects.get(activo=True)
+	year = Year().get_activo()
         meses = []
         cal = calendar.Calendar()
         lista_meses_1 = [9,10,11,12]
@@ -53,7 +53,7 @@ class NuevoFestivo(CreateView):
     def get_initial(self):
 	if self.kwargs.get('ano'):
 	    fecha = self.kwargs.get('ano')+"-"+self.kwargs.get('mes')+"-"+self.kwargs.get('dia')
-	    year = Year.objects.get(activo=True)
+	    year = Year().get_activo()
 	    return {
 		    'fecha':fecha,
 		    'year': year

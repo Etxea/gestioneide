@@ -14,7 +14,7 @@ class GrupoListView(ListView):
     paginate_by = 100
     template_name = "grupos/grupo_list.html"
     def get_queryset(self):
-        year = Year.objects.get(activo=True)
+        year = Year().get_activo()
         #Si es staff ve todos los grupos
         if self.request.user.is_staff:
             return Grupo.objects.filter(year=year).order_by('nombre')

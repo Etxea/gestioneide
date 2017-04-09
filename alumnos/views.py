@@ -32,7 +32,7 @@ class AlumnoActivosListView(AlumnoListView):
 class AlumnoGrupoListView(AlumnoListView):
     #Solo listamos los activos y que estan en un grupo
     def get_queryset(self):
-        ano = Year.objects.get(activo=True)
+        ano = Year().get_activo()
         lista = Asistencia.objects.filter(year=ano)
         return Alumno.objects.filter(asistencia__in=lista)
 
