@@ -6,8 +6,10 @@
 
 {% for asistencia in asistencia_list %}
 <div>
-    <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
-    <div style="text-align:right">
+    <div style="float:left" >
+        <img width="120px" height="75px" src='{% static "img/logo_eide_horizontal.png" %}' />
+    </div>
+    <div style="float:right;font-size: 150%;">
         <span style="text-align:right" >
             <b>
                 {{ asistencia.alumno.nombre }}
@@ -24,13 +26,11 @@
         </span><br />
     </div>
 </div>
+<div style="clear:both"></div>
+<div style="height:200px">
 <br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<div>
+</div>
+<div style="font-size: 150%;">
     <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
 <br />
 <br />
