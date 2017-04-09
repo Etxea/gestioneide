@@ -14,6 +14,7 @@
 		</a>
 		<ul>
 			<li><a href="{% url 'account_settings' %}">Settings</a></li>
+            <li> <a href="{% url 'perfil_propio' %}"><i class="fa fa-cog"></i> Perfil</a> </li>
 			<li> <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> Log out</a></li>
 			<form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
 			{% csrf_token %}

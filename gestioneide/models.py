@@ -814,3 +814,7 @@ class TurismoClase(models.Model):
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     def __unicode__(self):
         return "%s/%s-%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin)
+
+class Perfil(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    ano_activo = models.ForeignKey(Year)

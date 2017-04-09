@@ -30,6 +30,7 @@ urlpatterns = [
     url(r"^year/", include("year.urls")),
     url(r"^asistencias/", include("asistencias.urls")),
     url(r"^turismo/", include("turismo.urls")),
+    url(r"^perfil/", include("perfil.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

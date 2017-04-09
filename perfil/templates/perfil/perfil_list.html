@@ -1,0 +1,33 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+    {% include "pagination/pagination.html" %}
+    <div class="col-md-12 col-xs-12">
+        <h4>Listado de Años</h4>
+     
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Año Activo</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for perfil in object_list %}
+                <tr>
+                    <td><a href="{% url 'perfil_editar' perfil.id %}">{{perfil.id}}</a></td>
+                    <td>{{ perfil.user }}</td>
+                    <td>{{ perfil.ano_activo }}</td>
+                    <td>{{ perfil.user.account.email }}</td>
+                 </tr>
+                 {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}
