@@ -24,7 +24,7 @@ class ReciboCreateView(CreateView):
     template_name = "recibo_create.html"
     form_class = ReciboCreateForm
     def get_initial(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         return { 'year': year }
 
 @method_decorator(permission_required('gestioneide.recibo_view',raise_exception=True),name='dispatch')

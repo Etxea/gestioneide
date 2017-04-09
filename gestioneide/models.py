@@ -86,8 +86,15 @@ class Year(models.Model):
     activo = models.BooleanField(default=1)
     def __unicode__(self):
         return "%s"%self.name
-    def get_activo(self):
-        return Year.objects.get(activo=True)
+    def get_activo(self, request=None):
+        if request:
+            try:
+                perfil = Perfil.objects.get(user=request.user)
+                return perfil.ano_activo
+            except Exception as e:
+                print e
+        else:
+            return Year.objects.get(activo=True)
 
 class Aula(models.Model):
     nombre = models.CharField('Nombre',max_length=255,)
@@ -444,7 +451,7 @@ class Clase(models.Model):
 
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
+    grupo = models.ForeignKey('Grupo')#,limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)

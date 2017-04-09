@@ -54,7 +54,7 @@ class AlumnosBancoErroresListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AlumnosBancoErroresListView, self).get_context_data(**kwargs)
         lista_alumnos = []
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         for asistencia in Asistencia.objects.filter(year=year).filter(metalico=False):
             if not validar_ccc(asistencia.alumno.cuenta_bancaria):
                 lista_alumnos.append(asistencia.alumno)
@@ -64,19 +64,19 @@ class AlumnosBancoErroresListView(TemplateView):
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         return Asistencia.objects.filter(year=year).filter(confirmado=False)
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AsistenciasDescuentoListView(AsistenciaListView):
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         return Asistencia.objects.filter(year=year).filter(precio__isnull=False)
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AsistenciasMetalicoListView(AsistenciaListView):
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         return Asistencia.objects.filter(year=year).filter(metalico=True)
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
@@ -84,12 +84,12 @@ class GruposAlumnosListView(ListView):
     model = Grupo
     template_name = "informes/grupos_alumnos.html"
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
 
 @permission_required('gestioneide.informes_view',raise_exception=True)
 def export_grupos_xls(request):
-    ano = Year().get_activo()
+    ano = Year().get_activo(self.request)
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=grupos.xls'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -164,7 +164,7 @@ def export_alumnos_xls(request):
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
     
-    year = Year().get_activo()
+    year = Year().get_activo(self.request)
     for asistencia in Asistencia.objects.filter(year=year):
         alumno = asistencia.alumno
         row_num += 1
@@ -186,7 +186,7 @@ def export_asistencias_no_confirmadas_xls(request):
 
 @permission_required('gestioneide.informes_view',raise_exception=True)
 def export_asistencias_xls(request,filtro=False):
-    ano = Year().get_activo()
+    ano = Year().get_activo(self.request)
     response = HttpResponse(content_type='application/ms-excel')
     filename = "asistencias"
     if filtro:
@@ -296,7 +296,7 @@ def export_telefonos_alumnos_xls(request,ano):
 @permission_required('gestioneide.informes_view',raise_exception=True)
 def export_notas_trimestre_xls(request,trimestre):
     
-    ano = Year().get_activo()
+    ano = Year().get_activo(self.request)
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=notas_trimestre.xls'
     wb = xlwt.Workbook(encoding='utf-8')

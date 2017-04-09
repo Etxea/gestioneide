@@ -19,7 +19,7 @@ class EvaluacionListView(ListView):
     model = Grupo
     #Solo listamos los que tengan asistencias
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         if self.request.user.is_staff:
             return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         else:
@@ -244,7 +244,7 @@ class FaltasMesView(ListView):
         context['mes'] = self.kwargs['mes']
         return context
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         #return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).annotate(faltas_mes=Count('falta')).\
         #    filter(justificada__mes=self.kwargs['mes']).annotate(justificadas_mes=Count('justificada')).order_by('-faltas_mes')
         #return Asistencia.objects.filter(year=year).filter(falta__mes=self.kwargs['mes']).filter(falta__year=year).annotate(faltas_mes=Count('falta')).order_by('-faltas_mes')
@@ -271,7 +271,7 @@ class FaltasMesCartas(PDFTemplateView):
     }
     def get_context_data(self, **kwargs):
         context = super(FaltasMesCartas, self).get_context_data(**kwargs)
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         context['mes'] = self.kwargs['mes']
         lista = []
         mes = self.kwargs['mes']
@@ -297,7 +297,7 @@ class PasarListaView(ListView):
         context['meses'] = [9,10,11,12,1,2,3,4,5,6,7]
         return context
     def get_queryset(self):
-        year = Year().get_activo()
+        year = Year().get_activo(self.request)
         if self.request.user.is_staff:
             return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0)
         else:
