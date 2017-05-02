@@ -5,13 +5,13 @@
 
 {% block body %}
 
-    <h1>{% trans "Nuevo Año" %}</h1>
+    <h1>{% trans "Nuevo Perfil" %}</h1>
 
     <form action="" method="post">{% csrf_token %}
       {{ form|as_bootstrap }}
       <br />
       <div class="form-actions">
-      <a href="{% url 'libro_lista' %}" class="btn">Cancelar</a>
+      <a href="{% url 'home' %}" class="btn">Cancelar</a>
       <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
     </form>

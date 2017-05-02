@@ -92,7 +92,8 @@ class Year(models.Model):
                 perfil = Perfil.objects.get(user=request.user)
                 return perfil.ano_activo
             except Exception as e:
-                print e
+                #print e
+                return Year.objects.get(activo=True)
         else:
             return Year.objects.get(activo=True)
 
