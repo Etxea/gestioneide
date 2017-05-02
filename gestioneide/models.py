@@ -412,7 +412,7 @@ class Grupo(models.Model):
     def prev_by_nombre_quatrimestre(self):
         self.prev_by_nombre(cuatrimestre=True)
     def __unicode__(self):
-        return "%s"%(self.nombre)
+        return "%s - %s"%(self.nombre,self.year)
     def get_absolute_url(self):
         return reverse_lazy("grupo_detalle",args=[self.id])
         
@@ -452,7 +452,7 @@ class Clase(models.Model):
 
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo')#,limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
+    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
