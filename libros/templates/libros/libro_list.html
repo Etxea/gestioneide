@@ -1,9 +1,16 @@
 {% extends "site_base.html"%}
 {% load i18n %}
+{% block page_header %}
+
+{% include "pagination/pagination.html" %}
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
+    <a class="btn btn-primary pull-right" href="{% url 'libro_nuevo' %}">Nuevo</a>
+{% endblock %}
+
 
 {% block body %}
 <div class="row">
-    <div class="col-md-10 col-xs-12">
+    <div class="col-md-12 col-xs-12">
         <h4>Listado de Libros</h4>
      
         <table class="table">
@@ -13,8 +20,9 @@
                 <td>Título</td>
                 <td>Autor</td>
                 <td>ISBN</td>
-                
-                
+                <td>
+                    <a class="btn btn-warning" href="{% url 'libro_borrar' curso.id %}"><i class="zmdi zmdi-delete"></i></a>
+                </td>
                 </tr>
             </thead>
             <tbody>
@@ -24,15 +32,11 @@
 				<td>{{libro.titulo}}</td>
 				<td>{{libro.autor}}</td>
 				<td>{{libro.isbn}}</td>
+                <td></td>
 			 </tr>
 			 {% endfor %}
             </tbody>
         </table>
-    </div>
-    <div class="col-md-2">
-    <h4>Acciones</h4>
-    {% include "pagination/pagination.html" %}
-    <a href="{% url 'libro_nuevo' %}"><button>Nuevo</button></a>
     </div>
 </div>
 {% endblock %}

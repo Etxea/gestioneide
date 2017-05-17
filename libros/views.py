@@ -30,7 +30,7 @@ class LibroUpdateView(UpdateView):
 
 @method_decorator(permission_required('gestioneide.libro_delete',raise_exception=True),name='dispatch')
 class LibroDeleteView(DeleteView):
-    template_name = "libros/libro_deleteconfirm.html"
+    template_name = "libros/libro_confirm_delete.html"
     def get_success_url(self):
         return reverse_lazy("libro_lista")
 
