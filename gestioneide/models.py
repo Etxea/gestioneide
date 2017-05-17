@@ -452,7 +452,8 @@ class Clase(models.Model):
 
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
-    grupo = models.ForeignKey('Grupo',limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
+    #El limit debería tener en cuenta el ano del perfil del usuario, pero como no tenemos request no se puede hacer aquí, habrá que pasarlo al FORM
+    grupo = models.ForeignKey('Grupo')#,limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
     alumno = models.ForeignKey('Alumno')
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
