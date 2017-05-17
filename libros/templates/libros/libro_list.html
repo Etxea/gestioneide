@@ -20,7 +20,6 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
                 <td>Autor</td>
                 <td>ISBN</td>
                 <td>
-                    <a class="btn btn-warning" href="{% url 'libro_borrar' curso.id %}"><i class="zmdi zmdi-delete"></i></a>
                 </td>
                 </tr>
             </thead>
@@ -31,7 +30,9 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
 				<td>{{libro.titulo}}</td>
 				<td>{{libro.autor}}</td>
 				<td>{{libro.isbn}}</td>
-                <td></td>
+                <td>
+                    <a class="btn btn-warning" href="{% url 'libro_borrar' libro.id %}"><i class="zmdi zmdi-delete"></i></a>
+                </td>
 			 </tr>
 			 {% endfor %}
             </tbody>
