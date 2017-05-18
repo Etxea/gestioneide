@@ -16,6 +16,7 @@ class BorrarFestivo(DeleteView):
 @method_decorator(permission_required('gestioneide.festivo_view',raise_exception=True),name='dispatch')
 class ListaFestivos(ListView):
     model = Festivo
+    paginate_by = 25
     template_name = "calendario/festivos_lista.html"
 
 @method_decorator(permission_required('gestioneide.festivo_view',raise_exception=True),name='dispatch')

@@ -5,8 +5,12 @@
 {% load calendario_tags %}
 
 {% block body %}
+<div class="row">
+    <a href="{% url 'festivos_lista' %}" class="btn btn-primary pull-right" > Listado de festivos </a>
+</div>
 
 <div class="row">
+
 {% for mes in meses %}
 	<div class="col-lg-4">
 		<h3>{{mes.nombre}}</h3>
@@ -41,29 +45,5 @@
 {%endfor%}	
 </div>
 
-
-<div class="row">
-	<div class="col-lg-12">
-		<h2>Lista de días festivos</h2>
-		<table class="table">
-			<thead>
-				<th>Día</th>
-				<th>Tipo</th>
-				<th>Anotación</th>
-				<th></th>
-			</thead>
-			<tbody>
-			{% for festivo in object_list %}
-			<tr>
-				<td><a href="{% url 'festivo_editar' festivo.id %}">{{festivo.fecha}}</a></td>
-				<td>{{festivo.get_tipo_display}}</td>
-				<td>{{festivo.anotacion}}</td>
-				<td><a href="{% url 'festivo_borrar' festivo.id %}" class="glyphicon glyphicon-remove"></a></td>
-			</tr>
-			{% endfor %}	
-			</tbody>
-		<table>
-	</div>
-</div>
 
 {% endblock %}

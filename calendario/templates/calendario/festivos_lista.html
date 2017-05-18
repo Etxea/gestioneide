@@ -1,7 +1,10 @@
 {% extends "site_base.html"%}
 
 {% load i18n %}
-
+{% block page_header %}
+{% include "pagination/pagination.html" %}
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> festivos.
+{% endblock %}
 
 
 {% block body %}
