@@ -3,7 +3,7 @@
 {% block page_header %}
 
 {% include "pagination/pagination.html" %}
-Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> libros.
     <a class="btn btn-primary pull-right" href="{% url 'libro_nuevo' %}">Nuevo</a>
 {% endblock %}
 
