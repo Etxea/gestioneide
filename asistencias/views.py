@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from gestioneide.models import *
+from forms import *
 
 @method_decorator(permission_required('gestioneide.asistencia_view',raise_exception=True),name='dispatch')
 class AsistenciaListView(ListView):
@@ -34,8 +35,15 @@ class AsistenciaAlumnoCreateView(CreateView):
     model = Asistencia
     #~ fields = ["grupo","confirmado","factura","metalico","precio"]
     fields = "__all__"
+
+    def get_form(self, form_class):
+        form = super(AsistenciaAlumnoCreateView, self).get_form(form_class)
+        form.fields['grupo'].queryset = Grupo.objects.filter(year=Year().get_activo(self.request))
+        return form
+
     def get_success_url(self):
         return reverse_lazy("alumno_detalle",kwargs = {'pk' : self.object })
+
     def get_initial(self):
         year = Year().get_activo(self.request)
         alumno = Alumno.objects.get(id=self.kwargs['alumno_id'])
