@@ -84,8 +84,13 @@ class Year(models.Model):
     start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
     name = models.CharField(max_length=8,default="201X-1X")
     activo = models.BooleanField(default=1)
+
     def __unicode__(self):
         return "%s"%self.name
+    
+    def get_activo_global(self):
+        return Year.objects.get(activo=True)
+
     def get_activo(self, request=None):
         if request:
             try:

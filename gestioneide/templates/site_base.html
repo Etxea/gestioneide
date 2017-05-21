@@ -15,13 +15,20 @@
 {% endblock %}
 
 {% block extra_top_bar %} 
-                <li class="dropdown hidden-xs">
-                    <a href="/year/" class="hi-events">
-                        <i class="zmdi zmdi-calendar">Año: {{year.name}}</i>
-                </a>
-                <!-- Search -->
-                {% include "theme_superflat/_search.html" %}
+<li class="dropdown hidden-xs">
+<div>
+<i class="zmdi zmdi-calendar"></i>
+<a href="" >{{year.name}}</a>
+</div>
+{% if year_user %}
+<div>
+<i class="zmdi zmdi-calendar"></i>
+<a href="" >({{year_user.name}})</a>
+</div>
+{% endif %}
+</div>
 </li>
+    {% include "theme_superflat/_search.html" %}
 {% endblock %}
 
 
