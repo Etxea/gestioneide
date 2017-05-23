@@ -55,7 +55,7 @@ class AsistenciaGrupoCreateView(CreateView):
     template_name = "asistencias/asistencia_form.html"
     model = Asistencia
     fields = ["alumno","confirmado","factura","metalico","precio"]
-    #fields = "__all__"
+
     def get_success_url(self):
         return reverse_lazy("grupo_detalle",kwargs = {'pk' : self.object.grupo.id })
     def get_initial(self):
@@ -69,8 +69,13 @@ class AsistenciaUpdateView(UpdateView):
     template_name = "asistencias/asistencia_form.html"
     model = Asistencia
     fields = "__all__"
+
+    def get_form(self, form_class):
+        form = super(AsistenciaUpdateView, self).get_form(form_class)
+        form.fields['grupo'].queryset = Grupo.objects.filter(year=self.object.year)
+        return form
+
     def get_success_url(self):
-        
         return reverse_lazy("alumno_detalle",args=[self.object.alumno.id])
 
 @method_decorator(permission_required('gestioneide.asistencia_delete',raise_exception=True),name='dispatch')
