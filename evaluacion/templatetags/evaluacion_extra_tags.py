@@ -25,6 +25,10 @@ def notas_trimestre(asistencia, trimestre):
     return asistencia.get_nota_trimestre(trimestre)
 
 @register.filter
+def notas_cuatrimestre(asistencia, cuatrimestre):
+    return asistencia.get_nota_cuatrimestre(cuatrimestre)
+
+@register.filter
 def observaciones_trimestre(asistencia, trimestre):
     return asistencia.get_observaciones_trimestre(trimestre)
 

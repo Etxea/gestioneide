@@ -1,0 +1,171 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load evaluacion_extra_tags %}
+{% block body %}
+
+{% for asistencia in asistencia_list %}
+<div>
+    <div style="float:left" >
+        <img width="120px" height="75px" src='{% static "img/logo_eide_horizontal.png" %}' />
+    </div>
+    <div style="float:right;font-size: 150%;">
+        <span style="text-align:right" >
+            <b>
+                {{ asistencia.alumno.nombre }}
+                {{ asistencia.alumno.apellido1 }}
+                {{ asistencia.alumno.apellido2 }}
+            </b>
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.direccion }}
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.cp }}
+                {{ asistencia.alumno.ciudad }}
+        </span><br />
+    </div>
+</div>
+<div style="clear:both"></div>
+<div style="height:200px">
+<br />
+</div>
+<div style="font-size: 150%;">
+    <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
+<br />
+<br />
+<br />
+<br />
+    <div>
+        Período de la Evaluación: <b>Cuatrimestre: {{ cuatrimestre }}</b>
+    </div>
+    <div>
+        Nombre del alumno: <b>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</b>
+    </div>
+    <div>
+    Grupo: <b>{{ asistencia.grupo }}</b>
+    </div>
+    <div>
+    Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
+    </div>
+
+<br />
+<br />
+<br />
+</div>
+    <h2 style="text-align:center">Controles de Vocabulario y Gramática</h2>
+<br />
+    <div style="text-align:center;width=100%">
+    <table>
+        <thead>
+            <th>&nbsp;</th>
+            <th> Trimestre 1</th>
+            <th> Trimestre 2 </th>
+            <th> Trimestre 3 </th>
+        </thead>
+        <tbody>
+        <tr>
+            <td> Nota Media Trimestral &nbsp;&nbsp;</td>
+            <td> {{ asistencia|notas_trimestre:1 }} </td>
+            <td> {{ asistencia|notas_trimestre:2 }} </td>
+            <td> {{ asistencia|notas_trimestre:3 }} </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+<br />
+<br />
+{% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
+    <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
+    <table style="width=100%">
+        <thead>
+            <th> </th>
+            <th> Cuatrimestre 1 </th>
+            <th> Cuatrimestre 2 </th>
+        </thead>
+        <tbody>
+        {% if asistencia.grupo.curso.tipo_evaluacion = 2 %}
+        <tr>
+            <td> Reading  & Writting</td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td> Reading </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        <tr>
+            <td> Writing </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        {% endif %}
+        {% if asistencia.grupo.curso.tipo_evaluacion = 4 %}
+        <tr>
+            <td> Use of english &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td> Speaking </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        <tr>
+            <td> Listening </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        <tr>
+            <td> Nota Media </td>
+            <td> &nbsp;&nbsp;  </td>
+            <td> &nbsp;&nbsp;  </td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endif %}
+<div style="width=100%">
+    <h2>Observaciones del profesorado</h2>
+<br />
+<br />
+    <div style="text-align:center;width=100%">
+    {{  asistencia|observaciones_trimestre:trimestre }}
+    </div>
+    <br />
+    <br />
+</div>
+    <div style="text-align:center;width=100%">
+    <table>
+        <tr>
+            <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>Firma de los padres</td>
+        </tr>
+        <tr>
+            <td><br /> <br /><br /><br /><br /><br />
+<br />
+<br />
+<br />
+                <td>
+        </tr>
+    </table>
+    </div>
+    <div>
+        <div style="text-align:center;width=100%">
+            Genaro Oraá 6, 48980 Santurtzi –94 493 70 05 <br />
+            Plaza Balleni 3 (Kabiezes) 48980 Santurtzi –946037112<br />
+            www.eide.es – eide@eide.es <br />
+        </div>
+
+    <div style="page-break-after: always;"></div>
+</div>
+<div><pdf:nextpage /></div>
+{% endfor %}
+
+{% endblock %}

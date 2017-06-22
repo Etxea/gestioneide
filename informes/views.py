@@ -296,7 +296,7 @@ def export_telefonos_alumnos_xls(request,ano):
 @permission_required('gestioneide.informes_view',raise_exception=True)
 def export_notas_trimestre_xls(request,trimestre):
     
-    ano = Year().get_activo(self.request)
+    ano = Year().get_activo(request)
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=notas_trimestre.xls'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -356,10 +356,9 @@ def export_notas_trimestre_xls(request,trimestre):
     wb.save(response)
     return response
 
-
 @permission_required('gestioneide.informes_view', raise_exception=True)
 def export_notas_cuatrimestre_xls(request, ano):
-    ano = Year.objects.get(start_year=ano)
+    ano = Year().get_activo(request)
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=notas_%s_cuatrimestre.xls'%(ano)
     wb = xlwt.Workbook(encoding='utf-8')

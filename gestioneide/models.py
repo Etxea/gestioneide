@@ -532,14 +532,12 @@ class Asistencia(models.Model):
         observaciones = self.get_observaciones_trimestre(trimestre)
         return nota,observaciones,np
 
-    def nota_quatrimestre(self,quatrimestre):
+    def get_nota_cuatrimestre(self,cuatrimestre):
         nota = "0"
-        observaciones = "No presentado"
-        notaquery = self.notaquatrimestral_set.filter(quatrimestre=quatrimestre)
+        notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)
         if notaquery.count() > 0:
-            nota = notaquery[0].nota
-            observaciones = notaquery[0].observaciones
-        return nota,observaciones
+            nota = notaquery[0].media()
+        return nota
 
     def __unicode__(self):
         return "%s"%(self.alumno.id)

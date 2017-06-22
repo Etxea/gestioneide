@@ -24,6 +24,7 @@ urlpatterns = [
     url(r"notas/ano/(?P<ano>\d+)/cuatrimestre/$",login_required(NotasCuatrimestralesAnoListView.as_view()),name="listado_notas_cuatrimestre_ano"),
     url(r"notas/ano/(?P<ano>\d+)/cuatrimestre/xls/$",login_required(export_notas_cuatrimestre_xls),name="listado_notas_cuatrimestre_xls"),
     url(r"notas/trimestre/(?P<trimestre>\d+)/$",login_required(export_notas_trimestre_xls),name="listado_notas_trimestre"),
-    
+    url(r"notas/cuatrimestre/(?P<cuatrimestre>\d+)/$",login_required(export_notas_cuatrimestre_xls),name="listado_notas_cuatrimestre"),
+
     #~ url(r"notas/$", EvaluacionListView.as_view(template_name="evaluacion/evaluacion_notas.html"), name="evaluacion_notas"),    
 ]
