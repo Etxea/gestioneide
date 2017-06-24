@@ -37,7 +37,7 @@
 <br />
 <br />
     <div>
-        Período de la Evaluación: <b>Cuatrimestre: 2</b>
+        Período de la Evaluación: <b>Cuatrimestre: {{ cuatrimestre }}</b>
     </div>
     <div>
         Nombre del alumno: <b>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</b>
@@ -87,13 +87,13 @@
         {% if asistencia.grupo.curso.tipo_evaluacion = 2 %}
         <tr>
             <td> Reading  & Writting</td>
-            <td> {{ asistencia|notas_cuatrimestre:1 }} </td>
-            <td> {{ asistencia|notas_cuatrimestre:1 }} </td>
+            <td> {{ asistencia|notas_cuatrimestre:cuatrimestre }} </td>
+            <td> {{ asistencia|notas_cuatrimestre:cuatrimestre }} </td>
         </tr>
         {% else %}
         <tr>
             <td> Reading </td>
-            <td> &nbsp;&nbsp;  </td>
+            <td> asistencia|notas_cuatrimestre:1  </td>
             <td> &nbsp;&nbsp;  </td>
         </tr>
         <tr>

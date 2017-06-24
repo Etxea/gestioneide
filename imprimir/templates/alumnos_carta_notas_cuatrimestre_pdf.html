@@ -27,14 +27,12 @@
     </div>
 </div>
 <div style="clear:both"></div>
-<div style="height:200px">
-<br />
+<div style="height:50px">
+
 </div>
 <div style="font-size: 150%;">
     <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
-<br />
-<br />
-<br />
+
 <br />
     <div>
         Período de la Evaluación: <b>Cuatrimestre: {{ cuatrimestre }}</b>
@@ -49,14 +47,11 @@
     Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
     </div>
 
-<br />
-<br />
-<br />
 </div>
     <h2 style="text-align:center">Controles de Vocabulario y Gramática</h2>
 <br />
     <div style="text-align:center;width=100%">
-    <table>
+    <table class="table">
         <thead>
             <th>&nbsp;</th>
             <th> Trimestre 1</th>
@@ -73,73 +68,24 @@
         </tbody>
     </table>
     </div>
-<br />
-<br />
+
 {% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
     <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
-    <table style="width=100%">
-        <thead>
-            <th> </th>
-            <th> Cuatrimestre 1 </th>
-            <th> Cuatrimestre 2 </th>
-        </thead>
-        <tbody>
-        {% if asistencia.grupo.curso.tipo_evaluacion = 2 %}
-        <tr>
-            <td> Reading  & Writting</td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td> Reading </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        <tr>
-            <td> Writing </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        {% endif %}
-        {% if asistencia.grupo.curso.tipo_evaluacion = 4 %}
-        <tr>
-            <td> Use of english &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        {% endif %}
-        <tr>
-            <td> Speaking </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        <tr>
-            <td> Listening </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        <tr>
-            <td> Nota Media </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        </tbody>
-    </table>
-
-{% endif %}
 <div style="width=100%">
-    <h2>Observaciones del profesorado</h2>
-<br />
-<br />
-    <div style="text-align:center;width=100%">
-    {{  asistencia|observaciones_trimestre:trimestre }}
-    </div>
-    <br />
-    <br />
+    {%  tabla_notas_cuatrimestre %}
 </div>
+{% endif %}
+<div style="width=100%,text-align:center">
+    <h2 style="text-align:center">Observaciones del profesorado</h2>
+    <br />
     <div style="text-align:center;width=100%">
-    <table>
+    {{  asistencia|observaciones_cuatrimestre:cuatrimestre }}
+    </div>
+
+</div>
+<br />
+    <div style="text-align:center;width=100%">
+    <table class="table">
         <tr>
             <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -148,11 +94,12 @@
             <td>Firma de los padres</td>
         </tr>
         <tr>
-            <td><br /> <br /><br /><br /><br /><br />
-<br />
-<br />
-<br />
-                <td>
+            <td>&nbsp;
+                <br /> &nbsp;<br />&nbsp;<br />&nbsp;<br />
+            </td>
+            <td>&nbsp;
+                <br /> &nbsp;<br />&nbsp;<br />&nbsp;<br />
+            </td>
         </tr>
     </table>
     </div>

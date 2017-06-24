@@ -151,6 +151,28 @@ class ImprimirCartaNotasTrimestre(PDFTemplateView):
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         context['asistencia_list'] = grupo.asistencia_set.all()
         return context
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class ImprimirCartaNotasCuatrimestre(PDFTemplateView):
+    filename='carta_notas_cuatrimestre_grupo.pdf'
+    template_name = "alumnos_carta_notas_cuatrimestre_pdf.html"
+    cmd_options = {
+        'margin-bottom': 15,
+        'margin-top': 15,
+        'margin-left': 25,
+        'margin-right': 25
+    }
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirCartaNotasCuatrimestre, self).get_context_data(**kwargs)
+        year = Year().get_activo(self.request)
+        context['year'] = year.__unicode__()
+        cuatrimestre = int(self.kwargs['cuatrimestre'])
+        context['cuatrimestre'] = cuatrimestre
+        grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        context['asistencia_list'] = grupo.asistencia_set.all()
+        return context
+
+
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirCartaNotasFinal(PDFTemplateView):
     filename='carta_notas_final.pdf'

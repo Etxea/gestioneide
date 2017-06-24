@@ -526,17 +526,44 @@ class Asistencia(models.Model):
             observaciones = notaquery[0].observaciones
         return observaciones
 
+    def get_observaciones_cuatrimestre(self,cuatrimestre):
+        observaciones = ""
+        notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)
+        if notaquery.count() > 0:
+            observaciones = notaquery[0].observaciones
+        return observaciones
+
     def nota_trimestre(self,trimestre):
         nota = self.get_nota_trimestre(trimestre)
         np = self.get_np_trimestre(trimestre)
         observaciones = self.get_observaciones_trimestre(trimestre)
         return nota,observaciones,np
 
-    def get_nota_cuatrimestre(self,cuatrimestre):
+    def get_nota_media_cuatrimestre(self,cuatrimestre):
         nota = "0"
         notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)
         if notaquery.count() > 0:
             nota = notaquery[0].media()
+        return nota
+
+    def get_notas_cuatrimestre(self,cuatrimestre):
+        nota = "0"
+        notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)
+        if notaquery.count() > 0:
+            nota = notaquery[0].notas_materias()
+        else:
+            nota = None
+        return nota
+
+
+    def get_nota_materia_cuatrimestre(self,cuatrimestre,materia):
+        nota = "0"
+        notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)
+        if notaquery.count() > 0:
+            if getattr(notaquery[0],"%_np"%materia):
+                nota = "NP"
+            else:
+                nota = getattr(notaquery[0],materia)
         return nota
 
     def __unicode__(self):
@@ -652,6 +679,17 @@ class NotaCuatrimestral(models.Model):
     speaking = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     speaking_np = models.BooleanField("NP", default=False)
 
+    def notas_materias(self):
+        """Devolvemos un dict con la lista de materias y su nota"""
+        lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.asistencia.grupo.curso.tipo_evaluacion]
+        lista_notas = {}
+        for materia in lista_materias:
+            if getattr(self,materia+"_np"):
+                nota_temp = "NP"
+            else:
+                nota_temp = getattr(self, materia)
+            lista_notas[materia]=nota_temp
+        return lista_notas
 
     def media(self):
         lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.asistencia.grupo.curso.tipo_evaluacion]
