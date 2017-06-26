@@ -33,16 +33,21 @@ def nota_cuatrimestre(context,materia):
 @register.simple_tag(takes_context=True)
 def tabla_notas_cuatrimestre(context):
     cuatrimestre = context['cuatrimestre']
+
     tabla = """<table class="table" style="width=100%">
-<thead><th>Materia</th><th>Resultado</th></thead>
+<thead><th>Materia</th><th>Resultado Cuatrimestre 1</th><th>Resultado Cuatrimestre 2</th></thead>
 <tbody>"""
+
     lista_notas = context['asistencia'].get_notas_cuatrimestre(context['cuatrimestre'])
+    if cuatrimestre==2:
+        lista_notas2 = context['asistencia'].get_notas_cuatrimestre(2)
+
     for nota in lista_notas:
-        tabla += """
-        <tr>
-        <td> %s </td><td>%s</td>
-        <tr>
-        """%(nota,lista_notas[nota])
+        if cuatrimestre == 2:
+            tabla += """<tr><td> %s </td><td>%s</td><td>%s</td><tr>"""%(nota.capitalize(),lista_notas[nota],lista_notas2[nota])
+        else:
+            tabla += """<tr><td> %s </td><td>%s</td><td></td><tr>""" % (nota.capitalize(), lista_notas[nota])
+
     tabla += """</tbody>
     </table>
     """
