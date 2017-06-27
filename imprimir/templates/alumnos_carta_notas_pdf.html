@@ -34,8 +34,6 @@
     <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
 <br />
 <br />
-<br />
-<br />
     <div>
         Período de la Evaluación: <b>Trimestre: {{ trimestre }}</b>
     </div>
@@ -45,20 +43,22 @@
     <div>
     Grupo: <b>{{ asistencia.grupo }}</b>
     </div>
+    <!--
     <div>
     Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
     </div>
+    -->
     <div>
         Faltas de asistencias: <b>{{ asistencia|faltas_trimestre:trimestre }}</b> Faltas justificadas <b>{{ asistencia|justificadas_trimestre:trimestre }}</b>
     </div>
 <br />
 <br />
-<br />
+
 </div>
     <h2 style="text-align:center">Controles de Vocabulario y Gramática</h2>
 <br />
     <div style="text-align:center;width=100%">
-    <table>
+    <table class="table">
         <thead>
             <th>&nbsp;</th>
             <th> Trimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -77,78 +77,29 @@
         </tr>
         </tbody>
     </table>
-    </div>
-<br />
-<br />
-{% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
-    <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
-    <table style="width=100%">
-        <thead>
-            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </th>
-            <th> Quatrimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </th>
-            <th> Quatrimestre 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </th>
-        </thead>
-        <tbody>
-        {% if asistencia.grupo.curso.tipo_evaluacion = 2 %}
-        <tr>
-            <td> Reading  & Writting</td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td> Reading </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        <tr>
-            <td> Writing </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        {% endif %}
-        {% if asistencia.grupo.curso.tipo_evaluacion = 4 %}
-        <tr>
-            <td> Use of english &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        {% endif %}
-        <tr>
-            <td> Speaking </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        <tr>
-            <td> Listening </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        <tr>
-            <td> Nota Media </td>
-            <td> &nbsp;&nbsp;  </td>
-            <td> &nbsp;&nbsp;  </td>
-        </tr>
-        </tbody>
-    </table>
+    <br />
 
-{% endif %}
-<div style="width=100%">
-    <h2>Observaciones del profesorado</h2>
-<br />
-<br />
-    <div style="text-align:center;width=100%">
-    {{  asistencia|observaciones_trimestre:trimestre }}
+    <div style="font-size: x-small">*Las notas del primer y segundo trimestre son la media de los controles de gramática y vocabulario. Las notas del 3er trimestre la nota de gramática y vocabulario final.</div>
     </div>
     <br />
-    <br />
-</div>
+    
+    {% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
+    <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
+    {%  tabla_notas_cuatrimestre %}
+
+    {% endif %}
+    <div style="width=100%">
+        <h2>Observaciones del profesorado</h2>
+        <br />
+        <br />
+        <div style="text-align:center;width=100%">
+        {{  asistencia|observaciones_trimestre:trimestre }}
+        </div>
+        <br />
+        <br />
+    </div>
     <div style="text-align:center;width=100%">
-    <table>
+    <table class="table">
         <tr>
             <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -157,11 +108,12 @@
             <td>Firma de los padres</td>
         </tr>
         <tr>
-            <td><br /> <br /><br /><br /><br /><br />
-<br />
-<br />
-<br />
-                <td>
+            <td>&nbsp;
+                <br /> &nbsp;<br />&nbsp;<br />&nbsp;<br />
+            </td>
+            <td>&nbsp;
+                <br /> &nbsp;<br />&nbsp;<br />&nbsp;<br />
+            </td>
         </tr>
     </table>
     </div>

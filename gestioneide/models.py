@@ -504,10 +504,13 @@ class Asistencia(models.Model):
         return self.justificada_set.filter(mes__in=meses).count()
 
     def get_nota_trimestre(self,trimestre):
-        nota = "0"
+        nota = "-"
         notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
         if notaquery.count() > 0:
-            nota = notaquery[0].nota
+            if notaquery[0].np == True:
+                nota = "NP"
+            else:
+                nota = notaquery[0].nota
         return nota
 
     def get_np_trimestre(self,trimestre):
