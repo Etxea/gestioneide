@@ -550,12 +550,15 @@ class Asistencia(models.Model):
         return nota
 
     def get_notas_cuatrimestre(self,cuatrimestre):
-        nota = "0"
+        nota = {}
         notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)
         if notaquery.count() > 0:
             nota = notaquery[0].notas_materias()
         else:
-            nota = None
+            print "No hemos encontrado notas de %s en el %s"%(self,cuatrimestre)
+            lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.asistencia.grupo.curso.tipo_evaluacion]
+            for materia in lista_materias:
+                nota[materia]="--"
         return nota
 
 
