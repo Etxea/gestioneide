@@ -38,7 +38,7 @@ def tabla_notas_cuatrimestre(context):
 <thead><th>Materia</th><th>Resultado Cuatrimestre 1</th><th>Resultado Cuatrimestre 2</th></thead>
 <tbody>"""
 
-    lista_notas = context['asistencia'].get_notas_cuatrimestre(context['cuatrimestre'])
+    lista_notas = context['asistencia'].get_notas_cuatrimestre(1)
     if cuatrimestre==2:
         lista_notas2 = context['asistencia'].get_notas_cuatrimestre(2)
 
