@@ -8,6 +8,15 @@ from gestioneide.models import *
 from forms import *
 
 @method_decorator(permission_required('gestioneide.asistencia_view',raise_exception=True),name='dispatch')
+class AsistenciaDeletedListView(ListView):
+    model=Asistencia
+    paginate_by = 50
+    template_name = "asistencias/asistencia_deleted_list.html"
+    def get_queryset(self):
+        year = Year().get_activo(self.request)
+        return Asistencia.all_objects.filter(borrada=True).filter(year=year)
+
+@method_decorator(permission_required('gestioneide.asistencia_view',raise_exception=True),name='dispatch')
 class AsistenciaListView(ListView):
     model=Asistencia
     paginate_by = 50
@@ -103,3 +112,19 @@ def asistencia_domiciliacion(request):
         return JsonResponse({'state':'ok','msg': "done"})
     else:
         return HttpResponseRedirect(reverse('asistencia_lista'))
+
+@permission_required('gestioneide.year_add',raise_exception=True)
+def asistencia_recuperar(request):
+    if request.method == 'POST':
+        asistencia_id = request.POST.get('id')
+        asistencia = Asistencia.all_objects.get(id=asistencia_id)
+        year = Year().get_activo(request)
+        asistencia.borrada=False
+        hist = Historia(
+			alumno=asistencia.alumno, tipo="recuperar", 
+			anotacion="Recuperara la asistencia del grupo %s ano %s"%(asistencia.grupo.nombre, year))
+        hist.save()
+        asistencia.save()        
+        return JsonResponse({'state':'ok','msg': "done"})
+    else:
+        return HttpResponseRedirect(reverse('asistencia_deleted_lista'))

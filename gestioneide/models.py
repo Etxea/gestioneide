@@ -292,9 +292,9 @@ class Alumno(models.Model):
 
 class Historia(models.Model):
     alumno = models.ForeignKey('Alumno')
-    fecha = models.DateField(auto_now_add=True)
+    fecha = models.DateTimeField(auto_now_add=True)
     tipo = models.CharField(max_length=25,default="")
-    anotacion = models.CharField(max_length=25,default="")
+    anotacion = models.CharField(max_length=150,default="")
     class Meta:
         ordering = ['-fecha']
 
@@ -350,9 +350,9 @@ class Grupo(models.Model):
     def get_absolute_url(self):
         return reverse_lazy("grupo_detalle",args=[self.id]) 
     def confirmados(self):
-        return self.asistencia_set.filter(confirmado=True).count()
+        return self.asistencia_set.filter(confirmado=True).filter(borrada=False).count()
     def sin_confirmar(self):
-        return self.asistencia_set.filter(confirmado=False).count()
+        return self.asistencia_set.filter(confirmado=False).filter(borrada=False).count()
     def lista_clases(self):
         ret = ""
         for clase in self.clases.all():
@@ -455,6 +455,10 @@ class Clase(models.Model):
     def __unicode__(self):
         return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
 
+class AsistenciaManager(models.Manager):
+    def get_queryset(self):
+        return super(AsistenciaManager, self).get_queryset().filter(borrada=False)
+
 class Asistencia(models.Model):
     year = models.ForeignKey('Year')
     #El limit debería tener en cuenta el ano del perfil del usuario, pero como no tenemos request no se puede hacer aquí, habrá que pasarlo al FORM
@@ -464,13 +468,39 @@ class Asistencia(models.Model):
     factura = models.BooleanField(default=False)
     metalico = models.BooleanField(default=False)
     precio = models.FloatField(null=True,blank=True)
-    #~ notas = MultipleJoin('Notas')
-    #~ faltas = MultipleJoin('Notas')
+    borrada = models.BooleanField(default=False)
+    objects = AsistenciaManager()
+    all_objects = models.Manager() # The default manager.
+
+
+    #Override del save para anotar en la historia los cambios
+    def save(self, *args, **kwargs):
+        # Guardamos en la historia
+        if self.pk is None:
+            hist = Historia(alumno=self.alumno, tipo="altagrupo",
+                            anotacion="Alta en el grupo %s ano %s" % (self.grupo.nombre,self.year))
+            hist.save()
+        elif self.borrada is True:
+            hist = Historia(alumno=self.alumno, tipo="bajagrupo",
+                            anotacion="Baja del grupo %s ano %s" % (self.grupo.nombre,self.year))
+            hist.save()
+        else:
+            hist = Historia(alumno=self.alumno, tipo="cambiogrupo",
+                            anotacion="Editados datos de la asistencia")
+            hist.save()
+        super(Asistencia, self).save(*args, **kwargs)
+
+    #Override del metodo delete para hacer borrado lógico
+    def delete(self, *args, **kwargs):
+        self.borrada = True
+        self.save()
+
     def ver_precio(self):
         if self.precio:
             return self.precio
         else:
             return self.grupo.ver_precio()
+
     def siguiente_asistencia_grupo(self):
         #Deberiamos sacar la lista de asistencia s dle grupo ordenadas por id, calcula nuestra posición y devolver el id de la siguiente
         count = 0
@@ -478,6 +508,7 @@ class Asistencia(models.Model):
             count =+ 1
             if asistencia == self:
                 return  self.grupo.asistencia_set.all()[count].id
+
     def anterior_asistencia_grupo(self):
         return 0
 
@@ -560,7 +591,6 @@ class Asistencia(models.Model):
             for materia in lista_materias:
                 nota[materia]="--"
         return nota
-
 
     def get_nota_materia_cuatrimestre(self,cuatrimestre,materia):
         nota = "0"
@@ -790,16 +820,16 @@ class Recibo(models.Model):
         return lista
     
     def get_alumnos(self):
-        return Asistencia.objects.filter(grupo__in=self.get_grupos()).order_by('alumno__cuenta_bancaria')
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).order_by('alumno__cuenta_bancaria')
     
     def get_alumnos_recibo(self):
-        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(metalico=False).order_by('alumno__cuenta_bancaria')
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).filter(metalico=False).order_by('alumno__cuenta_bancaria')
         
     def get_alumnos_metalico(self):
-        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(metalico=True)
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).filter(metalico=True)
         
     def get_alumnos_factura(self):
-        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(factura=True)
+        return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).filter(factura=True)
         
     def csb19(self):
         fichero_csb19=""
@@ -817,7 +847,7 @@ class Recibo(models.Model):
         # Ahora los cargos
         lista_grupos = self.get_grupos()
         for grupo in lista_grupos:
-            for asistencia in grupo.asistencia_set.all():
+            for asistencia in grupo.asistencia_set.filter(borrada=False):
                 print "Generamos cobro para la asistencia",asistencia
                 if asistencia.metalico:
                     print "Paga en metalico"

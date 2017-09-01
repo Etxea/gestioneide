@@ -14,6 +14,12 @@ chown gestioneide/www-data site_media
 virtualenv .
 source ./bin/activate
 sudo apt-get install libmysqlclient-dev libjpeg-dev
+#Debian 9
+sudo apt-get install libmariadbclient-dev libjpeg-dev
+
+#Runnig database in docker
+docker run --name mysql_55 -e MYSQL_ROOT_PASSWORD=mypass -d -p 3306:3306 mysql:5.5
+
 pip install -r requirements.txt
 ./manage.py migrate
 ./manage.py createsuperuser
