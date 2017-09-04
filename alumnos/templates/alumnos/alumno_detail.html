@@ -61,33 +61,7 @@
     </div>
     
     <h2>Grupos </h2>
-    <table class="table">
-        <thead>
-            <th>Año</th>
-            <th>Grupo</th>
-            <th>Confirmado</th>
-            <th>Factura</th>
-            <th>Metálico</th>
-            <th>Precio</th>
-        </thead>
-        {% for asistencia in object.asistencia_set.all %}
-        <tr>
-            <td>{{ asistencia.year }}</td>
-            <td><a href="{% url 'grupo_detalle' asistencia.grupo.id %}" >{{ asistencia.grupo.nombre }}</a></td>
-            <td>{{ asistencia.confirmado|yesno }}</td>
-            <td>{{ asistencia.factura|yesno }}</td><td>{{ asistencia.metalico|yesno }}</td><td>{{ asistencia.ver_precio }}</td>
-            <td>
-                <a class="btn btn-primary zmdi zmdi-edit" href="{% url 'asistencia_editar' asistencia.id %}"></a> 
-                {% if asistencia.confirmado %}
-                    <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a> 
-                {% else %}
-                    <a class="btn btn-primary zmdi zmdi-check" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Confirmar</a> 
-                {% endif %}
-                <button type="button" class="btn btn-warning zmdi zmdi-delete" data-toggle="modal" data-target="#deleteGrupoModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}">Eliminar</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% include "alumnos/asistencia_tabla_grupos.html" %}
 
 <a class="btn btn-primary" href="{% url 'asistencia_nueva_alumno' alumno.id %}">Añadir a grupo</a>
 <h2>Observaciones</h2>
@@ -161,8 +135,6 @@
         <a class="btn btn-primary" href="{% url 'alumno_resultadocambridge_nuevo' alumno.id %}">Añadir resultado exámen Cambridge</a>
     <br />
 
-    
-    
     <div class="modal fade" id="deleteGrupoModal" tabindex="-1" role="dialog" aria-labelledby="deleteGrupoModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -171,7 +143,6 @@
             <h4 class="modal-title" id="deleteGrupoModalLabel">Borrar asistencia</h4>
           </div>
           <div class="modal-body">
-             
           </div>
         </div>
       </div>

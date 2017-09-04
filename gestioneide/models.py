@@ -280,6 +280,8 @@ class Alumno(models.Model):
     #    return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
         return "%s %s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
 
+    def asistencia_todas(self):
+        return Asistencia.all_objects.filter(alumno=self)
     def get_absolute_url(self):
         return reverse_lazy("alumno_detalle",args=[self.id])
     def validate_cuenta_bancaria(self):
@@ -471,7 +473,6 @@ class Asistencia(models.Model):
     borrada = models.BooleanField(default=False)
     objects = AsistenciaManager()
     all_objects = models.Manager() # The default manager.
-
 
     #Override del save para anotar en la historia los cambios
     def save(self, *args, **kwargs):
