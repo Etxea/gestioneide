@@ -9,22 +9,33 @@ Asignatura {{ asignatura }}
 {% block body %}
 <h2>Clases</h2>
 <table class="table">
+    <thead>
+    <th>Día</th>
+    <th>Inicio</th>
+    <th>Fin</th>
+    <th>Profesor</th>
+    <th>Aula</th>
+    <th>Acciones</th>
+    </thead>
     {% for clase in asignatura.clases_turismo.all %}
     <tr>
-        <td>{{clase}}</td>
+        <td>{{ clase.get_dia_semana_display }}</td>
+        <td>{{ clase.hora_inicio }}</td>
+        <td>{{ clase.hora_fin }}</td>
+        <td>{{ clase.profesor }}</td>
+        <td>{{ clase.aula }}</td>
         <td>
-        {% if request.user.is_staff %}
-        <a href="{% url 'editar_clase' clase.id %}" id=editar_clase" class="btn" 
-            data-toggle="modal" data-target="#claseEditarModal" data-edit_url="{% url 'turismo_clase_editar' clase.id %}" >
-            <i class="zmdi zmdi-edit"></i>
-        </a>
-        </td>
-        <td>
+            {% if request.user.is_staff %}
+            <a href="{% url 'editar_clase' clase.id %}" id=editar_clase" class="btn"
+                data-toggle="modal" data-target="#claseEditarModal" data-edit_url="{% url 'turismo_clase_editar' clase.id %}" >
+                <i class="zmdi zmdi-edit"></i>
+            </a>
             <a href="{% url 'turismo_clase_borrar' clase.id %}" id=borrar_clase" class="btn">
                 <i class="zmdi zmdi-delete"></i>
-            </a> 
+            </a>
+            {% endif %}
         </td>
-        {% endif %}
+
     </tr>
     {% endfor %}
 </table>
