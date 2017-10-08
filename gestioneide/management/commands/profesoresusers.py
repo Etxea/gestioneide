@@ -11,8 +11,8 @@ class Command(BaseCommand):
         for profesor in Profesor.objects.all():
             #print "Trabajando con",profesor,profesor.user
             if profesor.user:
-                #print "Ya tiene user",profesor.user.username
-                profesor.update_user_password()
+                print "Ya tiene user",profesor.user.username
+                #profesor.update_user_password()
             else:
                 print "Le creamos usuario"
                 profesor.create_user()

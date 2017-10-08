@@ -187,7 +187,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username
             except:
                 password = User.objects.make_random_password()
                 print "No hay usuario generamos uno para ",self.nombre,"con el pass ",password
-                username = slugify(self.nombre)
+                username = slugify("%s%s"%(self.nombre,self.apellido))
                 u = User(username=username,email=self.email)
                 u.save()
                 u.set_password(password)
@@ -905,7 +905,8 @@ class TurismoAsignatura(models.Model):
                 if ( dia[1]+1 in dias_semana_clase ) and ( dia[0] > 0 ):
                     fecha = "%s-%s-%s"%(ano,mes,dia[0])
                     try:
-                        festivo = Festivo.objects.get(fecha=fecha)
+                        festivo = Festivo.objects.get(fecha=fecha,tipo=1)
+                        print festivo
                         continue
                     except:
                         dias_clase.append(dia[0])
