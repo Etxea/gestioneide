@@ -53,7 +53,7 @@ class AlumnoBuscarView(AlumnoListView):
                 filtro = (Q(apellido1__icontains=palabras[0]) & Q(apellido2__icontains=palabras[1])) | (Q(nombre__icontains=palabras[0]) & Q(apellido1__icontains=palabras[1]))
             else:
                 filtro = Q(apellido1__icontains=cadena)
-            return Alumno.objects.filter(activo=True).filter(filtro)
+            return Alumno.objects.filter(filtro)
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')        
 class AlumnoCreateView(CreateView):
