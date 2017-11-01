@@ -113,7 +113,7 @@
     <ul>
     {% for year in years %}
     <li><a target="_blank" href="{% url 'listado_telefonos_alumnos_xls'  year.id %}">
-        <i class="zmdizmdi-view-list"></i>{{year}}
+        <i class="zmdi zmdi-view-list"></i> {{year}}
         </a>
     </li>
     {% endfor %}
@@ -129,7 +129,9 @@
         <i class="zmdizmdi-view-list"></i>{{year}} Trimestrales
         </a> ||
         <a target="_blank" href="{% url 'listado_notas_cuatrimestre_ano' year.start_year %}">
-        <i class="zmdizmdi-view-list"></i>{{year}} Cuarimestrales
+        <i class="zmdi zmdi-view-list"></i> {{year}} Cuarimestrales ||
+        <a target="_blank" href="{% url 'listado_notas_cuatrimestre_xls' year.start_year %}">
+                <i class="zmdi zmdi-grid"></i> {{year}} Cuarimestrales EXCEL
         </a>
     </li>
     {% endfor %}
