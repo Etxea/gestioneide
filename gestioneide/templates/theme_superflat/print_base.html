@@ -1,0 +1,84 @@
+{% load staticfiles %}
+<!DOCTYPE html lang="{{ LANGUAGE_CODE }}">
+<!--[if IE 9 ]><html class="ie9" lang="{{ LANGUAGE_CODE }}"><![endif]-->
+    <head>
+        {% block viewport %}
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        {% endblock %}
+
+        <meta name="format-detection" content="telephone=no">
+        <meta charset="UTF-8">
+
+        <meta name="description" content="SuperFlat Responsive Admin Template">
+        <meta name="keywords" content="SuperFlat Admin, Admin, Template, Bootstrap">
+
+        <title>{% block head_title_base %}{% if SITE_NAME %}{{ SITE_NAME }} | {% endif %}{% block head_title %}{% endblock %}{% endblock %}</title>
+        
+        {% block styles %}{% endblock %}
+        
+        <link href="{% static "vendors/bower_components/animate.css/animate.min.css" %}" rel="stylesheet">
+        <link href="{% static "vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" %}" rel="stylesheet">
+        <link href="{% static "vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" %}" rel="stylesheet">
+        <link href="{% static "vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" %}" rel="stylesheet">
+        <link href="{% static "vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}" rel="stylesheet">
+        <link href="{% static "vendors/bootstrap-timepicker/css/timepicker.css" %}" rel="stylesheet">
+        
+        <link href="{% static "css/app.min.css" %}" rel="stylesheet">
+        
+        {% block extra_head_base %}
+            {% block extra_head %}{% endblock %}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}" id="{% block body_id %}{% endblock %}" {% block body_extra_attributes %}{% endblock %}>
+        <section id="content">
+            <div class="container">
+                <!--
+                <header class="page-header">
+					{% block page_header %}
+                    {% endblock %}
+                </header>
+                -->
+                {% block body_base %}
+                  {% block body %}
+                  {% endblock %}
+                {% endblock %}
+            </div>
+        </section>
+			</div>
+        </section>
+        
+        <!-- Javascript Libraries -->
+        {% block theme_script %}
+        <script src="{% static "vendors/bower_components/jquery/dist/jquery.min.js" %}"></script>
+        <script src="{% static "vendors/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+        
+        <script src="{% static "vendors/bower_components/flot/jquery.flot.js" %}"></script>
+        <script src="{% static "vendors/bower_components/flot/jquery.flot.resize.js" %}"></script>
+        <script src="{% static "vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js" %}"></script>
+        <script src="{% static "vendors/bower_components/flot.curvedlines/curvedLines.js" %}"></script>                         
+        <script src="{% static "vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js" %}"></script>
+        <script src="{% static "vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js" %}"></script>
+        <script src="{% static "vendors/sparklines/jquery.sparkline.min.js" %}"></script>
+
+        <script src="{% static "vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js" %}"></script>
+
+        <script src="{% static "vendors/bootstrap-growl/bootstrap-growl.min.js" %}"></script>
+        <script src="{% static "vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js" %}"></script>
+        <script src="{% static "vendors/bower_components/moment/min/moment.min.js" %}"></script>
+        <script src="{% static "vendors/bower_components/fullcalendar/dist/fullcalendar.min.js" %}"></script>
+        <script src="{% static "vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
+        <script src="{% static "vendors/bootstrap-timepicker/js/bootstrap-timepicker.js" %}"></script>
+        <!-- Charts - Please read the read-me.txt inside the js folder-->
+        
+        <script src="{% static "js/functions.js" %}"></script>
+
+        <script src="{% static "js/gestioneide.js" %}"></script>
+        {% endblock %}
+        
+		{% block scripts %}{% endblock %}
+        {% block extra_body_base %}
+            {% block extra_body %}{% endblock %}
+        {% endblock %}
+    </body>
+</html>

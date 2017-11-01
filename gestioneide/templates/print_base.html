@@ -1,0 +1,28 @@
+{% extends "theme_superflat/print_base.html" %}
+
+{% load staticfiles %}
+{% load metron_tags %}
+{% load i18n %}
+
+{% block styles %}
+    {% include "_styles.html" %}
+{% endblock %}
+
+{% block extra_head_base %}
+    {% block extra_head %}{% endblock %}
+<style>
+body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+    {% include "_scripts.html" %}
+{% endblock %}
+
+{% block extra_body_base %}
+    {% analytics %}
+    {% block extra_body %}{% endblock %}
+{% endblock %}

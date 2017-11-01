@@ -244,6 +244,7 @@ AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
 
+#WKHTMLTOPDF_CMD="/usr/bin/wkhtmltopdf.wrapper"
 #~ WKHTMLTOPDF_CMD_OPTIONS = {
     #~ 'margin-bottom': "50",
     #~ 'margin-top': "50",
