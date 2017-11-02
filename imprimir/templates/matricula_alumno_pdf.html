@@ -1,19 +1,18 @@
-{% extends "site_base.html" %}
+{% extends "print_base.html" %}
 {% load i18n %}
 {% load staticfiles %}
 {% block body %}
-
+<!--
 <div>
     <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
-    <div style="text-align:right">
-        <span style="text-align:right" >Numero Alumno: <b>{{alumno.id }}</b></span>
-    </div>
 </div>
-    
+-->    
+    <h1 style="text-align:center">MATRÍCULA Y NORMAS DEL CENTRO</h1>
     <table class="table">
         <tr>
             <td><b>Nombre</b></td><td>{{alumno.nombre}}</td>
             <td><b>Apellido(s)</b></td><td>{{alumno.apellido1}} {{alumno.apellido2}}</td>
+            <td><b>{{alumno.id}}</b></td>
         </tr>
             <td><b>Fecha Nac.</b></td><td>{{alumno.fecha_nacimiento}}</td>
             <td><b>Fecha Alta</b></td> <td>{{ alumno.fecha_creacion }}</td>
@@ -25,11 +24,6 @@
             <td><b>Dirección</b></td><td>{{alumno.direccion}}</td>
             <td><b>Ciudad (CP)</b> {{alumno.ciudad}} ({{alumno.cp}})</td>
         </tr>
-<!--
-        <tr>
-            <td>Cuenta</b></td><td>{{alumno.cuenta_bancaria}}</td>
-        </tr>
--->
     </table>
     <table class="table">
         <tr>
@@ -42,19 +36,9 @@
             <td>_________________</td>
             <td>_________________</td>
         </tr>
-        <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
-        </tr>
-        <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
-        </tr>
         </table>
 
-        <h1 style="text-align:center">NORMAS DEL CENTRO</h1>
+        <!-- <h1 style="text-align:center">NORMAS DEL CENTRO</h1> -->
         <div>El alumno al formalizar la presente matrícula acepta las condiciones siguientes:</div>
         <ol>
            <li>1.- La duración del curso es la estipulada por la Dirección del Centro recogida en el calendario escolar que
@@ -99,14 +83,10 @@ anteriormente detallado. En cualquier caso, podrá ejercitar gratuitamente los d
 acceso, rectificación, cancelación y oposición dirigiéndose al Responsable con dirección en 
 C/Genaro Oraa nº6, C.P. 48980, Santurtzi, Bizkaia, indicando en la comunicación LOPD.
         </div>
-        <table class="table" style="border: 1px;">
+        <table class="table table-condensed" style="border: 1px;">
             <tr><td width="5%">&#10004;</td><td>Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.</td></tr>
             <tr><td width="5%">&#10004;</td><td>Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</td></tr>
         </table>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
         <table class="table">
             <thead>
                 <th>Firma del interesado (Padre, Madre, Tutor Legal)</th>
@@ -114,18 +94,11 @@ C/Genaro Oraa nº6, C.P. 48980, Santurtzi, Bizkaia, indicando en la comunicació
             </thead>
             <tr>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
             </tr>
         </table>
-    </div>
-</div>
-<br /><br /><br />
-<div class="row">
-    <div class="col-md-12">
         <div style="text-align:center" >
             Genaro Oraá,6 y Balleni 3 (Kabiezes)- 48980 SANTURTZI (Spain)- Tlf. + 34 944 937 005 - FAX +34 944 615 723
         </div>
-        <br />
         <div style="text-align:center" >
             www.eide.es - e-mail: eide@eide.es
         </div>
