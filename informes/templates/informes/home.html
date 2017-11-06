@@ -132,7 +132,10 @@
         <i class="zmdi zmdi-view-list"></i> {{year}} Cuarimestrales ||
         <a target="_blank" href="{% url 'listado_notas_cuatrimestre_xls' year.start_year %}">
                 <i class="zmdi zmdi-grid"></i> {{year}} Cuarimestrales EXCEL
-        </a>
+        </a> ||
+        <a target="_blank" href="{% url 'listado_notas_finales_ano' year.start_year %}">
+            <i class="zmdizmdi-view-list"></i>{{year}} FINALES
+        </a
     </li>
     {% endfor %}
     </ul>

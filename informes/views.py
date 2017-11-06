@@ -490,19 +490,36 @@ class NotasTrimestralesAnoListView(ListView):
         context = super(NotasTrimestralesAnoListView, self).get_context_data(**kwargs)
         context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
         return context
-#~ @permission_required('gestioneide.informes_view',raise_exception=True)
 
 class NotasCuatrimestralesAnoListView(ListView):
     model = NotaCuatrimestral
     template_name = "informes/informes_notas_cuatrimestrales_ano.html"
     context_object_name = 'notas_list'
+
+    def get_queryset(self):
+        year = Year.objects.get(start_year=self.kwargs['ano'])
+        print "Vamos a sacar las asistencias del ano", year
+        asistencias = Asistencia.objects.filter(year=year)
+        print "Tenemos la sasistencias", asistencias.count()
+        return NotaCuatrimestral.objects.filter(asistencia__in=asistencias).order_by(
+            'asistencia__alumno__apellido1', 'asistencia__alumno__apellido1', 'asistencia__alumno__nombre')
+
+    def get_context_data(self, **kwargs):
+        context = super(NotasCuatrimestralesAnoListView, self).get_context_data(**kwargs)
+        context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
+        return context
+
+class NotasFinalesAnoListView(ListView):
+    model = Asistencia
+    template_name = "informes/informes_notas_finales_ano.html"
+    context_object_name = 'asistencia_list'
     def get_queryset(self):
         year = Year.objects.get(start_year=self.kwargs['ano'])
         print "Vamos a sacar las asistencias del ano",year
-        asistencias = Asistencia.objects.filter(year=year)
+        asistencias = Asistencia.objects.filter(year=year,borrada=False).order_by('alumno__apellido1','alumno__apellido1','alumno__nombre')
         print "Tenemos la sasistencias",asistencias.count()
-        return NotaCuatrimestral.objects.filter(asistencia__in=asistencias).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
+        return asistencias
     def get_context_data(self, **kwargs):
-        context = super(NotasCuatrimestralesAnoListView, self).get_context_data(**kwargs)
+        context = super(NotasFinalesAnoListView, self).get_context_data(**kwargs)
         context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
         return context

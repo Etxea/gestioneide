@@ -603,6 +603,23 @@ class Asistencia(models.Model):
                 nota = getattr(notaquery[0],materia)
         return nota
 
+    def nota_final(self):
+        if NotaTrimestral.objects.filter(asistencia=self, trimestre=3).count() == 1:
+            nota = self.get_nota_trimestre(3)
+            faltas = 2
+            tipo = "T"
+        elif NotaCuatrimestral.objects.filter(asistencia=self, cuatrimestre=2).count():
+            nota = self.get_nota_media_cuatrimestre(2)
+            faltas = 3
+            tipo = "C"
+        else:
+            nota = "-"
+            faltas = "-"
+            tipo = "-"
+
+        nota_final = { "media": nota, "tipo": tipo, "faltas": faltas }
+        return nota_final
+
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 
