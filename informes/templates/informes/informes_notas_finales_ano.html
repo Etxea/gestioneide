@@ -2,13 +2,11 @@
 {% load i18n %}
 
 {% block page_header %}
-
+<h1>Notas del año {{ year }}</h1>
 {% include "pagination/pagination.html" %} 
-Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos.
 
 {% endblock %}
 {% block body %}
-<h1>Notas del año {{ year }}</h1>
 <div class="row">
     <div class="col-md-12">
         <table class="table table-hover table-bordered bootgrid-table table-striped">
@@ -16,8 +14,8 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <tr>
                 <td>Alumno</td>
                 <td>Grupo</td>
-                <td>Faltas/Justificadas</td>
                 <td>Tipo</td>
+                <td>Faltas/Justificadas</td>
                 <td><b>Media</b></td>
                 </tr>
             </thead>
@@ -27,7 +25,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> alumnos
                 <td>{{asistencia.alumno}}</td>
                 <td>{{asistencia.grupo}}</td>
                 <td>{{asistencia.nota_final.tipo}}</td>
-                <td>{{asistencia.nota_final.faltas}}</td>
+                <td>{{asistencia.nota_final.faltas}}/{{asistencia.nota_final.justificadas}}</td>
                 <td>{{asistencia.nota_final.media}}</td>
             </tr>
             {% endfor %}

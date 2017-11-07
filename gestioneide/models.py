@@ -524,6 +524,9 @@ class Asistencia(models.Model):
            meses = [4,5,6]
         return Falta.objects.filter(asistencia=self).filter(mes__in=meses).count()
 
+    def faltas_finales(self):
+        return Falta.objects.filter(asistencia=self).count()
+
     def justificadas_trimestre(self,trimestre):
         trimestre = int(trimestre)
         meses = []
@@ -534,6 +537,9 @@ class Asistencia(models.Model):
         elif trimestre==2:
            meses = [4,5,6]
         return self.justificada_set.filter(mes__in=meses).count()
+
+    def justificadas_finales(self):
+        return Justificada.objects.filter(asistencia=self).count()
 
     def get_nota_trimestre(self,trimestre):
         nota = "-"
@@ -604,20 +610,17 @@ class Asistencia(models.Model):
         return nota
 
     def nota_final(self):
-        if NotaTrimestral.objects.filter(asistencia=self, trimestre=3).count() == 1:
-            nota = self.get_nota_trimestre(3)
-            faltas = 2
-            tipo = "T"
-        elif NotaCuatrimestral.objects.filter(asistencia=self, cuatrimestre=2).count():
+        if NotaCuatrimestral.objects.filter(asistencia=self, cuatrimestre=2).count() > 0:
             nota = self.get_nota_media_cuatrimestre(2)
-            faltas = 3
             tipo = "C"
+        elif NotaTrimestral.objects.filter(asistencia=self, trimestre=3).count() > 0:
+            nota = self.get_nota_trimestre(3)
+            tipo = "T"
         else:
             nota = "-"
-            faltas = "-"
             tipo = "-"
 
-        nota_final = { "media": nota, "tipo": tipo, "faltas": faltas }
+        nota_final = { "media": nota, "tipo": tipo, "faltas": self.faltas_finales(), "justificadas": self.justificadas_finales() }
         return nota_final
 
     def __unicode__(self):

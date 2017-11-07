@@ -133,9 +133,13 @@
         <a target="_blank" href="{% url 'listado_notas_cuatrimestre_xls' year.start_year %}">
                 <i class="zmdi zmdi-grid"></i> {{year}} Cuarimestrales EXCEL
         </a> ||
+        FINALES {{year}} 
         <a target="_blank" href="{% url 'listado_notas_finales_ano' year.start_year %}">
-            <i class="zmdizmdi-view-list"></i>{{year}} FINALES
-        </a
+            <i class="zmdi zmdi-view-list"></i>LISTA
+        </a>
+        <a target="_blank" href="{% url 'listado_notas_finales_ano_xls' year.start_year %}">
+            <i class="zmdi zmdi-grid"></i>EXCEL
+        </a>
     </li>
     {% endfor %}
     </ul>

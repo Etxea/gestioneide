@@ -20,6 +20,7 @@ urlpatterns = [
     url(r"asistencias/xls/$",login_required(export_asistencias_xls), name="listado_asistencias_xls"),
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls), name="listado_telefonos_alumnos_xls"),
     url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()), name="listado_grupos_alumnos"),
+    url(r"notas/ano/(?P<ano>\d+)/finales/xls/$",login_required(export_notas_finales_xls), name="listado_notas_finales_ano_xls"),
     url(r"notas/ano/(?P<ano>\d+)/finales/$",login_required(NotasFinalesAnoListView.as_view()), name="listado_notas_finales_ano"),
     url(r"notas/ano/(?P<ano>\d+)/trimestre/$",login_required(NotasTrimestralesAnoListView.as_view()), name="listado_notas_trimestre_ano"),
     url(r"notas/ano/(?P<ano>\d+)/cuatrimestre/$",login_required(NotasCuatrimestralesAnoListView.as_view()), name="listado_notas_cuatrimestre_ano"),
