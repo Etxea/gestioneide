@@ -682,8 +682,11 @@ class Nota(models.Model):
         except:
             return "-/-"
     def media(self):
-        print self.asistencia.grupo.curso.tipo_evaluacion
-        if self.asistencia.grupo.curso.tipo_evaluacion == 2: #"elementary_intermediate":
+        #print self.asistencia.grupo.curso.tipo_evaluacion
+        if self.asistencia.grupo.curso.tipo_evaluacion == 1: #"elementary_intermediate":
+            lista_materias = ['control']
+
+        elif self.asistencia.grupo.curso.tipo_evaluacion == 2: #"elementary_intermediate":
             lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listenning']
 
         elif self.asistencia.grupo.curso.tipo_evaluacion == 3: #"upper_proficiency":
@@ -696,7 +699,7 @@ class Nota(models.Model):
         for materia in lista_materias:
             # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
             nota_temp = getattr(self, materia)
-            print "hemos leido",nota_temp
+            #print "hemos leido",nota_temp
             lista_notas.append(nota_temp)
                 # ~ print "Lista", lista_notas
         total = float(0)
@@ -704,7 +707,7 @@ class Nota(models.Model):
             total = total + float(nota)
         numero = float(len(lista_notas))
         media = (total / numero)
-        print "Total, numero notas, media", total, numero, media
+        #print "Total, numero notas, media", total, numero, media
         return media
 
         #nota_final = nota_media(lista_notas)

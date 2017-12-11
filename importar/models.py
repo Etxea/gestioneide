@@ -349,36 +349,36 @@ class OldDatabase(models.Model):
         print "Limpiamos"
         Nota_new.objects.filter(asistencia__in=Asistencia_new.objects.filter(year=year)).delete()
         LegacyFalta.objects.filter(asistencia__in=Asistencia_new.objects.filter(year=year)).delete()
-        Grupo_new.objects.filter(year=year).delete()
-        print "Importamos grupos"
-        busqueda = Grupo.select()
-        self.addMessage('<li>Encontrados %d grupos</li>' % busqueda.count())
+        #Grupo_new.objects.filter(year=year).delete()
+        #print "Importamos grupos"
+        #busqueda = Grupo.select()
+        #self.addMessage('<li>Encontrados %d grupos</li>' % busqueda.count())
 
-        for grupo in busqueda:
-            try:
-                curso = Curso_new.objects.get(nombre=grupo.curso.nombre)
-            except:
-                print "Curso no existe, lo creamos"
-                curso = Curso_new(nombre=grupo.curso.nombre, precio=grupo.curso.precio,tipo_evaluacion=1)
-                curso.save()
-            try:
-                g = Grupo_new.objects.get(nombre=grupo.nombre)
-                print "Grupo existe"
-            except:
-                try:
-                    menores = grupo.menores
-                except:
-                    menores = True
-                g = Grupo_new( \
-                    id=grupo.id, \
-                    year=year, \
-                    nombre=grupo.nombre, \
-                    curso=curso, \
-                    num_max=grupo.num_max, \
-                    menores=menores, \
-                    )
-                g.save()
-                print "Grupo importado"
+        #for grupo in busqueda:
+        #    try:
+        #        curso = Curso_new.objects.get(nombre=grupo.curso.nombre)
+        #    except:
+        #        print "Curso no existe, lo creamos"
+        #        curso = Curso_new(nombre=grupo.curso.nombre, precio=grupo.curso.precio,tipo_evaluacion=1)
+        #        curso.save()
+        #    try:
+        #        g = Grupo_new.objects.get(nombre=grupo.nombre)
+        #        print "Grupo existe"
+        #    except:
+        #        try:
+        #            menores = grupo.menores
+        #        except:
+        #            menores = True
+        #        g = Grupo_new( \
+        #            id=grupo.id, \
+        #            year=year, \
+        #            nombre=grupo.nombre, \
+        #            curso=curso, \
+        #            num_max=grupo.num_max, \
+        #            menores=menores, \
+        #            )
+        #        g.save()
+        #        print "Grupo importado"
 
         busqueda = Asistencia.select()
         self.addMessage('<li>Encontrados %d asistencias, la vamos a importar al ano: %s</li>'%(busqueda.count(),year))
@@ -389,9 +389,10 @@ class OldDatabase(models.Model):
             except:
                 print "No hemos encontrado la asistencia del alumno ",alumno,"el año ",year
                 print "Intetamos crearla"
-                grupo = Grupo_new.objects.filter(nombre=asis.grupo.nombre)[0    ]
-                asistencia = Asistencia_new(alumno=alumno,year=year,grupo=grupo,confirmado=True)
-                asistencia.save()
+        #        grupo = Grupo_new.objects.filter(nombre=asis.grupo.nombre)[0    ]
+        #        asistencia = Asistencia_new(alumno=alumno,year=year,grupo=grupo,confirmado=True)
+        #        asistencia.save()
+                continue
 
 
             #~ print "Importando la notas del asistencia %s"%asistencia
@@ -440,7 +441,7 @@ class OldDatabase(models.Model):
                     comportamiento_na = nota_old.comportamiento_na if nota_old.comportamiento_na else False,\
                 )
                 n.save()
-                print "Nota guardada"
+                print "Nota guardada %s %s %s %s"%(asistencia,trimestre,nota_old.writing,nota_old.reading)
             legacyfalta = LegacyFalta(asistencia=asistencia,faltas=0,justificadas=0)
             for falta in Falta.select(Falta.q.asistencia==asis):
                 legacyfalta.faltas=+int(falta.faltas)

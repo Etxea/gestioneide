@@ -23,6 +23,7 @@ urlpatterns = [
     url(r"notas/ano/(?P<ano>\d+)/finales/xls/$",login_required(export_notas_finales_xls), name="listado_notas_finales_ano_xls"),
     url(r"notas/ano/(?P<ano>\d+)/finales/$",login_required(NotasFinalesAnoListView.as_view()), name="listado_notas_finales_ano"),
     url(r"notas/ano/(?P<ano>\d+)/trimestre/$",login_required(NotasTrimestralesAnoListView.as_view()), name="listado_notas_trimestre_ano"),
+    url(r"notas/ano/legacy/(?P<ano>\d+)/trimestre/(?P<trimestre>\d+)/$",login_required(NotasTrimestralesLegacyListView.as_view()), name="listado_notas_trimestre_legacy"),
     url(r"notas/ano/(?P<ano>\d+)/cuatrimestre/$",login_required(NotasCuatrimestralesAnoListView.as_view()), name="listado_notas_cuatrimestre_ano"),
     url(r"notas/ano/(?P<ano>\d+)/cuatrimestre/xls/$",login_required(export_notas_cuatrimestre_xls), name="listado_notas_cuatrimestre_xls"),
     url(r"notas/trimestre/(?P<trimestre>\d+)/$",login_required(export_notas_trimestre_xls), name="listado_notas_trimestre"),

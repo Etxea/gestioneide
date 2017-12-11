@@ -491,6 +491,21 @@ class NotasTrimestralesAnoListView(ListView):
         context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
         return context
 
+#~ @permission_required('gestioneide.informes_view',raise_exception=True)
+class NotasTrimestralesLegacyListView(ListView):
+    model = Nota
+    template_name = "informes/informes_notas_trimestre_legacy.html"
+    context_object_name = 'notas_list'
+    paginate_by = 100
+    def get_queryset(self):
+        year = Year.objects.get(start_year=self.kwargs['ano'])
+        asistencias = Asistencia.objects.filter(year=year)
+        return Nota.objects.filter(asistencia__in=asistencias,trimestre=self.kwargs['trimestre']).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
+    def get_context_data(self, **kwargs):
+        context = super(NotasTrimestralesLegacyListView, self).get_context_data(**kwargs)
+        context['year'] = Year.objects.get(start_year=self.kwargs['ano'])
+        return context
+
 class NotasCuatrimestralesAnoListView(ListView):
     model = NotaCuatrimestral
     template_name = "informes/informes_notas_cuatrimestrales_ano.html"
