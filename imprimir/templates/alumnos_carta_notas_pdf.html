@@ -1,4 +1,4 @@
-{% extends "site_base.html" %}
+{% extends "print_base.html" %}
 {% load i18n %}
 {% load staticfiles %}
 {% load evaluacion_extra_tags %}
@@ -27,7 +27,7 @@
     </div>
 </div>
 <div style="clear:both"></div>
-<div style="height:200px">
+<div style="height:180px">
 <br />
 </div>
 <div style="font-size: 150%;">
@@ -79,11 +79,12 @@
     </table>
     <br />
 
-    <div style="font-size: x-small">*Las notas del primer y segundo trimestre son la media de los controles de gramática y vocabulario. Las notas del 3er trimestre la nota de gramática y vocabulario final.</div>
+    <div style="font-size: x-small">* Las notas del primer y segundo trimestre son la media de los controles de gramática y vocabulario. Las notas del 3er trimestre la nota de gramática y vocabulario final.</div>
+    <div style="font-size: x-small">* La puntuación se realiza sobre una escala de 100 puntos..</div>
     </div>
     <br />
-    
-    {% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
+        
+    {% if asistencia.grupo.curso.tipo_evaluacion > 1  and trimestre > 1 %}
     <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
     {%  tabla_notas_cuatrimestre %}
 
@@ -102,7 +103,6 @@
     <table class="table">
         <tr>
             <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </td>
             <td>Firma de los padres</td>

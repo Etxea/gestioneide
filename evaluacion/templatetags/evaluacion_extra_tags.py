@@ -32,7 +32,10 @@ def nota_cuatrimestre(context,materia):
 
 @register.simple_tag(takes_context=True)
 def tabla_notas_cuatrimestre(context):
-    cuatrimestre = context['cuatrimestre']
+    try:
+        cuatrimestre = context['cuatrimestre']
+    except:
+        cuatrimestre = context['trimestre']
 
     tabla = """<table class="table" style="width=100%">
 <thead><th>Materia</th><th>Resultado Cuatrimestre 1</th><th>Resultado Cuatrimestre 2</th></thead>
