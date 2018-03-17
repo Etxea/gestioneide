@@ -32,6 +32,7 @@ TIPO_EVALUACION = (
     (2, _('Elementary/Pre Intermediate')),
     (3, _('Intermediate')),
     (4, _('Upper/[Pre]First/Advance/Proficiency')),
+    (5, _('Kids')),
 )
 RESULTADOS_CAMBRIDGE = (
     (1,_('A: Sobresaliente')),
@@ -78,6 +79,20 @@ DURACION = (
     (210, _('3h y 1/2')),
     (240, _('4h')),
     (270, _('4h y 1/2'))   
+)
+
+NOTAS_KIDS = (
+    (0,_('No Aplica')),
+    (1,_('Mejorable')),
+    (2,_('Satisfactorio')),
+    (3,_('Muy Satisfactorio'))
+)
+
+COMPORTAMIENTO_KIDS = (
+    (0,_('Malo')),
+    (1,_('Regular')),
+    (2,_('Bueno')),
+    (3,_('Excelente'))
 )
 
 class Year(models.Model):
@@ -550,6 +565,12 @@ class Asistencia(models.Model):
             else:
                 nota = notaquery[0].nota
         return nota
+    def get_nota_trimestre_obj(self,trimestre):
+        nota = None
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            nota = notaquery[0]
+        return nota
 
     def get_np_trimestre(self,trimestre):
         nota = "0"
@@ -775,6 +796,13 @@ class NotaTrimestral(models.Model):
     nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     np = models.BooleanField("NP", default=False)
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
+    exp_oral = models.DecimalField("Expresión Oral", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    comp_oral = models.DecimalField("Comprensión Oral", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    exp_escrita = models.DecimalField("Expresión Escrita", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    comp_escrita = models.DecimalField("Comprensión Escrita", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    temas_repasar = models.CharField("Temas a repasar", max_length=200, blank=True, null=True, default="")
+    aspectos_mejorar = models.CharField("Aspectos a mejorar", max_length=200, blank=True, null=True, default="")
+
 
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')

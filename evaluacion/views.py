@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -39,21 +41,24 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
     #~ context['grupo_siguiente']=grupo.get_next_by_nombre()
     #~ context['grupo_anterior']=grupo.get_previous_by_nombre()
     context['asistencias']=grupo.asistencia_set.all()
-    #elegimos el tipo de formset y template
 
-    NotaFomsetClass = NotaTrimestralFormSet
+    #elegimos el tipo de formset y template en función de si es KIDs o no
+    if tipo_evaluacion == 5:
+        NotaFomsetClass = NotaTrimestralKidsFormSet
+    else:
+        NotaFomsetClass = NotaTrimestralFormSet
+
     template="evaluacion/notas_grupo_trimestre.html"
     if request.method == 'POST':
         notas_formset = NotaFomsetClass(request.POST, request.FILES)
         context['notas_formset']=notas_formset
         if notas_formset.is_valid():
-            # do something with the formset.cleaned_data
             notas_formset.save()
-            ##Volvemos a la lista de grupos
+            ##TODO: Volvemos a la lista de grupos, vamos al siguiente??
             pass
         else:
             print "Formset mal"
-            ##Volvemoa renderizar con los errores
+            ##Volvemos renderizar con los errores
             context['notas_formset'] = notas_formset
     else:
         lista_asistencias = []
@@ -62,7 +67,6 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
             lista_asistencias.append(asistencia.id)
             obj, created = NotaTrimestral.objects.get_or_create(trimestre=trimestre, asistencia=asistencia)
         notas_formset = NotaFomsetClass(queryset=NotaTrimestral.objects.filter(asistencia__in=lista_asistencias,trimestre=trimestre).order_by('asistencia__id'))
-        #print notas_formset
         context['notas_formset']=notas_formset
 
     return render_to_response(template, context)

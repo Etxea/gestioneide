@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from localflavor.es.forms import *
 from django.forms import ModelForm, BaseModelFormSet
@@ -26,12 +28,18 @@ class NotaCreateForm(ModelForm):
 class NotaTrimestralCreateForm(ModelForm):
     class Meta:
         model = NotaTrimestral
-        #exclude = ('id',)
         fields = ['id','nota','np','observaciones']
         widgets = {
             'id': forms.HiddenInput()
         }
-
+#Form para KIDS con los campos de KIDs
+class NotaTrimestralKidsCreateForm(ModelForm):
+    class Meta:
+        model = NotaTrimestral
+        fields = ['id','nota','np','observaciones','exp_oral','comp_oral','exp_escrita','comp_escrita','temas_repasar','aspectos_mejorar']
+        widgets = {
+            'id': forms.HiddenInput()
+        }
 
 class ElementaryNotaCreateForm(NotaCreateForm):
     class Meta:
@@ -52,6 +60,7 @@ class UpperNotaCreateFrom(NotaCreateForm):
 NotaFormSet = modelformset_factory(NotaCuatrimestral,form=NotaCreateForm,extra=0)
 
 NotaTrimestralFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralCreateForm,extra=0)
+NotaTrimestralKidsFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralKidsCreateForm,extra=0)
 
 ElementayNotaFormSet = modelformset_factory(NotaCuatrimestral,form=ElementaryNotaCreateForm,extra=0)
 IntermediateNotaFormSet = modelformset_factory(NotaCuatrimestral,form=IntermediateNotaCreateFrom,extra=0)
