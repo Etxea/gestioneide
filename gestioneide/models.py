@@ -588,6 +588,20 @@ class Asistencia(models.Model):
             observaciones = notaquery[0].observaciones
         return observaciones
 
+    def get_aspectos_mejorar_trimestre(self,trimestre):                                                              
+        observaciones = ""
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            observaciones = notaquery[0].aspectos_mejorar
+        return observaciones
+
+    def get_temas_repasar_trimestre(self,trimestre):                                                              
+        observaciones = ""
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            observaciones = notaquery[0].temas_repasar
+        return observaciones
+
     def get_observaciones_cuatrimestre(self,cuatrimestre):
         observaciones = ""
         notaquery = self.notacuatrimestral_set.filter(cuatrimestre=cuatrimestre)

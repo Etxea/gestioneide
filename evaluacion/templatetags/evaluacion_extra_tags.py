@@ -45,16 +45,16 @@ def tabla_notas_trimestre(context):
             <tbody>"""
     if asistencia.grupo.curso.tipo_evaluacion==5:
         tabla += u"""<tr><td>Expresión Oral:<br />
-                                    Compresión Oral:<br />
-                                    Expresión Escrita:<br />
-                                    Compresión Escrita:<br />
-                                    Temas a mejorar:<br />
-                                    Aspectos a mejorar:<br />
-                                    </td>"""
+                             Compresión Oral:<br />
+                             Expr. Escrita:<br />
+                             Compr. Escrita:<br />
+                             <!-- Temas a mejorar:<br />
+                             Aspectos a mejorar:<br />-->
+                         </td>"""
         for tri in 1,2,3:
             nota_kids = asistencia.get_nota_trimestre_obj(tri)
             if nota_kids:
-                tabla += """<td> %s <br> %s <br> %s <br> %s <br> %s <br> %s</td>""" % \
+                tabla += """<td> %s <br> %s <br> %s <br> %s <!-- <br> %s <br> %s--></td>""" % \
                          (nota_kids.get_exp_oral_display(),
                           nota_kids.get_comp_oral_display(),
                           nota_kids.get_exp_escrita_display(),
@@ -128,6 +128,14 @@ def tabla_notas_cuatrimestre(context):
 def nota_media_cuatrimestre(context):
     cuatrimestre = context['cuatrimestre']
     return asistencia.get_nota_media_cuatrimestre(cuatrimestre)
+
+@register.filter
+def aspectos_mejorar_trimestre(asistencia, trimestre):
+    return asistencia.get_aspectos_mejorar_trimestre(trimestre)
+
+@register.filter
+def temas_repasar_trimestre(asistencia, trimestre):
+    return asistencia.get_temas_repasar_trimestre(trimestre)
 
 @register.filter
 def observaciones_trimestre(asistencia, trimestre):
