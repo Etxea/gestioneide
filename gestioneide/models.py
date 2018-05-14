@@ -118,7 +118,40 @@ class Year(models.Model):
         else:
             return Year.objects.get(activo=True)
 
+class CuentaBancaria(models.Model):
+    nombre = models.CharField('Nombre',max_length=50)
+    banco = models.DecimalField(max_digits=4, decimal_places=0,default=2095)
+    oficina = models.DecimalField(max_digits=4, decimal_places=0,default=0553)
+    dc = models.DecimalField(max_digits=2, decimal_places=0,default=00)
+    cuenta= models.DecimalField(max_digits=10, decimal_places=0,default=0000000000)
+
+    def __unicode__(self):
+        return "%s"%self.nombre
+
+class Empresa(models.Model):
+    nombre = models.CharField('Nombre',max_length=255)
+    telefono = models.CharField(max_length=9,default="")
+    email = models.EmailField(default="",blank=True,null=True)
+    direccion = models.CharField(max_length=250,default="",blank=True,null=True)
+    razon_social= models.CharField('Nombre',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
+    csb19_suffijo = models.DecimalField(max_digits=3, decimal_places=0, default=000)
+    cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True)
+
+    def __unicode__(self):
+        return "%s"%self.nombre
+
+class Centro(models.Model):
+    empresa = models.ForeignKey(Empresa)
+    nombre = models.CharField('Nombre',max_length=255)
+    telefono = models.CharField(max_length=9, default="")
+    email = models.EmailField(default="", blank=True, null=True)
+    direccion = models.CharField(max_length=250, default="", blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s"%self.nombre
+    
 class Aula(models.Model):
+    centro = models.ForeignKey(Centro)
     nombre = models.CharField('Nombre',max_length=255,)
     aforo = models.DecimalField(max_digits=3, decimal_places=0)
     pdi = models.BooleanField(default=False,blank=True)
@@ -353,6 +386,7 @@ class Curso(models.Model):
 
 class Grupo(models.Model):
     year = models.ForeignKey('Year')
+    centro = models.ForeignKey(Centro,default=1)
     nombre = models.CharField(max_length=25,default="")
     curso = models.ForeignKey('Curso')
     precio  = models.DecimalField(max_digits=3,decimal_places=0,default=0)

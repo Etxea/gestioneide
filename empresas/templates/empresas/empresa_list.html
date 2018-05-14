@@ -1,0 +1,43 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+<h1>{% trans "Empresas" %}
+    <a href="{% url 'empresa_nueva' %}"><button><span class="glyphicon glyphicon-plus-sign"></span>Nueva</button></a>
+</h1>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                <td>Nombre</td>
+                <td>Razón Social</td>
+                <td>Email</td>
+                <td>Teléfono</td>
+                <td>Dirección</td>
+                <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for empresa in object_list %}
+            <tr>
+                <td><a href="{{empresa.get_absolute_url}}">{{ empresa.nombre }}</a></td>
+                <td>{{ empresa.razon_social }}</td>
+                <td>{{ empresa.email }}</td>
+                <td>{{ empresa.telefono }}</td>
+                <td>{{ empresa.direccion }}</td>
+                <td>
+                    <a href="{% url 'empresa_detalle' empresa.id %}"><span class="glyphicon glyphicon-search"></span></a>
+                    <a href="{% url 'empresa_editar' empresa.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'empresa_borrar' empresa.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
