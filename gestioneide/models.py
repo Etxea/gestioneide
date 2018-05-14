@@ -52,7 +52,8 @@ NIVELES_CAMBRIDGE = (
 LISTA_MATERIAS_TIPO_EVALUACION = {
     2: ['reading_writing','speaking','listenning' ],
     3: ['reading','writing','speaking','listenning'],
-    4: ['reading','writing','speaking','listenning','useofenglish']
+    4: ['reading','writing','speaking','listenning','useofenglish'],
+    5: ['']
 }
 
 TIPO_FESTIVO = (
@@ -791,14 +792,20 @@ class NotaCuatrimestral(models.Model):
         lista_notas = []
         for materia in lista_materias:
             # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
-            nota_temp = getattr(self, materia)
-            lista_notas.append(nota_temp)
+            try:
+                nota_temp = getattr(self, materia)
+                lista_notas.append(nota_temp)
+            except:
+                pass
             # ~ print "Lista", lista_notas
         total = float(0)
         for nota in lista_notas:
             total = total + float(nota)
-        numero = float(len(lista_notas))
-        media = (total / numero)
+        if len(lista_notas) > 0:
+            numero = float(len(lista_notas))
+            media = (total / numero)
+        else:
+            media = "-"
         return media
 
         # nota_final = nota_media(lista_notas)
