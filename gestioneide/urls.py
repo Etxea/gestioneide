@@ -30,6 +30,8 @@ urlpatterns = [
     url(r"^year/", include("year.urls")),
     url(r"^asistencias/", include("asistencias.urls")),
     url(r"^turismo/", include("turismo.urls")),
+    url(r"^centros/", include("centros.urls")),
+    url(r"^empresas/", include("empresas.urls")),
     url(r"^perfil/", include("perfil.urls")),
 ]
 
