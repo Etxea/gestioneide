@@ -7,7 +7,7 @@ BASE_DIR = PACKAGE_ROOT
 
 DEBUG = True
 
-TIME= 10*60
+TIME= 45*60
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_EXPIRE_AT_BROWSER_CLOSE= True
 SESSION_COOKIE_AGE = TIME
