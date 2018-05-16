@@ -133,7 +133,7 @@ class Empresa(models.Model):
     telefono = models.CharField(max_length=9,default="")
     email = models.EmailField(default="",blank=True,null=True)
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
-    razon_social= models.CharField('Nombre',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
+    razon_social= models.CharField('Razón Social',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
     csb19_suffijo = models.DecimalField(max_digits=3, decimal_places=0, default=000)
     cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True)
 
@@ -141,7 +141,7 @@ class Empresa(models.Model):
         return "%s"%self.nombre
 
 class Centro(models.Model):
-    empresa = models.ForeignKey(Empresa)
+    empresa = models.ForeignKey(Empresa,blank=True,null=True)
     nombre = models.CharField('Nombre',max_length=255)
     telefono = models.CharField(max_length=9, default="")
     email = models.EmailField(default="", blank=True, null=True)
@@ -151,7 +151,7 @@ class Centro(models.Model):
         return "%s"%self.nombre
     
 class Aula(models.Model):
-    centro = models.ForeignKey(Centro)
+    centro = models.ForeignKey(Centro,blank=True,null=True)
     nombre = models.CharField('Nombre',max_length=255,)
     aforo = models.DecimalField(max_digits=3, decimal_places=0)
     pdi = models.BooleanField(default=False,blank=True)
@@ -386,7 +386,7 @@ class Curso(models.Model):
 
 class Grupo(models.Model):
     year = models.ForeignKey('Year')
-    centro = models.ForeignKey(Centro,default=1)
+    centro = models.ForeignKey(Centro,default=1,blank=True,null=True)
     nombre = models.CharField(max_length=25,default="")
     curso = models.ForeignKey('Curso')
     precio  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
