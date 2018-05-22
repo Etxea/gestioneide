@@ -1,10 +1,29 @@
 {% extends "site_base.html"%}
 {% load i18n %}
 
+{% block extra_body %}
+<script>
+    $( "#select_centro" ).change(function() {
+        $( "select option:selected" ).each(function() {
+            console.log( "Centro cambiado a "+$( this ).text() );
+            window.location.pathname="/grupos/centro/"+$( this ).val()+"/";
+        });
+
+    });
+</script>
+{% endblock %}
+
 {% block page_header %}
 
-{% include "pagination/pagination.html" %} 
-Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
+<div class="form-group">
+<select class="form-control" id="select_centro" >
+  {%  for centro in centros_list  %}
+    <option value="{{ centro.id }}" {% if centro.id == centro_seleccionado.id %} selected {% endif %}>{{ centro }}</option>
+  {% endfor %}
+</select>
+</div>
+    {% include "pagination/pagination.html" %}
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos del centro {{ centro_seleccionado }}.
 {% if request.user.is_staff %}
 <a class="btn btn-primary pull-right" href="{% url 'grupo_nuevo' %}">Nuevo</a>
 {% endif %}
@@ -17,6 +36,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
             <thead>
                 <tr>
                 <td>Nombre</td>
+                <td>Centro</td>
                 <td>Curso</td>
                 <td>Clases</td>
                 <td>Conf. / Sin Conf.</td>
@@ -28,6 +48,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
             {% for grupo in object_list %}
             <tr>
                 <td><a href="{{grupo.get_absolute_url}}">{{ grupo.id }} - {{ grupo.nombre }}</a></td>
+                <td>{{ grupo.centro }}</td>
                 <td>{{ grupo.curso }}</td>
                 <td>
                     {%for clase in grupo.clases.all %}

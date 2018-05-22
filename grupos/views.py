@@ -13,14 +13,35 @@ class GrupoListView(ListView):
     model=Grupo
     paginate_by = 100
     template_name = "grupos/grupo_list.html"
+    def get_context_data(self, **kwargs):
+        context = super(GrupoListView, self).get_context_data(**kwargs)
+        context['centros_list'] = Centro.objects.all()
+        try:
+            centro = Centro.objects.get(id=self.kwargs['centro'])
+            context['centro_seleccionado'] = centro
+        except:
+            pass
+        return context
     def get_queryset(self):
         year = Year().get_activo(self.request)
         #Si es staff ve todos los grupos
+        try:
+            centro = Centro.objects.get(id=self.kwargs['centro'])
+        except:
+            centro = None
+
         if self.request.user.is_staff:
-            return Grupo.objects.filter(year=year).order_by('nombre')
+            if centro:
+                return Grupo.objects.filter(year=year).filter(centro=centro).order_by('nombre')
+            else:
+                return Grupo.objects.filter(year=year).order_by('nombre')
         #Sino limitamos los grupos a los cuales el profesor da clase
         else:
-            return Grupo.objects.filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
+            if centro:
+                return Grupo.objects.filter(centro=centro).filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
+            else:
+                return Grupo.objects.filter(
+                    clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
 
 @method_decorator(permission_required('gestioneide.grupo_add',raise_exception=True),name='dispatch')        
 class GrupoCreateView(CreateView):
