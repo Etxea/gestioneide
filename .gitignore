@@ -13,5 +13,6 @@ gestioneide/local_settings.py
 pip-selfcheck.json
 *.sql
 gestioneide.json
+auth.json
 old_data*
 nohup.out
