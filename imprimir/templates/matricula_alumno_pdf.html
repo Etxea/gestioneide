@@ -7,40 +7,112 @@
     <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
 </div>
 -->    
-    <h1 style="text-align:center">MATRÍCULA Y NORMAS DEL CENTRO</h1>
+    <h1 style="text-align:center">DATOS</h1>
+
     <table class="table">
         <tr>
-            <td><b>Izena / Nombre</b></td><td>{{alumno.nombre}}</td>
-            <td><b>Abizena(k)Apellido(s)</b></td><td>{{alumno.apellido1}} {{alumno.apellido2}}</td>
+            <td><b>Nombre</b></td><td>{{alumno.nombre}}</td>
+            <td><b>Apellido(s)</b></td><td>{{alumno.apellido1}} {{alumno.apellido2}}</td>
             <td><b>{{alumno.id}}</b></td>
         </tr>
-            <td><b>Jaiote Eguna/Fecha Nac.</b></td><td>{{alumno.fecha_nacimiento}}</td>
-            <td><b>Alta Data/Fecha Alta</b></td> <td>{{ alumno.fecha_creacion }}</td>
+            <td><b>Fecha Nac.</b></td><td>{{alumno.fecha_nacimiento}}</td>
+            <td><b>Fecha Alta</b></td> <td>{{ alumno.fecha_creacion }}</td>
         </tr>
         <tr>
-            <td><b>Telefonoak/Teléfonos</b></td><td>{{alumno.telefono1}} - {{alumno.telefono2}}</td><td><b>E-mail</b></td><td>{{alumno.email}}</td>
+            <td><b>Teléfonos</b></td><td>{{alumno.telefono1}} - {{alumno.telefono2}}</td><td><b>E-mail</b></td><td>{{alumno.email}}</td>
         </tr>
         <tr>
-            <td><b>Helbidea/Dirección</b></td><td>{{alumno.direccion}}</td>
-            <td><b>Hiria (PK)/Ciudad (CP)</b> {{alumno.ciudad}} ({{alumno.cp}})</td>
+            <td><b>Dirección</b></td><td>{{alumno.direccion}}</td>
+            <td colspan="2"><b>Ciudad (CP)</b> {{alumno.ciudad}} ({{alumno.cp}})</td>
         </tr>
     </table>
-<!--
+
+    <h1 style="text-align:center">MATRÍCULA Y NORMAS DEL CENTRO</h1>
+
+    <div>
+        <div>El alumno al formalizar la presente matrícula acepta las condiciones siguientes:</div>
+        <ol>
+           <li>La duración del curso es la estipulada por la Dirección del Centro recogida en el calendario escolar que se entrega a principios de curso.</li>
+            <li>En concepto de inscripción, y SOLO POR UNA VEZ, se cobra una cantidad que no es susceptible de devolución una vez entregada.</li>
+            <li>Aquellos alumnos que causen baja en el Centro antes de las fechas fijadas como fin de curso en el Calendario Escolar, serán considerados como Alumnos Nuevos si desean reincorporarse al centro de nuevo, por lo que deberán abonar la cuota de inscripción.</li>
+            <li>El curso se abonará por meses naturales por adelantado (del 1 al 10 de cada mes) a través de domiciliación bancaria.</li>
+            <li>La dirección del Centro se reserva el derecho de cancelar las matrículas de aquellos alumnos cuya conducta afecte desfavorablemente la marcha de las actividades del centro.</li>
+            <li>El Centro se reserva el derecho de cancelar las clases de los grupos, cuyo número sea inferior a 4 alumnos.</li>
+            <li>No se reembolsará ninguna cantidad cuando el alumno deje de asistir al curso o haya abonado algún importe del mismo antes de su comienzo. El alumno tendrá que notificar su baja en el centro antes del día 1 de cada mes, en caso contrario se cobrará el recibo íntegro.</li>
+            <li>En el caso de devolución de recibo bancario, el alumno abonará en caja el importe relativo a su curso más los gastos que se hayan producido. No se admitirán devoluciones de recibos una vez pasada una semana.</li>
+            <li>Tanto el equipamiento como el material pedagógico de uso general de los alumnos es propiedad de EIDE, y no deben, en ningún caso, ser retirados del centro.</li>
+            <li>La vigencia de la matrícula será para el curso escolar contratado.</li>
+            <li>La matrícula quedará renovada si el alumno entrega en Secretaría el documento de “renovación de matrícula” que se distribuye en el mes de Mayo de cada año, siendo el coste del curso el establecido en el listado de precios que corresponda al nuevo curso escolar.</li>
+        </ol>
+
+    </div>
+    <div>
+        Les informamos, conforme a lo previsto en la Ley Orgánica 15/1999 de Protección de Datos de Carácter Personal, que sus datos de carácter personal serán incluidos en un fichero denominado CLIENTES, inscrito en el Registro de la Agencia de Protección de Datos y cuya Responsable del fichero es ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL DESARROLLO EIDE S.L., con CIF nº B48474647. La finalidad de esta recogida de datos de carácter personal es ofrecer los productos y servicios del Responsable del fichero .Vd. da, como titular de los datos, su consentimiento y autorización para la inclusión de los mismos en el fichero anteriormente detallado. En cualquier caso, podrá ejercitar gratuitamente los derechos de acceso, rectificación, cancelación y oposición dirigiéndose a EMPRESA con dirección Genaro Oraá Kalea 6,Santurce,48980,VIZCAYA, indicando en la comunicación referencia LOPD.
+    </div>
+
+        <h1 style="text-align:center">Firma</h1>
+
+
+        <table class="table table-condensed" style="border: 1px;">
+            <tr valign="middle">
+                <td width="5%" valign="middle">&#x25a2;</td>
+                <td>
+                Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.
+                </td>
+            </tr>
+            <tr valign="middle" >
+                <td width="5%" valign="middle">&#x25a2;</td>
+                <td>
+                Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar, en los términos anteriormente descritos
+                </td>
+            </tr>
+        </table>
+        <table class="table">
+            <thead>
+                <td>Firma del interesado (Padre, Madre, Tutor Legal)</td>
+                <td>EIDE</td>
+            </thead>
+            <tr>
+                <td><br />&nbsp;<br /><br /><br /></td>
+            </tr>
+        </table>
+        <div style="text-align:center" >
+            Genaro Oraá,6 y Balleni 3 (Kabiezes)- 48980 SANTURTZI (Spain)- Tlf. + 34 944 937 005 - FAX +34 944 615 723
+        </div>
+        <div style="text-align:center" >
+            www.eide.es - e-mail: eide@eide.es
+        </div>
+    </div>
+</div>
+
+
+    <div style="page-break-after: always;"></div>
+    <div><pdf:nextpage /></div>
+
+    <h1 style="text-align:center">DATUAK</h1>
+
     <table class="table">
         <tr>
-            <td>Berriztatzea Data / Fecha Renovación 20__/__</td>
-            <td>Berriztatzea Data / Fecha Renovación 20__/__</td>
-            <td>Baja Data / Fecha de baja</td>
+            <td><b>Izena</b></td><td>{{alumno.nombre}}</td>
+            <td><b>Abizena(k)</b></td><td>{{alumno.apellido1}} {{alumno.apellido2}}</td>
+            <td><b>{{alumno.id}}</b></td>
+        </tr>
+            <td><b>Jaiote Eguna</b></td><td>{{alumno.fecha_nacimiento}}</td>
+            <td><b>Alta Data</b></td> <td>{{ alumno.fecha_creacion }}</td>
         </tr>
         <tr>
-            <td>_________________</td>
-            <td>_________________</td>
-            <td>_________________</td>
+            <td><b>Telefonoak</b></td><td>{{alumno.telefono1}} - {{alumno.telefono2}}</td><td><b>E-mail</b></td><td>{{alumno.email}}</td>
         </tr>
-        </table>
-        -->
-<table class="table table-condensed" style="border: 1px;">
-    <td>
+        <tr>
+            <td><b>Helbidea</b></td><td>{{alumno.direccion}}</td>
+            <td colspan="2"><b>Hiria (PK)</b> {{alumno.ciudad}} ({{alumno.cp}})</td>
+        </tr>
+    </table>
+
+
+    <h1 style="text-align:center">MATRIKULA ETA IKASTETXEAREN ARAUAK</h1>
+
+    <div>
         <div>Ikasleak, matrikula egiterakoak, hurrengo baldintzak onartzen ditu:</div>
         <ol>
             <li>Ikastaroaren iraupena zentroaren zuzendaritzak hitzartzerakoa da, eta emandako eskola egutegian dago informazioa</li>
@@ -53,72 +125,43 @@
             <li>Ikasleen erabilera orokorrarako hornikuntza eta material pedagogikoa eide-jabetza da eta ezin da eidetik atera</li>
             <li>Matrikula berriztatuta izango da urtero Maiatzan ikasleei ematen zaien “matrikula-berriztatze” dokumentua idazkaritzan ematen badu. Ikasturte berriko prezioak Eiden azaldutakoak izango dira.</li>
         </ol>
-    </td>
-    <td>
-        <div>El alumno al formalizar la presente matrícula acepta las condiciones siguientes:</div>
-        <ol>
-           <li>La duración del curso es la estipulada por la Dirección del Centro recogida en el calendario escolar que se entrega a principios de curso.</li>
-            <li>En concepto de inscripción, y SOLO POR UNA VEZ, se cobra una cantidad que no es susceptible de devolución una vez entregada. Aquellos alumnos que causen baja en el Centro antes de las fechas fijadas como fin de curso en el Calendario Escolar, serán considerados como Alumnos Nuevos si desean reincorporarse al centro de nuevo, por lo que deberán abonar la cuota de inscripción.</li>
-            <li>El curso se abonará por meses naturales por adelantado (del 1 al 10 de cada mes) a través de domiciliación bancaria.</li>
-            <li>La dirección del Centro se reserva el derecho de cancelar las matrículas de aquellos alumnos cuya conducta afecte desfavorablemente la marcha de las actividades del centro.</li>
-            <li>El Centro se reserva el derecho de cancelar las clases de los grupos, cuyo número sea inferior a 4 alumnos.</li>
-            <li>No se reembolsará ninguna cantidad cuando el alumno deje de asistir al curso o haya abonado algún importe del mismo antes de su comienzo. El alumno tendrá que notificar su baja en el centro antes del día 1 de cada mes, en caso contrario se cobrará el recibo íntegro.</li>
-            <li>En el caso de devolución de recibo bancario, el alumno abonará en caja el importe relativo a su curso más los gastos que se hayan producido. No se admitirán devoluciones de recibos una vez pasada una semana.</li>
-            <li>Tanto el equipamiento como el material pedagógico de uso general de los alumnos es propiedad de EIDE, y no deben, en ningún caso, ser retirados del centro.</li>
-            <li>La vigencia de la matrícula será para el curso escolar contratado.</li>
-            <li>La matrícula quedará renovada si el alumno entrega en Secretaría el documento de “renovación de matrícula” que se distribuye en el mes de Mayo de cada año, siendo el coste del curso el establecido en el listado de precios que corresponda al nuevo curso escolar.</li>
-            <li>Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</li>
-        </ol>
-    </td>
 
-<tr>
-    <td>
-        <div> Conforme a lo previsto en la Ley Orgánica 15/1999 de Protección de Datos de Carácter 
-            Personal, sus datos serán incluidos en un fichero denominado alumnos, inscrito en el Registro
-            de la Agencia de Protección de Datos y cuyo Responsable del fichero es ESCUELAS
-            INTERNACIONALES  PARA LA EDUCACION Y EL DESARROLLO EIDE, S.L. La
-            finalidad de esta recogida de datos de carácter personal será la de establecer una relación con el
-            alumno pudiendo remitirle las comunicaciones necesarias por cualquier medio, incluido el
-            correo electrónico y además colocar noticias, fotografías y/o videos de los alumnos en la página
-            Web del Responsable o de las redes sociales en la que esté registrada. Vd. da, como titular de
-            los datos, su consentimiento y autorización para la inclusión de los mismos en el fichero
-            anteriormente detallado. En cualquier caso, podrá ejercitar gratuitamente los derechos de
-            acceso, rectificación, cancelación y oposición dirigiéndose al Responsable con dirección en
-            C/Genaro Oraa nº6, C.P. 48980, Santurtzi, Bizkaia, indicando en la comunicación LOPD.
-        </div>
-    </td>
+    </div>
+    <div>
+        Lege 15/1999, Datu pertsonalak babesteari buruzko jarraiki, zure datuak Erregistroan Agentziaren Datuak Babesteko
+        matrikulatuta izeneko fitxategia ikasle sartuko dira eta horren arduraduna fitxategia Escuelas Internacionales
+        para la Educación y el Desarrollo EIDE, SL . Datu pertsonalak bilduma honen helburua ikaslearen harreman bat
+        ezartzea bidal daiteke beharrezko komunikazioak edozein bitarteko, elektronikoak barne, eta, gainera, argitaratu
+        albiste, argazki eta / edo bideoak izango dira pertsonaren edo bertan erregistratuta sare sozialak web orrian
+        ikasleak. Zuk, datu jabeak, baimena eta onespena bera sartzea gainetik fitxategia zehatza egiteko moduan. Edonola
+        ere, askatasuna duzu sartzeko, zuzentzeko, deuseztatzeko eta aurka egiteko eskubideak erabili ahal izateko arduraz
+        aurre C / Genaro Oraa nº6, CP 48980, Santurtzi, Bizkaia, LOPD komunikazio adieraziz.
+    </div>
 
-    <td>
-        <div>
-            Lege 15/1999, Datu pertsonalak babesteari buruzko jarraiki, zure datuak Erregistroan Agentziaren Datuak Babesteko
-            matrikulatuta izeneko fitxategia ikasle sartuko dira eta horren arduraduna fitxategia Escuelas Internacionales
-            para la Educación y el Desarrollo EIDE, SL . Datu pertsonalak bilduma honen helburua ikaslearen harreman bat
-            ezartzea bidal daiteke beharrezko komunikazioak edozein bitarteko, elektronikoak barne, eta, gainera, argitaratu
-            albiste, argazki eta / edo bideoak izango dira pertsonaren edo bertan erregistratuta sare sozialak web orrian
-            ikasleak. Zuk, datu jabeak, baimena eta onespena bera sartzea gainetik fitxategia zehatza egiteko moduan. Edonola
-            ere, askatasuna duzu sartzeko, zuzentzeko, deuseztatzeko eta aurka egiteko eskubideak erabili ahal izateko arduraz
-            aurre C / Genaro Oraa nº6, CP 48980, Santurtzi, Bizkaia, LOPD komunikazio adieraziz.
-        </div>
-    <td>
-</tr>
-</table>
+    <h1 style="text-align:center">Sinadura</h1>
+
+
         <table class="table table-condensed" style="border: 1px;">
-            <tr><td width="5%" valign="middle">&#x25a2;</td>
-                <td>Sinadurarekin EIDE baimentzen dut nire gurasoei edo kontu korrontearen jabeari nire ikastaroa nola doani buruz informazioa emoteko.<br />
-                Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.</td>
+            <tr valign="middle">
+                <td width="5%" valign="middle">&#x25a2;</td>
+                <td>
+                    Nire baimena ematen dut komunikazioak goian deskribatutako baldintzetan  jasotzeko
+                </td>
             </tr>
-            <tr><td width="5%" valign="middle">&#x25a2;</td>
-                <td>Nire baimen zehatza ematen dut EIDEk nire irudia erabil dezakela bere Web-ean, sare sozialetan eta publizitatean.<br />
-                Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar.</td>
+            <tr valign="middle" >
+                <td width="5%" valign="middle">&#x25a2;</td>
+                <td>
+                    Nire baimen zehatza ematen dut EIDEk nire irudia erabil dezakela bere Web-ean, sare sozialetan eta publizitatean.
+                </td>
             </tr>
         </table>
         <table class="table">
             <thead>
-                <th>Firma del interesado (Padre, Madre, Tutor Legal)</th>
-                <th>EIDE - Departamento de Idiomas</th>
+                <td>Ikasleare sinadura (Aita, Ama edo Tutore Legala)</td>
+                <td>EIDE</td>
             </thead>
             <tr>
-                <td>&nbsp;</td>
+                <td>&nbsp<br />&nbsp;<br /><br /><br /></td>
             </tr>
         </table>
         <div style="text-align:center" >
