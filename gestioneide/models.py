@@ -219,7 +219,8 @@ https://gestion.eide.es
 usuario: %s
 contraseña: %s
 Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username,password)
-        print self.nombre,self.user.username,password
+        print(self.nombre,self.user.username,password)
+
         self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
 
     def create_user(self):

@@ -10,7 +10,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for profesor in Profesor.objects.all():
-                self.stdout.write(self.style.SUCCESS('Trabajando con el profesor %s' % (profesor)))
+                self.stdout.write(self.style.SUCCESS(u'Trabajando con el profesor %s' % (profesor)))
+                if not profesor.user:
+                    self.stdout.write(self.style.WARNING('Profesor SIN USUARIO %s' % (profesor)))
+                    continue
                 if profesor.user.is_active:
                     profesor.update_user_password()
                 else:
