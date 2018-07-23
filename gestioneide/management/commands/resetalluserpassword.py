@@ -8,9 +8,6 @@ from django.core.management.base import BaseCommand, CommandError
 class Command(BaseCommand):
     help = 'Actualiza la contraseña de todos los profesores y la envía al email asociado.'
 
-    def add_arguments(self, parser):
-        parser.add_argument('profesor_id', type=int)
-
     def handle(self, *args, **options):
         for profesor in Profesor.objects.all():
                 self.stdout.write(self.style.SUCCESS('Trabajando con el profesor %s' % (profesor)))
