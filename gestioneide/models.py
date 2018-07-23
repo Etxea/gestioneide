@@ -211,14 +211,16 @@ class Profesor(models.Model):
         self.user.set_password(password)
         self.user.save()
         mensaje = u"""Buenas %s,
-Te acabamos de crear un usuario para el nuevo sistema de
-gestión de alumnos de EIDE. Los datos de acceso son:
+Te acabamos de crear un usuario o modificar la contraseña para el sistema de
+gestión de alumnos de EIDE. 
+
+Los datos de acceso son:
 https://gestion.eide.es
 usuario: %s
 contraseña: %s
 Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username,password)
         print self.nombre,self.user.username,password
-        #self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
+        self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
 
     def create_user(self):
         try:
@@ -858,7 +860,6 @@ class NotaTrimestral(models.Model):
     temas_repasar = models.CharField("Temas a repasar", max_length=200, blank=True, null=True, default="")
     aspectos_mejorar = models.CharField("Aspectos a mejorar", max_length=200, blank=True, null=True, default="")
 
-
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
@@ -1017,6 +1018,7 @@ class TurismoAsignatura(models.Model):
                     except:
                         dias_clase.append(dia[0])
         return dias_clase
+
 class TurismoAsistencia(models.Model):
     asignatura = models.ForeignKey('TurismoAsignatura')
     alumno = models.ForeignKey('Alumno')
@@ -1037,7 +1039,6 @@ class TurismoPresencia(models.Model):
     asistencia = models.ForeignKey('TurismoAsistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
-
 
 class TurismoFalta(models.Model):
     asistencia = models.ForeignKey('TurismoAsistencia')
