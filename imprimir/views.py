@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
-from django.views.generic import ListView
+from django.views.generic import ListView,TemplateView
 
 import datetime
 import os
@@ -135,7 +135,7 @@ class ImprimirAlumnosCartaFaltas(ListView):
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirCartaNotasTrimestre(PDFTemplateView):
     filename='carta_notas_trimestre.pdf'
-    template_name = "alumnos_carta_notas_pdf.html"
+    #Para el PDF
     cmd_options = {
         'margin-bottom': 15,
         'margin-top': 15,
@@ -151,6 +151,25 @@ class ImprimirCartaNotasTrimestre(PDFTemplateView):
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         context['asistencia_list'] = grupo.asistencia_set.all()
         return context
+
+    def get_template_names(self):
+        return ["alumnos_carta_notas_pdf.html"]
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class ImprimirCartaNotasTrimestreHtml(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirCartaNotasTrimestreHtml, self).get_context_data(**kwargs)
+        year = Year().get_activo(self.request)
+        context['year'] = year.__unicode__()
+        trimestre = int(self.kwargs['trimestre'])
+        context['trimestre'] = trimestre
+        grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        context['asistencia_list'] = grupo.asistencia_set.all()
+        return context
+
+    def get_template_names(self):
+        return ["alumnos_carta_notas_pdf.html"]
+
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirCartaNotasCuatrimestre(PDFTemplateView):

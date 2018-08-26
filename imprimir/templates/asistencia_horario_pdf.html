@@ -57,17 +57,12 @@
 
     <h1 style="text-align:center">Calendario</h1>
     <br />
-        
-            <table class="table table-striped table-condensed">
+    <div style="text-align:left">
             {% for festivo in lista_festivos %}
-            <tr>
-            <td>    <b>{{ festivo.fecha }}</b></td>
-            <td><i>{{ festivo.anotacion }}</i></td>
-                
-            <tr>
+            <b>{{ festivo.fecha }}</b>:<i>{{ festivo.anotacion }}</i><br />
             {% endfor %}
-            <table>
-        
+
+    </div>
     </div>
 </div>        
 {% endblock %}

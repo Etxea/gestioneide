@@ -32,6 +32,7 @@ TIPO_EVALUACION = (
     (2, _('Elementary/Pre Intermediate')),
     (3, _('Intermediate')),
     (4, _('Upper/[Pre]First/Advance/Proficiency')),
+    (5, _('Kids')),
 )
 RESULTADOS_CAMBRIDGE = (
     (1,_('A: Sobresaliente')),
@@ -51,7 +52,8 @@ NIVELES_CAMBRIDGE = (
 LISTA_MATERIAS_TIPO_EVALUACION = {
     2: ['reading_writing','speaking','listenning' ],
     3: ['reading','writing','speaking','listenning'],
-    4: ['reading','writing','speaking','listenning','useofenglish']
+    4: ['reading','writing','speaking','listenning','useofenglish'],
+    5: ['']
 }
 
 TIPO_FESTIVO = (
@@ -80,6 +82,20 @@ DURACION = (
     (270, _('4h y 1/2'))   
 )
 
+NOTAS_KIDS = (
+    (0,_('No Aplica')),
+    (1,_('Mejorable')),
+    (2,_('Satisfactorio')),
+    (3,_('Muy Satisfactorio'))
+)
+
+COMPORTAMIENTO_KIDS = (
+    (0,_('Malo')),
+    (1,_('Regular')),
+    (2,_('Bueno')),
+    (3,_('Excelente'))
+)
+
 class Year(models.Model):
     start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
     name = models.CharField(max_length=8,default="201X-1X")
@@ -102,7 +118,40 @@ class Year(models.Model):
         else:
             return Year.objects.get(activo=True)
 
+class CuentaBancaria(models.Model):
+    nombre = models.CharField('Nombre',max_length=50)
+    banco = models.DecimalField(max_digits=4, decimal_places=0,default=2095)
+    oficina = models.DecimalField(max_digits=4, decimal_places=0,default=0553)
+    dc = models.DecimalField(max_digits=2, decimal_places=0,default=00)
+    cuenta= models.DecimalField(max_digits=10, decimal_places=0,default=0000000000)
+
+    def __unicode__(self):
+        return "%s"%self.nombre
+
+class Empresa(models.Model):
+    nombre = models.CharField('Nombre',max_length=255)
+    telefono = models.CharField(max_length=9,default="")
+    email = models.EmailField(default="",blank=True,null=True)
+    direccion = models.CharField(max_length=250,default="",blank=True,null=True)
+    razon_social= models.CharField('Razón Social',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
+    csb19_suffijo = models.DecimalField(max_digits=3, decimal_places=0, default=000)
+    cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True)
+
+    def __unicode__(self):
+        return "%s"%self.nombre
+
+class Centro(models.Model):
+    empresa = models.ForeignKey(Empresa,blank=True,null=True)
+    nombre = models.CharField('Nombre',max_length=255)
+    telefono = models.CharField(max_length=9, default="")
+    email = models.EmailField(default="", blank=True, null=True)
+    direccion = models.CharField(max_length=250, default="", blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s"%self.nombre
+    
 class Aula(models.Model):
+    centro = models.ForeignKey(Centro,blank=True,null=True)
     nombre = models.CharField('Nombre',max_length=255,)
     aforo = models.DecimalField(max_digits=3, decimal_places=0)
     pdi = models.BooleanField(default=False,blank=True)
@@ -162,14 +211,17 @@ class Profesor(models.Model):
         self.user.set_password(password)
         self.user.save()
         mensaje = u"""Buenas %s,
-Te acabamos de crear un usuario para el nuevo sistema de
-gestión de alumnos de EIDE. Los datos de acceso son:
+Te acabamos de crear un usuario o modificar la contraseña para el sistema de
+gestión de alumnos de EIDE. 
+
+Los datos de acceso son:
 https://gestion.eide.es
 usuario: %s
 contraseña: %s
 Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username,password)
-        print self.nombre,self.user.username,password
-        #self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
+        print(self.nombre,self.user.username,password)
+
+        self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
 
     def create_user(self):
         try:
@@ -337,6 +389,7 @@ class Curso(models.Model):
 
 class Grupo(models.Model):
     year = models.ForeignKey('Year')
+    centro = models.ForeignKey(Centro,default=1,blank=True,null=True)
     nombre = models.CharField(max_length=25,default="")
     curso = models.ForeignKey('Curso')
     precio  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
@@ -550,6 +603,12 @@ class Asistencia(models.Model):
             else:
                 nota = notaquery[0].nota
         return nota
+    def get_nota_trimestre_obj(self,trimestre):
+        nota = None
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            nota = notaquery[0]
+        return nota
 
     def get_np_trimestre(self,trimestre):
         nota = "0"
@@ -565,6 +624,20 @@ class Asistencia(models.Model):
         notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
         if notaquery.count() > 0:
             observaciones = notaquery[0].observaciones
+        return observaciones
+
+    def get_aspectos_mejorar_trimestre(self,trimestre):                                                              
+        observaciones = ""
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            observaciones = notaquery[0].aspectos_mejorar
+        return observaciones
+
+    def get_temas_repasar_trimestre(self,trimestre):                                                              
+        observaciones = ""
+        notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
+        if notaquery.count() > 0:
+            observaciones = notaquery[0].temas_repasar
         return observaciones
 
     def get_observaciones_cuatrimestre(self,cuatrimestre):
@@ -756,14 +829,20 @@ class NotaCuatrimestral(models.Model):
         lista_notas = []
         for materia in lista_materias:
             # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
-            nota_temp = getattr(self, materia)
-            lista_notas.append(nota_temp)
+            try:
+                nota_temp = getattr(self, materia)
+                lista_notas.append(nota_temp)
+            except:
+                pass
             # ~ print "Lista", lista_notas
         total = float(0)
         for nota in lista_notas:
             total = total + float(nota)
-        numero = float(len(lista_notas))
-        media = (total / numero)
+        if len(lista_notas) > 0:
+            numero = float(len(lista_notas))
+            media = (total / numero)
+        else:
+            media = "-"
         return media
 
         # nota_final = nota_media(lista_notas)
@@ -775,6 +854,12 @@ class NotaTrimestral(models.Model):
     nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     np = models.BooleanField("NP", default=False)
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
+    exp_oral = models.DecimalField("Expresión Oral", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    comp_oral = models.DecimalField("Comprensión Oral", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    exp_escrita = models.DecimalField("Expresión Escrita", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    comp_escrita = models.DecimalField("Comprensión Escrita", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
+    temas_repasar = models.CharField("Temas a repasar", max_length=200, blank=True, null=True, default="")
+    aspectos_mejorar = models.CharField("Aspectos a mejorar", max_length=200, blank=True, null=True, default="")
 
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')
@@ -934,6 +1019,7 @@ class TurismoAsignatura(models.Model):
                     except:
                         dias_clase.append(dia[0])
         return dias_clase
+
 class TurismoAsistencia(models.Model):
     asignatura = models.ForeignKey('TurismoAsignatura')
     alumno = models.ForeignKey('Alumno')
@@ -954,7 +1040,6 @@ class TurismoPresencia(models.Model):
     asistencia = models.ForeignKey('TurismoAsistencia')
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
-
 
 class TurismoFalta(models.Model):
     asistencia = models.ForeignKey('TurismoAsistencia')

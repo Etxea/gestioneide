@@ -10,6 +10,7 @@ from views import *
 
 urlpatterns = [
     url(r'^$', login_required(GrupoListView.as_view()),name="grupo_lista"),
+    url(r'centro/(?P<centro>\d+)/$', login_required(GrupoListView.as_view()),name="grupo_lista_centro"),
     url(r'nuevo$',login_required(GrupoCreateView.as_view()), name="grupo_nuevo"),
     url(r'editar/(?P<pk>\d+)/$',login_required(GrupoUpdateView.as_view()), name="grupo_editar"),
     url(r'borrar/(?P<pk>\d+)/$',login_required(GrupoDeleteView.as_view()), name="grupo_borrar"),
