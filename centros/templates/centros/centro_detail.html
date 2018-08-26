@@ -1,0 +1,36 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+
+
+{% block page_header %}
+    <h1>{% trans "Profesor" %} {{profesor.nombre}} <a href="{% url 'profesor_editar' profesor.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+{% endblock %}
+
+{% block body %}
+
+<h2>Detalles</h2>
+    
+    <table class="table">
+        <tr>
+            <td>Nombre</td><td>{{profesor.nombre}}</td>
+        </tr>
+        <tr>
+            <td>Apellido(s)</td><td>{{profesor.apellido}}</td>
+        </tr>
+        <tr>
+            <td>Teléfono</td><td>{{profesor.telefono}}</td>
+        </tr>
+        <tr>
+            <td>E-mail</td><td><a href="mailto:{{profesor.email}}">{{profesor.email}}</a></td>
+        </tr>
+        
+    </table>
+    <h2>Clases</h2>
+    
+{% include "profesores/profesor_tabla_clases.html" %}
+
+
+
+{% endblock %}

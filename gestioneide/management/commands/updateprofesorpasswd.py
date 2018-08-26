@@ -13,7 +13,7 @@ class Command(BaseCommand):
         profesor_id=options['profesor_id']
         try:
             profesor = Profesor.objects.get(id=profesor_id)
-            self.stdout.write(self.style.SUCCESS('Trabajando con el profesor "%s" %s' % (profesor_id,profesor)))
+            self.stdout.write(self.style.SUCCESS(u'Trabajando con el profesor "%s" %s' % (profesor_id,profesor)))
             profesor.update_user_password()
         except:
             raise CommandError('Profesor "%s" does not exist' % profesor_id)

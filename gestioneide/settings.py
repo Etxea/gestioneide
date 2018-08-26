@@ -7,6 +7,13 @@ BASE_DIR = PACKAGE_ROOT
 
 DEBUG = True
 
+TIME= 45*60
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_EXPIRE_AT_BROWSER_CLOSE= True
+SESSION_COOKIE_AGE = TIME
+SESSION_IDLE_TIMEOUT = TIME
+
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -111,6 +118,7 @@ MIDDLEWARE_CLASSES = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
+    "gestioneide.middleware.SessionIdleTimeout",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -162,6 +170,8 @@ INSTALLED_APPS = [
     "asistencias",
     "turismo",
     "perfil",
+    "empresas",
+    "centros",
 ]
 
 # A sample logging configuration. The only tangible logging
