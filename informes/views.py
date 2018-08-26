@@ -164,7 +164,7 @@ def export_alumnos_xls(request):
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
     
-    year = Year().get_activo(self.request)
+    year = Year().get_activo(request)
     for asistencia in Asistencia.objects.filter(year=year):
         alumno = asistencia.alumno
         row_num += 1
@@ -186,7 +186,7 @@ def export_asistencias_no_confirmadas_xls(request):
 
 @permission_required('gestioneide.informes_view',raise_exception=True)
 def export_asistencias_xls(request,filtro=False):
-    ano = Year().get_activo(self.request)
+    ano = Year().get_activo(request)
     response = HttpResponse(content_type='application/ms-excel')
     filename = "asistencias"
     if filtro:
@@ -261,8 +261,12 @@ def export_telefonos_alumnos_xls(request,ano):
         (u"Apellidos, Nombre", 6000),
         (u"Telefono1", 6000),
         (u"Telefono2", 6000),
-        (u"Fecha Nac.", 8000),
+        (u"Fecha Nac.", 2000),
+        (u"Año Nac.", 2000),
         (u"Grupo", 8000),
+        (u"Dirección", 12000),
+        (u"CP", 6000),
+        (u"Ciudad", 8000)
     ]
 
     font_style = xlwt.XFStyle()
@@ -285,7 +289,11 @@ def export_telefonos_alumnos_xls(request,ano):
             alumno.telefono1,
             alumno.telefono2,
             alumno.fecha_nacimiento.isoformat(),
-            asis.grupo.nombre
+            alumno.fecha_nacimiento.isocalendar()[0],
+            asis.grupo.nombre,
+            asis.alumno.direccion,
+            asis.alumno.cp,
+            asis.alumno.ciudad,
         ]
         for col_num in xrange(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)

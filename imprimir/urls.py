@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'alumnos/carta/faltas/(?P<mes>\d+)/$',login_required(ImprimirAlumnosCartaFaltas.as_view()), name="imprimir_alumnos_cartas_falta"),
     url(r'asistencia/(?P<asistencia_id>\d+)/horario$',login_required(ImprimirAsistenciaHorario.as_view()), name="imprimir_asistencia_horario"),
     url(r'alumnos/carta/notas/trimestre/(?P<trimestre>\d+)/(?P<grupo_id>\d+)/$',login_required(ImprimirCartaNotasTrimestre.as_view()), name="imprimir_alumnos_notas_trimestre"),
+    url(r'alumnos/carta/notas/trimestre/(?P<trimestre>\d+)/(?P<grupo_id>\d+)/html$',login_required(ImprimirCartaNotasTrimestreHtml.as_view()), name="imprimir_alumnos_notas_trimestre_html"),
     url(r'alumnos/carta/notas/cuatrimestre/(?P<cuatrimestre>\d+)/(?P<grupo_id>\d+)/$',login_required(ImprimirCartaNotasCuatrimestre.as_view()), name="imprimir_alumnos_notas_cuatrimestre"),
     url(r'alumnos/carta/notas/final/$',login_required(ImprimirCartaNotasFinal.as_view()), name="imprimir_alumnos_notas_final"),
 ]

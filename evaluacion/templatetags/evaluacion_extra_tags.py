@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import template
 register = template.Library()
 from django.utils.translation import ugettext as _
@@ -25,6 +27,70 @@ def justificadas_trimestre(asistencia, trimestre):
 def notas_trimestre(asistencia, trimestre):
     return asistencia.get_nota_trimestre(trimestre)
 
+
+@register.simple_tag(takes_context=True)
+def tabla_notas_trimestre(context):
+    trimestre = context['trimestre']
+    asistencia = context['asistencia']
+    tabla = """<table class="table">
+            <thead>
+                <th>&nbsp;</th>
+                <th> Trimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+                <th> Trimestre 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+                <th> Trimestre 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+            </thead>
+            <tbody>"""
+    if asistencia.grupo.curso.tipo_evaluacion==5:
+        tabla += u"""<tr><td>Expresión Oral:<br />
+                             Compresión Oral:<br />
+                             Expr. Escrita:<br />
+                             Compr. Escrita:<br />
+                             <!-- Temas a mejorar:<br />
+                             Aspectos a mejorar:<br />-->
+                         </td>"""
+        for tri in 1,2,3:
+            nota_kids = asistencia.get_nota_trimestre_obj(tri)
+            if nota_kids:
+                tabla += """<td> %s <br> %s <br> %s <br> %s <!-- <br> %s <br> %s--></td>""" % \
+                         (nota_kids.get_exp_oral_display(),
+                          nota_kids.get_comp_oral_display(),
+                          nota_kids.get_exp_escrita_display(),
+                          nota_kids.get_comp_escrita_display(),
+                          nota_kids.temas_repasar,
+                          nota_kids.aspectos_mejorar )
+            else:
+                tabla += ""
+
+    else:
+        tabla += """<tr><td> Nota Media Trimestral &nbsp;&nbsp;</td>"""
+        tabla += """<td> %s </td>"""%asistencia.get_nota_trimestre(1)
+        tabla += """<td> %s </td>"""%asistencia.get_nota_trimestre(2)
+        tabla += """<td> %s </td>"""%asistencia.get_nota_trimestre(3)
+
+
+
+
+    # lista_notas = context['asistencia'].get_notas_cuatrimestre(1)
+    # if cuatrimestre==2:
+    #     lista_notas2 = context['asistencia'].get_notas_cuatrimestre(2)
+    #
+    # for nota in lista_notas:
+    #     if cuatrimestre == 2:
+    #         tabla += """<tr><td> %s </td><td>%s</td><td>%s</td><tr>"""%(nota.capitalize(),lista_notas[nota],lista_notas2[nota])
+    #     else:
+    #         tabla += """<tr><td> %s </td><td>%s</td><td></td><tr>""" % (nota.capitalize(), lista_notas[nota])
+
+    tabla += """</tr></tbody>
+        </table>
+        """
+    #marcamos coo seguro el string para que no escape el html
+    tabla = mark_safe(tabla)
+    return tabla
+
+
 @register.simple_tag(takes_context=True)
 def nota_cuatrimestre(context,materia):
     cuatrimestre = context['cuatrimestre']
@@ -32,7 +98,10 @@ def nota_cuatrimestre(context,materia):
 
 @register.simple_tag(takes_context=True)
 def tabla_notas_cuatrimestre(context):
-    cuatrimestre = context['cuatrimestre']
+    try:
+        cuatrimestre = context['cuatrimestre']
+    except:
+        cuatrimestre = context['trimestre']
 
     tabla = """<table class="table" style="width=100%">
 <thead><th>Materia</th><th>Resultado Cuatrimestre 1</th><th>Resultado Cuatrimestre 2</th></thead>
@@ -59,6 +128,14 @@ def tabla_notas_cuatrimestre(context):
 def nota_media_cuatrimestre(context):
     cuatrimestre = context['cuatrimestre']
     return asistencia.get_nota_media_cuatrimestre(cuatrimestre)
+
+@register.filter
+def aspectos_mejorar_trimestre(asistencia, trimestre):
+    return asistencia.get_aspectos_mejorar_trimestre(trimestre)
+
+@register.filter
+def temas_repasar_trimestre(asistencia, trimestre):
+    return asistencia.get_temas_repasar_trimestre(trimestre)
 
 @register.filter
 def observaciones_trimestre(asistencia, trimestre):

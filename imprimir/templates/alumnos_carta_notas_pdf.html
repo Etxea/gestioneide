@@ -1,4 +1,4 @@
-{% extends "site_base.html" %}
+{% extends "print_base.html" %}
 {% load i18n %}
 {% load staticfiles %}
 {% load evaluacion_extra_tags %}
@@ -27,12 +27,11 @@
     </div>
 </div>
 <div style="clear:both"></div>
-<div style="height:200px">
+<div style="height:100px">
 <br />
 </div>
 <div style="font-size: 150%;">
     <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
-<br />
 <br />
     <div>
         Período de la Evaluación: <b>Trimestre: {{ trimestre }}</b>
@@ -52,50 +51,40 @@
         Faltas de asistencias: <b>{{ asistencia|faltas_trimestre:trimestre }}</b> Faltas justificadas <b>{{ asistencia|justificadas_trimestre:trimestre }}</b>
     </div>
 <br />
-<br />
-
 </div>
     <h2 style="text-align:center">Controles de Vocabulario y Gramática</h2>
 <br />
     <div style="text-align:center;width=100%">
-    <table class="table">
-        <thead>
-            <th>&nbsp;</th>
-            <th> Trimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </th>
-            <th> Trimestre 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </th>
-            <th> Trimestre 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </th>
-        </thead>
-        <tbody>
-        <tr>
-            <td> Nota Media Trimestral &nbsp;&nbsp;</td>
-            <td> {{ asistencia|notas_trimestre:1 }} </td>
-            <td> {{ asistencia|notas_trimestre:2 }} </td>
-            <td> {{ asistencia|notas_trimestre:3 }} </td>
-        </tr>
-        </tbody>
-    </table>
+            {%  tabla_notas_trimestre %}
     <br />
-
-    <div style="font-size: x-small">*Las notas del primer y segundo trimestre son la media de los controles de gramática y vocabulario. Las notas del 3er trimestre la nota de gramática y vocabulario final.</div>
+<!--
+    <div style="font-size: x-small">* Las notas del primer y segundo trimestre son la media de los controles de gramática y vocabulario. Las notas del 3er trimestre la nota de gramática y vocabulario final.</div>
+    <div style="font-size: x-small">* La puntuación se realiza sobre una escala de 100 puntos..</div>
     </div>
-    <br />
-    
-    {% if asistencia.grupo.curso.tipo_evaluacion > 1 %}
+-->
+    {% if asistencia.grupo.curso.tipo_evaluacion > 1  and asistencia.grupo.curso.tipo_evaluacion < 5 and trimestre > 1 %}
     <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
     {%  tabla_notas_cuatrimestre %}
-
     {% endif %}
     <div style="width=100%">
-        <h2>Observaciones del profesorado</h2>
+        <h3>Observaciones del profesorado</h3>
         <br />
-        <br />
-        <div style="text-align:center;width=100%">
-        {{  asistencia|observaciones_trimestre:trimestre }}
+        {% if asistencia.grupo.curso.tipo_evaluacion = 5%}
+        <b><u>Temas a repasar:</u></b>
+        <div style="text-align:center;width=100%;font-size:150%">
+        {{  asistencia|temas_repasar_trimestre:trimestre }}
         </div>
         <br />
+        <b><u>Aspectos a mejorar:</u></b>
+        <div style="text-align:center;width=100%;font-size:150%">
+        {{  asistencia|aspectos_mejorar_trimestre:trimestre }}
+        </div>
+        <br />
+        <b><u>Otras observaciones:</u></b>
+        {% endif %}
+        <div style="text-align:center;width=100%;font-size:150%">
+        {{  asistencia|observaciones_trimestre:trimestre }}
+        </div>
         <br />
     </div>
     <div style="text-align:center;width=100%">
@@ -103,16 +92,15 @@
         <tr>
             <td>Visto bueno del centro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </td>
             <td>Firma de los padres</td>
         </tr>
         <tr>
             <td>&nbsp;
-                <br /> &nbsp;<br />&nbsp;<br />&nbsp;<br />
+                <br /> &nbsp;<br />
             </td>
             <td>&nbsp;
-                <br /> &nbsp;<br />&nbsp;<br />&nbsp;<br />
+                <br /> &nbsp;<br />
             </td>
         </tr>
     </table>
