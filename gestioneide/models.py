@@ -134,6 +134,7 @@ class Empresa(models.Model):
     email = models.EmailField(default="",blank=True,null=True)
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
     razon_social= models.CharField('Razón Social',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
+    cif = models.CharField(max_length=9,default='B12345678')
     csb19_suffijo = models.DecimalField(max_digits=3, decimal_places=0, default=000)
     cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True)
 
