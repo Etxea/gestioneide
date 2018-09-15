@@ -210,18 +210,18 @@ class Profesor(models.Model):
         password = User.objects.make_random_password()
         self.user.set_password(password)
         self.user.save()
-        mensaje = u"""Buenas %s,
-Te acabamos de crear un usuario o modificar la contraseña para el sistema de
+        mensaje = u"""Acabamos de crear o modificar la contraseña para el sistema de
 gestión de alumnos de EIDE. 
 
 Los datos de acceso son:
 https://gestion.eide.es
 usuario: %s
 contraseña: %s
-Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username,password)
+Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
         self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
+        send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
 
     def create_user(self):
         try:
@@ -245,17 +245,17 @@ Guarda en lugar seguro estos datos por favor."""%(self.nombre,self.user.username
                 u.set_password(password)
                 u.groups.add(pg)
                 u.save()
-                mensaje = u"""Buenas %s,
-                Te acabamos de crear un usuario para el nuevo sistema de
+                mensaje = u"""Acabamos de crear un usuario para el nuevo sistema de
                 gestión de alumnos de EIDE. Los datos de acceso son:
                 https://gestion.eide.es
                 usuario: %s
                 contraseña: %s
                 Guarda en lugar seguro estos datos por favor.
                 """%(self.nombre,username,password)
-                u.email_user("Alta en gestion de alumnos EIDE",mensaje)
                 self.user=u
                 self.save()
+                u.email_user("Alta en gestion de alumnos EIDE",mensaje)
+                send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
 
     def programacion_semana(self):
         tabla_clases = []
