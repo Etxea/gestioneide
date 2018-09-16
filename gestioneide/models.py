@@ -201,9 +201,8 @@ class Profesor(models.Model):
     email = models.EmailField(default="",blank=True,null=True)
 
     def __unicode__(self):
-        #~ return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
-        #~ return "%s, %s"%(self.apellido,self.nombre)
         return "%s"%(self.nombre)
+
     def get_absolute_url(self):
         return "/profesores/%s/"%self.id
 
@@ -221,7 +220,7 @@ contraseña: %s
 Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
-        self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
+        self.user.email_user("Cambio contraseña en gestion de alumnos EIDE",mensaje)
         send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
 
     def create_user(self):
@@ -231,32 +230,38 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
             pg = Group(name="profesores")
             pg.save()
         if self.user == None:
+            password = User.objects.make_random_password()  # type: unicode
+            nombreusuario = slugify("%s%s" % (self.nombre,self.apellido)).replace('-', '')
+            print "No hay usuario asociado para ", nombreusuario, "con el pass ", password
+            if len(User.objects.filter(username=nombreusuario))>0:
+                print "Pero ya existe el usuario %s y lo asociamos"%nombreusuario
+                self.user = User.objects.get(username=nombreusuario)
+                self.save()
+                return
             try:
-                u = User.objects.get(username=slugify(self.nombre))
-                self.user=u
-                u.groups.add(pg)
+                u = User(username=nombreusuario,email=self.email)
                 u.save()
-                self.save()
-            except:
-                password = User.objects.make_random_password()
-                print "No hay usuario generamos uno para ",self.nombre,"con el pass ",password
-                username = slugify("%s%s"%(self.nombre,self.apellido))
-                u = User(username=username,email=self.email)
-                u.save()
-                u.set_password(password)
-                u.groups.add(pg)
-                u.save()
-                mensaje = u"""Acabamos de crear un usuario para el nuevo sistema de
-                gestión de alumnos de EIDE. Los datos de acceso son:
-                https://gestion.eide.es
-                usuario: %s
-                contraseña: %s
-                Guarda en lugar seguro estos datos por favor.
-                """%(self.nombre,username,password)
-                self.user=u
-                self.save()
-                u.email_user("Alta en gestion de alumnos EIDE",mensaje)
-                send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
+            except Exception as e:
+                print "No hemos podido crearlo"
+                print(e)
+                return
+            u.set_password(password)
+            u.groups.add(pg)
+            u.save()
+            mensaje = u"""Acabamos de crear un usuario para el nuevo sistema de
+            gestión de alumnos de EIDE. Los datos de acceso son:
+            https://gestion.eide.es/
+            usuario: %s
+            contraseña: %s
+            Guarda en lugar seguro estos datos por favor.
+            """%(nombreusuario,password)
+            self.user=u
+            self.save()
+            u.email_user("Alta en gestion de alumnos EIDE",mensaje)
+            send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
+        else:
+            print 'El profesor %s Ya tiene un usuario %s'%(self,self.user)
+
 
     def programacion_semana(self):
         tabla_clases = []
