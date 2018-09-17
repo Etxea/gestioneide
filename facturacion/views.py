@@ -16,6 +16,7 @@ import xlwt
 @method_decorator(permission_required('gestioneide.recibo_view',raise_exception=True),name='dispatch')
 class ReciboListView(ListView):
     model = Recibo
+    ordering = "-fecha_creacion"
     template_name = "recibos_list.html"
 
 @method_decorator(permission_required('gestioneide.recibo_add',raise_exception=True),name='dispatch')
@@ -23,6 +24,16 @@ class ReciboCreateView(CreateView):
     model = Recibo
     template_name = "recibo_create.html"
     form_class = ReciboCreateForm
+    def get_initial(self):
+        year = Year().get_activo(self.request)
+        return { 'year': year }
+
+
+@method_decorator(permission_required('gestioneide.recibo_add',raise_exception=True),name='dispatch')
+class ReciboUpdateView(UpdateView):
+    model = Recibo
+    template_name = "recibo_update.html"
+    form_class = ReciboUpdateForm
     def get_initial(self):
         year = Year().get_activo(self.request)
         return { 'year': year }

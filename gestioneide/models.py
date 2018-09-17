@@ -910,6 +910,7 @@ class Presencia(models.Model):
 
 class Recibo(models.Model):
     year = models.ForeignKey('Year')
+    empresa = models.ForeignKey('Empresa',default=1)
     fecha_creacion = models.DateField(auto_now_add=True)
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)

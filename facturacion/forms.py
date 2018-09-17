@@ -6,6 +6,19 @@ from gestioneide.models import *
 class ReciboCreateForm(ModelForm):
     class Meta:
         model = Recibo
-        #~ fields = '__all__'
-        exclude = ['fichero_csb19']
+        fields = ['year','empresa','mes']
+        #exclude = ['fichero_csb19','grupos']
+    def get_success_url():
+        return reverse_lazy('recibo_editar', args=(self.object.id))
 
+class ReciboUpdateForm(ModelForm):
+    class Meta:
+        model = Recibo
+        exclude = ['fichero_csb19']
+    def __init__(self, *args, **kwargs):
+        super(ReciboUpdateForm, self).__init__(*args, **kwargs)
+
+        if self.instance:
+            centros = self.instance.empresa.centro_set.all
+            print centros
+            self.fields['grupos'].queryset = Grupo.objects.filter(centro__in=self.instance.empresa.centro_set.all(),year=Year().get_activo())

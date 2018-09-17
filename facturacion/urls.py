@@ -11,6 +11,7 @@ from views import *
 urlpatterns = [
     url(r'recibos/$',login_required(ReciboListView.as_view()), name="recibos"),
     url(r'recibo/nuevo$',login_required(ReciboCreateView.as_view()), name="recibo_nuevo"),
+    url(r'recibo/(?P<pk>\d+)/editar/$',login_required(ReciboUpdateView.as_view()), name="recibo_editar"),
     url(r'recibo/(?P<pk>\d+)/borrar/$',login_required(ReciboDeleteView.as_view()), name="recibo_borrar"),
     url(r'recibo/(?P<pk>\d+)/fichero/$',login_required(ReciboFicheroView.as_view()), name="recibo_fichero"),
     url(r'recibo/(?P<pk>\d+)/$',login_required(ReciboDetailView.as_view()), name="recibo_detalle"),
