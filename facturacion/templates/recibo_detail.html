@@ -12,30 +12,32 @@
 	
 <table role="table" class="table">
 	<tr>
+        <td><b>Empresa:</b></td><td>{{ recibo.empresa }}</td>
 		<td><b>Fecha creación</b>: {{ recibo.fecha_creacion }}</td><td>Mes: {{ recibo.get_mes_display }}</td><td>Medio Mes: {{ recibo.medio_mes|yesno }}</td>
 	</tr>
 	<tr>
-		<td colspan="3"><b>Grupos</b></td>
+		<td colspan="4"><b>Grupos</b></td>
 	</tr>
+
 	{% if recibo.grupos_sueltos %}
-	{% for grupo in recibo.grupos.all %}
-	<tr><td colspan="2">{{ grupo }}</td><td align="right">{{ grupo.asistencia_set.all.count}} alumnos</td></tr>
+	{% for grupo in recibo.get_grupos %}
+	<tr><td colspan="5">{{ grupo }}</td><td align="right">{{ grupo.asistencia_set.all.count}} alumnos</td></tr>
 	{% endfor %}
 	{% else %}
-	<tr><td align="right" colspan="3">Todos</td></tr>
+	<tr><td align="right" colspan="5">Todos({{ recibo.get_grupos_count  }})</td></tr>
 	{% endif %}
 	<tr>
-		<td colspan="2">Metálico</td><td align="right">{{ recibo.get_alumnos_metalico.count }} alumnos</td>
+		<td colspan="4">Metálico</td><td align="right">{{ recibo.get_alumnos_metalico.count }} alumnos</td>
 	</tr>
 
 	<tr>
-		<td colspan="2">Total</td><td align="right">{{ recibo.get_total_alumnos }} alumnos</td>
+		<td colspan="4">Total</td><td align="right">{{ recibo.get_total_alumnos }} alumnos</td>
 	</tr>
-        <tr><td colspan="3">Datos tras generar recibo</td></tr>
-        <tr><td colspan="2">Número de recibo</td><td align="right">{{ recibo.recibos_generados }} recibos</td>
-        <tr><td colspan="2">Número de metalicos</td><td align="right">{{ recibo.metalicos }} pago metálico</td>
-        <tr><td colspan="2">Total</td><td align="right">{{ recibo.importe_total }} €</td>
-        <tr><td colspan="2">errores</td><td align="right">{{ recibo.errores }}</td>
+        <tr><td colspan="5" align="center"><b>Datos tras generar recibo<b></b></td></tr>
+        <tr><td colspan="4">Número de recibo</td><td align="right">{{ recibo.recibos_generados }} recibos</td>
+        <tr><td colspan="4">Número de metalicos</td><td align="right">{{ recibo.metalicos }} pago metálico</td>
+        <tr><td colspan="4">Total</td><td align="right">{{ recibo.importe_total }} €</td>
+        <tr><td colspan="4">Errores</td><td align="right">{{ recibo.errores }}</td>
 </table>
 
 <div class="form-group">

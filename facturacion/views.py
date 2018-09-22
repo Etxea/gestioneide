@@ -77,7 +77,7 @@ def ReciboInformeExcelView(request,pk):
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
     recibo = Recibo.objects.get(id=pk)
-    print "tenemos el recibo",recibo.get_alumnos_metalico()
+
     for asistencia in recibo.get_alumnos():
         tipo="recibo"
         if asistencia.metalico:
@@ -109,10 +109,11 @@ class ReciboFicheroView(View,SingleObjectMixin):
     model = Recibo
     template_name = "recibo_fichero.html"
     def get(self, request, *args, **kwargs):
-        fichero = self.get_object().csb19()
+        #Lanzamos la generacion del fichero
+        self.get_object().csb19()
         response = HttpResponse(content_type='text/txt')
-        response['Content-Disposition'] = 'attachment; filename="csb19.txt"'
-        response.write(fichero)
+        response['Content-Disposition'] = 'attachment; filename="csb19_%s_%s.txt"'%(self.get_object().empresa,self.get_object().fecha_cargo.strftime("%d%m%y"))
+        response.write(self.get_object().fichero_csb19)
         return response
 
 @method_decorator(permission_required('gestioneide.recibo_delete',raise_exception=True),name='dispatch')

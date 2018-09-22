@@ -6,8 +6,7 @@ from gestioneide.models import *
 class ReciboCreateForm(ModelForm):
     class Meta:
         model = Recibo
-        fields = ['year','empresa','mes']
-        #exclude = ['fichero_csb19','grupos']
+        fields = ['year','empresa','mes','medio_mes','grupos_sueltos']
     def get_success_url():
         return reverse_lazy('recibo_editar', args=(self.object.id))
 

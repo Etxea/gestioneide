@@ -912,6 +912,7 @@ class Recibo(models.Model):
     year = models.ForeignKey('Year')
     empresa = models.ForeignKey('Empresa',default=1)
     fecha_creacion = models.DateField(auto_now_add=True)
+    fecha_cargo = models.DateField(auto_now_add=True)
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
     grupos_sueltos = models.BooleanField(default=False)
@@ -920,6 +921,9 @@ class Recibo(models.Model):
     importe_total = models.FloatField(default=0,blank=True)
     recibos_generados = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
     metalicos = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
+    numero_recibos = models.DecimalField(max_digits=4, decimal_places=0, default=0, blank=True)
+    importe_recibos = models.FloatField(default=0,blank=True)
+    importe_metalico = models.FloatField(default=0, blank=True)
     errores = models.TextField(default="",blank=True)
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
@@ -927,14 +931,16 @@ class Recibo(models.Model):
         if self.grupos_sueltos:
             return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
         else:
-            return Grupo.objects.filter(year=Year().get_activo()).aggregate(Count('asistencia'))['asistencia__count']
+            return Grupo.objects.filter(year=Year().get_activo(), centro__in=self.empresa.centro_set.all()).aggregate(Count('asistencia'))['asistencia__count']
     def get_grupos(self):
         if self.grupos_sueltos:
             lista = self.grupos.all()
         else:
-            lista = Grupo.objects.filter(year=Year().get_activo())
+            lista = Grupo.objects.filter(year=Year().get_activo(), centro__in=self.empresa.centro_set.all())
         return lista
-    
+    def get_grupos_count(self):
+        return len(self.get_grupos())
+
     def get_alumnos(self):
         return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).order_by('alumno__cuenta_bancaria')
     
@@ -946,39 +952,156 @@ class Recibo(models.Model):
         
     def get_alumnos_factura(self):
         return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).filter(factura=True)
-        
+
+    def csb19_crear_presentador(self):
+        """Funcion que crea el campo presentador y lo añade al contenido"""
+        contenido = ""
+        cod_reg = "51"
+        cod_dato = "80"
+        relleno_b3 = ' ' * 6
+        relleno_d = ' ' * (60 - len(self.empresa.nombre))
+        relleno_e3 = ' ' * 12
+        relleno_f = ' ' * 40
+        relleno_g = ' ' * 14
+        cabecera_presentador = cod_reg + cod_dato + str(self.empresa.cif) + str(self.empresa.csb19_suffijo) + \
+                               self.fecha_creacion.strftime("%d%m%y") + relleno_b3 + self.empresa.nombre + relleno_d +\
+                               str(self.empresa.cuenta_bancaria.banco) + str(self.empresa.cuenta_bancaria.banco) + \
+                               relleno_e3 + relleno_f + relleno_g + "\r\n"
+        contenido += cabecera_presentador
+        return contenido
+
+    def csb19_crear_ordenante(self):
+        """Funcion que crea el campo ordenante y lo añade al contenido"""
+        cod_reg = "53"
+        cod_dato = "80"
+        procedimiento = "01"
+        relleno_nombre = ' ' * (40 - len(self.empresa.nombre))
+        relleno_e1 = ' ' * 8
+        relleno_e3 = ' ' * 10
+        relleno_f = ' ' * 40
+        relleno_g = ' ' * 14
+        cabecera_ordenante = cod_reg + cod_dato + str(self.empresa.cif) + str(self.empresa.csb19_suffijo) + \
+                             self.fecha_creacion.strftime("%d%m%y") + self.fecha_cargo.strftime("%d%m%y") + \
+                             self.empresa.nombre + relleno_nombre +\
+                             str(self.empresa.cuenta_bancaria.banco) + str(self.empresa.cuenta_bancaria.oficina) + \
+                             str(self.empresa.cuenta_bancaria.dc) + str(self.empresa.cuenta_bancaria.cuenta) +\
+                             relleno_e1 + procedimiento + relleno_e3 + relleno_f + relleno_g + '\r\n'
+        self.fichero_csb19 += cabecera_ordenante
+
+    def csb19_crear_individual(self,asistencia):
+        ##Recibimos la asistencia y de ella sacamos: id, nombre, CCC, importe y concepto
+        error = ""
+        id = asistencia.id
+        nombre_cargo = "%s %s" % (asistencia.alumno.apellido1, asistencia.alumno.apellido2)
+        nombre_cargo = unidecode(nombre_cargo)
+        ccc = asistencia.alumno.cuenta_bancaria.replace("-", "")
+
+        if self.medio_mes:
+            importe = float(asistencia.ver_precio()) / 2
+        else:
+            importe = float(asistencia.ver_precio())
+        concepto = u"EIDE: %s, %s" % (asistencia.grupo.nombre, MONTHS[self.mes])
+        concepto = unidecode(concepto)
+        # Sumamos el importe al total
+        try:
+            self.importe_recibos += float(importe)
+        except:
+            error = "NO hemos podido generar el import para %s %s" % (nombre, importe)
+        self.numero_recibos += 1
+        cod_reg = "56"
+        cod_dato = "80"
+        # relleno de 16
+        relleno_f = ' ' * 16
+        # relleno de 8
+        relleno_h = ' ' * 8
+        ##Normalizamos (rellenamos) los campos nombre, importe y concepto
+        nombre_cargo = csb19_normalizar(nombre_cargo, 40)
+        concepto = csb19_normalizar(concepto, 40)
+
+        # Vamos con el importe
+        importe_txt = csb19_ajustar(importe, 10, 2)
+        individual = str(cod_reg) + str(cod_dato) + self.empresa.cif + str(self.empresa.csb19_suffijo) + \
+                     csb19_ajustar(id, 12) + nombre_cargo + \
+                     ccc + importe_txt + relleno_f + concepto + relleno_h + '\r\n'
+        print("DEBUG:")
+        print(self.fichero_csb19)
+        print(individual)
+        self.fichero_csb19 += str(individual)
+        self.importe_recibos += importe
+        self.importe_total += importe
+        self.recibos_generados += 1
+        if len(error) > 0:
+            self.errores += "<br />" + error
+
+    def csb19_crear_total_ordenante(self):
+        cod_reg = "58"
+        cod_dato = "80"
+        relleno_b2 = " " * 12
+        relleno_c = " " * 40
+        relleno_d = " " * 20
+        relleno_e2 = " " * 6
+        relleno_f3 = " " * 20
+        relleno_g = " " * 18
+        total_ordenante = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.csb19_suffijo) + relleno_b2 \
+                          + relleno_c + relleno_d + csb19_ajustar(self.importe_recibos, 10, 2) + relleno_e2 \
+                          + csb19_ajustar(str(self.importe_recibos), 10) + csb19_ajustar(self.numero_recibos + 2, 10) + relleno_f3 \
+                          + relleno_g + '\r\n'
+        self.fichero_csb19 += total_ordenante
+
+
+    def csb19_crear_total_general(self):
+        cod_reg = "59"
+        cod_dato = "80"
+        relleno_b2 = " " * 12
+        relleno_c = " " * 40
+        relleno_d2 = " " * 16
+        relleno_e2 = " " * 6
+        relleno_f3 = " " * 20
+        relleno_g = " " * 18
+        num_ordenantes = "0001"
+        ##FIXME ajustar el formato del importe total
+        importe_recibos = str(self.importe_recibos)
+        total_general = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.csb19_suffijo) + relleno_b2 + \
+                        relleno_c + num_ordenantes + relleno_d2 + csb19_ajustar(self.importe_recibos, 10, 2) + relleno_e2 + \
+                        csb19_ajustar(self.numero_recibos, 10) + csb19_ajustar(self.numero_recibos + 4,10) + relleno_f3 + relleno_g + '\r\n'
+        self.fichero_csb19 += total_general
+
+    def csb19_crear_totales(self):
+        """creamos los totales"""
+        self.csb19_crear_total_ordenante()
+        self.csb19_crear_total_general()
+
     def csb19(self):
-        fichero_csb19=""
-        hoy=datetime.date.today()
-        fecha_confeccion=self.fecha_creacion.strftime('%d%m%y')
-        fecha_cargo=hoy.strftime('%d%m%y')
-        importe_recibos=0
-        numero_recibos=0
-        
-        #~ logging.debug( "Vamos a facturar el día %s en concepto de %s"%(fecha_cargo,fecha_confeccion) )
+        #Limpiamos todos los datos
+        self.importe_recibos=0
+        self.importe_total=0
+        self.importe_metalico=0
+        self.recibos_generados=0
+        self.fichero_csb19=""
+        self.fecha_cargo = datetime.date.today()
         #Vamos con la cabecera del presentador
-        fichero_csb19=csb19_crear_presentador(fecha_confeccion)
+        self.csb19_crear_presentador()
         #Vamos con la cabecera del ordenante
-        fichero_csb19=csb19_crear_ordenante(fichero_csb19,fecha_confeccion,fecha_cargo)
+        self.csb19_crear_ordenante()
         # Ahora los cargos
         lista_grupos = self.get_grupos()
         for grupo in lista_grupos:
             for asistencia in grupo.asistencia_set.filter(borrada=False):
-                print "Generamos cobro para la asistencia",asistencia
+                print("Generamos cobro para la asistencia %s"%asistencia)
                 if asistencia.metalico:
-                    print "Paga en metalico"
-                    self.metalicos=+1
+                    print("Paga en metalico")
+                    if self.medio_mes:
+                        importe = float(asistencia.ver_precio()) / 2
+                    else:
+                        importe = float(asistencia.ver_precio())
+                    self.metalicos += 1
+                    self.importe_total += importe
                 else:
-                    fichero_csb19,importe_recibos,numero_recibos,error = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia,self.mes,self.medio_mes)
-                    self.importe_total=+importe_recibos
-                    self.recibos_generados=+numero_recibos
-                    if len(error) > 0:
-                        self.errores=self.errores+"<br />"+error
+                    self.csb19_crear_individual(asistencia)
 
-        print "Hemos creado %s recibos que sumanan un total de %s €"%(self.recibos_generados,self.importe_total)
+        self.csb19_crear_totales()
+        print("Hemos creado %s recibos que sumanan un total de %s €" % (self.recibos_generados, self.importe_total))
         self.save()
-        fichero_csb19 = csb19_crear_totales(fichero_csb19,numero_recibos,importe_recibos)
-        return fichero_csb19
 
 class Festivo(models.Model):
     year = models.ForeignKey('Year')
@@ -1007,7 +1130,6 @@ class TurismoAsignatura(models.Model):
         dias_clase = []
         for dia in self.clases_turismo.all():
             dias_semana_clase.append(dia.dia_semana)
-        print dias_semana_clase
         year = Year().get_activo()
         ano = year.start_year
         if mes < 8 :
@@ -1021,7 +1143,6 @@ class TurismoAsignatura(models.Model):
                     fecha = "%s-%s-%s"%(ano,mes,dia[0])
                     try:
                         festivo = Festivo.objects.get(fecha=fecha,tipo=1)
-                        print festivo
                         continue
                     except:
                         dias_clase.append(dia[0])
