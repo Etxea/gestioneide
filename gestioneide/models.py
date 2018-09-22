@@ -925,19 +925,23 @@ class Recibo(models.Model):
     importe_recibos = models.FloatField(default=0,blank=True)
     importe_metalico = models.FloatField(default=0, blank=True)
     errores = models.TextField(default="",blank=True)
+
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
+
     def get_total_alumnos(self):
         if self.grupos_sueltos:
             return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
         else:
             return Grupo.objects.filter(year=Year().get_activo(), centro__in=self.empresa.centro_set.all()).aggregate(Count('asistencia'))['asistencia__count']
+
     def get_grupos(self):
         if self.grupos_sueltos:
             lista = self.grupos.all()
         else:
             lista = Grupo.objects.filter(year=Year().get_activo(), centro__in=self.empresa.centro_set.all())
         return lista
+
     def get_grupos_count(self):
         return len(self.get_grupos())
 
@@ -1023,9 +1027,7 @@ class Recibo(models.Model):
         individual = str(cod_reg) + str(cod_dato) + self.empresa.cif + str(self.empresa.csb19_suffijo) + \
                      csb19_ajustar(id, 12) + nombre_cargo + \
                      ccc + importe_txt + relleno_f + concepto + relleno_h + '\r\n'
-        print("DEBUG:")
-        print(self.fichero_csb19)
-        print(individual)
+
         self.fichero_csb19 += str(individual)
         self.importe_recibos += importe
         self.importe_total += importe
@@ -1047,7 +1049,6 @@ class Recibo(models.Model):
                           + csb19_ajustar(str(self.importe_recibos), 10) + csb19_ajustar(self.numero_recibos + 2, 10) + relleno_f3 \
                           + relleno_g + '\r\n'
         self.fichero_csb19 += total_ordenante
-
 
     def csb19_crear_total_general(self):
         cod_reg = "59"

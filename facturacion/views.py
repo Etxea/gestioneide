@@ -16,14 +16,21 @@ import xlwt
 @method_decorator(permission_required('gestioneide.recibo_view',raise_exception=True),name='dispatch')
 class ReciboListView(ListView):
     model = Recibo
+
     ordering = "-fecha_creacion"
     template_name = "recibos_list.html"
+    def get_queryset(self):
+        return Recibo.objects.filter(year=Year().get_activo(self.request))
 
 @method_decorator(permission_required('gestioneide.recibo_add',raise_exception=True),name='dispatch')
 class ReciboCreateView(CreateView):
     model = Recibo
     template_name = "recibo_create.html"
     form_class = ReciboCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('recibo_editar', kwargs={'pk': self.object.id })
+
     def get_initial(self):
         year = Year().get_activo(self.request)
         return { 'year': year }

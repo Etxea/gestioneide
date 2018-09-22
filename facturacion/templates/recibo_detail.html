@@ -4,25 +4,31 @@
 {% load evaluacion_extra_tags %}
 {% load bootstrap %}
 
-{% block head_title %}Recibo{% endblock %}
-
+{% block head_title %}Recibo {{ recibo.empresa }} {{ recibo.get_mes_display }} {% endblock %}
 
 {% block body %}
 
-	
 <table role="table" class="table">
 	<tr>
-        <td><b>Empresa:</b></td><td>{{ recibo.empresa }}</td>
-		<td><b>Fecha creación</b>: {{ recibo.fecha_creacion }}</td><td>Mes: {{ recibo.get_mes_display }}</td><td>Medio Mes: {{ recibo.medio_mes|yesno }}</td>
+        <td><b>Empresa:</b> {{ recibo.empresa }}</td>
+        <td><b>Centro(s)</b> :
+            {% for centro in recibo.empresa.centro_set.all %}
+            {{ centro }}
+            {% endfor %}
+        </td>
+
+		<td><b>Fecha creación</b>: {{ recibo.fecha_creacion }}</td>
+        <td><b>Mes</b>: {{ recibo.get_mes_display }}</td>
+        <td><b>Medio Mes</b>: {{ recibo.medio_mes|yesno }}</td>
 	</tr>
 	<tr>
-		<td colspan="4"><b>Grupos</b></td>
+		<td colspan="5"><b>Grupos</b></td>
 	</tr>
 
 	{% if recibo.grupos_sueltos %}
-	{% for grupo in recibo.get_grupos %}
-	<tr><td colspan="5">{{ grupo }}</td><td align="right">{{ grupo.asistencia_set.all.count}} alumnos</td></tr>
-	{% endfor %}
+        {% for grupo in recibo.get_grupos %}
+    <tr><td colspan="4">{{ grupo }}</td><td align="right">{{ grupo.asistencia_set.all.count}} alumnos</td></tr>
+        {% endfor %}
 	{% else %}
 	<tr><td align="right" colspan="5">Todos({{ recibo.get_grupos_count  }})</td></tr>
 	{% endif %}
@@ -33,19 +39,19 @@
 	<tr>
 		<td colspan="4">Total</td><td align="right">{{ recibo.get_total_alumnos }} alumnos</td>
 	</tr>
-        <tr><td colspan="5" align="center"><b>Datos tras generar recibo<b></b></td></tr>
-        <tr><td colspan="4">Número de recibo</td><td align="right">{{ recibo.recibos_generados }} recibos</td>
-        <tr><td colspan="4">Número de metalicos</td><td align="right">{{ recibo.metalicos }} pago metálico</td>
-        <tr><td colspan="4">Total</td><td align="right">{{ recibo.importe_total }} €</td>
-        <tr><td colspan="4">Errores</td><td align="right">{{ recibo.errores }}</td>
+        <tr><td colspan="5" align="center"><b>Datos tras generar recibo</b> (recargar para verlo)</td></tr>
+        <tr><td colspan="4"><b>Número de recibos</b></td><td align="right">{{ recibo.recibos_generados }} recibos</td>
+        <tr><td colspan="4"><b>Número de pagos en met&aacutelico</b></td><td align="right">{{ recibo.metalicos }} pagos</td>
+        <tr><td colspan="4"><b>Total</b></td><td align="right">{{ recibo.importe_total }} €</td>
+        <tr><td colspan="4"><b>Errores</b></td><td align="right">{{ recibo.errores }}</td>
 </table>
 
 <div class="form-group">
-        <a class="btn btn-primary" href="{% url 'recibo_editar' recibo.id %}" >Editar</a>
-		<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Descargar fichero CSB19</a>
-		<a class="btn btn-primary" href="{% url 'recibo_informe' recibo.id %}">Ver Informe</a>
-		<a class="btn btn-primary" href="{% url 'recibo_informe_xls' recibo.id %}">Excel</a>
-		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
+    <a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" ><i class="zmdi zmdi-print"></i> Descargar fichero CSB19</a>
+    <a class="btn btn-primary" href="{% url 'recibo_informe' recibo.id %}"><i class="zmdi zmdi-label"></i> Ver Informe</a>
+    <a class="btn btn-primary" href="{% url 'recibo_informe_xls' recibo.id %}"><i class="zmdi zmdi-view-list"></i> Excel</a>
+	<a class="btn btn-primary" href="{% url 'recibo_editar' recibo.id %}" ><i class="zmdi zmdi-edit"></i> Editar</a>
+    <a class="btn btn-primary" href="{% url 'recibos' %}" ><i class="zmdi zmdi-arrow-back"></i> Volver</a>
 </div>
 
 
