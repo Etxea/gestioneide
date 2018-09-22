@@ -30,6 +30,8 @@ function check_grupos_sueltos() {
 	}
 };
 $(document).ready(function() {
+    $("#id_year").prop('contenteditable', false);
+    $("#id_empresa").prop('contenteditable', false);
 	console.log("Primer check");
 	check_grupos_sueltos();
 	$("#id_grupos_sueltos").change(function() {

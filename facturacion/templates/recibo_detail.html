@@ -41,10 +41,9 @@
 </table>
 
 <div class="form-group">
-		<!--<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Volver</a>-->
+        <a class="btn btn-primary" href="{% url 'recibo_editar' recibo.id %}" >Editar</a>
 		<a class="btn btn-primary" href="{% url 'recibo_fichero' recibo.id %}" >Descargar fichero CSB19</a>
-		<a class="btn btn-primary" href="{% url 'recibo_informe' recibo.id %}"
-            >Ver Informe</a>
+		<a class="btn btn-primary" href="{% url 'recibo_informe' recibo.id %}">Ver Informe</a>
 		<a class="btn btn-primary" href="{% url 'recibo_informe_xls' recibo.id %}">Excel</a>
 		<a class="btn btn-primary" href="{% url 'recibos' %}" >Volver</a>
 </div>
