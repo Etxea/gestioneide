@@ -999,18 +999,14 @@ class Recibo(models.Model):
         nombre_cargo = "%s %s" % (asistencia.alumno.apellido1, asistencia.alumno.apellido2)
         nombre_cargo = unidecode(nombre_cargo)
         ccc = asistencia.alumno.cuenta_bancaria.replace("-", "")
-
+        importe_individual = float(0)
         if self.medio_mes:
-            importe = float(asistencia.ver_precio()) / 2
+            importe_individual = float(asistencia.ver_precio()) / 2
         else:
-            importe = float(asistencia.ver_precio())
+            importe_individual = float(asistencia.ver_precio())
         concepto = u"EIDE: %s, %s" % (asistencia.grupo.nombre, MONTHS[self.mes])
         concepto = unidecode(concepto)
         # Sumamos el importe al total
-        try:
-            self.importe_recibos += float(importe)
-        except:
-            error = "NO hemos podido generar el import para %s %s" % (nombre, importe)
         self.numero_recibos += 1
         cod_reg = "56"
         cod_dato = "80"
@@ -1023,14 +1019,14 @@ class Recibo(models.Model):
         concepto = csb19_normalizar(concepto, 40)
 
         # Vamos con el importe
-        importe_txt = csb19_ajustar(importe, 10, 2)
+        importe_txt = csb19_ajustar(importe_individual, 10, 2)
         individual = str(cod_reg) + str(cod_dato) + self.empresa.cif + str(self.empresa.csb19_suffijo) + \
                      csb19_ajustar(id, 12) + nombre_cargo + \
                      ccc + importe_txt + relleno_f + concepto + relleno_h + '\r\n'
 
         self.fichero_csb19 += str(individual)
-        self.importe_recibos += importe
-        self.importe_total += importe
+        self.importe_recibos += importe_individual
+        self.importe_total += importe_individual
         self.recibos_generados += 1
         if len(error) > 0:
             self.errores += "<br />" + error
@@ -1088,14 +1084,13 @@ class Recibo(models.Model):
         lista_grupos = self.get_grupos()
         for grupo in lista_grupos:
             for asistencia in grupo.asistencia_set.filter(borrada=False):
-                print("Generamos cobro para la asistencia %s"%asistencia)
                 if asistencia.metalico:
-                    print("Paga en metalico")
                     if self.medio_mes:
                         importe = float(asistencia.ver_precio()) / 2
                     else:
                         importe = float(asistencia.ver_precio())
                     self.metalicos += 1
+                    self.importe_metalico += importe
                     self.importe_total += importe
                 else:
                     self.csb19_crear_individual(asistencia)
