@@ -206,6 +206,12 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': '/tmp/debug.log',
             'formatter': 'simple',
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/debug.log',
+            'formatter': 'simple',
         }
     },
     "loggers": {
