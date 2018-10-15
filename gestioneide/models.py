@@ -1057,9 +1057,9 @@ class Recibo(models.Model):
         importe_recibos = str(self.importe_recibos)
         numero_recibos = int(self.recibos_generados)
         print("Vamos a crear los totales de ordenante de %s € y %s recibos"%(importe_recibos,numero_recibos))
-        total_ordenante = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.get_sufijo()) + relleno_b2 \
-                          + relleno_c + relleno_d + csb19_ajustar(importe_recibos, 10, 2) + relleno_e2 \
-                          + csb19_ajustar(str(importe_recibos), 10, 2) + csb19_ajustar(numero_recibos, 10) + relleno_f3 \
+        total_ordenante = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.get_sufijo())\ 
+                          + relleno_b2 + relleno_c + relleno_d + csb19_ajustar(importe_recibos, 10, 2)\
+                          + relleno_e2 + csb19_ajustar(str(importe_recibos), 10, 2) + csb19_ajustar(numero_recibos, 10) + relleno_f3 \
                           + relleno_g + '\r\n'
         self.fichero_csb19 += total_ordenante
 
@@ -1079,7 +1079,7 @@ class Recibo(models.Model):
         print("Vamos a crear los totales generales de %s € y %s recibos"%(importe_recibos,numero_recibos))
         total_general = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.get_sufijo()) + relleno_b2 + \
                         relleno_c + num_ordenantes + relleno_d2 + csb19_ajustar(importe_recibos, 10, 2) + relleno_e2 + \
-                        csb19_ajustar(numero_recibos, 10) + csb19_ajustar(numero_recibos+2,10) + relleno_f3 + relleno_g + '\r\n'
+                        csb19_ajustar(numero_recibos, 10) + csb19_ajustar(numero_recibos+2,10) + relleno_f3 + relleno_g
         self.fichero_csb19 += total_general
 
     def csb19_crear_totales(self):
