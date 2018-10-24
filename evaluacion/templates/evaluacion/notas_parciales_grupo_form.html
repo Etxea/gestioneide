@@ -1,0 +1,55 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+    <h1>Notas del grupo: {{ grupo_notas_parciales.nombre }} del grupo {{ grupo_notas_parciales.grupo }}</h1>
+    {% csrf_token %}
+    {% if notas_formset.errors %}
+        hay errores
+        {{ notas_formset.errors }}
+    {% for field in notas_formset %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in notas_formset.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    <form action="" method="post">{% csrf_token %}
+        {{ notas_formset.management_form }}
+        <table>
+        <thead>
+            <th></th>
+            {% for asistencia in grupo_notas_parciales.grupo.asistencia_set.all %}
+            <th>{{ asistencia.alumno }}</th>
+            {% endfor %}
+        </thead>
+        <tbody>
+        <tr>
+            {% for field in notas_formset %}
+                {%  if field.label != "Id" %}
+                <td>{{ field }}  {{ field.errors }}</td>
+                {% endif %}
+            {% endfor %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+        </tr>
+        </tbody>
+        </table>
+        <br />
+        <div class="form-actions">
+
+        <button class="btn btn-primary" type="submit">Enviar</button>
+
+        </div>
+    </form>
+    <a class="btn btn-primary" href="{% url 'notas_parciales_grupo' grupo_notas_parciales.grupo.id %}">Ver notas parciales del grupo</a>
+{% endblock %}

@@ -719,6 +719,16 @@ class ResultadoCambridge(models.Model):
     resultado = models.DecimalField(max_digits=2,decimal_places=0,default=1,choices=RESULTADOS_CAMBRIDGE)
     observaciones = models.TextField(max_length=350,default="")
 
+class GrupoNotasParciales(models.Model):
+    fecha_creacion = models.DateField(auto_now_add=True)
+    grupo = models.ForeignKey('Grupo', related_name="notas_parciales")
+    nombre = models.CharField(max_length=25)
+
+class NotaParcial(models.Model):
+    grupo_notas_parciales = models.ForeignKey('GrupoNotasParciales')
+    asistencia = models.ForeignKey('Asistencia')
+    nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+
 class Nota(models.Model):
     asistencia = models.ForeignKey('Asistencia')
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)

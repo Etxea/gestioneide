@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
@@ -309,7 +309,7 @@ class PasarListaView(ListView):
 
 class PasarListaGrupoView(DetailView):
     model = Grupo
-    template_name="evaluacion/evaluacion_pasarlista.html"
+    template_name = "evaluacion/evaluacion_pasarlista.html"
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(PasarListaGrupoView, self).get_context_data(**kwargs)
@@ -405,3 +405,75 @@ class PresenciaCreateView(AjaxableResponseMixin, CreateView):
 class PresenciaDeleteView(AjaxableResponseMixin, DeleteView):
     model = Presencia
     success_url = reverse_lazy('evaluacion')
+
+class NotasParcialesGrupoCreateView(CreateView):
+    model = GrupoNotasParciales
+    template_name = 'evaluacion/notas_parciales_grupo_nueva.html'
+    form_class = GrupoNotasParcialesCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('notas_parciales_grupo', kwargs={'pk': self.object.grupo.id })
+
+    def get_initial(self):
+        initial = super(NotasParcialesGrupoCreateView, self).get_initial()
+        initial['grupo'] = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        return initial
+
+    def get_form_kwargs(self, **kwargs):
+        form_kwargs = super(NotasParcialesGrupoCreateView, self).get_form_kwargs()
+        form_kwargs['initial'] = {'grupo': Grupo.objects.get(id=self.kwargs['grupo_id'])}
+        return form_kwargs
+
+class NotasParcialesGrupoView(DetailView):
+    model = Grupo
+    template_name = "evaluacion/notas_parciales_grupo.html"
+    context_object_name = 'grupo'
+
+    def get_context_data(self, **kwargs):
+        context = super(NotasParcialesGrupoView, self).get_context_data(**kwargs)
+        notas_formset_array = []
+        grupo = super(NotasParcialesGrupoView, self).get_object()
+
+        for grupo_notas_parciales in grupo.notas_parciales.all():
+            #Leemos o creamos cada nota parcial de este grupo de notas parciales
+            for asistencia in grupo.asistencia_set.all():
+                NotaParcial.objects.get_or_create(grupo_notas_parciales=grupo_notas_parciales, asistencia=asistencia)
+            ## Creamos el formset de este grupo de notas parciales
+            notas_formset = NotaParcialFormSet(
+                queryset=NotaParcial.objects.filter(grupo_notas_parciales=grupo_notas_parciales),
+                grupo_notas_parciales=grupo_notas_parciales.id
+            )
+            ## Añadimos el formset a un array para luego renderizar todos
+            notas_formset_array.append(notas_formset)
+
+        context['notas_formset_array'] = notas_formset_array
+        context['grupo_notas_parciales_form'] = GrupoNotasParcialesCreateForm(initial={'grupo': grupo})
+        return context
+
+class NotaParcialUpdateView(UpdateView):
+    model = GrupoNotasParciales
+    template_name = "evaluacion/notas_parciales_grupo_form.html"
+    fields = '__all__'
+    def get_success_url(self):
+        #return reverse_lazy('nota_parcial_update', kwargs={'grupo_notas_id': self.kwargs['grupo_notas_id'] })
+        grupo = GrupoNotasParciales.objects.get(id=self.kwargs['pk']).grupo
+        return reverse_lazy('notas_parciales_grupo', kwargs={'pk': grupo })
+
+    def get_context_data(self, **kwargs):
+        context = super(NotaParcialUpdateView, self).get_context_data(**kwargs)
+        grupo_notas_parciales = GrupoNotasParciales.objects.get(id=self.kwargs['pk'])
+        if self.request.POST:
+            notas_formset = NotaParcialFormSet(self.request.POST, grupo_notas_parciales=grupo_notas_parciales.id)
+        else:
+            notas_formset = NotaParcialFormSet(
+                queryset=NotaParcial.objects.filter(grupo_notas_parciales=grupo_notas_parciales), grupo_notas_parciales=grupo_notas_parciales.id)
+        context['notas_formset'] = notas_formset
+        context['grupo_notas_parciales'] = grupo_notas_parciales
+        return context
+
+    def form_valid(self, form):
+        for sub_form in form:
+            if sub_form.has_changed():
+                sub_form.save()
+
+        return super(NotaParcialUpdateView, self).form_valid(form)

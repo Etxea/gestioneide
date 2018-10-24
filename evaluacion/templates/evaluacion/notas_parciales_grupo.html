@@ -1,0 +1,61 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Notas Parciales{% endblock %}
+
+
+{% block body %}
+
+<h1>Notas parciales del grupo {{ grupo.nombre }} </h1>
+
+    {{ notas_formset.non_field_errors }}
+
+	{{ notas_formset.management_form }}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumnos</th>
+                {%  for asistencia in grupo.asistencia_set.all %}
+                <th>{{ asistencia.alumno }}</th>
+                {% endfor %}
+                <th></th>
+
+			</tr>
+		</thead>
+		<tbody>
+        {% for nota_parcial_formset in notas_formset_array %}
+            <tr>
+                <td>{{ nota_parcial_formset.grupo_notas_parciales.nombre }}</td>
+                <form role="form" method="post" action="{% url 'nota_parcial_update' nota_parcial_formset.grupo_notas_parciales.id %}">
+                {% csrf_token %}
+                {{ nota_parcial_formset.managment_form }}
+                {{ nota_parcial_formset }}
+                <td>
+                    <button type="submit">Enviar</button>
+                </td>
+                </form>
+            </tr>
+        {% endfor %}
+		</tbody>
+    </table>
+<br />
+        <div class="form-actions">
+
+        </div>
+
+    <hr />
+    <form action="{% url 'notas_parciales_grupo_nueva' grupo.id %}" method="post">{% csrf_token %}
+        {{ grupo_notas_parciales_form|bootstrap_inline }}
+        <br />
+        <div class="form-actions">
+          <button type="submit">Enviar</button>
+        </div>
+    </form>
+
+
+
+
+{% endblock %}
