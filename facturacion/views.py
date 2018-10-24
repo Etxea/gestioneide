@@ -20,7 +20,7 @@ class ReciboListView(ListView):
     ordering = "-fecha_creacion"
     template_name = "recibos_list.html"
     def get_queryset(self):
-        return Recibo.objects.filter(year=Year().get_activo(self.request))
+        return Recibo.objects.filter(year=Year().get_activo(self.request)).order_by("-id")
 
 @method_decorator(permission_required('gestioneide.recibo_add',raise_exception=True),name='dispatch')
 class ReciboCreateView(CreateView):
