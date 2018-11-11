@@ -94,12 +94,12 @@ class NotaParcialCreateForm(ModelForm):
         }
 
 
-BaseNotaParcialFormSet = modelformset_factory(NotaParcial, form=NotaParcialCreateForm, extra=0)
+NotaParcialFormSet = modelformset_factory(NotaParcial, form=NotaParcialCreateForm, extra=0)
 
 
-class NotaParcialFormSet(BaseNotaParcialFormSet):
-    def __init__(self, *args,  **kwargs):
-        print("Dentro de NotaParcialFormSet con grupo_notas_parciales: ",kwargs['grupo_notas_parciales'])
-        self.grupo_notas_parciales = GrupoNotasParciales.objects.get(id=int(kwargs['grupo_notas_parciales']))
-        super(NotaParcialFormSet, self).__init__(*args, **kwargs)
+# class NotaParcialFormSet(BaseNotaParcialFormSet):
+#     def __init__(self, *args,  **kwargs):
+#         print("Dentro de NotaParcialFormSet con grupo_notas_parciales: ",kwargs['grupo_notas_parciales'])
+#         ##self.grupo_notas_parciales = GrupoNotasParciales.objects.get(id=int(kwargs['grupo_notas_parciales']))
+#         super(NotaParcialFormSet, self).__init__(*args, **kwargs)
 

@@ -11,9 +11,6 @@
 
 <h1>Notas parciales del grupo {{ grupo.nombre }} </h1>
 
-    {{ notas_formset.non_field_errors }}
-
-	{{ notas_formset.management_form }}
 	<table class="table">
 		<thead>
 			<tr>
@@ -21,22 +18,19 @@
                 {%  for asistencia in grupo.asistencia_set.all %}
                 <th>{{ asistencia.alumno }}</th>
                 {% endfor %}
-                <th></th>
 
 			</tr>
 		</thead>
 		<tbody>
-        {% for nota_parcial_formset in notas_formset_array %}
+        {% for nota_parcial, notas in grupo_notas_parciales.items %}
             <tr>
-                <td>{{ nota_parcial_formset.grupo_notas_parciales.nombre }}</td>
-                <form role="form" method="post" action="{% url 'nota_parcial_update' nota_parcial_formset.grupo_notas_parciales.id %}">
-                {% csrf_token %}
-                {{ nota_parcial_formset.managment_form }}
-                {{ nota_parcial_formset }}
+
+                <td><b>{{ nota_parcial }}</b></td>
+                {% for nota_id, nota in notas.items %}
                 <td>
-                    <button type="submit">Enviar</button>
+                    {{ nota }} <a href="{% url 'nota_parcial_update' nota_id %}"><button><i class="zmdi zmdi-edit"></i></button></a>
                 </td>
-                </form>
+                {% endfor %}
             </tr>
         {% endfor %}
 		</tbody>
@@ -47,6 +41,7 @@
         </div>
 
     <hr />
+<h3>Nueva nota parcial</h3>
     <form action="{% url 'notas_parciales_grupo_nueva' grupo.id %}" method="post">{% csrf_token %}
         {{ grupo_notas_parciales_form|bootstrap_inline }}
         <br />
@@ -54,8 +49,14 @@
           <button type="submit">Enviar</button>
         </div>
     </form>
+<h3>Editar parciales</h3>
+<ul>
+{% for grupo_nota_parcial in grupo.notas_parciales.all %}
+    <li>{{grupo_nota_parcial.nombre}}
+        <a href="{% url 'notas_parciales_grupo_editar' grupo_nota_parcial.pk %}"><i class="zmdi zmdi-edit"></i></a>
+        <a href="{% url 'notas_parciales_grupo_borrar' grupo_nota_parcial.pk %}"><i class="zmdi zmdi-delete"></i></a>
+    </li>
 
-
-
-
+{% endfor %}
+</ul>
 {% endblock %}

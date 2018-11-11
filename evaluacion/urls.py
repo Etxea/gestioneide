@@ -19,8 +19,10 @@ urlpatterns = [
     url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre/editar/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<pk>\d+)/borrar/$',login_required(DeleteView.as_view(model=Nota)), name="nota_borrar"),
 
-    url(r'nota/parcial/grupo/(?P<pk>\d+)/$',  login_required(NotasParcialesGrupoView.as_view()), name="notas_parciales_grupo"),
-    url(r'nota/parcial/grupo/(?P<grupo_id>\d+)/nueva/$', login_required(NotasParcialesGrupoCreateView.as_view()), name="notas_parciales_grupo_nueva"),
+    url(r'nota/parciales/grupo/(?P<pk>\d+)/$',  login_required(NotasParcialesGrupoView.as_view()), name="notas_parciales_grupo"),
+    url(r'nota/parciales/grupo/(?P<grupo_id>\d+)/nueva/$', login_required(NotasParcialesGrupoCreateView.as_view()), name="notas_parciales_grupo_nueva"),
+    url(r'nota/parciales/(?P<pk>\d+)/editar/$', login_required(NotasParcialesGrupoUpdateView.as_view()), name="notas_parciales_grupo_editar"),
+    url(r'nota/parciales/(?P<pk>\d+)/borrar/$', login_required(NotasParcialesGrupoDeleteView.as_view()), name="notas_parciales_grupo_borrar"),
     url(r'nota/parcial/(?P<pk>\d+)/', login_required(NotaParcialUpdateView.as_view()), name="nota_parcial_update"),
     url(r'nota/parcial/(?P<pk>\d+)/borrar/$', login_required(DeleteView.as_view(model=NotaParcial)), name="nota_parcial_borrar"),
 
