@@ -1,0 +1,18 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+<a class="btn btn-primary pull-right" href="{% url 'mensaje_nuevo' %}">Mandar Mensaje</a>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+    <ul>
+    {% for mensaje in mensajes %}
+    <li> <a href="{% url 'mensaje_ver' mensaje.id %}"> {{ mensaje.creador }} - {{ mensaje.titulo }} ({{ mensaje.fecha_creacion}})</a></li>
+    {% endfor %}
+    </ul>
+    </div>
+</div>
+{% endblock %}
