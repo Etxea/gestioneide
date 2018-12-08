@@ -33,6 +33,7 @@ urlpatterns = [
     url(r"^centros/", include("centros.urls")),
     url(r"^empresas/", include("empresas.urls")),
     url(r"^perfil/", include("perfil.urls")),
+    url(r"^mensajes/", include("mensajes.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

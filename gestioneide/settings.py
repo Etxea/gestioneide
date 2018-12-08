@@ -172,6 +172,7 @@ INSTALLED_APPS = [
     "perfil",
     "empresas",
     "centros",
+    "mensajes",
 ]
 
 # A sample logging configuration. The only tangible logging
