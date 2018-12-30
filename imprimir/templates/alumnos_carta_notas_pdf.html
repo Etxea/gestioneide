@@ -57,14 +57,12 @@
     <div style="text-align:center;width=100%">
             {%  tabla_notas_trimestre %}
     <br />
-<!--
-    <div style="font-size: x-small">* Las notas del primer y segundo trimestre son la media de los controles de gramática y vocabulario. Las notas del 3er trimestre la nota de gramática y vocabulario final.</div>
-    <div style="font-size: x-small">* La puntuación se realiza sobre una escala de 100 puntos..</div>
-    </div>
--->
     {% if asistencia.grupo.curso.tipo_evaluacion > 1  and asistencia.grupo.curso.tipo_evaluacion < 5 and trimestre > 1 %}
     <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
     {%  tabla_notas_cuatrimestre %}
+    {% endif %}
+    {% if asistencia.grupo.curso.tipo_evaluacion in [2,3,4]  %}
+    <div style="font-size: x-small">* Nota de APTO: {{ asistencia.grupo.curso.nota_aprobado }}</div>
     {% endif %}
     <div style="width=100%">
         <h3>Observaciones del profesorado</h3>
