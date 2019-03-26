@@ -2,13 +2,18 @@
 {% load i18n %}
 
 {% block page_header %}
-<a class="btn btn-primary pull-right" href="{% url 'mensaje_nuevo' %}">Mandar Mensaje</a>
+<div class="pull-right" > 
+<a class="btn btn-primary" href="{% url 'mensaje_nuevo' %}">Mandar Mensaje Personal</a> 
+<a class="btn btn-primary" href="{% url 'mensaje_todos_nuevo' %}">Mandar Mensaje Global</a>
+</div>
 {% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-md-12 col-xs-12">
     <ul>
+    <h3>Mensajes recibidos</h3>
+    <h3>Mensajes enviados</h3>
     {% for mensaje in mensajes %}
     <li> <a href="{% url 'mensaje_ver' mensaje.id %}"> {{ mensaje.creador }} - {{ mensaje.titulo }} ({{ mensaje.fecha_creacion}})</a></li>
     {% endfor %}

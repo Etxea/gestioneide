@@ -10,7 +10,8 @@ class Mensaje(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     titulo = models.TextField()
     texto = models.TextField()
-    leido = models.BooleanField()
+    leido = models.BooleanField(default=False)
+    todos = models.BooleanField(default=False)
 
 class Comentario(models.Model):
     mensaje = models.ForeignKey(Mensaje)
