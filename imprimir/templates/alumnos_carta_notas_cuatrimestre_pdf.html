@@ -74,7 +74,7 @@
     {%  tabla_notas_cuatrimestre %}
 </div>
 {% endif %}
-{% if asistencia.grupo.curso.tipo_evaluacion in [2,3,4]  %}
+{% if asistencia.grupo.curso.tipo_evaluacion == 2 or asistencia.grupo.curso.tipo_evaluacion == 3 or asistencia.grupo.curso.tipo_evaluacion == 4 %}
 <div style="font-size: x-small">* Nota de APTO: {{ asistencia.grupo.curso.nota_aprobado }}</div>
 {% endif %}
 <div style="width=100%,text-align:center">
