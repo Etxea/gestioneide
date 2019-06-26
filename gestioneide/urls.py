@@ -34,6 +34,7 @@ urlpatterns = [
     url(r"^empresas/", include("empresas.urls")),
     url(r"^perfil/", include("perfil.urls")),
     url(r"^mensajes/", include("mensajes.urls")),
+    url(r"^docs/", include("pinax.documents.urls", namespace="pinax_documents")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,12 +1,13 @@
 from django import forms
 from localflavor.es.forms import *
+from phonenumber_field.formfields import PhoneNumberField
 from django.forms import ModelForm
 from gestioneide.models import *
 
 
 class AlumnoCreateForm(ModelForm):
-    telefono1 = ESPhoneNumberField(required=True)
-    telefono2 = ESPhoneNumberField(required=False)
+    telefono1 = PhoneNumberField(required=True)
+    telefono2 = PhoneNumberField(required=False)
     cuenta_bancaria = ESCCCField(required=False)
     dni = ESIdentityCardNumberField(required=False)
     cp = ESPostalCodeField(required=False)
