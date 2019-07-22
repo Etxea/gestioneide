@@ -54,7 +54,6 @@ class ImprimirAsistenciaHorario(PDFTemplateView):
         asistencia_id=kwargs['asistencia_id']
         asistencia = Asistencia.objects.get(id=asistencia_id)
         if not asistencia.confirmado:
-            print "Confirmamos la asistencia"
             asistencia.confirmado = True
             asistencia.save()
     

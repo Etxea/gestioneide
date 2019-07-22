@@ -165,7 +165,6 @@ INSTALLED_APPS = [
     "clases",
     "cursos",
     "calendario",
-    "importar",
     "facturacion",
     "evaluacion",
     "informes",

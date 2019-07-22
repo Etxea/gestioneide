@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
 
-from models import Mensaje, Comentario
-from forms import *
+from mensajes.models import Mensaje, Comentario
+from mensajes.forms import *
 
 class MensajesListView(ListView):
     model = Mensaje
@@ -55,7 +55,6 @@ class MensajeRespuestaCreateView(CreateView):
     fields = "__all__"
     
     def get_success_url(self):
-        print self.object.mensaje
         return reverse('mensaje_ver', kwargs ={'pk': self.object.mensaje.id})
 
     def get_initial(self):

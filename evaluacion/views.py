@@ -14,7 +14,7 @@ from datetime import date
 from wkhtmltopdf.views import PDFTemplateView
 
 from gestioneide.models import *
-from forms import *
+from evaluacion.forms import *
 
 class EvaluacionListView(ListView):
     template_name="evaluacion/evaluacion.html"
@@ -35,7 +35,7 @@ class EvaluacionListView(ListView):
 def NotasGrupoTrimestreView(request,pk,trimestre):
     grupo = get_object_or_404(Grupo, pk=pk)
     tipo_evaluacion = grupo.curso.tipo_evaluacion
-    print "Tenemos el grupo %s y tipo evaluacion %s"%(grupo,tipo_evaluacion)
+    #print "Tenemos el grupo %s y tipo evaluacion %s"%(grupo,tipo_evaluacion)
     context = RequestContext(request,{'trimestre': trimestre})
     context['grupo']=grupo
     #~ context['grupo_siguiente']=grupo.get_next_by_nombre()
@@ -57,13 +57,13 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
             ##TODO: Volvemos a la lista de grupos, vamos al siguiente??
             pass
         else:
-            print "Formset mal"
+            #print "Formset mal"
             ##Volvemos renderizar con los errores
             context['notas_formset'] = notas_formset
     else:
         lista_asistencias = []
         for asistencia in grupo.asistencia_set.all().order_by('id'):
-            print "Buscando la nota del trimestre %s de la asistencia %s"%(trimestre,asistencia.id)
+            #print "Buscando la nota del trimestre %s de la asistencia %s"%(trimestre,asistencia.id)
             lista_asistencias.append(asistencia.id)
             obj, created = NotaTrimestral.objects.get_or_create(trimestre=trimestre, asistencia=asistencia)
         notas_formset = NotaFomsetClass(queryset=NotaTrimestral.objects.filter(asistencia__in=lista_asistencias,trimestre=trimestre).order_by('asistencia__id'))
@@ -75,7 +75,7 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
     grupo = get_object_or_404(Grupo, pk=pk)
     tipo_evaluacion = grupo.curso.tipo_evaluacion
     template = "evaluacion/notas_grupo_cuatrimestre.html"
-    print "Tenemos el grupo %s y tipo evaluacion %s" % (grupo, tipo_evaluacion)
+    #print "Tenemos el grupo %s y tipo evaluacion %s" % (grupo, tipo_evaluacion)
     context = RequestContext(request, {'cuatrimestre': cuatrimestre})
     context['grupo'] = grupo
     context['cuatrimestre'] = cuatrimestre
@@ -84,13 +84,13 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
     context['asistencias'] = grupo.asistencia_set.all()
     # elegimos el tipo de formset y template
     if tipo_evaluacion == 2:
-        print "Tenemos una evaluacion de tipo elementary_intermediate"
+        #print "Tenemos una evaluacion de tipo elementary_intermediate"
         NotaFomsetClass = ElementayNotaFormSet
     elif tipo_evaluacion == 3:
-        print "Tenemos una evaluacion de tipo intermediate"
+        #print "Tenemos una evaluacion de tipo intermediate"
         NotaFomsetClass = IntermediateNotaFormSet
     elif tipo_evaluacion == 4:
-        print "Teneos una evaluacion de tipo upper"
+        #print "Teneos una evaluacion de tipo upper"
         NotaFomsetClass = UpperNotaFormSet
 
 
@@ -102,18 +102,18 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
             ## Volvemos a la lista
             return redirect(reverse_lazy('evaluacion'))
         else:
-            print "Formset mal"
+            #print "Formset mal"
             context['notas_formset'] = notas_formset
     else:
         lista_asistencias = []
         for asistencia in grupo.asistencia_set.all().order_by('id'):
-            print "Buscando la nota del cuatrimestre %s de la asistencia %s" % (cuatrimestre, asistencia.id)
+            #print "Buscando la nota del cuatrimestre %s de la asistencia %s" % (cuatrimestre, asistencia.id)
             lista_asistencias.append(asistencia.id)
             obj, created = NotaCuatrimestral.objects.get_or_create(cuatrimestre=cuatrimestre, asistencia=asistencia)
         notas_formset = NotaFomsetClass(
             queryset=NotaCuatrimestral.objects.filter(asistencia__in=lista_asistencias, cuatrimestre=cuatrimestre).order_by(
                 'asistencia__id'))
-        # print notas_formset
+        # #print notas_formset
         context['notas_formset'] = notas_formset
 
     return render_to_response(template, context)
@@ -133,19 +133,19 @@ def FaltasGrupoView(request,pk,mes):
         if faltas_formset.is_valid():
             # do something with the formset.cleaned_data
             if faltas_formset.is_valid():
-                print "Guardamos"
+                #print "Guardamos"
                 faltas_formset.save()
             pass
         else:
-            print "Formset mal"
+            print("Formset mal")
     else:
         lista_asistencias = []
         for asistencia in grupo.asistencia_set.all().order_by('id'):
-            print "Buscando la nota del m %s sde la asistencia %s"%(mes,asistencia.id)
+            #print "Buscando la nota del m %s sde la asistencia %s"%(mes,asistencia.id)
             lista_asistencias.append(asistencia.id)
             obj, created = Falta.objects.get_or_create(mes=mes, asistencia=asistencia)
         faltas_formset = FaltaFormSet(queryset=Falta.objects.filter(asistencia__in=lista_asistencias,mes=mes).order_by('asistencia__id'))
-        #print notas_formset
+        ##print notas_formset
         context['faltas_formset']=faltas_formset
     return render_to_response('evaluacion/faltas_grupo.html', context)
 
@@ -154,15 +154,15 @@ class NotasGrupo(DetailView):
     def get_template_names(self):
         grupo = self.get_object()
         tipo_evaluacion = grupo.curso.tipo_evaluacion
-        print "Tenemos el grupo %s y tipo evaluacion %s"%(grupo,tipo_evaluacion)
+        #print "Tenemos el grupo %s y tipo evaluacion %s"%(grupo,tipo_evaluacion)
         if tipo_evaluacion == 2:
-            print "Teneos una evaluacion de tipo elementary_intermediate"
+            #print "Teneos una evaluacion de tipo elementary_intermediate"
             return "evaluacion/notas_grupo_elementary.html"
         elif tipo_evaluacion == 3:
-            print "Teneos una evaluacion de tipo upper"
+            #print "Teneos una evaluacion de tipo upper"
             return "evaluacion/notas_grupo_upper.html"
         else:
-            print "Teneos una evaluacion de tipo elementary_intermediate"
+            #print "Teneos una evaluacion de tipo elementary_intermediate"
             return "evaluacion/notas_grupo.html"
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -178,19 +178,19 @@ class NotasGrupo(DetailView):
         for asistencia in grupo.asistencia_set.all():
             obj, created = Nota.objects.get_or_create(trimestre=trimestre, asistencia=asistencia)
             if created:
-                print "Nueva nota creada"
+                print("Nueva nota creada")
             else:
-                print "Nota vieja cargada"
+                print("Nota vieja cargada")
                 
         tipo_evaluacion = grupo.curso.tipo_evaluacion
         if tipo_evaluacion == 2:
-            print "Teneos una evaluacion de tipo elementary_intermediate"
+            #print "Teneos una evaluacion de tipo elementary_intermediate"
             notas_formset = ElementayNotaFormSet(queryset=Nota.objects.filter(trimestre=trimestre))
         elif tipo_evaluacion == 3:
-            print "Teneos una evaluacion de tipo elementary_intermediate"
+            #print "Teneos una evaluacion de tipo elementary_intermediate"
             notas_formset = UpperNotaFormSet(queryset=Nota.objects.filter(trimestre=trimestre))
         else:
-            print "Teneos una evaluacion de tipo elementary_intermediate"
+            #print "Teneos una evaluacion de tipo elementary_intermediate"
             notas_formset = NotaFormSet(queryset=Nota.objects.filter(trimestre=trimestre))
 
         for asistencia in grupo.asistencia_set.all():
@@ -219,13 +219,13 @@ class NotaCreateView(CreateView):
         asistencia = Asistencia.objects.get(id=self.kwargs['asistencia'])
         tipo_evaluacion = asistencia.grupo.curso.tipo_evaluacion
         if tipo_evaluacion == 2:
-            print "Teneos una evaluacion de tipo elementary_intermediate"
+            #print "Teneos una evaluacion de tipo elementary_intermediate"
             return ElementaryNotaCreateForm
         elif tipo_evaluacion == 2:
-            print "Teneos una evaluacion de tipo upper"
+            #print "Teneos una evaluacion de tipo upper"
             return UpperNotaCreateForm
         else:
-            print "Tenemos una evaluacion de otro tipo"
+            #print "Tenemos una evaluacion de otro tipo"
             return NotaCreateForm
 
 class FaltasGrupo(DetailView):
@@ -367,13 +367,13 @@ class AjaxableResponseMixin(object):
         # call form.save() for example).
         response = super(AjaxableResponseMixin, self).form_valid(form)
         if self.request.is_ajax():
-            print "somo ajaxianos"
+            #print "somo ajaxianos"
             data = {
                 'pk': self.object.pk,
             }
             return JsonResponse(data)
         else:
-            print "NO somo ajaxianos"
+            #print "NO somo ajaxianos"
             return response
 
 class FaltaCreateView(AjaxableResponseMixin, CreateView):

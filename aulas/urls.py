@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required, permission_required
 
 admin.autodiscover()
-from views import *
+from aulas.views import *
 
 
 urlpatterns = [

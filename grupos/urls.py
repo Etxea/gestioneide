@@ -4,8 +4,8 @@ from django.views.generic.edit import UpdateView
 
 from django.contrib.auth.decorators import login_required, permission_required
 
-from models import *
-from views import *
+from gestioneide.models import *
+from grupos.views import *
 
 
 urlpatterns = [

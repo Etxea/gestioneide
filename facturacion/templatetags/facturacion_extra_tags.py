@@ -5,7 +5,7 @@ register = template.Library()
 def calcular_precio(precio, medio):
     """Removes all values of arg from the given string"""
     if medio:
-	return precio/2
+	    return precio/2
     else:
         return precio
 

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import *
+from mensajes.views import *
 
 from django.contrib.auth.decorators import login_required
 

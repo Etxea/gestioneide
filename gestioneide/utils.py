@@ -42,7 +42,6 @@ def csb19_ajustar(numero,longitud, num_decimales=0):
 def validar_ccc(value):
     if len(value) != 24:
         return False
-    print "Validando la cuenta",value
     m = re.match(r'^(\d{4})[ -]?(\d{4})[ -]?(\d{2})[ -]?(\d{10})$', value)
     entity, office, checksum, account = m.groups()
     if get_checksum('00' + entity + office) + get_checksum(account) == checksum:

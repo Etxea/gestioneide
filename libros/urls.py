@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
 from gestioneide.models import *
-from views import *
+from libros.views import *
 
 
 urlpatterns = [

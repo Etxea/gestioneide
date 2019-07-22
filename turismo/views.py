@@ -182,13 +182,11 @@ class AjaxableResponseMixin(object):
         # call form.save() for example).
         response = super(AjaxableResponseMixin, self).form_valid(form)
         if self.request.is_ajax():
-            print "somo ajaxianos"
             data = {
                 'pk': self.object.pk,
             }
             return JsonResponse(data)
         else:
-            print "NO somo ajaxianos"
             return response
 
 class FaltaCreateView(AjaxableResponseMixin, CreateView):

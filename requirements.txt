@@ -15,7 +15,8 @@ ipython
 #xhtml2pdf==0.1a2
 #django-xhtml2pdf
 xlwt
-MySQL-python
+#MySQL-python
+mysqlclient
 django-fixture-magic
 #django-tables2
 django-wkhtmltopdf

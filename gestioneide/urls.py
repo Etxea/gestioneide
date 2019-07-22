@@ -22,7 +22,6 @@ urlpatterns = [
     url(r"^cursos/", include("cursos.urls")),
     url(r"^calendario/", include("calendario.urls")),
     url(r"^evaluacion/", include("evaluacion.urls")),
-    url(r"^importar/", include("importar.urls")),
     url(r"^facturacion/", include("facturacion.urls")),
     url(r"^informes/", include("informes.urls")),
     url(r"^libros/", include("libros.urls")),

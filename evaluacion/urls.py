@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 from django.contrib import admin
-from views import *
+from evaluacion.views import *
 from gestioneide.models import Nota,Falta
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, permission_required

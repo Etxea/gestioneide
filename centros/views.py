@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 
 from gestioneide.models import *
-from forms import *
+from centros.forms import *
 
 @method_decorator(permission_required('gestioneide.centro_view',raise_exception=True),name='dispatch')
 class CentroListView(ListView):
