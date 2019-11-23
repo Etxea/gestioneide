@@ -11,13 +11,62 @@
 {% block body %}
 <div class="row">
     <div class="col-md-12 col-xs-12">
-    <ul>
     <h3>Mensajes recibidos</h3>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">De</th>
+            <th scope="col">Para</th>
+            <th scope="col">Título</th>
+            <th scope="col">Comentarios</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for mensaje in mensajes_parami %}  
+            <tr>
+                <td>
+                    {% if not mensaje.leido %} <b> {% endif %} 
+                        <a href="{% url 'mensaje_ver' mensaje.id %}">{{ mensaje.fecha_creacion}}</a>
+                    {% if not mensaje.leido %} </b> {% endif %}
+                </td>
+                <td>
+                    {% if not mensaje.leido %} <b> {% endif %} 
+                    {{ mensaje.creador }}
+                    {% if not mensaje.leido %} </b> {% endif %} 
+                </td>
+                <td>{{ mensaje.destinatario }}</td>
+                <td>{{ mensaje.titulo }}</td>
+                <td>{{ mensaje.comentario_set.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    
     <h3>Mensajes enviados</h3>
-    {% for mensaje in mensajes %}
-    <li> <a href="{% url 'mensaje_ver' mensaje.id %}"> {{ mensaje.creador }} - {{ mensaje.titulo }} ({{ mensaje.fecha_creacion}})</a></li>
-    {% endfor %}
-    </ul>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Para</th>
+            <th scope="col">De</th>
+            <th scope="col">Título</th>
+            <th scope="col">Comentarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mensaje in mensajes_enviados %}
+            <tr>
+                <td>
+                    <a href="{% url 'mensaje_ver' mensaje.id %}">{{ mensaje.fecha_creacion}}</a></td>
+                <td>{{ mensaje.destinatario }}</td>
+                <td>{{ mensaje.creador }}</td>
+                <td>{{ mensaje.titulo }}</td>
+                <td>{{ mensaje.comentario_set.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     </div>
 </div>
 {% endblock %}

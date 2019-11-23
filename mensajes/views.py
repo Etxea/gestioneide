@@ -9,14 +9,18 @@ from mensajes.forms import *
 
 class MensajesListView(ListView):
     model = Mensaje
-    context_object_name = "mensajes"
+    context_object_name = "mensajes_parami"
     def get_queryset(self):
         super(MensajesListView, self).get_queryset()
-        return Mensaje.objects.filter(creador=self.request.user).exclude(todos=True)
+        return Mensaje.objects.filter(destinatario=self.request.user).exclude(todos=True)
+    def get_context_data(self, **kwargs):
+        context = super(MensajesListView, self).get_context_data(**kwargs)
+        context['mensajes_enviados'] = Mensaje.objects.filter(creador=self.request.user).exclude(todos=True)
+        return context
 
 class MensajeCreateView(CreateView):
     model = Mensaje
-    fields = "__all__"
+    form_class = MensajeForm
     success_url = reverse_lazy('mensajes') 
     def get_initial(self):
         super(CreateView, self).get_initial()
