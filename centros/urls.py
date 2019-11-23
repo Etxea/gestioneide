@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from views import *
+from centros.views import *
 
 urlpatterns = [
     url(r'^$',CentroListView.as_view(),name="centros_lista"),

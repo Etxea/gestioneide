@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from gestioneide.models import *
-from forms import *
+from alumnos.forms import *
 
 
 import logging
@@ -90,9 +90,9 @@ class AlumnoBajaView(View,SingleObjectMixin):
     def post(self, request, *args, **kwargs):
         # Look up the author we're interested in.
         self.object = self.get_object()
-        print "Vamos a dar de baja al alumno", self.object
+        #print "Vamos a dar de baja al alumno", self.object
         for asistencia in self.object.asistencia_set.all():
-            print "Borrando asistencia",asistencia
+            #print "Borrando asistencia",asistencia
             asistencia.delete()
         hist = Historia(alumno=self.object,tipo="baja",anotacion="")
         hist.save()

@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
 from gestioneide.models import *
-from views import *
+from year.views import *
 
 
 urlpatterns = [

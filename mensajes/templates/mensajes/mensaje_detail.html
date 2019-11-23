@@ -1,0 +1,26 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+<h2> Mensaje de {{ mensaje.creador }} para {{ mensaje.destinatario}} enviado el {{ mensaje.fecha_creacion}}</h2>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+    <h2> {{ mensaje.titulo }} </h2>
+    <div>
+        {{ mensaje.texto }}
+    </div>
+    <h3>Respuestas:</h3>
+    <ul>
+    {% for respuesta in mensaje.comentario_set.all %}
+    <li>
+        {{ respuesta.creador }} el {{ respuesta.fecha_creacion }}: {{ respuesta.texto }}
+    </li>
+    {% endfor %}
+    </ul>
+    <a class="btn btn-primary pull-right" href="{% url 'mensaje_responder' mensaje.id %}">Responder</a>
+    
+</div>
+{% endblock %}

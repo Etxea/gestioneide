@@ -57,7 +57,10 @@ class UpperNotaCreateFrom(NotaCreateForm):
         fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np','useofenglish','useofenglish_np','observaciones']
 
 
+
 NotaFormSet = modelformset_factory(NotaCuatrimestral,form=NotaCreateForm,extra=0)
+
+
 
 NotaTrimestralFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralCreateForm,extra=0)
 NotaTrimestralKidsFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralKidsCreateForm,extra=0)
@@ -67,3 +70,36 @@ IntermediateNotaFormSet = modelformset_factory(NotaCuatrimestral,form=Intermedia
 UpperNotaFormSet = modelformset_factory(NotaCuatrimestral,form=UpperNotaCreateFrom,extra=0)
 
 FaltaFormSet = modelformset_factory(Falta,exclude=('mes','asistencia','id'),extra=0)
+
+
+## Notas parciales
+class GrupoNotasParcialesCreateForm(ModelForm):
+    class Meta:
+        model = GrupoNotasParciales
+        fields = '__all__'
+        widgets = {
+        #     'id': forms.HiddenInput(),
+             'grupo': forms.HiddenInput()
+        }
+
+
+class NotaParcialCreateForm(ModelForm):
+    class Meta:
+        model = NotaParcial
+        fields = '__all__'
+        widgets = {
+            'nota': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'width':'3','size':'3','maxlength': '3'}),
+            'grupo_notas_parciales': forms.HiddenInput(),
+            'asistencia': forms.HiddenInput()
+        }
+
+
+NotaParcialFormSet = modelformset_factory(NotaParcial, form=NotaParcialCreateForm, extra=0)
+
+
+# class NotaParcialFormSet(BaseNotaParcialFormSet):
+#     def __init__(self, *args,  **kwargs):
+#         print("Dentro de NotaParcialFormSet con grupo_notas_parciales: ",kwargs['grupo_notas_parciales'])
+#         ##self.grupo_notas_parciales = GrupoNotasParciales.objects.get(id=int(kwargs['grupo_notas_parciales']))
+#         super(NotaParcialFormSet, self).__init__(*args, **kwargs)
+

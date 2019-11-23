@@ -22,7 +22,6 @@ urlpatterns = [
     url(r"^cursos/", include("cursos.urls")),
     url(r"^calendario/", include("calendario.urls")),
     url(r"^evaluacion/", include("evaluacion.urls")),
-    url(r"^importar/", include("importar.urls")),
     url(r"^facturacion/", include("facturacion.urls")),
     url(r"^informes/", include("informes.urls")),
     url(r"^libros/", include("libros.urls")),
@@ -33,6 +32,9 @@ urlpatterns = [
     url(r"^centros/", include("centros.urls")),
     url(r"^empresas/", include("empresas.urls")),
     url(r"^perfil/", include("perfil.urls")),
+    url(r"^mensajes/", include("mensajes.urls")),
+    url(r"^docs/", include("pinax.documents.urls", namespace="pinax_documents")),
+    url(r"^messages/", include("pinax.messages.urls", namespace="pinax_messages")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

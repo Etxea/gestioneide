@@ -3,7 +3,7 @@
 
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
-from utils import _getWeekDetails
+#from utils import _getWeekDetails
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 from gestioneide.models import *
-from forms import *
+from clases.forms import *
 
 @method_decorator(permission_required('gestioneide.clase_add',raise_exception=True),name='dispatch')
 class ClaseCreateView(CreateView):
@@ -40,7 +40,6 @@ def calendario_mes(request,curso_id,ano,mes):
     mes = int(mes)
     cal = HTMLCalendar()
     
-    
     dias_semana = []
     curso = Curso.objects.get(id=curso_id)
     for clase in curso.clase_set.all():
@@ -50,7 +49,6 @@ def calendario_mes(request,curso_id,ano,mes):
     
     c = Calendar()
     for d in c.itermonthdates(ano,mes):
-        ##print d
         if d.weekday() in dias_semana:
             #evitamos recibir los dias que no son del mes que toca
             if d.month == mes:
@@ -64,14 +62,14 @@ def calendario_mes(request,curso_id,ano,mes):
 
 
 def vista_semana(request, numero):
-    datos_semana=_getWeekDetails(numero, 2013,2)
+    #datos_semana=_getWeekDetails(numero, 2013,2)
     inicio_semana = datetime.date(datos_semana[0].tm_year,datos_semana[0].tm_mon,datos_semana[0].tm_mday)
     fin_semana = datetime.date(datos_semana[1].tm_year,datos_semana[1].tm_mon,datos_semana[1].tm_mday)
     #cuartos = { "1": 00; "2": 15, "3": 30, "4": 45  }
     return render_to_response('ocupacion_semana.html', {"numero_semana": numero, "inicio_semana": inicio_semana, "fin_semana": fin_semana})
 
 def vista_semana_aula(request, numero):
-    datos_semana=_getWeekDetails(numero, 2014,2)
+    #datos_semana=_getWeekDetails(numero, 2014,2)
     inicio_semana = datetime.date(datos_semana[0].tm_year,datos_semana[0].tm_mon,datos_semana[0].tm_mday)
     fin_semana = datetime.date(datos_semana[1].tm_year,datos_semana[1].tm_mon,datos_semana[1].tm_mday)
     #cuartos = { "1": 00; "2": 15, "3": 30, "4": 45  }
@@ -98,11 +96,9 @@ def vista_semana_aula(request, numero, id_aula):
     clases_semana = []
     for dia in dias_semana:
         clases = programacion_aula_dia(aula,inicio_semana+datetime.timedelta(days=count))
-        #~ print "Anadimos las clases al dia",dia
-        #~ print clases
         clases_semana.append({"nombre": dia, "clases":clases})
         count += 1
-    #~ print clases_semana
+    
     return render(request,'ocupacion_semana_aula.html',\
         {"numero_semana": numero, "inicio_semana": inicio_semana, "fin_semana": fin_semana, \
         "clases_semana": clases_semana,"aula": aula, "aulas": aulas},context_instance=RequestContext(request),content_type='text/html')
@@ -110,9 +106,7 @@ def vista_semana_aula(request, numero, id_aula):
 
 def vista_semana_profesor(request, numero, id_profesor):
     profesor = Profesor.objects.get(id=id_profesor)
-    print "tenemos el profesor",profesor
     profesores = Profesor.objects.all()
-    print "tenemos los profesores",profesores
     datos_semana=_getWeekDetails(numero, 2013,2)
     inicio_semana = datetime.date(datos_semana[0].tm_year,datos_semana[0].tm_mon,datos_semana[0].tm_mday)
     fin_semana = datetime.date(datos_semana[1].tm_year,datos_semana[1].tm_mon,datos_semana[1].tm_mday)
@@ -120,11 +114,8 @@ def vista_semana_profesor(request, numero, id_profesor):
     clases_semana = []
     for dia in dias_semana:
         clases = programacion_profesor_dia(profesor,inicio_semana+datetime.timedelta(days=count))
-        #print "Anadimos las clases al dia",dia
-        #print clases
         clases_semana.append({"nombre": dia, "clases":clases})
         count += 1
-    #print clases_semana
     return render(request,'ocupacion_semana_profesor.html', \
         {"numero_semana": numero, "inicio_semana": inicio_semana, "fin_semana": fin_semana, \
         "clases_semana": clases_semana,"profesor": profesor, "profesores": profesores})
@@ -137,7 +128,7 @@ class clases_profesor(ListView):
     template_name = "clases_profesor.html"
     ##Listamos las clases del profesor
     def get_queryset(self):
-        print "Buscamos el profesor con el id",self.args[0]
+        #print "Buscamos el profesor con el id",self.args[0]
         self.profesor = get_object_or_404(Profesor, id=self.args[0])
         return Clase.objects.filter(profesor=self.profesor)
         
@@ -184,7 +175,7 @@ class clases_aula(ListView):
     template_name = "clases_aula.html"
     ##Listamos las clases del profesor
     def get_queryset(self):
-        print "Buscamos el aula con el id",self.args[0]
+        #print "Buscamos el aula con el id",self.args[0]
         self.aula = get_object_or_404(Aula, id=self.args[0])
         return Clase.objects.filter(aula=self.aula)
         

@@ -6,6 +6,15 @@ from gestioneide.models import *
 class ReciboCreateForm(ModelForm):
     class Meta:
         model = Recibo
-        #~ fields = '__all__'
-        exclude = ['fichero_csb19']
+        fields = ['year', 'empresa', 'mes', 'medio_mes', 'grupos_sueltos']
 
+class ReciboUpdateForm(ModelForm):
+    class Meta:
+        model = Recibo
+        exclude = ['fichero_csb19', 'recibos_generados', 'importe_recibos', 'metalicos', 'importe_metalico', 'importe_total', 'numero_recibos', 'errores']
+    def __init__(self, *args, **kwargs):
+        super(ReciboUpdateForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            grupos = Grupo.objects.filter(centro__in=self.instance.empresa.centro_set.all(),year=Year().get_activo())
+            self.fields['grupos'].widget = forms.SelectMultiple(attrs={'size': '%s'%len(grupos)})
+            self.fields['grupos'].queryset = grupos

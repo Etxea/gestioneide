@@ -13,17 +13,45 @@
         <h3>Notas</h3>
         <table class="table table-hover">
             <thead>
-                <th>Grupo</th><th>Trim. 1</th><th>Trim. 3</th><th>Trim. 3</th>
+                <th>Grupo</th>
+                <th>Parciales</th>
+                <th>1º Trim</th>
+                <th>1º Quat.</th>
+                <th>2º Trim</th>
+                <th>2º Quat.</th>
+                <th>3º Trim</th>
             </thead>
             <tbody>
 				{% for grupo in object_list %}
 				<tr>
-					<td>{{grupo.nombre}}</td>
+					<td>{{grupo.nombre}} {{ grupo.curso.tipo_evaluacion }}</td>
+                    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_parciales_grupo' grupo.id %}"></td>
+                    {%  if grupo.curso.tipo_evaluacion > 1 %}
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 1 %}"></a></td>
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_cuatrimestre_grupo' grupo.id 1 %}"></a></td>
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 2 %}"></a></td>
+					    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_cuatrimestre_grupo' grupo.id 2 %}"></a></td>
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 3 %}"></a></td>
+                    {% else %}
 					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 1 %}"></a></td>
+                    <td></td>
 					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 2 %}"></a></td>
+                    <td></td>
 					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 3 %}"></a></td>
+                    {% endif %}
 				</tr>
-				{% endfor %}
+                {% if forloop.counter|divisibleby:"10" %}
+                    <thead>
+                        <th>Grupo</th>
+                        <th>Parciales</th>
+                        <th>1º Trim</th>
+                        <th>1º Quat.</th>
+                        <th>2º Trim</th>
+                        <th>2º Quat.</th>
+                        <th>3º Trim</th>
+                    </thead>
+				{% endif %}
+                {% endfor %}
             </tbody>
         </table>
     </div>

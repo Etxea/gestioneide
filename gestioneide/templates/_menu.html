@@ -89,11 +89,19 @@
 		</a>
 	</li>
     {% endif %}
-	<li>
+	<li class="sm-sub">
 		<a href="{% url 'evaluacion' %}">
 			<i class="zmdi zmdi-graduation-cap"></i>
 			<span>Evaluación</span>
 		</a>
+		<ul>
+			<li>
+				<a href="{% url 'evaluacion_notas' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Notas</span></a>
+			</li>
+			<li>
+				<a href="{% url 'evaluacion_faltas' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Faltas</span></a>
+			</li>
+		</ul>
 	</li>
 	{% if request.user.is_staff %}
 	<li>
@@ -131,5 +139,12 @@
 		</a>
 	</li>
 	{% endif %}
+	<li>
+		<a href="{% url 'mensajes' %}">
+			<i class="zmdi zmdi-trending-up"></i>
+			<span>Mensajes</span>
+		</a>
+	</li>
+	
 	{% endif %}
 </ul>

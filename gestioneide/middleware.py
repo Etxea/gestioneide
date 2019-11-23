@@ -3,7 +3,7 @@ from django.contrib import messages
 import datetime
 from django.shortcuts import redirect
 
-import settings
+import gestioneide.settings
 
 class SessionIdleTimeout:
     def process_request(self, request):

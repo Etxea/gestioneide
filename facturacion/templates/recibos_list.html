@@ -11,15 +11,17 @@
 <a class="btn btn-primary" href="{% url 'recibo_nuevo' %}">Nuevo recibo</a>
 <table role="table" class="table">
 	<thead>
-		<th>Fecha Creación</th><th>Mes</th><th>Medio Mes</th><th>Fichero CSB19</th><th>Informe</th>
+		<th>Fecha Creación</th><th>Empresa</th><th>Mes</th><th>Medio Mes</th><th>Fichero CSB19</th><th>Informe</th><th>Editar</th>
 	</thead>
 	<tbody>
 		 {% for recibo in object_list %}
 		 <tr>
 			 <td><a href="{{ recibo.get_absolute_url }}" >{{ recibo.fecha_creacion }}</a></td>
+             <td>{{ recibo.empresa }}</td>
 			 <td>{{ recibo.get_mes_display }}</td><td>{{ recibo.medio_mes|yesno }}</td>
 			 <td><a href="{% url 'recibo_fichero' recibo.id %}" ><span class="glyphicon glyphicon-list"></span></a></td>
 			 <td><a href="{% url 'recibo_informe' recibo.id %}" ><span class="glyphicon glyphicon-print"></span></a></td>
+             <td><a href="{% url 'recibo_editar' recibo.id %}" ><span class="glyphicon glyphicon-pencil"></span></a></td>
 		 </tr>
 		 {% endfor %}
 	</tbody>

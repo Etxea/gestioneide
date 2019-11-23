@@ -1,0 +1,62 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Notas Parciales{% endblock %}
+
+
+{% block body %}
+
+<h1>Notas parciales del grupo {{ grupo.nombre }} </h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumnos</th>
+                {%  for asistencia in grupo.asistencia_set.all %}
+                <th>{{ asistencia.alumno }}</th>
+                {% endfor %}
+
+			</tr>
+		</thead>
+		<tbody>
+        {% for nota_parcial, notas in grupo_notas_parciales.items %}
+            <tr>
+
+                <td><b>{{ nota_parcial }}</b></td>
+                {% for nota_id, nota in notas.items %}
+                <td>
+                    {{ nota }} <a href="{% url 'nota_parcial_update' nota_id %}"><button><i class="zmdi zmdi-edit"></i></button></a>
+                </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+		</tbody>
+    </table>
+<br />
+        <div class="form-actions">
+
+        </div>
+
+    <hr />
+<h3>Nueva nota parcial</h3>
+    <form action="{% url 'notas_parciales_grupo_nueva' grupo.id %}" method="post">{% csrf_token %}
+        {{ grupo_notas_parciales_form|bootstrap_inline }}
+        <br />
+        <div class="form-actions">
+          <button type="submit">Enviar</button>
+        </div>
+    </form>
+<h3>Editar parciales</h3>
+<ul>
+{% for grupo_nota_parcial in grupo.notas_parciales.all %}
+    <li>{{grupo_nota_parcial.nombre}}
+        <a href="{% url 'notas_parciales_grupo_editar' grupo_nota_parcial.pk %}"><i class="zmdi zmdi-edit"></i></a>
+        <a href="{% url 'notas_parciales_grupo_borrar' grupo_nota_parcial.pk %}"><i class="zmdi zmdi-delete"></i></a>
+    </li>
+
+{% endfor %}
+</ul>
+{% endblock %}

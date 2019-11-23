@@ -1,6 +1,6 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 from django.views.generic import TemplateView
-from views import *
+from informes.views import *
 
 from django.contrib.auth.decorators import login_required
 

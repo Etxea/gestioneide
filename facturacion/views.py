@@ -9,20 +9,38 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from gestioneide.models import *
-from forms import *
+from facturacion.forms import *
 
 import xlwt
 
 @method_decorator(permission_required('gestioneide.recibo_view',raise_exception=True),name='dispatch')
 class ReciboListView(ListView):
     model = Recibo
+
+    ordering = "-fecha_creacion"
     template_name = "recibos_list.html"
+    def get_queryset(self):
+        return Recibo.objects.filter(year=Year().get_activo(self.request)).order_by("-id")
 
 @method_decorator(permission_required('gestioneide.recibo_add',raise_exception=True),name='dispatch')
 class ReciboCreateView(CreateView):
     model = Recibo
     template_name = "recibo_create.html"
     form_class = ReciboCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('recibo_editar', kwargs={'pk': self.object.id })
+
+    def get_initial(self):
+        year = Year().get_activo(self.request)
+        return { 'year': year }
+
+
+@method_decorator(permission_required('gestioneide.recibo_add',raise_exception=True),name='dispatch')
+class ReciboUpdateView(UpdateView):
+    model = Recibo
+    template_name = "recibo_update.html"
+    form_class = ReciboUpdateForm
     def get_initial(self):
         year = Year().get_activo(self.request)
         return { 'year': year }
@@ -66,7 +84,7 @@ def ReciboInformeExcelView(request,pk):
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
     recibo = Recibo.objects.get(id=pk)
-    print "tenemos el recibo",recibo.get_alumnos_metalico()
+
     for asistencia in recibo.get_alumnos():
         tipo="recibo"
         if asistencia.metalico:
@@ -98,10 +116,11 @@ class ReciboFicheroView(View,SingleObjectMixin):
     model = Recibo
     template_name = "recibo_fichero.html"
     def get(self, request, *args, **kwargs):
-        fichero = self.get_object().csb19()
+        #Lanzamos la generacion del fichero
+        self.get_object().csb19()
         response = HttpResponse(content_type='text/txt')
-        response['Content-Disposition'] = 'attachment; filename="csb19.txt"'
-        response.write(fichero)
+        response['Content-Disposition'] = 'attachment; filename="csb19_%s_%s.txt"'%(self.get_object().empresa,self.get_object().fecha_cargo.strftime("%d%m%y"))
+        response.write(self.get_object().fichero_csb19)
         return response
 
 @method_decorator(permission_required('gestioneide.recibo_delete',raise_exception=True),name='dispatch')

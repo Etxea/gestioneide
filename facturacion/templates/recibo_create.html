@@ -20,21 +20,8 @@
 
 {% block extra_body %}
 <script>
-function check_grupos_sueltos() {
-	if ($("#id_grupos_sueltos").is(":checked"))
-	{
-		console.log("Grupos sueltos");
-		$("#id_grupos").prop('disabled', false);
-	} else {
-		$("#id_grupos").prop('disabled', true);
-	}	    
-};
 $(document).ready(function() {
-	console.log("Primer check");
-	check_grupos_sueltos();
-	$("#id_grupos_sueltos").change(function() {
-		check_grupos_sueltos();
-	});
+	$("#id_year").prop('contenteditable', false);
 });
 </script>
 {% endblock %}

@@ -18,7 +18,7 @@ else:
 import datetime
 import calendar
 
-from utils import *
+#from utils import *
 
 DIAS_SEMANA = (
     (1, _('Lunes')),
@@ -121,12 +121,24 @@ class Year(models.Model):
 class CuentaBancaria(models.Model):
     nombre = models.CharField('Nombre',max_length=50)
     banco = models.DecimalField(max_digits=4, decimal_places=0,default=2095)
-    oficina = models.DecimalField(max_digits=4, decimal_places=0,default=0553)
+    oficina = models.DecimalField(max_digits=4, decimal_places=0,default="0553")
     dc = models.DecimalField(max_digits=2, decimal_places=0,default=00)
     cuenta= models.DecimalField(max_digits=10, decimal_places=0,default=0000000000)
 
     def __unicode__(self):
         return "%s"%self.nombre
+
+    def get_oficina(self):
+        return str(csb19_ajustar(self.oficina,4))
+
+    def get_banco(self):
+        return str(csb19_ajustar(self.banco,4))
+
+    def get_dc(self):
+        return str(csb19_ajustar(self.dc,2))
+
+    def get_cuenta(self):
+        return str(csb19_ajustar(self.cuenta,10))
 
 class Empresa(models.Model):
     nombre = models.CharField('Nombre',max_length=255)
@@ -134,8 +146,12 @@ class Empresa(models.Model):
     email = models.EmailField(default="",blank=True,null=True)
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
     razon_social= models.CharField('Razón Social',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
+    cif = models.CharField(max_length=9,default='B12345678')
     csb19_suffijo = models.DecimalField(max_digits=3, decimal_places=0, default=000)
     cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True)
+
+    def get_sufijo(self):
+        return str(csb19_ajustar(self.csb19_suffijo,3))
 
     def __unicode__(self):
         return "%s"%self.nombre
@@ -177,7 +193,7 @@ class Aula(models.Model):
                 fecha_consulta = datetime.time(hora,cuarto)
                 programacion_hora = ["%02d:%02d"%(hora,cuarto)]
                 for dia in range(1,6):
-                    print dia
+                    print(dia)
                     clase = Clase.objects.filter(dia_semana=dia,aula=self,\
                             hora_inicio__lte=fecha_consulta,hora_fin__gt=fecha_consulta,grupo__in=grupos)
                     if clase.count() == 1:
@@ -200,9 +216,8 @@ class Profesor(models.Model):
     email = models.EmailField(default="",blank=True,null=True)
 
     def __unicode__(self):
-        #~ return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
-        #~ return "%s, %s"%(self.apellido,self.nombre)
         return "%s"%(self.nombre)
+
     def get_absolute_url(self):
         return "/profesores/%s/"%self.id
 
@@ -220,7 +235,7 @@ contraseña: %s
 Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
-        self.user.email_user("Alta en gestion de alumnos EIDE",mensaje)
+        self.user.email_user("Cambio contraseña en gestion de alumnos EIDE",mensaje)
         send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
 
     def create_user(self):
@@ -230,32 +245,38 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
             pg = Group(name="profesores")
             pg.save()
         if self.user == None:
+            password = User.objects.make_random_password()  # type: unicode
+            nombreusuario = slugify("%s%s" % (self.nombre,self.apellido)).replace('-', '')
+            print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
+            if len(User.objects.filter(username=nombreusuario))>0:
+                print("Pero ya existe el usuario %s y lo asociamos"%nombreusuario)
+                self.user = User.objects.get(username=nombreusuario)
+                self.save()
+                return
             try:
-                u = User.objects.get(username=slugify(self.nombre))
-                self.user=u
-                u.groups.add(pg)
+                u = User(username=nombreusuario,email=self.email)
                 u.save()
-                self.save()
-            except:
-                password = User.objects.make_random_password()
-                print "No hay usuario generamos uno para ",self.nombre,"con el pass ",password
-                username = slugify("%s%s"%(self.nombre,self.apellido))
-                u = User(username=username,email=self.email)
-                u.save()
-                u.set_password(password)
-                u.groups.add(pg)
-                u.save()
-                mensaje = u"""Acabamos de crear un usuario para el nuevo sistema de
-                gestión de alumnos de EIDE. Los datos de acceso son:
-                https://gestion.eide.es
-                usuario: %s
-                contraseña: %s
-                Guarda en lugar seguro estos datos por favor.
-                """%(self.nombre,username,password)
-                self.user=u
-                self.save()
-                u.email_user("Alta en gestion de alumnos EIDE",mensaje)
-                send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
+            except Exception as e:
+                print("No hemos podido crearlo")
+                print(e)
+                return
+            u.set_password(password)
+            u.groups.add(pg)
+            u.save()
+            mensaje = u"""Acabamos de crear un usuario para el nuevo sistema de
+            gestión de alumnos de EIDE. Los datos de acceso son:
+            https://gestion.eide.es/
+            usuario: %s
+            contraseña: %s
+            Guarda en lugar seguro estos datos por favor.
+            """%(nombreusuario,password)
+            self.user=u
+            self.save()
+            u.email_user("Alta en gestion de alumnos EIDE",mensaje)
+            send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
+        else:
+            print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
+
 
     def programacion_semana(self):
         tabla_clases = []
@@ -267,7 +288,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
                 #print "Vamos con la fecha de consulta %s"%(fecha_consulta)
                 programacion_hora = ["%02d:%02d"%(hora,cuarto)]
                 for dia in range(1,6):
-                    print dia
+                    print(dia)
                     clase = Clase.objects.filter(dia_semana=dia,profesor=self,\
                             hora_inicio__lt=fecha_consulta,hora_fin__gte=fecha_consulta,grupo__in=grupos)
                     if clase.count() == 1:
@@ -290,15 +311,15 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         try:
             horas = self.user.asistencia_set.filter(contabilizado=False).aggregate(Sum('duracion'))
         except:
-            print "No podemos agregar fecha asi que a mano"
+            print("No podemos agregar fecha asi que a mano")
             for p in self.user.asistencia_set.filter(contabilizado=False):
-                print "Sumamos ",p.duracion
+                print("Sumamos ",p.duracion)
                 pendiente_horas = pendiente_horas + p.duracion.hour
                 pendiente_minutos = pendiente_minutos + p.duracion.minute
-        print "Tenemos %s:%s"%(pendiente_horas,pendiente_minutos)
+        print("Tenemos %s:%s"%(pendiente_horas,pendiente_minutos))
         pendiente_horas = pendiente_horas + pendiente_minutos/60
         pendiente_minutos = pendiente_minutos%60
-        print "Tenemos %s:%s"%(pendiente_horas,pendiente_minutos)
+        print("Tenemos %s:%s"%(pendiente_horas,pendiente_minutos))
         return "%s:%s"%(pendiente_horas,pendiente_minutos)
 
 class Alumno(models.Model):
@@ -438,7 +459,7 @@ class Grupo(models.Model):
             filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
         posicion = int(filtro.filter(nombre__lt = self.nombre).count())
         total = len(filtro)
-        print "Somo el %s de %s"%(posicion,total)
+        print("Somo el %s de %s"%(posicion,total))
         if posicion == total:
             return self.id
         else:
@@ -459,7 +480,7 @@ class Grupo(models.Model):
         posicion=0
         posicion = filtro.filter(nombre__lt = self.nombre).count()
         total = len(filtro)
-        print "Somo el %s de %s"%(posicion,total)
+        print("Somo el %s de %s"%(posicion,total))
         if posicion == 0:
             return self.id
         else:
@@ -481,7 +502,7 @@ class Grupo(models.Model):
         dias_clase = []
         for dia in self.clases.all():
             dias_semana_clase.append(dia.dia_semana)
-        print dias_semana_clase
+        print(dias_semana_clase)
         year = Year().get_activo()
         ano = year.start_year
         if mes < 8 :
@@ -666,7 +687,7 @@ class Asistencia(models.Model):
         if notaquery.count() > 0:
             nota = notaquery[0].notas_materias()
         else:
-            print "No hemos encontrado notas de %s en el %s"%(self,cuatrimestre)
+            print("No hemos encontrado notas de %s en el %s"%(self,cuatrimestre))
             lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.grupo.curso.tipo_evaluacion]
             for materia in lista_materias:
                 nota[materia]="--"
@@ -712,6 +733,16 @@ class ResultadoCambridge(models.Model):
     nivel = models.DecimalField(max_digits=1,decimal_places=0,default=1,choices=NIVELES_CAMBRIDGE)
     resultado = models.DecimalField(max_digits=2,decimal_places=0,default=1,choices=RESULTADOS_CAMBRIDGE)
     observaciones = models.TextField(max_length=350,default="")
+
+class GrupoNotasParciales(models.Model):
+    fecha_creacion = models.DateField(auto_now_add=True)
+    grupo = models.ForeignKey('Grupo', related_name="notas_parciales")
+    nombre = models.CharField(max_length=25)
+
+class NotaParcial(models.Model):
+    grupo_notas_parciales = models.ForeignKey('GrupoNotasParciales')
+    asistencia = models.ForeignKey('Asistencia')
+    nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
 
 class Nota(models.Model):
     asistencia = models.ForeignKey('Asistencia')
@@ -768,7 +799,7 @@ class Nota(models.Model):
         else:
             lista_materias = ['grammar']
         lista_notas = []
-        print lista_materias,self.grammar
+        print(lista_materias,self.grammar)
         for materia in lista_materias:
             # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
             nota_temp = getattr(self, materia)
@@ -869,20 +900,20 @@ class Falta(models.Model):
     def save(self, *args, **kwargs):
         #evitamos duplicar faltas el mismo día por error
         if Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).filter(dia=self.dia).count() > 0:
-            print "Ya tiene falta ese día! no la guardamos."
+            print("Ya tiene falta ese día! no la guardamos.")
             return
         else:
             super(Falta, self).save(*args, **kwargs)  # Call the "real" save() method.
             #Si el grupo es de menores y suma cinco mandamos mail
             if self.asistencia.grupo.menores:
-                print "es un grupo de menores contamos las faltas"
+                #print "es un grupo de menores contamos las faltas"
                 num_faltas_mes = Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).count()
-                print "tiene %s faltas"%num_faltas_mes
+                #print "tiene %s faltas"%num_faltas_mes
                 if num_faltas_mes > 3:
-                    print "Mandamos mail"
+                    #print "Mandamos mail"
                     subject="[Gestion Alumnos]Aviso de faltas %s en el mes %s"%(self.asistencia.alumno,self.mes)
                     message="El alumno %s en el grupo %s a sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
-                    print "Mandamos mail: %s \n %s"%(subject,message)
+                    #print "Mandamos mail: %s \n %s"%(subject,message)
                     mail_admins(subject,message)
 
 class Justificada(models.Model):
@@ -904,30 +935,41 @@ class Presencia(models.Model):
 
 class Recibo(models.Model):
     year = models.ForeignKey('Year')
+    empresa = models.ForeignKey('Empresa',default=1)
     fecha_creacion = models.DateField(auto_now_add=True)
+    fecha_cargo = models.DateField(auto_now_add=True)
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
     grupos_sueltos = models.BooleanField(default=False)
-    grupos = models.ManyToManyField(Grupo,blank=True,limit_choices_to=Q(year=Year().get_activo()))
+    grupos = models.ManyToManyField(Grupo,blank=True)#,limit_choices_to=Q(year=Year().get_activo()))
     fichero_csb19 = models.TextField(default="",blank=True)
     importe_total = models.FloatField(default=0,blank=True)
     recibos_generados = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
-    metalicos = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)
+    metalicos = models.DecimalField(max_digits=6,decimal_places=0,default=0,blank=True)
+    numero_recibos = models.DecimalField(max_digits=6, decimal_places=0, default=0, blank=True)
+    importe_recibos = models.FloatField(default=0,blank=True)
+    importe_metalico = models.FloatField(default=0, blank=True)
     errores = models.TextField(default="",blank=True)
+
     def get_absolute_url(self):
         return reverse_lazy("recibo_detalle",args=[self.id])
+
     def get_total_alumnos(self):
         if self.grupos_sueltos:
             return self.grupos.all().aggregate(Count('asistencia'))['asistencia__count']
         else:
-            return Grupo.objects.filter(year=Year().get_activo()).aggregate(Count('asistencia'))['asistencia__count']
+            return Grupo.objects.filter(year=Year().get_activo(), centro__in=self.empresa.centro_set.all()).aggregate(Count('asistencia'))['asistencia__count']
+
     def get_grupos(self):
         if self.grupos_sueltos:
             lista = self.grupos.all()
         else:
-            lista = Grupo.objects.filter(year=Year().get_activo())
+            lista = Grupo.objects.filter(year=Year().get_activo(), centro__in=self.empresa.centro_set.all())
         return lista
-    
+
+    def get_grupos_count(self):
+        return len(self.get_grupos())
+
     def get_alumnos(self):
         return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).order_by('alumno__cuenta_bancaria')
     
@@ -939,39 +981,155 @@ class Recibo(models.Model):
         
     def get_alumnos_factura(self):
         return Asistencia.objects.filter(grupo__in=self.get_grupos()).filter(borrada=False).filter(factura=True)
-        
+
+    def csb19_crear_presentador(self):
+        """Funcion que crea el campo presentador y lo añade al contenido"""
+        contenido = ""
+        cod_reg = "51"
+        cod_dato = "80"
+        relleno_b3 = ' ' * 6
+        relleno_d = ' ' * (60 - len(self.empresa.nombre))
+        relleno_e3 = ' ' * 12
+        relleno_f = ' ' * 40
+        relleno_g = ' ' * 14
+        cabecera_presentador = cod_reg + cod_dato + str(self.empresa.cif) + str(self.empresa.get_sufijo()) + \
+                               self.fecha_creacion.strftime("%d%m%y") + relleno_b3 + self.empresa.nombre + relleno_d +\
+                               str(self.empresa.cuenta_bancaria.get_banco()) + str(self.empresa.cuenta_bancaria.get_oficina()) + \
+                               relleno_e3 + relleno_f + relleno_g + "\r\n"
+        self.fichero_csb19 = cabecera_presentador
+
+    def csb19_crear_ordenante(self):
+        """Funcion que crea el campo ordenante y lo añade al contenido"""
+        cod_reg = "53"
+        cod_dato = "80"
+        procedimiento = "01"
+        relleno_nombre = ' ' * (40 - len(self.empresa.nombre))
+        relleno_e1 = ' ' * 8
+        relleno_e3 = ' ' * 10
+        relleno_f = ' ' * 40
+        relleno_g = ' ' * 14
+        cabecera_ordenante = cod_reg + cod_dato + str(self.empresa.cif) + str(self.empresa.get_sufijo()) + \
+                             self.fecha_creacion.strftime("%d%m%y") + self.fecha_cargo.strftime("%d%m%y") + \
+                             self.empresa.nombre + relleno_nombre +\
+                             str(self.empresa.cuenta_bancaria.get_banco()) + str(self.empresa.cuenta_bancaria.get_oficina()) + \
+                             str(self.empresa.cuenta_bancaria.get_dc()) + str(self.empresa.cuenta_bancaria.get_cuenta()) +\
+                             relleno_e1 + procedimiento + relleno_e3 + relleno_f + relleno_g + '\r\n'
+        self.fichero_csb19 += cabecera_ordenante
+
+    def csb19_crear_individual(self,asistencia):
+        ##Recibimos la asistencia y de ella sacamos: id, nombre, CCC, importe y concepto
+        error = ""
+        id = asistencia.id
+        nombre_cargo = "%s %s" % (asistencia.alumno.apellido1, asistencia.alumno.apellido2)
+        nombre_cargo = unidecode(nombre_cargo)
+        ccc = asistencia.alumno.cuenta_bancaria.replace("-", "")
+        importe_individual = float(0)
+        if self.medio_mes:
+            importe_individual = float(asistencia.ver_precio()) / 2
+        else:
+            importe_individual = float(asistencia.ver_precio())
+        concepto = u"EIDE: %s, %s" % (asistencia.grupo.nombre, MONTHS[self.mes])
+        concepto = unidecode(concepto)
+        # Sumamos el importe al total
+        self.numero_recibos += 1
+        cod_reg = "56"
+        cod_dato = "80"
+        # relleno de 16
+        relleno_f = ' ' * 16
+        # relleno de 8
+        relleno_h = ' ' * 8
+        ##Normalizamos (rellenamos) los campos nombre, importe y concepto
+        nombre_cargo = csb19_normalizar(nombre_cargo, 40)
+        concepto = csb19_normalizar(concepto, 40)
+
+        # Vamos con el importe
+        importe_txt = csb19_ajustar(importe_individual, 10, 2)
+        individual = str(cod_reg) + str(cod_dato) + self.empresa.cif + str(self.empresa.get_sufijo()) + \
+                     csb19_ajustar(id, 12) + nombre_cargo + \
+                     ccc + importe_txt + relleno_f + concepto + relleno_h + '\r\n'
+
+        self.fichero_csb19 += str(individual)
+        self.importe_recibos += importe_individual
+        self.importe_total += importe_individual
+        self.recibos_generados += 1
+        if len(error) > 0:
+            self.errores += "<br />" + error
+
+    def csb19_crear_total_ordenante(self):
+        cod_reg = "58"
+        cod_dato = "80"
+        relleno_b2 = " " * 12
+        relleno_c = " " * 40
+        relleno_d = " " * 20
+        relleno_e2 = " " * 6
+        relleno_f3 = " " * 20
+        relleno_g = " " * 18
+        importe_recibos = str(self.importe_recibos)
+        numero_recibos = int(self.recibos_generados)
+        print("Vamos a crear los totales de ordenante de %s € y %s recibos"%(importe_recibos,numero_recibos))
+        total_ordenante = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.get_sufijo()) \
+                          + relleno_b2 + relleno_c + relleno_d + csb19_ajustar(importe_recibos, 10, 2) \
+                          + relleno_e2 + csb19_ajustar(numero_recibos, 10) + csb19_ajustar(numero_recibos+2, 10) + relleno_f3 \
+                          + relleno_g + '\r\n'
+        self.fichero_csb19 += total_ordenante
+
+    def csb19_crear_total_general(self):
+        cod_reg = "59"
+        cod_dato = "80"
+        relleno_b2 = " " * 12
+        relleno_c = " " * 40
+        relleno_d2 = " " * 16
+        relleno_e2 = " " * 6
+        relleno_f3 = " " * 20
+        relleno_g = " " * 18
+        num_ordenantes = "0001"
+        ##FIXME ajustar el formato del importe total
+        importe_recibos = str(self.importe_recibos)
+        numero_recibos = int(self.recibos_generados)
+        print("Vamos a crear los totales generales de %s € y %s recibos"%(importe_recibos,numero_recibos))
+        total_general = str(cod_reg) + str(cod_dato) + str(self.empresa.cif) + str(self.empresa.get_sufijo()) + relleno_b2 + \
+                        relleno_c + num_ordenantes + relleno_d2 + csb19_ajustar(importe_recibos, 10, 2) + relleno_e2 + \
+                        csb19_ajustar(numero_recibos, 10) + csb19_ajustar(numero_recibos+4,10) + relleno_f3 + relleno_g
+        self.fichero_csb19 += total_general
+
+    def csb19_crear_totales(self):
+        """creamos los totales"""
+        self.csb19_crear_total_ordenante()
+        self.csb19_crear_total_general()
+
     def csb19(self):
-        fichero_csb19=""
-        hoy=datetime.date.today()
-        fecha_confeccion=self.fecha_creacion.strftime('%d%m%y')
-        fecha_cargo=hoy.strftime('%d%m%y')
-        importe_recibos=0
-        numero_recibos=0
-        
-        #~ logging.debug( "Vamos a facturar el día %s en concepto de %s"%(fecha_cargo,fecha_confeccion) )
+        #Limpiamos todos los datos
+        self.importe_recibos=0
+        self.importe_total=0
+        self.importe_metalico=0
+        self.recibos_generados=0
+        self.numero_recibos=0
+        self.fichero_csb19=""
+        self.save()
+        self.fecha_cargo = datetime.date.today()
         #Vamos con la cabecera del presentador
-        fichero_csb19=csb19_crear_presentador(fecha_confeccion)
+        self.csb19_crear_presentador()
         #Vamos con la cabecera del ordenante
-        fichero_csb19=csb19_crear_ordenante(fichero_csb19,fecha_confeccion,fecha_cargo)
+        self.csb19_crear_ordenante()
         # Ahora los cargos
         lista_grupos = self.get_grupos()
         for grupo in lista_grupos:
             for asistencia in grupo.asistencia_set.filter(borrada=False):
-                print "Generamos cobro para la asistencia",asistencia
                 if asistencia.metalico:
-                    print "Paga en metalico"
-                    self.metalicos=+1
+                    if self.medio_mes:
+                        importe = float(asistencia.ver_precio()) / 2
+                    else:
+                        importe = float(asistencia.ver_precio())
+                    self.metalicos += 1
+                    self.importe_metalico += importe
+                    self.importe_total += importe
                 else:
-                    fichero_csb19,importe_recibos,numero_recibos,error = csb19_crear_individual(fichero_csb19,importe_recibos,numero_recibos,asistencia,self.mes,self.medio_mes)
-                    self.importe_total=+importe_recibos
-                    self.recibos_generados=+numero_recibos
-                    if len(error) > 0:
-                        self.errores=self.errores+"<br />"+error
+                    self.csb19_crear_individual(asistencia)
 
-        print "Hemos creado %s recibos que sumanan un total de %s €"%(self.recibos_generados,self.importe_total)
         self.save()
-        fichero_csb19 = csb19_crear_totales(fichero_csb19,numero_recibos,importe_recibos)
-        return fichero_csb19
+        self.csb19_crear_totales()
+        print("Hemos creado %s recibos que sumanan un total de %s €" % (self.recibos_generados, self.importe_total))
+        self.save()
 
 class Festivo(models.Model):
     year = models.ForeignKey('Year')
@@ -1000,7 +1158,6 @@ class TurismoAsignatura(models.Model):
         dias_clase = []
         for dia in self.clases_turismo.all():
             dias_semana_clase.append(dia.dia_semana)
-        print dias_semana_clase
         year = Year().get_activo()
         ano = year.start_year
         if mes < 8 :
@@ -1014,7 +1171,6 @@ class TurismoAsignatura(models.Model):
                     fecha = "%s-%s-%s"%(ano,mes,dia[0])
                     try:
                         festivo = Festivo.objects.get(fecha=fecha,tipo=1)
-                        print festivo
                         continue
                     except:
                         dias_clase.append(dia[0])

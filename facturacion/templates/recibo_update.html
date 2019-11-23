@@ -1,0 +1,43 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load bootstrap %}
+{% load bootstrap_tags %}
+{% block head_title %}Editar recibo{% endblock %}
+
+{% block body %}
+
+<form role="form" method="post" action="{% url 'recibo_editar' recibo.id %}">
+{% csrf_token %}
+
+{{ form|as_bootstrap }}
+
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Actualizar</button>
+		<a href="{% url 'recibos' %}" >Salir</a>
+	</div>
+</form>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+function check_grupos_sueltos() {
+	if ($("#id_grupos_sueltos").is(":checked"))
+	{
+		console.log("Grupos sueltos");
+		$("#id_grupos").prop('disabled', false);
+	} else {
+		$("#id_grupos").prop('disabled', true);
+	}
+};
+$(document).ready(function() {
+    $("#id_year").prop('contenteditable', false);
+    $("#id_empresa").prop('contenteditable', false);
+	console.log("Primer check");
+	check_grupos_sueltos();
+	$("#id_grupos_sueltos").change(function() {
+		check_grupos_sueltos();
+	});
+});
+</script>
+{% endblock %}
+

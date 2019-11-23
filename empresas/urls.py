@@ -1,6 +1,5 @@
 from django.conf.urls import url
-from views import *
-
+from empresas.views import *
 
 urlpatterns = [
     url(r'^$',EmpresaListView.as_view(),name="empresas_lista"),
