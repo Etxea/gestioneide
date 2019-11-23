@@ -20,7 +20,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ["gestion.eide.es"]
+ALLOWED_HOSTS = ["gestion.eide.es","127.0.0.1"]
 
 PHONENUMBER_DEFAULT_REGION="ES"
 
@@ -91,6 +91,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
     "gestioneide.middleware.SessionIdleTimeout",
+    "gestioneide.middleware.MessagesMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -124,6 +125,7 @@ INSTALLED_APPS = [
     'pinax.documents',
     'pinax.messages',
     'phonenumber_field',
+    'pinax.notifications',
 
     # project
     "gestioneide",
