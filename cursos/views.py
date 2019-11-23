@@ -11,7 +11,7 @@ from django.shortcuts import render_to_response
 from calendar import  Calendar
 
 from gestioneide.models import *
-from forms import *
+from cursos.forms import *
 
 @method_decorator(permission_required('gestioneide.curso_view',raise_exception=True),name='dispatch')
 class CursosListView(ListView):

@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 
 from gestioneide.models import *
-from forms import *
+from profesores.forms import *
 
 class ProfesorListView(ListView):
 	model=Profesor

@@ -3,11 +3,12 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from localflavor.es.forms import *
+from phonenumber_field.formfields import PhoneNumberField
 from gestioneide.models import *
 
 #~ class ProfesorCreateForm(UserCreationForm):
 class ProfesorCreateForm(ModelForm):
-    telefono = ESPhoneNumberField(required=False)
+    telefono = PhoneNumberField(required=False)
     class Meta:
         model = Profesor
         fields = ( "nombre","apellido","email", "telefono",  )
@@ -23,7 +24,7 @@ class ProfesorCreateForm(ModelForm):
 
 #~ class ProfesorChangeForm(UserChangeForm):
 class ProfesorChangeForm(ModelForm):
-    telefono = ESPhoneNumberField(required=False)
+    telefono = PhoneNumberField(required=False)
     class Meta:
         model = Profesor
         fields = ( "nombre","apellido","email", "telefono",  )

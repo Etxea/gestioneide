@@ -1,4 +1,4 @@
-from models import Year
+from gestioneide.models import Year
 
 def current_year_processor(request):
     try:

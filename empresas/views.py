@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required
 
 
-from forms import *
+from empresas.forms import *
 
 @method_decorator(permission_required('gestioneide.empresa_view',raise_exception=True),name='dispatch')
 class EmpresaListView(ListView):

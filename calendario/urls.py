@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
 
 from django.contrib import admin
 admin.autodiscover()
-from views import *
+from calendario.views import *
 
 
 urlpatterns = [

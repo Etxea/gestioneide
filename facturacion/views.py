@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from gestioneide.models import *
-from forms import *
+from facturacion.forms import *
 
 import xlwt
 

@@ -18,7 +18,7 @@ else:
 import datetime
 import calendar
 
-from utils import *
+#from utils import *
 
 DIAS_SEMANA = (
     (1, _('Lunes')),
@@ -121,7 +121,7 @@ class Year(models.Model):
 class CuentaBancaria(models.Model):
     nombre = models.CharField('Nombre',max_length=50)
     banco = models.DecimalField(max_digits=4, decimal_places=0,default=2095)
-    oficina = models.DecimalField(max_digits=4, decimal_places=0,default=0553)
+    oficina = models.DecimalField(max_digits=4, decimal_places=0,default="0553")
     dc = models.DecimalField(max_digits=2, decimal_places=0,default=00)
     cuenta= models.DecimalField(max_digits=10, decimal_places=0,default=0000000000)
 
@@ -193,7 +193,7 @@ class Aula(models.Model):
                 fecha_consulta = datetime.time(hora,cuarto)
                 programacion_hora = ["%02d:%02d"%(hora,cuarto)]
                 for dia in range(1,6):
-                    print dia
+                    print(dia)
                     clase = Clase.objects.filter(dia_semana=dia,aula=self,\
                             hora_inicio__lte=fecha_consulta,hora_fin__gt=fecha_consulta,grupo__in=grupos)
                     if clase.count() == 1:
@@ -247,9 +247,9 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         if self.user == None:
             password = User.objects.make_random_password()  # type: unicode
             nombreusuario = slugify("%s%s" % (self.nombre,self.apellido)).replace('-', '')
-            print "No hay usuario asociado para ", nombreusuario, "con el pass ", password
+            print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
             if len(User.objects.filter(username=nombreusuario))>0:
-                print "Pero ya existe el usuario %s y lo asociamos"%nombreusuario
+                print("Pero ya existe el usuario %s y lo asociamos"%nombreusuario)
                 self.user = User.objects.get(username=nombreusuario)
                 self.save()
                 return
@@ -257,7 +257,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
                 u = User(username=nombreusuario,email=self.email)
                 u.save()
             except Exception as e:
-                print "No hemos podido crearlo"
+                print("No hemos podido crearlo")
                 print(e)
                 return
             u.set_password(password)
@@ -275,7 +275,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
             u.email_user("Alta en gestion de alumnos EIDE",mensaje)
             send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
         else:
-            print 'El profesor %s Ya tiene un usuario %s'%(self,self.user)
+            print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 
 
     def programacion_semana(self):
@@ -288,7 +288,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
                 #print "Vamos con la fecha de consulta %s"%(fecha_consulta)
                 programacion_hora = ["%02d:%02d"%(hora,cuarto)]
                 for dia in range(1,6):
-                    print dia
+                    print(dia)
                     clase = Clase.objects.filter(dia_semana=dia,profesor=self,\
                             hora_inicio__lt=fecha_consulta,hora_fin__gte=fecha_consulta,grupo__in=grupos)
                     if clase.count() == 1:
@@ -311,15 +311,15 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         try:
             horas = self.user.asistencia_set.filter(contabilizado=False).aggregate(Sum('duracion'))
         except:
-            print "No podemos agregar fecha asi que a mano"
+            print("No podemos agregar fecha asi que a mano")
             for p in self.user.asistencia_set.filter(contabilizado=False):
-                print "Sumamos ",p.duracion
+                print("Sumamos ",p.duracion)
                 pendiente_horas = pendiente_horas + p.duracion.hour
                 pendiente_minutos = pendiente_minutos + p.duracion.minute
-        print "Tenemos %s:%s"%(pendiente_horas,pendiente_minutos)
+        print("Tenemos %s:%s"%(pendiente_horas,pendiente_minutos))
         pendiente_horas = pendiente_horas + pendiente_minutos/60
         pendiente_minutos = pendiente_minutos%60
-        print "Tenemos %s:%s"%(pendiente_horas,pendiente_minutos)
+        print("Tenemos %s:%s"%(pendiente_horas,pendiente_minutos))
         return "%s:%s"%(pendiente_horas,pendiente_minutos)
 
 class Alumno(models.Model):
@@ -459,7 +459,7 @@ class Grupo(models.Model):
             filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
         posicion = int(filtro.filter(nombre__lt = self.nombre).count())
         total = len(filtro)
-        print "Somo el %s de %s"%(posicion,total)
+        print("Somo el %s de %s"%(posicion,total))
         if posicion == total:
             return self.id
         else:
@@ -480,7 +480,7 @@ class Grupo(models.Model):
         posicion=0
         posicion = filtro.filter(nombre__lt = self.nombre).count()
         total = len(filtro)
-        print "Somo el %s de %s"%(posicion,total)
+        print("Somo el %s de %s"%(posicion,total))
         if posicion == 0:
             return self.id
         else:
@@ -502,7 +502,7 @@ class Grupo(models.Model):
         dias_clase = []
         for dia in self.clases.all():
             dias_semana_clase.append(dia.dia_semana)
-        print dias_semana_clase
+        print(dias_semana_clase)
         year = Year().get_activo()
         ano = year.start_year
         if mes < 8 :
@@ -687,7 +687,7 @@ class Asistencia(models.Model):
         if notaquery.count() > 0:
             nota = notaquery[0].notas_materias()
         else:
-            print "No hemos encontrado notas de %s en el %s"%(self,cuatrimestre)
+            print("No hemos encontrado notas de %s en el %s"%(self,cuatrimestre))
             lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.grupo.curso.tipo_evaluacion]
             for materia in lista_materias:
                 nota[materia]="--"
@@ -799,7 +799,7 @@ class Nota(models.Model):
         else:
             lista_materias = ['grammar']
         lista_notas = []
-        print lista_materias,self.grammar
+        print(lista_materias,self.grammar)
         for materia in lista_materias:
             # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
             nota_temp = getattr(self, materia)
@@ -900,20 +900,20 @@ class Falta(models.Model):
     def save(self, *args, **kwargs):
         #evitamos duplicar faltas el mismo día por error
         if Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).filter(dia=self.dia).count() > 0:
-            print "Ya tiene falta ese día! no la guardamos."
+            print("Ya tiene falta ese día! no la guardamos.")
             return
         else:
             super(Falta, self).save(*args, **kwargs)  # Call the "real" save() method.
             #Si el grupo es de menores y suma cinco mandamos mail
             if self.asistencia.grupo.menores:
-                print "es un grupo de menores contamos las faltas"
+                #print "es un grupo de menores contamos las faltas"
                 num_faltas_mes = Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).count()
-                print "tiene %s faltas"%num_faltas_mes
+                #print "tiene %s faltas"%num_faltas_mes
                 if num_faltas_mes > 3:
-                    print "Mandamos mail"
+                    #print "Mandamos mail"
                     subject="[Gestion Alumnos]Aviso de faltas %s en el mes %s"%(self.asistencia.alumno,self.mes)
                     message="El alumno %s en el grupo %s a sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
-                    print "Mandamos mail: %s \n %s"%(subject,message)
+                    #print "Mandamos mail: %s \n %s"%(subject,message)
                     mail_admins(subject,message)
 
 class Justificada(models.Model):
@@ -941,7 +941,7 @@ class Recibo(models.Model):
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
     medio_mes = models.BooleanField(default=False)
     grupos_sueltos = models.BooleanField(default=False)
-    grupos = models.ManyToManyField(Grupo,blank=True,limit_choices_to=Q(year=Year().get_activo()))
+    grupos = models.ManyToManyField(Grupo,blank=True)#,limit_choices_to=Q(year=Year().get_activo()))
     fichero_csb19 = models.TextField(default="",blank=True)
     importe_total = models.FloatField(default=0,blank=True)
     recibos_generados = models.DecimalField(max_digits=4,decimal_places=0,default=0,blank=True)

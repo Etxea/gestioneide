@@ -490,9 +490,7 @@ class NotasTrimestralesAnoListView(ListView):
     context_object_name = 'notas_list'
     def get_queryset(self):
         year = Year.objects.get(start_year=self.kwargs['ano'])
-        print "Vamos a sacar las asistencias del ano",year
         asistencias = Asistencia.objects.filter(year=year)
-        print "Tenemos la sasistencias",asistencias.count()
         return NotaTrimestral.objects.filter(asistencia__in=asistencias,trimestre=3).order_by('asistencia__alumno__apellido1','asistencia__alumno__apellido1','asistencia__alumno__nombre')
     def get_context_data(self, **kwargs):
         context = super(NotasTrimestralesAnoListView, self).get_context_data(**kwargs)
@@ -521,9 +519,7 @@ class NotasCuatrimestralesAnoListView(ListView):
 
     def get_queryset(self):
         year = Year.objects.get(start_year=self.kwargs['ano'])
-        print "Vamos a sacar las asistencias del ano", year
         asistencias = Asistencia.objects.filter(year=year)
-        print "Tenemos la sasistencias", asistencias.count()
         return NotaCuatrimestral.objects.filter(asistencia__in=asistencias).order_by(
             'asistencia__alumno__apellido1', 'asistencia__alumno__apellido1', 'asistencia__alumno__nombre')
 

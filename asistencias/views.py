@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from gestioneide.models import *
-from forms import *
+from asistencias.forms import *
 
 @method_decorator(permission_required('gestioneide.asistencia_view',raise_exception=True),name='dispatch')
 class AsistenciaDeletedListView(ListView):
@@ -35,7 +35,7 @@ class AsistenciaCreateView(CreateView):
         return reverse_lazy("asistencia_lista")
     def get_initial(self):
         year = Year().get_activo(self.request)
-        print "Establecemos el ano en ",year
+        #print "Establecemos el ano en ",year
         return { 'year': year }
 
 @method_decorator(permission_required('gestioneide.asistencia_add',raise_exception=True),name='dispatch')        
@@ -56,7 +56,7 @@ class AsistenciaAlumnoCreateView(CreateView):
     def get_initial(self):
         year = Year().get_activo(self.request)
         alumno = Alumno.objects.get(id=self.kwargs['alumno_id'])
-        print "Establecemos el ano en ",year,"y el alumno en",alumno
+        #print "Establecemos el ano en ",year,"y el alumno en",alumno
         return { 'year': year , 'alumno': alumno }        
 
 @method_decorator(permission_required('gestioneide.asistencia_add',raise_exception=True),name='dispatch')
@@ -70,7 +70,7 @@ class AsistenciaGrupoCreateView(CreateView):
     def get_initial(self):
         year = Year().get_activo(self.request)
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
-        print "Establecemos el ano en ",year, "y el grupo",grupo
+        #print "Establecemos el ano en ",year, "y el grupo",grupo
         return { 'year': year , 'grupo': grupo }        
 
 @method_decorator(permission_required('gestioneide.asistencia_change',raise_exception=True),name='dispatch')

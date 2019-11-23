@@ -1,9 +1,5 @@
-
 from django.conf.urls import url
-
-from views import *
-
-
+from turismo.views import *
 from django.contrib import admin
 
 

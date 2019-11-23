@@ -1,7 +1,6 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from views import *
-
+from perfil.views import *
 
 urlpatterns = [
     url(r'^$', login_required(PerfilListView.as_view()),name="perfil_lista"),

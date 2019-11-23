@@ -1,6 +1,6 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
-from views import *
+from imprimir.views import *
 
 urlpatterns = [
     url(r'grupos$',login_required(ImprimirGrupos.as_view()), name="imprimir_grupos"),
