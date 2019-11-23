@@ -2,8 +2,9 @@ from django.contrib.auth import logout
 from django.contrib import messages
 import datetime
 from django.shortcuts import redirect
+from django.conf import settings
 
-import gestioneide.settings
+#import gestioneide.settings
 
 class SessionIdleTimeout:
     def process_request(self, request):

@@ -20,7 +20,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["gestion.eide.es"]
 
 PHONENUMBER_DEFAULT_REGION="ES"
 
