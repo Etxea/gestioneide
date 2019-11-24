@@ -55,9 +55,9 @@ class MensajeDetailView(DetailView):
     context_object_name = "mensaje"
     def get_object(self, queryset=None):
         obj = super(MensajeDetailView, self).get_object(queryset=queryset)
-        print("Ponemos leido a true")
-        obj.leido = True
-        obj.save()
+        if obj.destinatario == self.request.user:
+            obj.leido = True
+            obj.save()
         return obj
 
 class MensajeRespuestaCreateView(CreateView):
