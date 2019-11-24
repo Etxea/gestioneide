@@ -8,7 +8,7 @@ class Mensaje(models.Model):
     creador = models.ForeignKey(User,related_name="creador_mensaje")
     destinatario = models.ForeignKey(User)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    titulo = models.TextField()
+    titulo = models.CharField(max_length=125)
     texto = models.TextField()
     leido = models.BooleanField(default=False)
     todos = models.BooleanField(default=False)

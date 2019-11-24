@@ -15,18 +15,7 @@
 {% endblock %}
 
 {% block extra_top_bar %} 
-
-<li class="dropdown">
-<a href="" data-toggle="dropdown" >
-<i class="zmdi zmdi-calendar"></i>
-{% if year_user %}
-    {{year_user.name}}
-{% else %}
-    {{year.name}}
-{% endif %}
-</a>
-</li>
-    {% include "theme_superflat/_search.html" %}
+    
 {% endblock %}
 
 

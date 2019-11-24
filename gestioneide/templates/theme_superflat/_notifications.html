@@ -1,9 +1,10 @@
 {% load staticfiles %}
 <li class="dropdown">
-
     <a href="" data-toggle="dropdown" class="hi-notifications">
         <i class="zmdi zmdi-notifications"></i>
+        {% if request.session.unread_messages_count > 0 %}
         <i class="hi-count">{{ request.session.unread_messages_count }}</i>
+        {% endif %}
     </a>
 
     <div class="dropdown-menu hi-dropdown">

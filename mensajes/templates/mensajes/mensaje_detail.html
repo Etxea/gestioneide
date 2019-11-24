@@ -2,24 +2,34 @@
 {% load i18n %}
 
 {% block page_header %}
-<h2> Mensaje de {{ mensaje.creador }} para {{ mensaje.destinatario}} enviado el {{ mensaje.fecha_creacion}}</h2>
+<h2> Mensaje de {{ mensaje.creador }} para {{ mensaje.destinatario}} </h2>
 {% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-md-12 col-xs-12">
-    <h2> {{ mensaje.titulo }} </h2>
-    <div>
-        {{ mensaje.texto }}
+        <div class="tile">
+            <div class="t-header th-alt bg-blue">
+                <div class="th-title">{{ mensaje.titulo }} (De {{ mensaje.creador }} el {{ mensaje.fecha_creacion}}) </div>
+            </div>
+            <div class="t-body tb-padding">
+                {{ mensaje.texto }}
+            </div>
+        </div>    
+        
+        <br />
+        {% for respuesta in mensaje.comentario_set.all %}
+        <div class="tile">
+                <div class="t-header th-alt bg-gray">
+                    <div class="th-title">De {{ respuesta.creador }} el {{ respuesta.fecha_creacion }}</div>
+                </div>
+                <div class="t-body tb-padding">
+                    {{ respuesta.texto }}
+                </div>
+            </div>    
+        <br />
+        {% endfor %}
     </div>
-    <h3>Respuestas:</h3>
-    <ul>
-    {% for respuesta in mensaje.comentario_set.all %}
-    <li>
-        {{ respuesta.creador }} el {{ respuesta.fecha_creacion }}: {{ respuesta.texto }}
-    </li>
-    {% endfor %}
-    </ul>
     <a class="btn btn-primary pull-right" href="{% url 'mensaje_responder' mensaje.id %}">Responder</a>
     
 </div>

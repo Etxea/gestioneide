@@ -53,11 +53,17 @@ class MensajeAllView(View):
 class MensajeDetailView(DetailView):
     model = Mensaje
     context_object_name = "mensaje"
+    def get_object(self, queryset=None):
+        obj = super(MensajeDetailView, self).get_object(queryset=queryset)
+        print("Ponemos leido a true")
+        obj.leido = True
+        obj.save()
+        return obj
 
 class MensajeRespuestaCreateView(CreateView):
     model = Comentario
-    fields = "__all__"
-    
+    form_class = RespuestaForm
+
     def get_success_url(self):
         return reverse('mensaje_ver', kwargs ={'pk': self.object.mensaje.id})
 

@@ -38,6 +38,7 @@
                     <a href=""><img src="{% static "img/logo.png" %}" alt=""></a>
                     <div id="menu-trigger"><i class="zmdi zmdi-menu"></i></div>
                 </li>
+                {% if request.user.is_authenticated %}
                 <!-- Messages -->
 				{% include "theme_superflat/_messages.html" %}
                 <!-- Notifications -->
@@ -46,7 +47,19 @@
 				{% include "theme_superflat/_projects.html" %}
                 <!-- Events -->
                 {% include "theme_superflat/_events.html" %}
-                
+    
+                <li class="dropdown">
+                <a href="" data-toggle="dropdown" >
+                <i class="zmdi zmdi-calendar"></i>
+                {% if year_user %}
+                    {{year_user.name}}
+                {% else %}
+                    {{year.name}}
+                {% endif %}
+                </a>
+                </li>
+                {% include "theme_superflat/_search.html" %}
+                {% endif %}
 		        {% block extra_top_bar %}{% endblock %}
                 
                 <!-- Settings -->

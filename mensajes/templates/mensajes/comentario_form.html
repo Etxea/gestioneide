@@ -9,8 +9,8 @@
       {{ form|as_bootstrap }}
       <br />
       <div class="form-actions">
-      <a href="{% url 'mensaje_ver'  mensaje_obj.id %}" class="btn">Atras</a>
-      <button type="submit">Enviar</button>
+        <button class="btn btn-primary pull-right" type="submit">Enviar</button>
+        <a href="{% url 'mensaje_ver'  mensaje_obj.id %}" class="btn pull-right">Atras</a>
     </div>
     </form>
 

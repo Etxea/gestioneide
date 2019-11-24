@@ -7,10 +7,19 @@ class MensajeForm(forms.ModelForm):
         model = Mensaje
         fields = "__all__"
         widgets = {
-            #'titulo': forms.CharField(label='Título', max_length=100),
             'creador': forms.HiddenInput(), 
             'leido': forms.HiddenInput(), 
             'todos': forms.HiddenInput(),
+        }
+
+class RespuestaForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = "__all__"
+        widgets = {
+            'mensaje': forms.HiddenInput(),
+            'creador': forms.HiddenInput(),
+            'leido': forms.HiddenInput(), 
         }
 
 class MensajeAllForm(forms.Form):
