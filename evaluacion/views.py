@@ -3,12 +3,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.template.loader import get_template
 
 from datetime import date
 from wkhtmltopdf.views import PDFTemplateView
@@ -36,22 +38,21 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
     grupo = get_object_or_404(Grupo, pk=pk)
     tipo_evaluacion = grupo.curso.tipo_evaluacion
     #print "Tenemos el grupo %s y tipo evaluacion %s"%(grupo,tipo_evaluacion)
-    context = RequestContext(request,{'trimestre': trimestre})
-    context['grupo']=grupo
+    contexto={}
+    contexto['trimestre']=trimestre
+    contexto['grupo']=grupo
     #~ context['grupo_siguiente']=grupo.get_next_by_nombre()
     #~ context['grupo_anterior']=grupo.get_previous_by_nombre()
-    context['asistencias']=grupo.asistencia_set.all()
-
+    contexto['asistencias']=grupo.asistencia_set.all()
     #elegimos el tipo de formset y template en función de si es KIDs o no
     if tipo_evaluacion == 5:
         NotaFomsetClass = NotaTrimestralKidsFormSet
     else:
         NotaFomsetClass = NotaTrimestralFormSet
-
-    template="evaluacion/notas_grupo_trimestre.html"
+    template=get_template("evaluacion/notas_grupo_trimestre.html")
     if request.method == 'POST':
         notas_formset = NotaFomsetClass(request.POST, request.FILES)
-        context['notas_formset']=notas_formset
+        contexto['notas_formset']=notas_formset
         if notas_formset.is_valid():
             notas_formset.save()
             ##TODO: Volvemos a la lista de grupos, vamos al siguiente??
@@ -59,7 +60,7 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
         else:
             #print "Formset mal"
             ##Volvemos renderizar con los errores
-            context['notas_formset'] = notas_formset
+            contexto['notas_formset'] = notas_formset
     else:
         lista_asistencias = []
         for asistencia in grupo.asistencia_set.all().order_by('id'):
@@ -67,16 +68,16 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
             lista_asistencias.append(asistencia.id)
             obj, created = NotaTrimestral.objects.get_or_create(trimestre=trimestre, asistencia=asistencia)
         notas_formset = NotaFomsetClass(queryset=NotaTrimestral.objects.filter(asistencia__in=lista_asistencias,trimestre=trimestre).order_by('asistencia__id'))
-        context['notas_formset']=notas_formset
-
-    return render_to_response(template, context)
+        contexto['notas_formset']=notas_formset
+    return HttpResponse(template.render(contexto, request=request))
 
 def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
     grupo = get_object_or_404(Grupo, pk=pk)
     tipo_evaluacion = grupo.curso.tipo_evaluacion
-    template = "evaluacion/notas_grupo_cuatrimestre.html"
+    template = get_template("evaluacion/notas_grupo_cuatrimestre.html")
     #print "Tenemos el grupo %s y tipo evaluacion %s" % (grupo, tipo_evaluacion)
-    context = RequestContext(request, {'cuatrimestre': cuatrimestre})
+    context={}
+    context['cuatrimestre']= cuatrimestre
     context['grupo'] = grupo
     context['cuatrimestre'] = cuatrimestre
     # ~ context['grupo_siguiente']=grupo.get_next_by_nombre()
@@ -116,11 +117,12 @@ def NotasGrupoCuatrimestreView(request, pk, cuatrimestre):
         # #print notas_formset
         context['notas_formset'] = notas_formset
 
-    return render_to_response(template, context)
+    return HttpResponse(template.render(context, request=request))
 
 def FaltasGrupoView(request,pk,mes):
     grupo = get_object_or_404(Grupo, pk=pk)
-    context = RequestContext(request,{'mes': mes})
+    context={}
+    context['mes']=mes
     context['grupo']=grupo
     context['mes']=mes
     #~ context['grupo_siguiente']=grupo.get_next_by_nombre()
@@ -147,7 +149,7 @@ def FaltasGrupoView(request,pk,mes):
         faltas_formset = FaltaFormSet(queryset=Falta.objects.filter(asistencia__in=lista_asistencias,mes=mes).order_by('asistencia__id'))
         ##print notas_formset
         context['faltas_formset']=faltas_formset
-    return render_to_response('evaluacion/faltas_grupo.html', context)
+    return HttpResponse(get_template('evaluacion/faltas_grupo.html').render(context, request=request))
 
 class NotasGrupo(DetailView):
     model = Grupo
