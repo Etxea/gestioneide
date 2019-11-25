@@ -58,7 +58,9 @@
             {% for mensaje in mensajes_enviados %}
             <tr>
                 <td>
+                    {% if not mensaje.leido %} <b> {% endif %} 
                     <a href="{% url 'mensaje_ver' mensaje.id %}">{{ mensaje.fecha_creacion}}</a></td>
+                    {% if not mensaje.leido %} </b> {% endif %} 
                 <td>{{ mensaje.destinatario }}</td>
                 <td>{{ mensaje.creador }}</td>
                 <td>{{ mensaje.titulo }}</td>
