@@ -45,7 +45,7 @@ class AsistenciaAlumnoCreateView(CreateView):
     #~ fields = ["grupo","confirmado","factura","metalico","precio"]
     fields = "__all__"
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
         form = super(AsistenciaAlumnoCreateView, self).get_form(form_class)
         form.fields['grupo'].queryset = Grupo.objects.filter(year=Year().get_activo(self.request))
         return form
@@ -79,7 +79,9 @@ class AsistenciaUpdateView(UpdateView):
     model = Asistencia
     fields = "__all__"
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.form_class
         form = super(AsistenciaUpdateView, self).get_form(form_class)
         form.fields['grupo'].queryset = Grupo.objects.filter(year=self.object.year)
         return form

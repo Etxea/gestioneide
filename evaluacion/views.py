@@ -9,7 +9,6 @@ from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
 from django.template.loader import get_template
 
 from datetime import date
