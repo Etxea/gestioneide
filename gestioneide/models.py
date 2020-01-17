@@ -18,7 +18,7 @@ else:
 import datetime
 import calendar
 
-#from utils import *
+from utils import *
 
 DIAS_SEMANA = (
     (1, _('Lunes')),

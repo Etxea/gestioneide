@@ -84,7 +84,7 @@
             <th> Cuatrimestre 2 </th>
         </thead>
         <tbody>
-        {% if asistencia.grupo.curso.tipo_evaluacion = 2 %}
+        {% if asistencia.grupo.curso.tipo_evaluacion == 2 %}
         <tr>
             <td> Reading  & Writting</td>
             <td> {{ asistencia|notas_cuatrimestre:cuatrimestre }} </td>
@@ -102,7 +102,7 @@
             <td> &nbsp;&nbsp;  </td>
         </tr>
         {% endif %}
-        {% if asistencia.grupo.curso.tipo_evaluacion = 4 %}
+        {% if asistencia.grupo.curso.tipo_evaluacion == 4 %}
         <tr>
             <td> Use of english &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
             <td> &nbsp;&nbsp;  </td>

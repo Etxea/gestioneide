@@ -61,13 +61,13 @@
     <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
     {%  tabla_notas_cuatrimestre %}
     {% endif %}
-    {% if asistencia.grupo.curso.tipo_evaluacion = 2 or asistencia.grupo.curso.tipo_evaluacion = 3 or asistencia.grupo.curso.tipo_evaluacion = 4 %}
+    {% if asistencia.grupo.curso.tipo_evaluacion == 2 or asistencia.grupo.curso.tipo_evaluacion == 3 or asistencia.grupo.curso.tipo_evaluacion == 4 %}
     <div style="font-size: x-small">* Nota de APTO: {{ asistencia.grupo.curso.nota_aprobado }}</div>
     {% endif %}
     <div style="width=100%">
         <h3>Observaciones del profesorado</h3>
         <br />
-        {% if asistencia.grupo.curso.tipo_evaluacion = 5%}
+        {% if asistencia.grupo.curso.tipo_evaluacion == 5%}
         <b><u>Temas a repasar:</u></b>
         <div style="text-align:center;width=100%;font-size:150%">
         {{  asistencia|temas_repasar_trimestre:trimestre }}
