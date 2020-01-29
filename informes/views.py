@@ -62,6 +62,20 @@ class AlumnosBancoErroresListView(TemplateView):
         return context
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class AlumnosMailErroresListView(TemplateView):
+    template_name="informes/alumnos_mail_mal.html"
+    def get_context_data(self, **kwargs):
+        context = super(AlumnosMailErroresListView, self).get_context_data(**kwargs)
+        lista_alumnos = []
+        year = Year().get_activo(self.request)
+        for asistencia in Asistencia.objects.filter(year=year).filter(metalico=False):
+            if not asistencia.alumno.email:
+                lista_alumnos.append(asistencia.alumno)
+        context['alumnos_list'] = lista_alumnos
+        return context
+
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class AsistenciasErroresListView(AsistenciaListView):
     def get_queryset(self):
         year = Year().get_activo(self.request)
@@ -288,6 +302,60 @@ def export_telefonos_alumnos_xls(request,ano):
             "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
             alumno.telefono1,
             alumno.telefono2,
+            alumno.fecha_nacimiento.isoformat(),
+            alumno.fecha_nacimiento.isocalendar()[0],
+            asis.grupo.nombre,
+            asis.alumno.direccion,
+            asis.alumno.cp,
+            asis.alumno.ciudad,
+        ]
+        for col_num in xrange(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+            
+    wb.save(response)
+    return response
+
+@permission_required('gestioneide.informes_view',raise_exception=True)
+def export_mails_alumnos_xls(request,ano):
+    
+    ano = Year.objects.get(id=ano)
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=mails_alumnos.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Alumnos")
+    
+    row_num = 0
+    
+    columns = [
+        (u"ID", 2000),
+        (u"Apellidos, Nombre", 6000),
+        (u"Mail", 6000),
+        (u"Fecha Nac.", 2000),
+        (u"Año Nac.", 2000),
+        (u"Grupo", 8000),
+        (u"Dirección", 12000),
+        (u"CP", 6000),
+        (u"Ciudad", 8000)
+    ]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+    
+    for asis in Asistencia.objects.filter(year=ano):
+        alumno = asis.alumno
+        row_num += 1
+        row = [
+            alumno.id,
+            "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
+            alumno.email,
             alumno.fecha_nacimiento.isoformat(),
             alumno.fecha_nacimiento.isocalendar()[0],
             asis.grupo.nombre,

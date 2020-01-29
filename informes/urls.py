@@ -8,18 +8,26 @@ urlpatterns = [
     #url(r"^$", login_required(TemplateView.as_view(template_name="informes/home.html")), name="informes"),
     url(r"^$", login_required(InformesHomeView.as_view()), name="informes"),
     url(r"profesores/clases/$",login_required(ProfesoresClasesView.as_view()), name="listado_profesores_clases"),
+
     url(r"aulas/clases/$",login_required(AulasClasesView.as_view()), name="listado_aulas_clases"),
+
     url(r"alumnos/errores/$",login_required(AlumnosErroresListView.as_view()), name="listado_alumnos_errores"),
     url(r"alumnos/banco/errores/$",login_required(AlumnosBancoErroresListView.as_view()), name="listado_alumnos_banco_errores"),
+    url(r"alumnos/mail/errores/$",login_required(AlumnosMailErroresListView.as_view()), name="listado_alumnos_mail_errores"),
+    url(r"alumnos/xls/$",login_required(export_alumnos_xls), name="listado_alumnos_xls"),
+    url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls), name="listado_telefonos_alumnos_xls"),
+    #url(r"alumnos/mails/(?P<ano>\d+)/$",login_required(export_mails_alumnos), name="listado_mails_alumnos"),
+    url(r"alumnos/mails/xls/(?P<ano>\d+)/$",login_required(export_mails_alumnos_xls), name="listado_mails_alumnos_xls"),
+
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()), name="listado_asistencias_errores"),
     url(r"asistencias/descuento/$",login_required(AsistenciasDescuentoListView.as_view()), name="listado_asistencias_descuento"),
     url(r"asistencias/metalico/$",login_required(AsistenciasMetalicoListView.as_view()), name="listado_asistencias_metalico"),
-    url(r"alumnos/xls/$",login_required(export_alumnos_xls), name="listado_alumnos_xls"),
-    url(r"grupos/xls/$",login_required(export_grupos_xls), name="listado_grupos_xls"),
     url(r"asistencias/no/xls/$",login_required(export_asistencias_no_confirmadas_xls), name="listado_asistencias_no_confirmadas_xls"),
     url(r"asistencias/xls/$",login_required(export_asistencias_xls), name="listado_asistencias_xls"),
-    url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls), name="listado_telefonos_alumnos_xls"),
+    
+    url(r"grupos/xls/$",login_required(export_grupos_xls), name="listado_grupos_xls"),
     url(r"grupos/alumnos/$",login_required(GruposAlumnosListView.as_view()), name="listado_grupos_alumnos"),
+
     url(r"notas/ano/(?P<ano>\d+)/finales/xls/$",login_required(export_notas_finales_xls), name="listado_notas_finales_ano_xls"),
     url(r"notas/ano/(?P<ano>\d+)/finales/$",login_required(NotasFinalesAnoListView.as_view()), name="listado_notas_finales_ano"),
     url(r"notas/ano/(?P<ano>\d+)/trimestre/$",login_required(NotasTrimestralesAnoListView.as_view()), name="listado_notas_trimestre_ano"),
