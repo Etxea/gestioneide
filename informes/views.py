@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 
+from django.core.validators import validate_email
+
 import xlwt
 from wkhtmltopdf.views import PDFTemplateView
 
@@ -20,7 +22,7 @@ class InformesHomeView(TemplateView):
     template_name="informes/home.html"
     def get_context_data(self, **kwargs):
         context = super(InformesHomeView, self).get_context_data(**kwargs)
-        context['years'] = Year.objects.all()
+        context['years'] = Year.objects.all().order_by('-id')
         return context
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
@@ -69,7 +71,9 @@ class AlumnosMailErroresListView(TemplateView):
         lista_alumnos = []
         year = Year().get_activo(self.request)
         for asistencia in Asistencia.objects.filter(year=year).filter(metalico=False):
-            if not asistencia.alumno.email:
+            try:
+                validate_email(asistencia.alumno.email)
+            except:
                 lista_alumnos.append(asistencia.alumno)
         context['alumnos_list'] = lista_alumnos
         return context
@@ -219,6 +223,8 @@ def export_asistencias_xls(request,filtro=False):
         (u"Grupo", 8000),
         (u"Telefono1", 6000),
         (u"Telefono2", 6000),
+        (u"Mail", 6000),
+        (u"Mail2", 6000),
         (u"Dirección", 6000),
         (u"Localidad", 6000),
         (u"CP", 2000),
@@ -249,6 +255,8 @@ def export_asistencias_xls(request,filtro=False):
             alumno.asistencia_set.all()[0].grupo.nombre,
             alumno.telefono1,
             alumno.telefono2,
+            alumno.email,
+            alumno.email2,
             alumno.direccion,
             alumno.ciudad,
             alumno.cp
@@ -275,8 +283,10 @@ def export_telefonos_alumnos_xls(request,ano):
         (u"Apellidos, Nombre", 6000),
         (u"Telefono1", 6000),
         (u"Telefono2", 6000),
-        (u"Fecha Nac.", 2000),
-        (u"Año Nac.", 2000),
+        (u"Mail", 6000),
+        (u"Mail2", 6000),
+        (u"Fecha Nac.", 4000),
+        (u"Año Nac.", 3000),
         (u"Grupo", 8000),
         (u"Dirección", 12000),
         (u"CP", 6000),
@@ -302,6 +312,8 @@ def export_telefonos_alumnos_xls(request,ano):
             "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
             alumno.telefono1,
             alumno.telefono2,
+            alumno.email,
+            alumno.email2,
             alumno.fecha_nacimiento.isoformat(),
             alumno.fecha_nacimiento.isocalendar()[0],
             asis.grupo.nombre,
@@ -316,9 +328,8 @@ def export_telefonos_alumnos_xls(request,ano):
     return response
 
 @permission_required('gestioneide.informes_view',raise_exception=True)
-def export_mails_alumnos_xls(request,ano):
-    
-    ano = Year.objects.get(id=ano)
+def export_alumnos_mail_errores_xls(request):
+    ano = Year().get_activo(request)
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=mails_alumnos.xls'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -330,6 +341,9 @@ def export_mails_alumnos_xls(request,ano):
         (u"ID", 2000),
         (u"Apellidos, Nombre", 6000),
         (u"Mail", 6000),
+        (u"Mail2", 6000),
+        (u"Telefono1", 6000),
+        (u"Telefono2", 6000),
         (u"Fecha Nac.", 2000),
         (u"Año Nac.", 2000),
         (u"Grupo", 8000),
@@ -348,23 +362,28 @@ def export_mails_alumnos_xls(request,ano):
 
     font_style = xlwt.XFStyle()
     font_style.alignment.wrap = 1
-    
     for asis in Asistencia.objects.filter(year=ano):
-        alumno = asis.alumno
-        row_num += 1
-        row = [
-            alumno.id,
-            "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
-            alumno.email,
-            alumno.fecha_nacimiento.isoformat(),
-            alumno.fecha_nacimiento.isocalendar()[0],
-            asis.grupo.nombre,
-            asis.alumno.direccion,
-            asis.alumno.cp,
-            asis.alumno.ciudad,
-        ]
-        for col_num in xrange(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
+        try:
+            validate_email(asis.alumno.email)
+        except:
+            alumno = asis.alumno
+            row_num += 1
+            row = [
+                alumno.id,
+                "%s %s, %s"%(alumno.apellido1,alumno.apellido2,alumno.nombre),
+                alumno.email,
+                alumno.email2,
+                alumno.telefono1,
+                alumno.telefono2,
+                alumno.fecha_nacimiento.isoformat(),
+                alumno.fecha_nacimiento.isocalendar()[0],
+                asis.grupo.nombre,
+                asis.alumno.direccion,
+                asis.alumno.cp,
+                asis.alumno.ciudad,
+            ]
+            for col_num in xrange(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
     return response

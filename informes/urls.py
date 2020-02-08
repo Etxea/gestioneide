@@ -13,12 +13,13 @@ urlpatterns = [
 
     url(r"alumnos/errores/$",login_required(AlumnosErroresListView.as_view()), name="listado_alumnos_errores"),
     url(r"alumnos/banco/errores/$",login_required(AlumnosBancoErroresListView.as_view()), name="listado_alumnos_banco_errores"),
+    url(r"alumnos/mails/errores/xls/$",login_required(export_alumnos_mail_errores_xls), name="listado_alumnos_mail_errores_xls"),
     url(r"alumnos/mail/errores/$",login_required(AlumnosMailErroresListView.as_view()), name="listado_alumnos_mail_errores"),
+    
     url(r"alumnos/xls/$",login_required(export_alumnos_xls), name="listado_alumnos_xls"),
     url(r"alumnos/telefonos/xls/(?P<ano>\d+)/$",login_required(export_telefonos_alumnos_xls), name="listado_telefonos_alumnos_xls"),
     #url(r"alumnos/mails/(?P<ano>\d+)/$",login_required(export_mails_alumnos), name="listado_mails_alumnos"),
-    url(r"alumnos/mails/xls/(?P<ano>\d+)/$",login_required(export_mails_alumnos_xls), name="listado_mails_alumnos_xls"),
-
+    
     url(r"asistencias/errores/$",login_required(AsistenciasErroresListView.as_view()), name="listado_asistencias_errores"),
     url(r"asistencias/descuento/$",login_required(AsistenciasDescuentoListView.as_view()), name="listado_asistencias_descuento"),
     url(r"asistencias/metalico/$",login_required(AsistenciasMetalicoListView.as_view()), name="listado_asistencias_metalico"),

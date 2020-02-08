@@ -331,6 +331,7 @@ class Alumno(models.Model):
     telefono1 = models.CharField(max_length=12,default="")
     telefono2 = models.CharField(max_length=12,default="",blank=True,null=True)
     email = models.EmailField(default="",blank=True,null=True)
+    email2 = models.EmailField(default="",blank=True,null=True)
     cuenta_bancaria = models.CharField(max_length=23,default="")
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
     ciudad = models.CharField(max_length=25,default="Santurtzi",blank=True,null=True)
