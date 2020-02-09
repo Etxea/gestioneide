@@ -25,4 +25,7 @@ urlpatterns = [
     url(r'pruebanivel/(?P<pk>\d+)/borrar',login_required(AlumnoPruebaNivelDeleteView.as_view()), name="alumno_pruebanivel_borrar"),url(r'pruebanivel/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoPruebaNivelCreateView.as_view()), name="alumno_pruebanivel_nueva"),
     url(r'cambridge/(?P<alumno_id>\d+)/nueva$',login_required(AlumnoResultadoCambridgeCreateView.as_view()), name="alumno_resultadocambridge_nuevo"),
     url(r'cambridge/(?P<pk>\d+)/borrar',login_required(AlumnoResultadoCambridgeDeleteView.as_view()), name="alumno_resultadocambridge_borrar"),
+    url(r'mail/(?P<pk>\d+)/enviar/$',login_required(AlumnoMailView.as_view()), name="alumno_mail_enviar"),
+    url(r'mail/(?P<pk>\d+)/lista/$',login_required(AlumnoMailList.as_view()), name="alumno_mail_lista"),
+    
 ]

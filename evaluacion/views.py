@@ -17,6 +17,10 @@ from wkhtmltopdf.views import PDFTemplateView
 from gestioneide.models import *
 from evaluacion.forms import *
 
+import logging
+logger = logging.getLogger('gestioneide.debug')
+debug = logger.debug
+
 class EvaluacionListView(ListView):
     template_name="evaluacion/evaluacion.html"
     model = Grupo
@@ -48,8 +52,10 @@ def NotasGrupoTrimestreView(request,pk,trimestre):
         NotaFomsetClass = NotaTrimestralKidsFormSet
     else:
         NotaFomsetClass = NotaTrimestralFormSet
+        
     template=get_template("evaluacion/notas_grupo_trimestre.html")
     if request.method == 'POST':
+        debug("Guardamos las notas")
         notas_formset = NotaFomsetClass(request.POST, request.FILES)
         contexto['notas_formset']=notas_formset
         if notas_formset.is_valid():

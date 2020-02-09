@@ -20,7 +20,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ["gestion.eide.es","127.0.0.1"]
+ALLOWED_HOSTS = ["gestion.eide.es","127.0.0.1","localhost"]
 
 PHONENUMBER_DEFAULT_REGION="ES"
 
@@ -217,7 +217,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 EMAIL_HOST="localhost"
 EMAIL_PORT="587"
-DEFAULT_FROM_EMAIL = "gestionweb@eide.es"
+DEFAULT_FROM_EMAIL = "webmaster@eide.es"
+DEFAULT_REPLYTO_EMAIL = "no-reply@eide.es"
 
 ACCOUNT_OPEN_SIGNUP = False
 ACCOUNT_EMAIL_UNIQUE = False

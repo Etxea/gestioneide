@@ -17,6 +17,12 @@
             <td>Teléfonos</td><td>{{object.telefono1}}</td>
             <td>{{object.telefono2}}</td>
         </tr>
+        </tr>
+            <td>E-Mail</td>
+            <td><e-mail>{{object.email}}</e-mail></td>
+            <td><e-mail>{{object.email2}}</e-mail></td>
+        </tr>
+
         <tr>
             <td>Fecha Nac.</td> <td>{{ object.fecha_nacimiento }}</td> <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
         </tr>
@@ -30,6 +36,13 @@
             <td>Observaciones</td><td>{{object.observaciones}}</td>
         </tr>
     </table>
+    <a class="btn btn-primary" href="{% url 'alumno_mail_enviar' alumno.id %}">
+        <i class="zmdi zmdi-email"></i> Enviar e-mail
+    </a>
+    <a class="btn btn-primary" href="{% url 'alumno_mail_lista' alumno.id %}">
+        <i class="zmdi zmdi-email-open"></i> Lista e-mail
+    </a>
+    
     <a class="btn btn-primary" href="{% url 'imprimir_alumno_matricula' alumno.id %}">
         <i class="zmdi zmdi-print"></i> Imprimir matricula
     </a>

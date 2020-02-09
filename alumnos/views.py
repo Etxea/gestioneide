@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import View,CreateView, UpdateView, DeleteView
+from django.views.generic.edit import View,CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
@@ -163,3 +163,37 @@ class AlumnoResultadoCambridgeDeleteView(DeleteView):
     template_name = "alumnos/confirmar_borrar.html"
     def get_success_url(self):
         return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})
+
+#@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
+class AlumnoMailView(CreateView):
+    template_name = "alumnos/mail_enviar.html"
+    model = MailAlumno
+    form_class = EmailAlumnoForm
+
+    def get_context_data(self,**kwargs):
+        context = super(AlumnoMailView,self).get_context_data(**kwargs)
+        context['alumno'] = Alumno.objects.get(pk=self.kwargs['pk'])
+        return context  
+
+    def form_valid(self, form):
+        form.instance.creador = self.request.user
+        alumno = Alumno.objects.get(pk=self.kwargs['pk'])
+        form.instance.alumno = alumno
+        form.instance.enviado = alumno.enviar_mail(form.cleaned_data['titulo'],form.cleaned_data['mensaje'])
+        return super(AlumnoMailView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("alumno_detalle",kwargs={'pk': self.object.alumno.pk})
+
+class AlumnoMailList(ListView):
+    template_name = "alumnos/mail_lista.html"
+    model = MailAlumno
+
+    def get_queryset(self):
+        alumno = Alumno.objects.get(pk=self.kwargs['pk'])
+        return MailAlumno.objects.filter(alumno=alumno)  
+
+    def get_context_data(self,**kwargs):
+        context = super(AlumnoMailList,self).get_context_data(**kwargs)
+        context['alumno'] = Alumno.objects.get(pk=self.kwargs['pk'])
+        return context    

@@ -1,0 +1,28 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block page_header %}
+<h1>{% trans "Lista mail-s de " %} {{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }} </h1>
+{% endblock %}
+{% block body %}
+
+
+<table class="table">
+    <thead>
+        <th>Fecha</th>
+        <th>Creador</th>
+        <th>Título</th>
+        <th>Enviado</th>
+    </thead>
+    <tbody>
+    {% for mail in object_list %}
+    <tr>
+        <td>{{ mail.fecha }}</td>
+        <td>{{ mail.creador }}</td>
+        <td>{{ mail.titulo }}</td>
+        <td>{{ mail.enviado }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'alumno_detalle' alumno.id %}" class="btn btn-primary">Volver</a>
+{% endblock %}

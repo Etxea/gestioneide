@@ -26,3 +26,8 @@ class AlumnoCreateForm(ModelForm):
     #     user_profile.save()
     #     return user, user_profile
     
+class EmailAlumnoForm(ModelForm):
+    class Meta:
+        model = MailAlumno
+        fields = ("titulo", "mensaje")
+        

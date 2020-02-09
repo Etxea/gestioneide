@@ -13,7 +13,11 @@ from django.conf import settings
 if "mailer" in settings.INSTALLED_APPS:
     from mailer import send_mail, mail_admins
 else:
-    from django.core.mail import send_mail, mail_admins
+    from django.core.mail import send_mail, mail_admins, EmailMessage
+
+import logging
+logger = logging.getLogger('gestioneide.debug')
+debug = logger.debug
 
 import datetime
 import calendar
@@ -27,6 +31,7 @@ DIAS_SEMANA = (
     (4, _('Jueves')),
     (5, _('Viernes'))
 )
+
 TIPO_EVALUACION = (
     (1, _('Trimestral')),
     (2, _('Elementary/Pre Intermediate')),
@@ -34,6 +39,7 @@ TIPO_EVALUACION = (
     (4, _('Upper/[Pre]First/Advance/Proficiency')),
     (5, _('Kids')),
 )
+
 RESULTADOS_CAMBRIDGE = (
     (1,_('A: Sobresaliente')),
     (2,_('B: Notable')),
@@ -104,6 +110,9 @@ class Year(models.Model):
     def __unicode__(self):
         return "%s"%self.name
     
+    def __str__(self):
+        return self.__unicode__()
+
     def get_activo_global(self):
         return Year.objects.get(activo=True)
 
@@ -173,6 +182,8 @@ class Aula(models.Model):
     pdi = models.BooleanField(default=False,blank=True)
     def __unicode__(self):
          return "%s"%(self.nombre)
+    def __str__(self):
+        return self.__unicode__()     
     def get_absolute_url(self):
         return "/aulas/editar/%i/" % self.id
     def clases_lunes(self):
@@ -218,6 +229,9 @@ class Profesor(models.Model):
     def __unicode__(self):
         return "%s"%(self.nombre)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def get_absolute_url(self):
         return "/profesores/%s/"%self.id
 
@@ -226,17 +240,17 @@ class Profesor(models.Model):
         self.user.set_password(password)
         self.user.save()
         mensaje = u"""Acabamos de crear o modificar la contraseña para el sistema de
-gestión de alumnos de EIDE. 
+        gestión de alumnos de EIDE. 
 
-Los datos de acceso son:
-https://gestion.eide.es
-usuario: %s
-contraseña: %s
-Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
+        Los datos de acceso son:
+        https://gestion.eide.es
+        usuario: %s
+        contraseña: %s
+        Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
         self.user.email_user("Cambio contraseña en gestion de alumnos EIDE",mensaje)
-        send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
+        send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
 
     def create_user(self):
         try:
@@ -273,7 +287,7 @@ Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
             self.user=u
             self.save()
             u.email_user("Alta en gestion de alumnos EIDE",mensaje)
-            send_mail(u"Alta en gestion de alumnos EIDE",mensaje,'webmaster@eide.es',['eide@eide.es','moebius1984@gmail.com'])
+            send_mail(u"Alta en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
         else:
             print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 
@@ -365,6 +379,30 @@ class Alumno(models.Model):
         for asis in self.asistencia_set.all():
             ret = ret + " %s"%asis.grupo.nombre
         return ret
+    def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None):
+        email = EmailMessage(
+            titulo,
+            mensaje,
+            settings.DEFAULT_FROM_EMAIL,
+            reply_to=[settings.DEFAULT_REPLYTO_EMAIL],
+        )
+        if mensaje_html:
+            email.attach_alternative(html_content, "text/html")
+        if adjunto:
+            email.attach("adjunto.pdf",adjunto,"application/pdf")
+        try:
+            email.send()
+            debug("Mail enviado")
+            return True
+        except:
+            debug("Error al enviar mail")
+            return False
+
+    def enviar_mails_pendientes(self):
+        for mail in self.mailalumno_set.filter(enviado=False):
+            mail.enviado = mail.alumno.enviar_mail(titulo=mail.titulo,mensaje=mail.mensaje)
+            mail.save()
+
 
 class Historia(models.Model):
     alumno = models.ForeignKey('Alumno')
@@ -379,6 +417,17 @@ class Anotacion(models.Model):
     fecha = models.DateField(auto_now_add=True)
     creador = models.ForeignKey(User)#, editable=False)
     texto = models.CharField(max_length=500,default="")
+    class Meta:
+        ordering = ['-fecha']
+
+class MailAlumno(models.Model):
+    alumno = models.ForeignKey('Alumno')
+    enviado = models.BooleanField(default=False)
+    fecha = models.DateField(auto_now_add=True)
+    creador = models.ForeignKey(User)#, editable=False)
+    titulo = models.CharField(max_length=100,default="") 
+    mensaje = models.CharField(max_length=500,default="")
+    mensaje_html = models.CharField(max_length=500,default="")
     class Meta:
         ordering = ['-fecha']
 
@@ -406,6 +455,8 @@ class Curso(models.Model):
         return reverse_lazy("curso_editar",args=[self.id])
     def __unicode__(self):
          return "%s"%(self.nombre)
+    def __str__(self):
+        return self.__unicode__()
     class Meta:
         ordering = ["nombre"]
 
@@ -521,7 +572,12 @@ class Grupo(models.Model):
                     except:
                         dias_clase.append(dia[0])
         return dias_clase
-        
+    
+    def enviar_notas_email(self,tipo,trimestre):
+        debug("Vamos a enviar las notas del grupo %s del tipo %s y del (cua)trimestre %s"%(self.nombre,tipo,trimestre))
+        for asis in self.asistencia_set.all():
+            asis.alumno.enviar_mail("Notas","Prueba","<html><body><h1>Prueba</h1>Solo una prueba</body></html>")
+
 class Clase(models.Model):
     dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
     aula = models.ForeignKey(Aula,related_name='clases')
@@ -553,8 +609,14 @@ class Asistencia(models.Model):
     def save(self, *args, **kwargs):
         # Guardamos en la historia
         if self.pk is None:
+            active_year = Year().get_activo()
+            try:
+                debug("Tenemos el año %s"%(self.year))
+                self.year = active_year
+            except:
+                self.year = active_year
             hist = Historia(alumno=self.alumno, tipo="altagrupo",
-                            anotacion="Alta en el grupo %s ano %s" % (self.grupo.nombre,self.year))
+                            anotacion="Alta en el grupo")
             hist.save()
         elif self.borrada is True:
             hist = Historia(alumno=self.alumno, tipo="bajagrupo",

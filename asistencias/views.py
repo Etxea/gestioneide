@@ -31,8 +31,10 @@ class AsistenciaCreateView(CreateView):
     model = Asistencia
     #~ fields = ["grupo","alumno","confirmado","factura","metalico","precio"]
     fields = "__all__"
+
     def get_success_url(self):
         return reverse_lazy("asistencia_lista")
+
     def get_initial(self):
         year = Year().get_activo(self.request)
         #print "Establecemos el ano en ",year
@@ -67,6 +69,7 @@ class AsistenciaGrupoCreateView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy("grupo_detalle",kwargs = {'pk' : self.object.grupo.id })
+        
     def get_initial(self):
         year = Year().get_activo(self.request)
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])

@@ -1,0 +1,21 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+{% block page_header %}
+<h1>{% trans "Enviar mail" %} {{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
+{% endblock %}
+{% block body %}
+<div class="row">
+    <form action="" method="post" class="form">{% csrf_token %}
+        {{ form|as_bootstrap }}
+        <div class="alert alert-info" role="alert">
+            Se va a enviar un mail a {{ alumno.email }} y {{ alumno.email2 }}
+        </div>
+        
+        <div class="form-actions">
+        <a href="{% url 'alumno_detalle' alumno.id %}" class="btn">Cancelar</a>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
