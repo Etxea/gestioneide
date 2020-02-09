@@ -384,6 +384,7 @@ class Alumno(models.Model):
             titulo,
             mensaje,
             settings.DEFAULT_FROM_EMAIL,
+            [self.email,self.email2],
             reply_to=[settings.DEFAULT_REPLYTO_EMAIL],
         )
         if mensaje_html:
