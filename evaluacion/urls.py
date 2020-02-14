@@ -18,6 +18,11 @@ urlpatterns = [
     url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre/editar/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<pk>\d+)/borrar/$',login_required(DeleteView.as_view(model=Nota)), name="nota_borrar"),
+    url(r'nota/trimestre/(?P<pk>\d+)/editar/$',login_required(NotaTrimestralEditView.as_view()), name="nota_trimestral_editar"),
+    url(r'nota/trimestre/(?P<trimestre>\d+)/(?P<pk>\d+)/enviar/$',login_required(NotaTrimestralSendView.as_view()), name="nota_trimestral_enviar"),
+    url(r'nota/cuatrimestre/(?P<cuatrimestre>\d+)/(?P<pk>\d+)/editar/$',login_required(NotaCuatrimestralEditView.as_view()), name="nota_cuatrimestral_editar"),
+    url(r'nota/cuatrimestre/(?P<pk>\d+)/editar/$',login_required(NotaCuatrimestralSendView.as_view()), name="nota_cuatrimestral_enviar"),
+    
 
     url(r'nota/parciales/grupo/(?P<pk>\d+)/$',  login_required(NotasParcialesGrupoView.as_view()), name="notas_parciales_grupo"),
     url(r'nota/parciales/grupo/(?P<grupo_id>\d+)/nueva/$', login_required(NotasParcialesGrupoCreateView.as_view()), name="notas_parciales_grupo_nueva"),
