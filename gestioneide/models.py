@@ -292,6 +292,8 @@ class Profesor(models.Model):
         else:
             print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 
+    def grupos(self):
+        return Grupo.objects.filter(clases__in=Clase.objects.filter(profesor=self))
 
     def programacion_semana(self):
         tabla_clases = []
