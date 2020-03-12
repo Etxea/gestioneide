@@ -5,6 +5,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from datetime import date 
 
+from pinax.documents.models import *
+
 from gestioneide.models import *
 from profesores.forms import *
 
@@ -23,6 +25,7 @@ class ProfesorDashboardView(ListView):
         context = super(ProfesorDashboardView, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['mes'] = date.today().month
+        context['folders'] = Folder.objects.for_user(self.request.user)
         return context
 
     def get_queryset(self):

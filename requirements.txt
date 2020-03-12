@@ -2,6 +2,7 @@ git+https://github.com/jorgenpt/django-bootstrap3-datetimepicker.git
 Django==1.11.21
 pinax-theme-bootstrap==7.2.0
 pinax-documents
+pinax-templates
 pinax-messages
 pinax-notifications
 django-forms-bootstrap

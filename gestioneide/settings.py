@@ -123,6 +123,7 @@ INSTALLED_APPS = [
     #~ 'django_tables2',
     'wkhtmltopdf',
     'pinax.documents',
+    "pinax.templates",
     'pinax.messages',
     'phonenumber_field',
     'pinax.notifications',

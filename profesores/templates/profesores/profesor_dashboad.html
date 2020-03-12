@@ -14,20 +14,26 @@
     </div>
     <div class="col-md-4 col-xs-12">
         <h4>Archivos</h4>
+        <ul>
+            {% for folder in folders %}
+            <li>{{ folder }}</li>
+            {% endfor %}
+        </ul>
+        <a class="view-more" href="/docs">View more</a>
     </div>
     <div class="col-md-4 col-xs-12">
         <h4>Mensajes</h4>
         <ul>
             {% for mensaje in request.session.unread_messages %}
             <li>
-                <div class="list-group-item-heading">{{ mensaje.creador }} <small>{{ mensaje.fecha_creacion }}</small></div>
-                    <small class="list-group-item-text c-gray">{{ mensaje.titulo }}</small>
-                </div>
+                <i class="list-group-item-heading"></i>{{ mensaje.creador }} 
+                <small>{{ mensaje.fecha_creacion }}</small>
+                <small class="list-group-item-text c-gray">{{ mensaje.titulo }}</small>
+        
             </li>
             {% endfor %}
-            <a class="view-more" href="{% url 'mensajes' %}">View more</a>
         </ul>
-
+        <a class="view-more" href="{% url 'mensajes' %}">View more</a>
     </div>
     </div>
     <h2>Clases</h2>
