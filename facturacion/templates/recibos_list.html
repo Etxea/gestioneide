@@ -11,7 +11,7 @@
 <a class="btn btn-primary" href="{% url 'recibo_nuevo' %}">Nuevo recibo</a>
 <table role="table" class="table">
 	<thead>
-		<th>Fecha Creación</th><th>Empresa</th><th>Mes</th><th>Medio Mes</th><th>Fichero CSB19</th><th>Informe</th><th>Editar</th>
+        <th>Fecha Creación</th><th>Empresa</th><th>Mes</th><th>Medio Mes</th><th>Fichero CSB19</th><th>Informe</th><th>Editar</th><th>Devolución</th>
 	</thead>
 	<tbody>
 		 {% for recibo in object_list %}
@@ -22,6 +22,7 @@
 			 <td><a href="{% url 'recibo_fichero' recibo.id %}" ><span class="glyphicon glyphicon-list"></span></a></td>
 			 <td><a href="{% url 'recibo_informe' recibo.id %}" ><span class="glyphicon glyphicon-print"></span></a></td>
              <td><a href="{% url 'recibo_editar' recibo.id %}" ><span class="glyphicon glyphicon-pencil"></span></a></td>
+             <td><a href="{% url 'recibo_devolucion_xls' recibo.id %}" ><span class="glyphicon glyphicon-log-in"></span></a></td>
 		 </tr>
 		 {% endfor %}
 	</tbody>

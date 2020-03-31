@@ -379,7 +379,7 @@ class Alumno(models.Model):
         for asis in self.asistencia_set.all():
             ret = ret + " %s"%asis.grupo.nombre
         return ret
-    def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None):
+    def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None):
         email = EmailMessage(
             titulo,
             mensaje,
@@ -388,15 +388,16 @@ class Alumno(models.Model):
             reply_to=[settings.DEFAULT_REPLYTO_EMAIL],
         )
         if mensaje_html:
-            email.attach_alternative(html_content, "text/html")
+            #email.attach_alternative(html_content, "text/html")
+            email.content_subtype = "html"
         if adjunto:
             email.attach("adjunto.pdf",adjunto,"application/pdf")
         try:
             email.send()
-            debug("Mail enviado")
+            print("Mail enviado")
             return True
-        except:
-            debug("Error al enviar mail")
+        except Exception, e:
+            print("Error al enviar mail",str(e))
             return False
 
     def enviar_mails_pendientes(self):
