@@ -53,7 +53,7 @@ class AsistenciaAlumnoCreateView(CreateView):
         return form
 
     def get_success_url(self):
-        return reverse_lazy("alumno_detalle",kwargs = {'pk' : self.object })
+        return reverse_lazy("alumno_detalle",kwargs = {'pk' : self.object.alumno.pk })
 
     def get_initial(self):
         year = Year().get_activo(self.request)

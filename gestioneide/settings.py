@@ -123,6 +123,7 @@ INSTALLED_APPS = [
     #~ 'django_tables2',
     'wkhtmltopdf',
     'pinax.documents',
+    "pinax.templates",
     'pinax.messages',
     'phonenumber_field',
     'pinax.notifications',
@@ -239,6 +240,15 @@ AUTHENTICATION_BACKENDS = [
     #~ 'margin-left': "50",
     #~ 'margin-right': "50"
 #~ }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_SUBJECT_PREFIX = "[Gestion EIDE]"
+EMAIL_USE_TLS = False
+EMAIL_HOST='smtp.ssp-europe.eu'
+EMAIL_PORT=587
+EMAIL_HOST_USER="webmaster@eide.es"
+EMAIL_HOST_PASSWORD="YZu3Mqrq"
+DEFAULT_FROM_EMAIL="webmaster@eide.es"
 
 try:
     from local_settings import *

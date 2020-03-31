@@ -13,7 +13,8 @@ from django.conf import settings
 if "mailer" in settings.INSTALLED_APPS:
     from mailer import send_mail, mail_admins
 else:
-    from django.core.mail import send_mail, mail_admins, EmailMessage
+    from django.core.mail import send_mail, mail_admins, EmailMessage, EmailMultiAlternatives
+
 
 import logging
 logger = logging.getLogger('gestioneide.debug')
@@ -291,6 +292,8 @@ class Profesor(models.Model):
         else:
             print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 
+    def grupos(self):
+        return Grupo.objects.filter(clases__in=Clase.objects.filter(profesor=self))
 
     def programacion_semana(self):
         tabla_clases = []
@@ -364,6 +367,10 @@ class Alumno(models.Model):
                 hist = Historia(alumno=self,tipo="modificación",anotacion="Datos editados")
                 hist.save()
         super(Alumno, self).save(*args, **kw)
+    
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
     #    return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
         return "%s %s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
@@ -390,6 +397,7 @@ class Alumno(models.Model):
         if mensaje_html:
             #email.attach_alternative(html_content, "text/html")
             email.content_subtype = "html"
+
         if adjunto:
             email.attach("adjunto.pdf",adjunto,"application/pdf")
         try:
@@ -580,6 +588,12 @@ class Grupo(models.Model):
         for asis in self.asistencia_set.all():
             asis.alumno.enviar_mail("Notas","Prueba","<html><body><h1>Prueba</h1>Solo una prueba</body></html>")
 
+    def __str__(self):
+        return self.__unicode__()
+    
+    def __unicode__(self):
+        return u"%s"%self.nombre
+    
 class Clase(models.Model):
     dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
     aula = models.ForeignKey(Aula,related_name='clases')
@@ -606,6 +620,12 @@ class Asistencia(models.Model):
     borrada = models.BooleanField(default=False)
     objects = AsistenciaManager()
     all_objects = models.Manager() # The default manager.
+
+    def __unicode__(self):
+        return u"(%s) %s -> %s"%(self.year,self.alumno,self.grupo)
+
+    def __str__(self):
+        return self.__unicode__()    
 
     #Override del save para anotar en la historia los cambios
     def save(self, *args, **kwargs):
@@ -908,6 +928,8 @@ class NotaCuatrimestral(models.Model):
     speaking = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     speaking_np = models.BooleanField("NP", default=False)
 
+    email_enviado = models.BooleanField(default=False)
+
     def notas_materias(self):
         """Devolvemos un dict con la lista de materias y su nota"""
         lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.asistencia.grupo.curso.tipo_evaluacion]
@@ -942,6 +964,14 @@ class NotaCuatrimestral(models.Model):
         return media
 
         # nota_final = nota_media(lista_notas)
+    
+    def get_absolute_url(self):
+        return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
+    
+    def enviar_mail(self):
+        print("Vamos a enviar los mails de la nota del alumno %s del cuatrimestre %s"%(self.asistencia.alumno,self.cuatrimestre))
+        self.email_enviado = True
+        self.save()
 
 class NotaTrimestral(models.Model):
     asistencia = models.ForeignKey('Asistencia')
@@ -956,6 +986,16 @@ class NotaTrimestral(models.Model):
     comp_escrita = models.DecimalField("Comprensión Escrita", max_digits=1, decimal_places=0, choices=NOTAS_KIDS,blank=True,null=True,default=0)
     temas_repasar = models.CharField("Temas a repasar", max_length=200, blank=True, null=True, default="")
     aspectos_mejorar = models.CharField("Aspectos a mejorar", max_length=200, blank=True, null=True, default="")
+    email_enviados = models.BooleanField(default=False)
+    
+    def get_absolute_url(self):
+        return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
+
+    def enviar_mail(self,texto_html):
+        print("Vamos a enviar los mails de la nota del alumno %s del trimestre %s"%(self.asistencia.alumno,self.trimestre))
+        self.asistencia.alumno.enviar_mail("Boletín de notas","",mensaje_html=texto_html)
+        self.email_enviado = True
+        self.save()
 
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia')

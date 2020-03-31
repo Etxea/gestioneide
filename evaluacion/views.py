@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 
 from datetime import date
 from wkhtmltopdf.views import PDFTemplateView
@@ -475,3 +475,48 @@ class NotaParcialUpdateView(UpdateView):
     def get_success_url(self):
         grupo = NotaParcial.objects.get(id=self.kwargs['pk']).grupo_notas_parciales.grupo.pk
         return reverse_lazy('notas_parciales_grupo', kwargs={'pk': grupo })
+
+##FIXME PERMISOS!!!
+class NotaTrimestralEditView(UpdateView):
+    model = NotaTrimestral
+    fields = "__all__"
+    template_name = "evaluacion/notatrimestral_form.html"
+
+##FIXME PERMISOS!!!
+class NotaTrimestralSendView(DetailView):
+    model = Asistencia
+    template_name = "evaluacion/notatrimestral_detail.html"
+    context_object_name = "asistencia"
+
+    def get_context_data(self, **kwargs):
+        context = super(NotaTrimestralSendView, self).get_context_data(**kwargs)
+        context['trimestre'] = self.kwargs['trimestre']
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        print("Somos POST")
+        self.object = self.get_object()
+        nota = self.object.notatrimestral_set.get(trimestre=self.kwargs['trimestre'])
+        
+        context = super(NotaTrimestralSendView, self).get_context_data(**kwargs)
+        texto_html = render_to_string("evaluacion/notatrimestral_detail.html",context)
+        nota.enviar_mail(texto_html)
+        return self.render_to_response( context=context)
+
+##FIXME PERMISOS!!!
+class NotaCuatrimestralEditView(UpdateView):
+    model = NotaTrimestral
+    fields = "__all__"
+    template_name = "evaluacion/notacuatrimestral_form.html"
+
+##FIXME PERMISOS!!!
+class NotaCuatrimestralSendView(DetailView):
+    model = NotaTrimestral
+    template_name = "evaluacion/notacuatrimestral_detail.html"
+    context_object_name = "asistencia"
+
+    def get_context_data(self, **kwargs):
+        context = super(NotaCuatrimestralSendView, self).get_context_data(**kwargs)
+        context['cuatrimestre'] = self.kwargs['cuatrimestre']
+        return context
+        
