@@ -78,12 +78,17 @@
             <tr><td>Num Max. Alumnos</td><td>{{object.num_max}}</td></tr>
             <tr><td>Menores</td><td>{{object.menores|yesno}}</td></tr>
         </table>
+        <h3>Comunicar</h3>
+        
+        {% include 'grupos/email_modal.html' %}
+        
         {% if request.user.is_staff %}
         <h3>Imprimir</h3>
         <a  class="btn zmdi zmdi-print" href="{% url 'imprimir_grupo_unico_alumnos' object.id %}">
             Imprimir ficha grupo
         </a>
         {% endif %}
+    
 
     </div>
     <div class="col-lg-6"> 
@@ -118,6 +123,15 @@
 
 {% block scripts %}
 <script>
+$('#emailModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = "/grupos/email/"+grupo_id+"/";
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+
 $('#claseModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget); // Button that triggered the modal
   var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes

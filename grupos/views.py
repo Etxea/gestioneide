@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -55,6 +55,30 @@ class GrupoCreateView(CreateView):
 class GrupoDetailView(DetailView):
     model = Grupo
     template_name = "grupos/grupo_detail.html"
+
+@method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
+class GrupoEmailView(FormView):
+    template_name = 'grupos/email_form.html'
+    form_class = ContactForm
+    
+    def get_context_data(self, **kwargs):
+        context = super(GrupoEmailView, self).get_context_data(**kwargs)
+        context['grupo_id'] = self.kwargs['pk']
+        return context
+    
+    def get_initial(self):
+        #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
+        return { 'group_id': self.kwargs['pk'] , 'user_id': self.request.user.id }
+    
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.send_email()
+        return super(GrupoEmailView, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.kwargs['pk']})
 
 @method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
 class GrupoAsistenciaView(DetailView):

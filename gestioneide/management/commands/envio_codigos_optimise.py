@@ -50,4 +50,5 @@ Un saludo del equipo de EIDE.
                 print "E-Mail enviado"
             else:
                 print "error enviando el mail"
+                break
 
