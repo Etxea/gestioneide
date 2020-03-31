@@ -28,7 +28,7 @@ class ContactForm(forms.Form):
             mail.creador = User.objects.get(id=self.cleaned_data["user_id"])
             mail.titulo = self.cleaned_data["title"]
             mail.mensaje = self.cleaned_data["message"]
-            alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'])
+            mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'])
             mail.save()
 
         pass        
