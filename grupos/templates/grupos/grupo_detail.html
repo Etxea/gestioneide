@@ -52,8 +52,22 @@
             <tbody>
                 {% for clase in object.clases.all %}
                 <tr>
-                    <td>{{clase.get_dia_semana_display}}</td><td>{{clase.hora_inicio}}</td><td>{{clase.hora_fin}}</td>
-                    <td><a href="{% url 'aula_detalle' clase.aula.id %}">{{clase.aula.nombre}}</a></td><td><a href="{% url 'profesor_detalle' clase.profesor.id %}">{{clase.profesor}}</a></td>
+                    <td>{{clase.get_dia_semana_display}}</td>
+                    <td>{{clase.hora_inicio}}</td><td>{{clase.hora_fin}}</td>
+                    <td>
+                        {% if request.user.is_staff %}
+                        <a href="{% url 'aula_detalle' clase.aula.id %}">{{clase.aula.nombre}}</a>
+                        {% else %}
+                        {{clase.aula.nombre}}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if request.user.is_staff %}
+                        <a href="{% url 'profesor_detalle' clase.profesor.id %}">{{clase.profesor}}</a>
+                        {% else %}
+                        {{clase.profesor}}
+                        {% endif %}
+                    </td>
                     {% if request.user.is_staff %}
                     <td>
                         <a href="{% url 'borrar_clase' clase.id %}" id=borrar_clase" class="btn" ><i class="zmdi zmdi-delete"></i></a>
@@ -80,7 +94,7 @@
         </table>
         <h3>Comunicar</h3>
         
-        {% include 'grupos/email_modal.html' %}
+        {% include 'grupos/email_grupo_modal.html' %}
         
         {% if request.user.is_staff %}
         <h3>Imprimir</h3>
@@ -100,17 +114,28 @@
             {% for asistencia in object.asistencia_set.all %}
             <tr>
                
-                <td><a href="{% url 'alumno_detalle' asistencia.alumno.id%}">{{asistencia.alumno.id}} - {{asistencia.alumno.nombre}},{{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</a></td>
-                {% if request.user.is_staff %}
                 <td>
+                    {% if request.user.is_staff %}
+                    <a href="{% url 'alumno_detalle' asistencia.alumno.id%}">
+                        {{asistencia.alumno.id}} - {{asistencia.alumno.nombre}},{{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}
+                    </a>
+                    {% else %}
+                    {{asistencia.alumno.id}} - {{asistencia.alumno.nombre}},{{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}
+                    {% endif %}
+                </td>
+                
+                <td>
+                    {% if request.user.is_staff %}
                     {% if not asistencia.confirmado %}
                         <a class="btn btn-primary zmdi zmdi-check" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Confirmar</a>
                     {% endif %}
                     <a class="btn zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a>
                     <a class="btn zmdi zmdi-edit" href="{% url 'asistencia_editar' asistencia.id %}"></a>
                     <button type="button" class="btn zmdi zmdi-delete" data-toggle="modal" data-target="#deleteAsistenciaModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}"></button>
+                    {% endif %}
+                    {% include 'grupos/email_alumno_modal.html' with asistencia=asistencia %}
                 </td>
-                {% endif %}
+                
             </tr>
             {% endfor %}
             {% include "grupos/asistencia_modal.html" %}
@@ -123,11 +148,20 @@
 
 {% block scripts %}
 <script>
-$('#emailModal').on('show.bs.modal', function (event) {
+$('#emailGrupoModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget); // Button that triggered the modal
   var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes
   var modal = $(this);
   var form_url = "/grupos/email/"+grupo_id+"/";
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+
+$('#emailAlumnoModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var asistencia_id = button.data('asistencia_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = "/grupos/alumno/email/"+asistencia_id+"/";
   console.log("Vamos a cargar la form de ",form_url);
   modal.find('.modal-body').load(form_url);
 });

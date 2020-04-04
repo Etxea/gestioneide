@@ -386,6 +386,9 @@ class Alumno(models.Model):
         for asis in self.asistencia_set.all():
             ret = ret + " %s"%asis.grupo.nombre
         return ret
+    def enviar_mail_sendinblue(self,titulo,mensaje):        
+        pass
+    
     def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None):
         email = EmailMessage(
             titulo,
@@ -480,6 +483,10 @@ class Grupo(models.Model):
     menores = models.BooleanField(default=False)
     class Meta:
         ordering = ["nombre"]
+        permissions = [
+            ("send_email_grupo", "Send e-mail to group students"),
+            ("view_data_grupo", "View group data"),
+        ]
     def ver_precio(self):
         if self.precio:
             return self.precio

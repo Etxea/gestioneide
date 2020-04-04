@@ -4,6 +4,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
 BASE_DIR = PACKAGE_ROOT
 
+#FOR DEV
 DEBUG = True
 
 TIME= 45*60
@@ -12,7 +13,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE= True
 SESSION_COOKIE_AGE = TIME
 SESSION_IDLE_TIMEOUT = TIME
 
-
+#FOR DEV
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -120,13 +121,13 @@ INSTALLED_APPS = [
     "metron",
     "pinax.eventlog",
     'fixture_magic',
-    #~ 'django_tables2',
     'wkhtmltopdf',
     'pinax.documents',
     "pinax.templates",
     'pinax.messages',
     'phonenumber_field',
     'pinax.notifications',
+    'anymail',
 
     # project
     "gestioneide",
@@ -232,23 +233,6 @@ ACCOUNT_USE_AUTH_AUTHENTICATE = True
 AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
-
-#WKHTMLTOPDF_CMD="/usr/bin/wkhtmltopdf.wrapper"
-#~ WKHTMLTOPDF_CMD_OPTIONS = {
-    #~ 'margin-bottom': "50",
-    #~ 'margin-top': "50",
-    #~ 'margin-left': "50",
-    #~ 'margin-right': "50"
-#~ }
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_SUBJECT_PREFIX = "[Gestion EIDE]"
-EMAIL_USE_TLS = False
-EMAIL_HOST='smtp.ssp-europe.eu'
-EMAIL_PORT=587
-EMAIL_HOST_USER="webmaster@eide.es"
-EMAIL_HOST_PASSWORD="YZu3Mqrq"
-DEFAULT_FROM_EMAIL="webmaster@eide.es"
 
 try:
     from local_settings import *

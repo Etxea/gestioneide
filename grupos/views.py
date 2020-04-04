@@ -43,6 +43,42 @@ class GrupoListView(ListView):
                 return Grupo.objects.filter(
                     clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
 
+#@method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
+class GrupoProfesorListView(ListView):
+    model=Grupo
+    paginate_by = 100
+    template_name = "grupos/grupo_profesor_list.html"
+    def get_context_data(self, **kwargs):
+        context = super(GrupoProfesorListView, self).get_context_data(**kwargs)
+        context['centros_list'] = Centro.objects.all()
+        try:
+            centro = Centro.objects.get(id=self.kwargs['centro'])
+            context['centro_seleccionado'] = centro
+        except:
+            pass
+        return context
+    def get_queryset(self):
+        year = Year().get_activo(self.request)
+        #Si es staff ve todos los grupos
+        try:
+            centro = Centro.objects.get(id=self.kwargs['centro'])
+        except:
+            centro = None
+
+        if self.request.user.is_staff:
+            if centro:
+                return Grupo.objects.filter(year=year).filter(centro=centro).order_by('nombre')
+            else:
+                return Grupo.objects.filter(year=year).order_by('nombre')
+        #Sino limitamos los grupos a los cuales el profesor da clase
+        else:
+            if centro:
+                return Grupo.objects.filter(centro=centro).filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
+            else:
+                return Grupo.objects.filter(
+                    clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
+
+
 @method_decorator(permission_required('gestioneide.grupo_add',raise_exception=True),name='dispatch')        
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm
@@ -51,12 +87,19 @@ class GrupoCreateView(CreateView):
         return reverse_lazy("grupo_lista")
 
 
-@method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
+@method_decorator(permission_required('gestioneide.view_data_grupo',raise_exception=True),name='dispatch')
 class GrupoDetailView(DetailView):
     model = Grupo
     template_name = "grupos/grupo_detail.html"
 
-@method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
+## FIXME lo idea seria hacer un control mas fino, solo pueden ver detalles los profesores que tienen clase en el grupo
+@method_decorator(permission_required('gestioneide.view_data_grupo',raise_exception=True),name='dispatch')
+class GrupoProfesorDetailView(DetailView):
+    model = Grupo
+    template_name = "grupos/grupo_detail.html"
+
+
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
 class GrupoEmailView(FormView):
     template_name = 'grupos/email_form.html'
     form_class = ContactForm
@@ -80,6 +123,25 @@ class GrupoEmailView(FormView):
     def get_success_url(self):
         return reverse_lazy("grupo_detalle", kwargs={'pk': self.kwargs['pk']})
 
+class GrupoAlumnoEmailView(FormView):
+    template_name = 'grupos/email_alumno_form.html'
+    form_class = ContactAlumnoForm
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.send_email()
+        return super(GrupoEmailView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(GrupoAlumnoEmailView, self).get_context_data(**kwargs)
+        context['asistencia_id'] = self.kwargs['pk']
+        return context
+    
+    def get_success_url(self):
+        asistencia = Asistencia.objects.get(id=self.kwargs['pk'])
+        return reverse_lazy("grupo_detalle", kwargs={'pk': asistencia.grupo.id })
+    
 @method_decorator(permission_required('gestioneide.grupo_view',raise_exception=True),name='dispatch')
 class GrupoAsistenciaView(DetailView):
     model = Grupo

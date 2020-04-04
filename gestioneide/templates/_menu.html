@@ -61,13 +61,14 @@
 		</ul>
 	</li>
 	{% endif %}
-    {% if request.user.is_staff %}
-	<li {% if request.user.is_staff %}class="sm-sub"{% endif %} >
+    
+	<li class="sm-sub" >
 		<a href="{% url 'grupo_lista' %}" >
 			<i class="zmdi zmdi zmdi-collection-bookmark"></i>
 			<span>Grupos</span>
 		</a>
 		<ul>
+			{% if request.user.is_staff %}
 			<li>
 				<a href="{% url 'grupo_lista' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Grupos</span></a>
 			</li>
@@ -78,9 +79,15 @@
 			<li>
 				<a href="{% url 'imprimir_grupos_alumnos' %}" target="_blank" ><i class="zmdi zmdi-print"></i>Imprimir Lista de Grupos con alumnos</a>
 			</li>
+			{% else %}
+			<li>
+				<a href="{% url 'grupo_lista_profesor' %}"><i class="zmdi zmdi zmdi-view-list"></i>&nbsp;&nbsp;<span>Grupos</span></a>
+			</li>
+			{% endif %}
+
 		</ul>
 	</li>
-    {% endif %}
+    
     {% if request.user.is_staff %}
 	<li>
 		<a href="{% url 'turismo_home' %}">
