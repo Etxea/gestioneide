@@ -26,3 +26,4 @@ unidecode
 #ipython==5
 #gunicorn==19.6.0
 django-anymail
+jsonfield==2.1.1

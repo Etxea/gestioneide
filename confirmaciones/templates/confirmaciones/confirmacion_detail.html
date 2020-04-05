@@ -1,0 +1,20 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <h4>Enviar consulta</h4>
+        Vamos a enviar la conulta con el título:
+        <h4>{{ object.nombre }}</h4>
+        <p>
+            {{ object.texto }}
+        </p>
+        <form action="" method="post">{% csrf_token %}
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+	
+</div>
+{% endblock %}

@@ -150,6 +150,7 @@ INSTALLED_APPS = [
     "empresas",
     "centros",
     "mensajes",
+    "confirmaciones",
 ]
 
 LOGGING = {
