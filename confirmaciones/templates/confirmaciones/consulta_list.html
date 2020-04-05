@@ -5,7 +5,7 @@
 {% block page_header %}
 
 {% include "pagination/pagination.html" %} 
-Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> consultas.
 <a class="btn btn-primary pull-right" href="{% url 'consulta_nueva' %}">Nueva Consulta</a>
 
 {% endblock %}
@@ -20,9 +20,10 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Grupo</th>
                     <th>Fecha</th>
                     <th>Respuestas</th>                    
-                    <th></th>>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,9 +31,13 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> grupos.
             <tr>
 
                 <td><a href="{{consulta.get_absolute_url}}">{{ consulta.nombre }}</a></td>
-                <td></td>
-                <td>{{ consulta.confirmaciones_set.all.count }}</td>
-		        <td><a class="btn btn-warning" href="{% url 'consulta_borrar' consulta.id %}"><i class="zmdi zmdi-delete"></i></a></td>
+                <td>{{ consulta.grupo }}</td>
+                <td>{{ consulta.fecha_creacion }}</td>
+                <td><a href="{% url 'confirmacion_lista' consulta.id %}">{{ consulta.confirmacion_set.count }}</a></td>
+		        <td>
+                    <a class="btn btn-primary" href="{% url 'consulta_enviar' consulta.id %}"><i class="zmdi zmdi-mail-send"></i></a>
+                    <a class="btn btn-warning" href="{% url 'consulta_borrar' consulta.id %}"><i class="zmdi zmdi-delete"></i></a>
+                </td>
              </tr>
              {%  endfor %}
              </tbody>
