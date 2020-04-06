@@ -42,6 +42,9 @@ class AlumnoBuscarView(AlumnoListView):
     def get_queryset(self):
         #~ cadena = self.kwargs['cadena']
         cadena = self.request.GET.get("cadena")
+        if cadena.find("@") > 0:
+            print("tenemos el email",cadena)
+            return Alumno.objects.filter((Q(email__icontains=cadena) | Q(email2__icontains=cadena)))
         try:
             numero = int(cadena)
             debug("tenemos el numero de alumno ",numero)

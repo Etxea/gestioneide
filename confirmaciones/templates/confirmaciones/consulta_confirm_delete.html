@@ -1,0 +1,15 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+    <h1>Borrar Consulta</h1>
+    <div class="alert alert-warning" role="alert">
+        ¿Seguro que quieres borrar {{ object.nombre }}?
+    </div>
+    <form action="" method="post">{% csrf_token %}
+      <button type="submit" class="btn btn-primary">Borrar</button>
+      <a class="btn btn-secondary" href="{% url 'consulta_lista' %}">Lista</a>
+    </div>
+    </form>
+{% endblock %}

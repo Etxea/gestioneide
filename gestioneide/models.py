@@ -10,11 +10,7 @@ from django.utils.dates import MONTHS
 from django.utils.timezone import now
 from django.db.models import Q
 from django.conf import settings
-if "mailer" in settings.INSTALLED_APPS:
-    from mailer import send_mail, mail_admins
-else:
-    from django.core.mail import send_mail, mail_admins, EmailMessage, EmailMultiAlternatives
-
+from anymail.message import AnymailMessage
 
 import logging
 logger = logging.getLogger('gestioneide.debug')
@@ -394,13 +390,11 @@ class Alumno(models.Model):
         except:
             return False
     
-    def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None):
-        email = EmailMessage(
-            titulo,
-            mensaje,
-            settings.DEFAULT_FROM_EMAIL,
-            [self.email,self.email2],
-            reply_to=[settings.DEFAULT_REPLYTO_EMAIL],
+    def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None):
+        email = AnymailMessage(
+            subject=titulo,
+            body=mensaje,
+            to = [self.email,self.email2],
         )
         if mensaje_html:
             #email.attach_alternative(html_content, "text/html")
@@ -409,9 +403,14 @@ class Alumno(models.Model):
         if adjunto:
             email.attach("adjunto.pdf",adjunto,"application/pdf")
         try:
-            email.send()
-            print("Mail enviado")
-            print(email)
+            email.send(fail_silently=False)
+            
+            status = email.anymail_status  # available after sending
+            
+            print status.message_id  # e.g., '<12345.67890@example.com>'
+            print status.message_id
+            print status.recipients
+            print status.esp_response
             return True
         except Exception, e:
             print("Error al enviar mail",str(e))

@@ -5,12 +5,29 @@
 {% block body %}
 <div class="row">
     <div class="col-md-12 col-xs-12">
-        <h4>Enviar consulta</h4>
-        Vamos a enviar la conulta con el título:
+        <h2>Enviar consulta</h2>
+        <div class="alert alert-info" role="alert" >
+        Vamos a enviar la conulta a {{ object.grupo.asistencia_set.count }} alumnos.
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-xs-12 offset-md-3">
+        <h2>Contenido</h2>
+        <div>
         <h4>{{ object.nombre }}</h4>
         <p>
             {{ object.texto }}
         </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-xs-12">        
+        <h2>Confirmación</h2>
+        <div class="alert alert-warning" role="alert">
+            ¿Quieres enviarla?
+        </div>
         <form action="" method="post">{% csrf_token %}
             <button type="submit" class="btn btn-primary">Enviar</button>
             <a class="btn btn-secondary" href="{% url 'consulta_lista' %}">Lista</a>

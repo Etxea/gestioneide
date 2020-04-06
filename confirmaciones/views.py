@@ -62,6 +62,9 @@ class ConsultaEnviarView(DetailView):
 class ConsultaDeleteView(DeleteView):
     model = Consulta
 
+    def get_success_url(self):
+        return reverse("consulta_lista")
+
 class ConsultaUpdateView(UpdateView):
     model = Consulta
     fields = '__all__'

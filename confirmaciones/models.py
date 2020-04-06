@@ -26,7 +26,7 @@ class Consulta(models.Model):
         ordering = ["fecha_creacion"]
 
 class Confirmacion(models.Model):
-    consulta = models.ForeignKey(Consulta)
+    consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
     asistencia = models.ForeignKey(Asistencia)
     respuesta_bool = models.BooleanField()
     respuesta_texto = models.CharField('Respuesta (1000carac. max.)',max_length=1000,)

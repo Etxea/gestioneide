@@ -1,16 +1,29 @@
 {% extends "site_base.html"%}
 {% load bootstrap_tags %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block body %}
-    <h1>Nuevo Consulta</h1>
-    <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap }}
-      <br />
-      <div class="form-actions">
+  <h1>Nuevo Consulta</h1>
+  <form action="" method="post">{% csrf_token %}
+    {{ form|as_bootstrap }}
+    <br />
+    <div class="form-actions">
 
-      <button type="submit" class="btn btn-primary">Guardar</button>
-      <a class="btn btn-secondary" href="{% url 'consulta_lista' %}">Lista</a>
-    </div>
-    </form>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a class="btn btn-secondary" href="{% url 'consulta_lista' %}">Lista</a>
+  </div>
+  </form>
+{% endblock %}
+
+{% block scripts %}    
+  <link href="{% static 'vendors/chosen_v1.4.2/chosen.min.css' %}" rel="stylesheet">
+  <script src="{% static 'vendors/chosen_v1.4.2/chosen.jquery.min.js' %}"></script>
+
+  <script>
+  $(function() {
+    $("#id_grupo").chosen();
+  });
+</script>
+
 {% endblock %}
