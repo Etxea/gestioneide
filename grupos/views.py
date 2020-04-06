@@ -111,7 +111,7 @@ class GrupoEmailView(FormView):
     
     def get_initial(self):
         #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
-        print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
+        #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
         return { 'group_id': self.kwargs['pk'] , 'user_id': self.request.user.id }
     
     def form_valid(self, form):

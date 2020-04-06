@@ -2,7 +2,7 @@ from django import forms
 from localflavor.es.forms import *
 from django.forms import ModelForm
 from gestioneide.models import *
-
+from django.contrib.auth.models import User
 
 class GrupoCreateForm(ModelForm):
     class Meta:
@@ -17,9 +17,6 @@ class ContactForm(forms.Form):
     user_id = forms.CharField(widget=forms.HiddenInput)
 
     def send_email(self):
-        # send email using the self.cleaned_data dictionary
-        print(self.fields)
-        #print("Enviando mail a todos los alumnos del grupo %s"%self.cleaned_data["group_id"])
         grupo = Grupo.objects.get(id=self.cleaned_data["group_id"])
         for asis in grupo.asistencia_set.all():
             alumno = asis.alumno
