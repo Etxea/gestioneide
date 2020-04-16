@@ -94,7 +94,11 @@
         </table>
         <h3>Comunicar</h3>
 
-        <h4>Últimas anotaciones</h4>
+        {% include 'grupos/anotacion_grupo_modal.html' %}
+        
+        {% include 'grupos/email_grupo_modal.html' %}
+        
+        <h3>Últimas anotaciones</h3>
         <table class="table">
             <thead>
                 <th>Fecha</th><th>Creador</th><th>Resumen</th>
@@ -102,18 +106,15 @@
             <tbody>
                 {% for anotacion in object.anotaciongrupo_set.all %}
                 <tr>
-                    <td>{{ anotacion.fecha }}</td>
+                    <td><a href="{% url 'grupo_anotacion_ver' anotacion.id %}">{{ anotacion.fecha }}</a></td>
                     <td>{{ anotacion.creador }}</td>
                     <td>{{ anotacion.texto | truncatechars:150}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <hr />
-        {% include 'grupos/anotacion_grupo_modal.html' %}
-        
-        {% include 'grupos/email_grupo_modal.html' %}
-        
+
+
         {% if request.user.is_staff %}
         <h3>Imprimir</h3>
         <a  class="btn zmdi zmdi-print" href="{% url 'imprimir_grupo_unico_alumnos' object.id %}">

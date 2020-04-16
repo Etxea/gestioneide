@@ -1,0 +1,16 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block page_header %}
+<h1> {{ object.fecha }} - {{ object.creador }} </h1>    
+{% endblock %}
+
+{% block body %}
+<div class="alert alert-dark" role="alert" >
+    <pre>
+    {{ object.texto }}
+    </pre>
+</div>
+<div class="form-actions">
+    <a href="{% url 'grupo_detalle' object.grupo.id %}" class="btn btn-primary">Volver</a>
+  </div>
+{% endblock %}

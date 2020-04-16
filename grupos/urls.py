@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'profesor/(?P<pk>\d+)/$',login_required(GrupoProfesorDetailView.as_view()), name="grupo_profesor_detalle"),
     url(r'anotacion/(?P<grupo_id>\d+)/nueva/$',login_required(GrupoAnotacionCreateView.as_view()), name="grupo_anotacion_nueva"),
     url(r'anotacion/(?P<pk>\d+)/borrar/',login_required(GrupoAnotacionDeleteView.as_view()), name="grupo_anotacion_borrar"),
+    url(r'anotacion/(?P<pk>\d+)/',login_required(GrupoAnotacionDetailView.as_view()), name="grupo_anotacion_ver"),
     url(r'(?P<pk>\d+)/planilla/asistencias/(?P<mes>\d+)/$',login_required(GrupoAnotacionCreateView.as_view()), name="grupo_asistencia_mes"),
     url(r'(?P<pk>\d+)/planilla/notas/(?P<trimestre>\d+)/$',login_required(GrupoAnotacionDeleteView.as_view()), name="grupo_notas_trimestre"),
     url(r'(?P<pk>\d+)/$',login_required(GrupoDetailView.as_view()), name="grupo_detalle"),

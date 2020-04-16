@@ -9,6 +9,11 @@ class GrupoCreateForm(ModelForm):
         model = Grupo
         fields = "__all__" 
 
+class AnotacionGrupoForm(ModelForm):
+    class Meta:
+        model = AnotacionGrupo
+        fields = "__all__"
+
 class ContactForm(forms.Form):
     title = forms.CharField()
     message = forms.CharField(widget=forms.Textarea)

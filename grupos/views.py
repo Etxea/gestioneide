@@ -186,7 +186,7 @@ class GrupoAnotacionCreateView(CreateView):
     model = AnotacionGrupo
     template_name = "grupos/anotacion_nueva.html"
     fields = ["texto"]
-    
+
     def get_success_url(self):
         return reverse_lazy("grupo_profesor_detalle", kwargs={'pk': self.object.grupo.pk})
     
@@ -205,14 +205,24 @@ class GrupoAnotacionCreateView(CreateView):
         if form_class is None:
             form_class = self.form_class
         form = super(GrupoAnotacionCreateView, self).get_form(form_class)
-        #form.fields['texto'].widget = forms.Textarea
+        form.fields['texto'].widget = forms.Textarea()
         return form
     
     def get_initial(self):
         #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
         #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
         return { 'group_id': self.kwargs['grupo_id'] , 'creador_id': self.request.user.id }        
-    
+
+
+class GrupoAnotacionDetailView(DetailView):
+    model = AnotacionGrupo
+    template_name = "grupos/anotaciongrupo_detail.html"
+
+class GrupoAnotacionModalView(DetailView):
+    model = AnotacionGrupo
+    template_name = "grupos/anotacion_modal_view.html"
+
+
 class GrupoAnotacionDeleteView(DeleteView):
     model = AnotacionGrupo
     template_name = "grupo/anotacion_borrar.html"
