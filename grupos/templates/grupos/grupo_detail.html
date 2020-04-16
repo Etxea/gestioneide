@@ -107,7 +107,7 @@
                 {% for anotacion in object.anotaciongrupo_set.all %}
                 <tr>
                     <td><a href="{% url 'grupo_anotacion_ver' anotacion.id %}">{{ anotacion.fecha }}</a></td>
-                    <td>{{ anotacion.creador }}</td>
+                    <td>{{ anotacion.creador.profesor.nombre }} {{ anotacion.creador.profesor.apellido }} ({{ anotacion.creador }})</td>
                     <td>{{ anotacion.texto | truncatechars:150}}</td>
                 </tr>
                 {% endfor %}

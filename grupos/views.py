@@ -73,9 +73,9 @@ class GrupoProfesorListView(ListView):
         #Sino limitamos los grupos a los cuales el profesor da clase
         else:
             if centro:
-                return Grupo.objects.filter(centro=centro).filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
+                return Grupo.objects.filter(centro=centro).filter(year=year).filter(clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
             else:
-                return Grupo.objects.filter(
+                return Grupo.objects.filter(year=year).filter(
                     clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
 
 
