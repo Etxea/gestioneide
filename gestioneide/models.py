@@ -147,7 +147,7 @@ class CuentaBancaria(models.Model):
 
 class Empresa(models.Model):
     nombre = models.CharField('Nombre',max_length=255)
-    telefono = models.CharField(max_length=9,default="")
+    telefono = models.CharField(max_length=12,default="")
     email = models.EmailField(default="",blank=True,null=True)
     direccion = models.CharField(max_length=250,default="",blank=True,null=True)
     razon_social= models.CharField('Razón Social',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
@@ -164,7 +164,7 @@ class Empresa(models.Model):
 class Centro(models.Model):
     empresa = models.ForeignKey(Empresa,blank=True,null=True)
     nombre = models.CharField('Nombre',max_length=255)
-    telefono = models.CharField(max_length=9, default="")
+    telefono = models.CharField(max_length=12, default="")
     email = models.EmailField(default="", blank=True, null=True)
     direccion = models.CharField(max_length=250, default="", blank=True, null=True)
 
@@ -219,7 +219,7 @@ class Profesor(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     nombre = models.CharField(max_length=25,default="")
     apellido = models.CharField(max_length=50,default="")
-    telefono = models.CharField(max_length=9,default="")
+    telefono = models.CharField(max_length=12,default="")
     email = models.EmailField(default="",blank=True,null=True)
 
     def __unicode__(self):
@@ -607,7 +607,7 @@ class Grupo(models.Model):
 class AnotacionGrupo(models.Model):
     grupo = models.ForeignKey('Grupo')
     fecha = models.DateField(auto_now_add=True)
-    creador = models.ForeignKey(User)#, editable=False)
+    creador = models.ForeignKey(User)
     texto = models.CharField(max_length=1000,default="")
     class Meta:
         ordering = ['-fecha']
