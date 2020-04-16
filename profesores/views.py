@@ -1,9 +1,11 @@
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, View
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, SingleObjectMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from datetime import date 
+from django.http import HttpResponseRedirect
+
 
 from pinax.documents.models import *
 
@@ -61,3 +63,14 @@ class ProfesorUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("profesores_lista")
+
+@method_decorator(permission_required('gestioneide.profesor_change',raise_exception=True),name='dispatch')
+class ProfesorPasswordResetView(View,SingleObjectMixin):
+    model = Profesor
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse_lazy("profesores_lista"))
+    def post(self, request, *args, **kwargs):
+        # Look up the author we're interested in.
+        self.object = self.get_object()
+        self.object.update_user_password()
+        return HttpResponseRedirect(reverse_lazy("profesores_lista"))

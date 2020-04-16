@@ -82,8 +82,7 @@ DURACION = (
     (180, _('3h')),
     (210, _('3h y 1/2')),
     (240, _('4h')),
-    (270, _('4h y 1/2'))   
-)
+    (270, _('4h y 1/2'))   )
 
 NOTAS_KIDS = (
     (0,_('No Aplica')),
@@ -247,7 +246,7 @@ class Profesor(models.Model):
         print(self.nombre,self.user.username,password)
 
         self.user.email_user("Cambio contraseña en gestion de alumnos EIDE",mensaje)
-        send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
+        #send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
 
     def create_user(self):
         try:
@@ -420,7 +419,6 @@ class Alumno(models.Model):
         for mail in self.mailalumno_set.filter(enviado=False):
             mail.enviado = mail.alumno.enviar_mail(titulo=mail.titulo,mensaje=mail.mensaje)
             mail.save()
-
 
 class Historia(models.Model):
     alumno = models.ForeignKey('Alumno')
@@ -605,7 +603,15 @@ class Grupo(models.Model):
     
     def __unicode__(self):
         return u"%s"%self.nombre
-    
+
+class AnotacionGrupo(models.Model):
+    grupo = models.ForeignKey('Grupo')
+    fecha = models.DateField(auto_now_add=True)
+    creador = models.ForeignKey(User)#, editable=False)
+    texto = models.CharField(max_length=1000,default="")
+    class Meta:
+        ordering = ['-fecha']
+
 class Clase(models.Model):
     dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
     aula = models.ForeignKey(Aula,related_name='clases')
