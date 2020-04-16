@@ -32,7 +32,11 @@ class ContactForm(forms.Form):
             #Cortamos el mensaje
             resumen_mensaje = self.cleaned_data["message"][:490] + (self.cleaned_data["message"][490:] and '..')
             mail.mensaje = resumen_mensaje
-            mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=mail.creador.profesor.email)
+            try:
+                from_email=mail.creador.profesor.email
+            except:
+                from_email=None
+            mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=from_email)
             mail.save()
 
 class ContactAlumnoForm(forms.Form):
@@ -55,5 +59,9 @@ class ContactAlumnoForm(forms.Form):
         #Cortamos el mensaje
         resumen_mensaje = self.cleaned_data["message"][:490] + (self.cleaned_data["message"][490:] and '..')
         mail.mensaje = resumen_mensaje
-        mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=mail.creador.profesor.email)
+        try:
+            from_email=mail.creador.profesor.email
+        except:
+            from_email=None
+        mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=from_email)
         mail.save()
