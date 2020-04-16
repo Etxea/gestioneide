@@ -78,14 +78,12 @@ class GrupoProfesorListView(ListView):
                 return Grupo.objects.filter(year=year).filter(
                     clases__in=Clase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
 
-
 @method_decorator(permission_required('gestioneide.grupo_add',raise_exception=True),name='dispatch')        
 class GrupoCreateView(CreateView):
     form_class = GrupoCreateForm
     template_name = "grupos/grupo_form.html"
     def get_success_url(self):
         return reverse_lazy("grupo_lista")
-
 
 @method_decorator(permission_required('gestioneide.view_data_grupo',raise_exception=True),name='dispatch')
 class GrupoDetailView(DetailView):
@@ -97,7 +95,6 @@ class GrupoDetailView(DetailView):
 class GrupoProfesorDetailView(DetailView):
     model = Grupo
     template_name = "grupos/grupo_detail.html"
-
 
 @method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
 class GrupoEmailView(FormView):
@@ -123,15 +120,21 @@ class GrupoEmailView(FormView):
     def get_success_url(self):
         return reverse_lazy("grupo_detalle", kwargs={'pk': self.kwargs['pk']})
 
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
 class GrupoAlumnoEmailView(FormView):
     template_name = 'grupos/email_alumno_form.html'
     form_class = ContactAlumnoForm
+
+    def get_initial(self):
+        #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
+        return { 'asistencia_id': self.kwargs['pk'] , 'user_id': self.request.user.id }
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         form.send_email()
-        return super(GrupoEmailView, self).form_valid(form)
+        return super(GrupoAlumnoEmailView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(GrupoAlumnoEmailView, self).get_context_data(**kwargs)
@@ -213,7 +216,6 @@ class GrupoAnotacionCreateView(CreateView):
         #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
         return { 'group_id': self.kwargs['grupo_id'] , 'creador_id': self.request.user.id }        
 
-
 class GrupoAnotacionDetailView(DetailView):
     model = AnotacionGrupo
     template_name = "grupos/anotaciongrupo_detail.html"
@@ -221,7 +223,6 @@ class GrupoAnotacionDetailView(DetailView):
 class GrupoAnotacionModalView(DetailView):
     model = AnotacionGrupo
     template_name = "grupos/anotacion_modal_view.html"
-
 
 class GrupoAnotacionDeleteView(DeleteView):
     model = AnotacionGrupo

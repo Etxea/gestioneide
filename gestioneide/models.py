@@ -389,12 +389,20 @@ class Alumno(models.Model):
         except:
             return False
     
-    def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None):
-        email = AnymailMessage(
-            subject=titulo,
-            body=mensaje,
-            to = [self.email,self.email2],
-        )
+    def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None,from_email=None):
+        if from_email is not None:
+            email = AnymailMessage(
+                subject=titulo,
+                body=mensaje,
+                from_email = from_email,
+                to = [self.email,self.email2],
+            )
+        else:
+            email = AnymailMessage(
+                subject=titulo,
+                body=mensaje,
+                to = [self.email,self.email2],
+            )
         if mensaje_html:
             #email.attach_alternative(html_content, "text/html")
             email.content_subtype = "html"

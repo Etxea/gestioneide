@@ -32,7 +32,7 @@ class ContactForm(forms.Form):
             #Cortamos el mensaje
             resumen_mensaje = self.cleaned_data["message"][:490] + (self.cleaned_data["message"][490:] and '..')
             mail.mensaje = resumen_mensaje
-            mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'])
+            mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=mail.creador.profesor.email)
             mail.save()
 
 class ContactAlumnoForm(forms.Form):
@@ -47,7 +47,7 @@ class ContactAlumnoForm(forms.Form):
         print(self.fields)
         #print("Enviando mail a todos los alumnos del grupo %s"%self.cleaned_data["group_id"])
         asistencia = Asistencia.objects.get(id=self.cleaned_data["asistencia_id"])
-        alumno = asis.alumno
+        alumno = asistencia.alumno
         mail = MailAlumno()
         mail.alumno = alumno
         mail.creador = User.objects.get(id=self.cleaned_data["user_id"])
@@ -55,5 +55,5 @@ class ContactAlumnoForm(forms.Form):
         #Cortamos el mensaje
         resumen_mensaje = self.cleaned_data["message"][:490] + (self.cleaned_data["message"][490:] and '..')
         mail.mensaje = resumen_mensaje
-        mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'])
+        mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=mail.creador.profesor.email)
         mail.save()
