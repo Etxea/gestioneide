@@ -56,7 +56,7 @@ STATICFILES_FINDERS = [
 
 SECRET_KEY = "%(((6#nr1e+-mzzs&7v3%rdxp(x3$yyp7b)ep^_htq+*iubib3"
 
-SESSION_COOKIE_AGE = 30 * 60 #
+SESSION_COOKIE_AGE = 180 * 60 #
 
 
 TEMPLATES = [
