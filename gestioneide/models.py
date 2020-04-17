@@ -627,6 +627,7 @@ class Clase(models.Model):
     grupo = models.ForeignKey(Grupo,related_name='clases')
     hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
+    video_url = models.URLField(max_length=200,blank=True)
     def __unicode__(self):
         return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
 

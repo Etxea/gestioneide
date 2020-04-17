@@ -1,0 +1,19 @@
+
+<button type="button" class="btn btn-primary zmdi zmdi-edit" data-toggle="modal" 
+data-edit_url="{% url 'grupo_videourl' object.id clase.id %}"
+data-target="#videourlClaseModal" data-asistencia_id="{{ clase.id }}"></button>
+
+
+<div class="modal fade" id="videourlClaseModal" tabindex="-1" role="dialog" aria-labelledby="videourlClaseLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="videourlClaseModal">Editar Video URL</h4>
+  </div>
+  <div class="modal-body">
+  </div>
+</div>
+</div>
+</div>

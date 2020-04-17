@@ -48,6 +48,8 @@
                 <th colspan="2">Horario</th>
                 <th>Aula</th>
                 <th>Prof</th>
+                <th>VideoURL</th>
+                <th></th>
             </thead>
             <tbody>
                 {% for clase in object.clases.all %}
@@ -68,15 +70,22 @@
                         {{clase.profesor}}
                         {% endif %}
                     </td>
-                    {% if request.user.is_staff %}
                     <td>
+                        <a href="{{ clase.video_url }}">{{ clase.video_url }}</a>
+                            {% include 'grupos/videourl_modal.html' with clase=clase %}
+                        
+                    </td>
+                    
+                    <td>
+                        {% if request.user.is_staff %}
                         <a href="{% url 'borrar_clase' clase.id %}" id=borrar_clase" class="btn" ><i class="zmdi zmdi-delete"></i></a>
                         <a href="{% url 'editar_clase' clase.id %}" id=editar_clase" class="btn" 
                         data-toggle="modal" data-target="#claseEditarModal" data-edit_url="{% url 'editar_clase_modal' clase.id %}" >
                             <i class="zmdi zmdi-edit"></i>
                         </a>
+                        {% endif %}
                     </td>
-                    {% endif %}
+                    
                 </tr>
                 {% endfor %}
             </tbody>
@@ -204,6 +213,14 @@ $('#claseModal').on('show.bs.modal', function (event) {
 $('#claseEditarModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget); // Button that triggered the modal
   var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = button.data('edit_url');
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+
+$('#videourlClaseModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
   var modal = $(this);
   var form_url = button.data('edit_url');
   console.log("Vamos a cargar la form de ",form_url);

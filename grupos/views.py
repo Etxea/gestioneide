@@ -229,3 +229,35 @@ class GrupoAnotacionDeleteView(DeleteView):
     template_name = "grupo/anotacion_borrar.html"
     def get_success_url(self):
         return reverse_lazy("grupo_profesor_detalle",kwargs={'pk': self.object.grupo.pk})
+
+##FIXME anadir control para que solo staff o profesor pueda editar su clase y no todos todas
+class GrupoClaseVideurlCreateView(UpdateView):
+    model = Clase
+    template_name = "grupos/videourl_update.html"
+    fields = ["video_url"]
+
+    def get_success_url(self):
+        return reverse_lazy("grupo_profesor_detalle", kwargs={'pk': self.object.grupo.pk})
+    
+    # def form_valid(self, form):
+    #     form.instance.creador = self.request.user
+    #     grupo = Grupo.objects.get(pk=self.kwargs['grupo_id'])
+    #     form.instance.grupo = grupo
+    #     return super(GrupoAnotacionCreateView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(GrupoClaseVideurlCreateView, self).get_context_data(**kwargs)
+        context['grupo_id'] = self.kwargs['grupo_id']
+        return context
+
+    # def get_form(self, form_class=None):
+    #     if form_class is None:
+    #         form_class = self.form_class
+    #     form = super(GrupoAnotacionCreateView, self).get_form(form_class)
+    #     form.fields['texto'].widget = forms.Textarea()
+    #     return form
+    
+    # def get_initial(self):
+    #     #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+    #     #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
+    #     return { 'group_id': self.kwargs['grupo_id'] , 'creador_id': self.request.user.id }        
