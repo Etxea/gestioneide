@@ -390,19 +390,18 @@ class Alumno(models.Model):
             return False
     
     def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None,from_email=None):
-        if from_email is not None:
-            email = AnymailMessage(
-                subject=titulo,
-                body=mensaje,
-                from_email = from_email,
-                to = [self.email,self.email2],
-            )
+        if self.email2:
+            mails_destino = [ self.email , self.email2 ]
         else:
-            email = AnymailMessage(
-                subject=titulo,
-                body=mensaje,
-                to = [self.email,self.email2],
-            )
+            mails_destino = [ self.email ]
+        email = AnymailMessage(
+            subject=titulo,
+            body=mensaje,
+            to = mails_destino,
+        )
+        if from_email is not None:
+            email.from_email = from_email
+        
         if mensaje_html:
             #email.attach_alternative(html_content, "text/html")
             email.content_subtype = "html"
@@ -414,9 +413,9 @@ class Alumno(models.Model):
             
             status = email.anymail_status  # available after sending
             
-            print status.message_id  # e.g., '<12345.67890@example.com>'
-            print status.message_id
-            print status.recipients
+            #print status.message_id  # e.g., '<12345.67890@example.com>'
+            #print status.message_id
+            #print status.recipients
             print status.esp_response
             return True
         except Exception, e:
