@@ -1,0 +1,557 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-14 15:26+0200\n"
+"PO-Revision-Date: 2018-04-14 15:29+0200\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.11\n"
+
+#: forms.py:64 forms.py:80 forms.py:105 forms.py:136 models.py:145
+msgid "Teléfono"
+msgstr "Telefono Zbk."
+
+#: forms.py:66 forms.py:82 forms.py:107 forms.py:138 models.py:141
+msgid "Código Postal"
+msgstr "Postal Kodea"
+
+#: models.py:42
+msgid "Male"
+msgstr "Gizona"
+
+#: models.py:43
+msgid "Female"
+msgstr "Emakumea"
+
+#: models.py:47
+msgid "PB"
+msgstr "PB"
+
+#: models.py:48
+msgid "CB"
+msgstr "CB"
+
+#: models.py:49
+msgid "FS PB"
+msgstr "FS PB"
+
+#: models.py:50
+msgid "FS CB"
+msgstr "FS CB"
+
+#: models.py:66
+msgid "Tipo Examen"
+msgstr "Azterketa Mota"
+
+#: models.py:69
+msgid "Fecha fin de la matriculación"
+msgstr "Matrikulazio Azken Eguna"
+
+#: models.py:93 models.py:107 templates/cambridge/lista.html.py:18
+#: templates/cambridge/school_registration_list.html:19
+#: templates/cambridge/venue_registration_list.html:19
+msgid "Name"
+msgstr "Izena"
+
+#: models.py:94 models.py:108
+msgid "Description"
+msgstr "Deskribapena"
+
+#: models.py:95 models.py:109 models.py:136
+msgid "Password"
+msgstr "Pasahitza"
+
+#: models.py:137
+msgid "Nombre"
+msgstr "Izena"
+
+#: models.py:138
+msgid "Apellido(s)"
+msgstr "Abizena(k)"
+
+#: models.py:139
+msgid "Dirección"
+msgstr "Helbidea"
+
+#: models.py:140
+msgid "Localidad"
+msgstr "Herria"
+
+#: models.py:142
+msgid "Sexo"
+msgstr "Sexua"
+
+#: models.py:143
+msgid "Formato: DD-MM-AAAA(dia-mes-año)"
+msgstr "Formatua: EE-HH-UUUU(eguna-hilabetea-urtea)"
+
+#: models.py:147
+msgid "Alumno EIDE"
+msgstr "EIDEko Ikaslea"
+
+#: models.py:147
+msgid ""
+"Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena "
+"porfavor la siguiente casilla."
+msgstr "Egin klik EIDE-ko Ikaslea bazara. Bestela bete hurrengo laukia"
+
+#: models.py:148
+msgid "Nombre del Centro"
+msgstr "Ikastetxea"
+
+#: models.py:150
+msgid "Pagada"
+msgstr "Ordainduta"
+
+#: models.py:151
+msgid "Acceptas las condiciones"
+msgstr "Baldintzak onartu"
+
+#: models.py:151
+msgid "You must accept the conditions to register"
+msgstr "Matrikula egiteko baldintzak onartu behar dituzu"
+
+#: models.py:152
+msgid "Aceptar las conficiones de la foto."
+msgstr "Argazkiaren baldintzak onartu"
+
+#: models.py:152
+msgid ""
+"Debes aceptar las condiciones de la la toma de foto para poder matricularte."
+msgstr "Matrikula egiteko  argazkiaren baldintzak onartu behar dituzu"
+
+#: models.py:153
+msgid "El candidato es menor de edad y yo soy su padre/madre o tutor legal."
+msgstr "Hautagaia adingabekoa da eta ni bere guraso/tutorea naiz"
+
+#: models.py:154
+msgid "Nombre de padre/madre o tutor."
+msgstr "Guraso/Turoreren izena"
+
+#: models.py:155
+msgid "Apellido(s) del padre/madre o tutor."
+msgstr "Guraso/Turoreren  abizena"
+
+#: templates/cambridge/berriotxoa.html:8
+msgid "Matrícula para Exámenes Cambridge English en Berri-Otxoa"
+msgstr "Berri-Otxoa-rako Cambridge English azterketarako matrikula"
+
+#: templates/cambridge/berriotxoa.html:11
+#: templates/cambridge/fuentefresnedo.html:11 templates/cambridge/index.html:17
+msgid "Matricúlate"
+msgstr "Matrikula Zaitez"
+
+#: templates/cambridge/exam_confirm_delete.html:4
+msgid "Delete Exam"
+msgstr "Azterketa Ezabatu"
+
+#: templates/cambridge/exam_confirm_delete.html:10
+#: templates/cambridge/exam_edit.html:15 templates/cambridge/exam_form.html:18
+#: templates/cambridge/registration_confirm_delete.html:10
+#: templates/cambridge/registration_edit.html:13
+#: templates/cambridge/school_exam_form.html:18
+#: templates/cambridge/school_form.html:11
+#: templates/cambridge/venue_exam_form.html:18
+msgid "Cancel"
+msgstr "Ezeztu"
+
+#: templates/cambridge/exam_edit.html:11 templates/cambridge/exam_form.html:12
+#: templates/cambridge/venue_exam_form.html:12
+msgid "Exam "
+msgstr "Azterketa"
+
+#: templates/cambridge/exam_edit.html:14 templates/cambridge/exam_form.html:17
+#: templates/cambridge/school_exam_form.html:17
+#: templates/cambridge/school_form.html:10
+#: templates/cambridge/venue_exam_form.html:17
+msgid "Save"
+msgstr "Gorde"
+
+#: templates/cambridge/exam_list.html:6
+#: templates/cambridge/venue_exam_list.html:6
+msgid "Cambridge Exam List"
+msgstr "Cambridge Azterketa Zerrenda"
+
+#: templates/cambridge/exam_list.html:11 templates/cambridge/lista.html:15
+#: templates/cambridge/school_exam_list.html:11
+#: templates/cambridge/school_registration_list.html:16
+#: templates/cambridge/venue_exam_list.html:11
+#: templates/cambridge/venue_registration_list.html:16
+msgid "Level"
+msgstr "Maila"
+
+#: templates/cambridge/exam_list.html:12
+#: templates/cambridge/school_exam_list.html:13
+#: templates/cambridge/venue_exam_list.html:13
+msgid "Tipo"
+msgstr "Mota"
+
+#: templates/cambridge/exam_list.html:13
+#: templates/cambridge/school_exam_list.html:14
+#: templates/cambridge/venue_exam_list.html:14
+msgid "Date"
+msgstr "Data"
+
+#: templates/cambridge/exam_list.html:14
+#: templates/cambridge/school_exam_list.html:15
+#: templates/cambridge/venue_exam_list.html:15
+msgid "Cierre de la matrícula"
+msgstr "Matrikularen itxiera"
+
+#: templates/cambridge/exam_list.html:15
+#: templates/cambridge/school_exam_list.html:16
+#: templates/cambridge/venue_exam_list.html:16
+msgid "Price"
+msgstr "Prezioa"
+
+#: templates/cambridge/exam_list.html:16
+#: templates/cambridge/school_exam_list.html:17
+#: templates/cambridge/venue_exam_list.html:17
+msgid "Matrículas"
+msgstr "Matrikulak"
+
+#: templates/cambridge/exam_list.html:17
+#: templates/cambridge/school_exam_list.html:18
+#: templates/cambridge/venue_exam_list.html:18
+msgid "Paid Registrations"
+msgstr "Ordaindutako matrikulak"
+
+#: templates/cambridge/exam_list.html:18 templates/cambridge/lista.html:44
+#: templates/cambridge/school_exam_list.html:19
+#: templates/cambridge/school_registration_list.html:46
+#: templates/cambridge/venue_exam_list.html:19
+#: templates/cambridge/venue_registration_list.html:46
+msgid "Delete"
+msgstr "Ezabatu"
+
+#: templates/cambridge/exam_list.html:37
+#: templates/cambridge/venue_exam_list.html:39
+msgid "New"
+msgstr "Berria"
+
+#: templates/cambridge/form.html:155 templates/cambridge/form.html.py:156
+msgid "Atención!"
+msgstr ""
+"<b>Kontuz!</b> Oraindik ez dituzu baldintzak onartu. Baldintzak orokorrak "
+"eta argazkiaren baldintzak onartzen ez badituzu ezingo duzu matrikula bidali."
+
+#: templates/cambridge/form.html:155
+msgid "La única forma de pago aceptada es <b>vía tarjeta de crédito/débito</b>"
+msgstr ""
+
+#: templates/cambridge/form.html:156
+msgid ""
+"Los exámenes serán presenciales y se realizarán en las <a href='http://www."
+"eide.es/esl/EIDE/Donde-esta-EIDE'>instalaciones de EIDE</a> (Santurtzi, "
+"Bizkaia)."
+msgstr ""
+
+#: templates/cambridge/form.html:162
+msgid ""
+"\n"
+"En cumplimiento con los establecido en la Ley Orgánica 15/99 de Protección "
+"de Datos de Carácter Personal, los datos\n"
+"de carácter personal que nos facilite serán utilizados en la forma y con las "
+"limitaciones y derechos que recoge la Ley y\n"
+"pasarán a formar parte de un fichero propiedad de EIDE. Estos datos son "
+"necesarios para la gestión de los exámenes\n"
+"de inglés por parte de Cambridge English Language Assessment y son "
+"transferidos a la Universidad de Cambridge con\n"
+"el único fin de la prestación de dicho servicio. Al facilitarnos sus datos "
+"personales consiente el tratamiento informatizado\n"
+"o no de los mismos por EIDE para los fines anteriormente citados.\n"
+msgstr ""
+
+#: templates/cambridge/form.html:178
+msgid ""
+"\n"
+"\t<p>En el siguiente desplegable, selecciona el nivel, tipo, formato y fecha "
+"de examen.</p>\n"
+"\t<ul>\n"
+"\t    <li>Niveles de Exámenes: <b>Key</b>: A2 – <b>Preliminary</b>: B1– "
+"<b>First</b>: First Certificate. B2. – <b>Advanced</b>: Advanced. C1. – "
+"<b>Proficiency</b>: Proficiency. C2.</li>\n"
+"\t    <li>Tipo de examen: Ordinario (no llevan ninguna sigla) - <b>FS</b>: "
+"For Schools, exámenes para menores de 18 - <b>YLE</b>: Exámenes Young "
+"Learners, para niños/as de primaria.</li>\n"
+"\t    <li>Formato: <b>CB</b>: Computer Based. Exámenes en ordenador – <b>PB</"
+"b>: Paper Based. Exámenes ordinarios en papel.</li>\n"
+"\t</ul>\n"
+"\t"
+msgstr ""
+
+#: templates/cambridge/form.html:195
+msgid "¿Aceptas las condiciones?"
+msgstr "Baldintzak onartzen dituzu?"
+
+#: templates/cambridge/form.html:206
+msgid "¿Aceptas las condiciones para la toma de la foto?"
+msgstr "Argazkiaren baldintzak onartzen dituzu?"
+
+#: templates/cambridge/form.html:216
+#: templates/cambridge/school_registration_form.html:91
+#: templates/cambridge/venue_registration_form.html:128
+msgid ""
+"<b>¡Atención!.</b> Todavía no has aceptado las condiciones. Si no aceptas "
+"las condiciones generales y las condiciones de la toma de foto no podrás "
+"enviar la matrícula."
+msgstr ""
+"<b>Adi!</b> Oraindik ez dituzu baldintzak onartu. Baldintzak orokorrak eta "
+"argazkiaren baldintzak onartzen ez badituzu ezingo duzu matrikula bidali."
+
+#: templates/cambridge/form.html:218
+msgid "Enviar"
+msgstr "Bidali"
+
+#: templates/cambridge/fuentefresnedo.html:8
+msgid "Matrícula para Exámenes Cambridge English en \tIES Fuente Fresnedo"
+msgstr "ES Fuente Fresnedo-rako Cambridge English azterketarako matrikula"
+
+#: templates/cambridge/index.html:7
+msgid "Matrícula para Exámenes Cambridge English"
+msgstr "Cambridge English azterketarako matrikula"
+
+#: templates/cambridge/index.html:9
+msgid ""
+"Matricularse en EIDE para realizar un examen de Cambridge es sencillo, tan "
+"solo elige su tipo de examen. pero antes asegurate de tener claro que..."
+msgstr ""
+"EIDEn Cambridge azteketa batean matrikulatzea oso erraza da. Baina hasi "
+"baino lehen hurrengo puntuak argi eduki behar dituzu..."
+
+#: templates/cambridge/legal.html:3
+msgid "Condiciones generales"
+msgstr "Baldintza Orokorrak"
+
+#: templates/cambridge/legal.html:4
+msgid "Ocultar"
+msgstr "Ezkutatu"
+
+#: templates/cambridge/legal.html:5
+msgid "Mostrar"
+msgstr "Erakutzi"
+
+#: templates/cambridge/legal.html:7
+msgid ""
+"\n"
+"<h3>1. NORMATIVA GENERAL</h3>\n"
+"<p>Para llevar a cabo una sesión de examen debe haber al menos un <b>mínimo "
+"de 4 candidatos</b>\n"
+"    por nivel en Santurtzi y un <b>mínimo de 15 candidatos</b> por nivel en "
+"Castro Urdiales y Laredo..\n"
+"    La tasa de inscripción es válida sólo para la convocatoria en la que se "
+"ha inscrito y\n"
+"    no es transferible a otro examen, a convocatorias posteriores ni a otro "
+"centro.\n"
+"    Dichas tasas <b>NO</b> se devuelven al candidato en caso de que éste no "
+"se presente a parte\n"
+"    o a ninguno de los exámenes. Una o dos semanas después del cierre de "
+"matrícula, se enviará\n"
+"    el <b>Justificante de Inscripción</b> con la <b>fecha y hora del examen "
+"escrito y oral</b>\n"
+"    a la dirección de e-mail que ha proporcionado el candidato en la hoja de "
+"matrícula. Si dos\n"
+"    semanas antes de la fecha del examen escrito el candidato no ha recibido "
+"el justificante,\n"
+"    es <b>su responsabilidad</b> el ponerse en contacto con EIDE y "
+"solicitarlo. EIDE no se\n"
+"    responsabiliza del extravío o no recepción del mismo y no asume ninguna "
+"responsabilidad\n"
+"    por cualquier problema derivado del desconocimiento de la fecha, "
+"horarios y lugar del\n"
+"    examen y se reserva el derecho de no admitir a candidatos que lleguen "
+"tarde. Es\n"
+"    responsabilidad del candidato llegar al lugar del examen con <b>30 "
+"minutos</b> de\n"
+"    antelación. Los candidatos deben traer un <b>DNI o pasaporte en vigor</"
+"b> que atestigüe\n"
+"    su identidad en cada examen (escrito y oral). Se recomienda no traer "
+"<b>teléfono móvil</b>\n"
+"    ya que éste se le retirará durante toda la duración de la prueba. EIDE "
+"no se responsabiliza\n"
+"    del robo o extravío del teléfono móvil que le sea retirado.</p>\n"
+"\n"
+"<h3>2. EXÁMENES ORALES</h3>\n"
+"\n"
+"<p>El examen oral puede tener lugar en la misma fecha que el examen escrito "
+"o en una fecha diferente, siempre dentro de las fechas propuestas por "
+"Cambridge y que se pueden consultar en “Exámenes de Cambridge> Fechas de "
+"Exámenes” en la página web www.eide.es. El candidato debe asegurarse que "
+"estará disponible cualquiera de esos días a cualquier hora. Una vez enviada "
+"la confirmación con la fecha y hora del examen, éstas ya no se pueden "
+"cambiar.</p>\n"
+"\n"
+"<h3>3. CANCELACIONES</h3>\n"
+"\n"
+"<p>\n"
+"Solo se admitirán cancelaciones de matrículas hasta la fecha tope de "
+"matrícula indicada en el reverso. El candidato\n"
+"recibirá la devolución de la tasa de examen descontándose la cantidad de 35 "
+"€ en concepto de gastos de \n"
+"administración. Pasada esta fecha sólo se admitirán cancelaciones por causas "
+"médicas en cuyo caso el candidato \n"
+"deberá presentar un CERTIFICADO MÉDICO OFICIAL. En este caso también se "
+"procederá a realizar una devolución \n"
+"de la tasa de examen menos 35 € por gastos administrativos. No se admitirán "
+"certificados médicos pasados 15 días \n"
+"de la fecha del examen escrito. No se admitirá ningún cambio o cancelación "
+"por otros motivos que no sean médicos \n"
+"después del último día de matrícula.\n"
+"</p>\n"
+"\n"
+"<h3>4. CANDIDATOS CON NECESIDADES ESPECIALES</h3>\n"
+"\n"
+"<p>\n"
+"En caso de que un candidato padezca alguna deficiencia/minusvalía (déficit "
+"auditivo, problemas de habla, etc.) y\n"
+"ésta le impida realizar los exámenes en igualdad de condiciones que el resto "
+"de candidatos, le informamos que \n"
+"deberá presentar un certificado médico oficial de su discapacidad/minusvalía "
+"<b><u>en el momento de matricularse</u></b>. Ese \n"
+"certificado será enviado a Cambridge English para que decida las condiciones "
+"en las que ese candidato debe realizar \n"
+"los exámenes. <b>EIDE</b> no podrá realizar ninguna gestión para la "
+"modificación de los exámenes de los candidatos que no \n"
+"informen de su discapacidad con la suficiente antelación (es decir, durante "
+"la matriculación).\n"
+"</p>\n"
+"\n"
+"<h3>5. RESULTADOS</h3>\n"
+"\n"
+"<p>La fecha de publicación de resultados aparece en el justificante de "
+"inscripción que recibirá el candidato por email. Esta fecha es estimativa y "
+"no es contractualmente vinculante. Si algún candidato no está conforme con "
+"su resultado, podrá solicitar una revisión en EIDE siendo necesario seguir "
+"el procedimiento establecido por Cambridge English:<p>\n"
+"\n"
+"<ul>\n"
+"<li><b>Fase 1:</i></b> Comprobación de errores de calificación</li>\n"
+"<li><b><i>Fase 2:</i></b> Recalificación de las pruebas escritas</li>\n"
+"</ul>\n"
+"<p>Son de aplicación <b>tasas administrativas</b> en ambas fases. Los "
+"candidatos no podrán revisar sus exámenes físicamente ya que éstos "
+"permanecen bajo propiedad intelectual de Cambridge English. Cambridge "
+"English <b>NO</b> facilita ningún informe detallado de cada una de las "
+"partes en las que consiste el examen y nunca dará más información en la "
+"competencia de un candidato de la que aparece en el “Statement of Results”. "
+"Cambridge English se reserva el derecho de privar de calificaciones a "
+"aquellos candidatos en quienes se haya observado conductas fraudulentas o "
+"que se hayan negado a ser fotografiados el día del examen.</p>\n"
+"\n"
+"<h3>6. LOS CERTIFICADOS</h3>\n"
+"\n"
+"<p>\n"
+"Los alumnos de EIDE o aquéllos que se hayan matriculado por libre, podrán "
+"recoger el certificado en la Secretaría de EIDE aproximadamente 1 mes "
+"después de la publicación de resultados. Éstos permanecerán en EIDE durante "
+"un periodo de dos años. Pasado ese periodo, se destruirán. A los alumnos de "
+"los centros preparadores les será enviado el certificado al centro "
+"preparador.\n"
+"</p>\n"
+"\n"
+"<h3>7. PROTECCIÓN DE DATOS</h3>\n"
+"\n"
+"<p>\n"
+"En cumplimiento con los establecido en la Ley Orgánica 15/99 de Protección "
+"de Datos de Carácter Personal, los datos \n"
+"de carácter personal que nos facilite serán utilizados en la forma y con las "
+"limitaciones y derechos que recoge la Ley y \n"
+"pasarán a formar parte de un fichero propiedad de EIDE. Estos datos son "
+"necesarios para la gestión de los exámenes \n"
+"de inglés por parte de Cambridge English y son transferidos a Cambridge "
+"English con el único fin de la prestación de \n"
+"dicho servicio. Al facilitarnos sus datos personales consiente el "
+"tratamiento informatizado o no de los mismos por EIDE\n"
+"para los fines anteriormente citados.\n"
+"</p>\n"
+"\n"
+"<h3>8. AUTORIZACIÓN FOTO</h3>\n"
+"\n"
+"<p>\n"
+"Todos aquellos candidatos matriculados en los exámenes First, Advanced o "
+"Proficiency (salvo en el caso\n"
+"    de la versión “for schools”) serán fotografiados el día del examen oral "
+"o escrito. Cambridge\n"
+"    English publicará la foto en su página web de Verificación de "
+"Resultados. El candidato\n"
+"    podrá permitir el acceso al servicio si desean que verifiquen sus datos. "
+"Ninguna persona\n"
+"    u organización podrá acceder a la fotografía de ningún candidato sin su "
+"autorización. Junto con la matrícula del examen, los candidatos deberán "
+"firmar una autorización, indicando su nombre y fecha. Si el candidato es "
+"menor de edad, la autorización deberá ser firmada por su madre, padre o "
+"tutor.\n"
+"</p>\n"
+"</div>\n"
+msgstr ""
+
+#: templates/cambridge/lista.html:16
+#: templates/cambridge/school_registration_list.html:17
+#: templates/cambridge/venue_registration_list.html:17
+msgid "Exam Date"
+msgstr "Azterketa Eguna"
+
+#: templates/cambridge/lista.html:17
+#: templates/cambridge/school_registration_list.html:18
+#: templates/cambridge/venue_registration_list.html:18
+msgid "Surname"
+msgstr "Abizena"
+
+#: templates/cambridge/lista.html:19
+#: templates/cambridge/school_registration_list.html:20
+#: templates/cambridge/venue_registration_list.html:20
+msgid "Paid"
+msgstr "Ordainduta"
+
+#: templates/cambridge/lista.html:38
+#: templates/cambridge/registration_edit.html:12
+#: templates/cambridge/school_registration_list.html:40
+#: templates/cambridge/venue_registration_list.html:40
+msgid "Print"
+msgstr "Imprimatu"
+
+#: templates/cambridge/registration_confirm_delete.html:4
+msgid "Delete Resgistration"
+msgstr "Matrikula Ezabatu"
+
+#: templates/cambridge/registration_edit.html:6
+msgid "Registration of "
+msgstr "Matrikula..."
+
+#: templates/cambridge/registration_form.html:6
+#: templates/cambridge/school_registration_form.html:37
+#: templates/cambridge/venue_registration_form.html:78
+msgid "Matricúlate para un Exámen Cambridge"
+msgstr "Matrikula zaitez Cambridge azketarako"
+
+#: templates/cambridge/school_exam_form.html:12
+msgid "New Exam for "
+msgstr "Azterka berria.."
+
+#: templates/cambridge/school_exam_list.html:6
+msgid "Cambridge School Exam List"
+msgstr "Cambridge School Exam Zerrenda"
+
+#: templates/cambridge/school_exam_list.html:40
+msgid "New exam for "
+msgstr "Azterketa beria..."
+
+#: templates/cambridge/school_form.html:5
+msgid "New School"
+msgstr "School berria"
+
+#: templates/cambridge/school_registration_form.html:93
+#: templates/cambridge/venue_registration_form.html:130
+msgid "Submit"
+msgstr "Bidali"

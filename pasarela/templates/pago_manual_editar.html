@@ -1,0 +1,12 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% load bootstrap %}
+
+{% block body %}
+<h2>Edición de un pago ONLINE manual</h2>
+<form action="{% url 'pago_manual_editar' object.id %}" method="post" class="form-horizontal" >{% csrf_token %}
+{{ form.as_p }}
+<input id="send_form" class="btn btn-primary pull-right" type="submit" value="{% trans 'Submit' %}" />
+
+{% endblock%}
+

@@ -1,0 +1,74 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block body %}
+
+<div class="hero-unit">
+
+    <h2>{% trans "Matrícula para Exámenes Cambridge English" %}</h2>
+    <br />
+    <p>{% trans "Matricularse en EIDE para realizar un examen de Cambridge es sencillo, tan solo elige su tipo de examen. pero antes asegurate de tener claro que..." %}</p>
+    <p>
+		... los examenes tendrán lugar <a href="http://www.eide.es/esl/EIDE/Donde-esta-EIDE">en las instalaciónes de EIDE</a> (Santurtzi, Bizkaia).
+    </p>
+    <p>
+		...la única manera de pago para las matriculas será <b>a traves de tarjeta de crédito.</b>
+	</p>
+    <p class="pagination-centered" >
+		<a class="btn btn-primary btn-lg" href="{% url 'cambridge_nueva' %}">{% trans "Matricúlate" %}</a>
+	</p>
+</div>
+<div class="row">
+	
+		<p>
+		Utilizamos la plataforma de pago de la CECA (Confederación Española Cajas de Ahorros), un sistema completamente seguro. 
+		Cuando pulséis “Realizar Pago”, el sistema os redireccionará al <a href="https://be.ceca.es/BEWeb/2000/2000/inicia_identificacion.action">sistema de pago CECA</a>, 
+		integrado en Cecabank, donde deberéis facilitar todos los datos necesarios para dicho medio de pago. Este será el único momento en que se os solicitará esa información.
+		</p>
+		<p>
+			EIDE nunca tendrá acceso al a informaciónde vuestra tarjeta, siendo una operación segura con la garantía del CECA.
+		</p>
+		<p>
+			El pago del pedido se produce en tiempo real a través del TPV Virtual una vez se haya comprobado que los datos proporcionados son correctos.
+		</p>
+
+	
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-3">
+	<p> ... si quieres realizar el <b>examen en papel</b>, matricúlate para un Paper Based Exam. </p>
+	<p>Tenemos las siguientes convocatorias: </p> 
+	<ul>
+	{% for exam in examenes_pb %}
+		   <li>{{ exam.level }} - {{ exam.exam_date }}</li>
+	{% endfor %}
+	</ul>
+    </div>
+    <div class="col-md-3">
+	<p>... si quieres realizar el <b>examen en un ordenador</b>, matricúlate para un Computer Based Exam. </p>
+	<p>Tenemos las siguientes convocatorias:</p>
+	<ul>
+	{% for exam in examenes_cb %}
+		   <li>{{ exam.level }} - {{ exam.exam_date }}</li>
+	{% endfor %}
+	</ul>
+    </div>
+    <div class="col-md-3">
+	<p>... si quieres realizar el <b>examen en papel y eres menor de edad</b> matrículate para un For Schools. </p><p>Tenemos las siguientes convocatorias:</p>
+	<ul>
+	{% for exam in examenes_fs_pb %}
+		   <li>{{ exam.level }} - {{ exam.exam_date }}</li>
+	{% endfor %}
+	</ul>
+    </div>
+    <div class="col-md-3">
+	<p>... si quieres realizar el <b>examen en ordenador y eres menor</b> matrículate para un For Schools.</p>
+	<p>Tenemos las siguientes convocatorias:</p>
+	<ul>
+	{% for exam in examenes_fs_cb %}
+		   <li>{{ exam.level }} - {{ exam.exam_date }}</li>
+	{% endfor %}
+	</ul>
+    </div>
+</div>
+{% endblock %}

@@ -151,8 +151,11 @@ INSTALLED_APPS = [
     "centros",
     "mensajes",
     "confirmaciones",
-    "pagosonline",
     "sermepa",
+    "pasarela",
+    "pagosonline",
+    "cambridge",
+    
 ]
 
 LOGGING = {
