@@ -1,0 +1,93 @@
+{% load staticfiles %}
+{% load evaluacion_extra_tags %}
+
+<div>
+    <div style="float:left" >
+        <img width="120px" height="75px" src='https://gestion.eide.es/static/img/logo_eide_horizontal.png' />
+    </div>
+    <div style="float:right;font-size: 150%;">
+        <span style="text-align:right" >
+            <b>
+                {{ asistencia.alumno.nombre }}
+                {{ asistencia.alumno.apellido1 }}
+                {{ asistencia.alumno.apellido2 }}
+            </b>
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.direccion }}
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.cp }}
+                {{ asistencia.alumno.ciudad }}
+        </span><br />
+    </div>
+</div>
+<div style="clear:both"></div>
+<div style="height:100px">
+<br />
+</div>
+<div style="font-size: 150%;">
+    <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
+<br />
+    <div>
+        Período de la Evaluación: <b>Trimestre: {{ trimestre }}</b>
+    </div>
+    <div>
+        Nombre del alumno: <b>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{asistencia.alumno.apellido2}}</b>
+    </div>
+    <div>
+    Grupo: <b>{{ asistencia.grupo }}</b>
+    </div>
+    <!--
+    <div>
+    Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
+    </div>
+    -->
+    <div>
+        Faltas de asistencias: <b>{{ asistencia|faltas_trimestre:trimestre }}</b> Faltas justificadas <b>{{ asistencia|justificadas_trimestre:trimestre }}</b>
+    </div>
+<br />
+</div>
+    <h2 style="text-align:center">Exámenes de Vocabulario y Gramática</h2>
+<br />
+    <div style="text-align:center;width=100%">
+            {%  tabla_notas_trimestre %}
+    <br />
+    {% if asistencia.grupo.curso.tipo_evaluacion > 1  and asistencia.grupo.curso.tipo_evaluacion < 5 and trimestre > 1 %}
+    <h2 style="text-align:center">Exámenes Cuatrimestrales</h2>
+    {%  tabla_notas_cuatrimestre %}
+    {% endif %}
+    {% if asistencia.grupo.curso.tipo_evaluacion == 2 or asistencia.grupo.curso.tipo_evaluacion == 3 or asistencia.grupo.curso.tipo_evaluacion == 4 %}
+    <div style="font-size: x-small">* Nota de APTO: {{ asistencia.grupo.curso.nota_aprobado }}</div>
+    {% endif %}
+    <div style="width=100%">
+        <h3>Observaciones del profesorado</h3>
+        <br />
+        {% if asistencia.grupo.curso.tipo_evaluacion == 5%}
+        <b><u>Temas a repasar:</u></b>
+        <div style="text-align:center;width=100%;font-size:150%">
+        {{  asistencia|temas_repasar_trimestre:trimestre }}
+        </div>
+        <br />
+        <b><u>Aspectos a mejorar:</u></b>
+        <div style="text-align:center;width=100%;font-size:150%">
+        {{  asistencia|aspectos_mejorar_trimestre:trimestre }}
+        </div>
+        <br />
+        <b><u>Otras observaciones:</u></b>
+        {% endif %}
+        <div style="text-align:center;width=100%;font-size:150%">
+        {{  asistencia|observaciones_trimestre:trimestre }}
+        </div>
+        <br />
+    </div>
+    
+    <div>
+        <div style="text-align:center;width=100%">
+            Genaro Oraá 6, 48980 Santurtzi – 94 493 70 05 <br />
+            Plaza Balleni 3 (Kabiezes) 48980 Santurtzi – 946037112<br />
+            www.eide.es – eide@eide.es <br />
+        </div>
+
+    <div style="page-break-after: always;"></div>
+</div>

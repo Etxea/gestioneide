@@ -11,6 +11,7 @@ from django.utils.timezone import now
 from django.db.models import Q
 from django.conf import settings
 from anymail.message import AnymailMessage
+from django.template.loader import render_to_string
 
 import logging
 logger = logging.getLogger('gestioneide.debug')
@@ -351,6 +352,7 @@ class Alumno(models.Model):
     dni = models.CharField(max_length=9,default="",blank=True,null=True)
     activo = models.BooleanField(default=True)
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
+    
     #Hacemos un overrido de save para añadir entradas al historico
     def save(self, *args, **kw):
         if self.pk is not None:
@@ -372,15 +374,19 @@ class Alumno(models.Model):
 
     def asistencia_todas(self):
         return Asistencia.all_objects.filter(alumno=self)
+    
     def get_absolute_url(self):
         return reverse_lazy("alumno_detalle",args=[self.id])
+    
     def validate_cuenta_bancaria(self):
         return True
+    
     def grupos(self):
         ret = ""
         for asis in self.asistencia_set.all():
             ret = ret + " %s"%asis.grupo.nombre
         return ret
+    
     def enviar_mail_sendinblue(self,titulo,mensaje): 
         try:
             send_mail(titulo, mensaje,
@@ -389,7 +395,7 @@ class Alumno(models.Model):
         except:
             return False
     
-    def enviar_mail(self,titulo,mensaje,mensaje_html=None,adjunto=None,from_email=None):
+    def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None,from_email=None):
         if self.email2:
             mails_destino = [ self.email , self.email2 ]
         else:
@@ -426,6 +432,10 @@ class Alumno(models.Model):
         for mail in self.mailalumno_set.filter(enviado=False):
             mail.enviado = mail.alumno.enviar_mail(titulo=mail.titulo,mensaje=mail.mensaje)
             mail.save()
+    
+    def enviar_sms(self):
+        
+        return True
 
 class Historia(models.Model):
     alumno = models.ForeignKey('Alumno')
@@ -491,28 +501,35 @@ class Grupo(models.Model):
     precio  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     num_max = models.DecimalField(max_digits=2,decimal_places=0,default=14) #El tamano default no es lo mejor que este aqui, pero bueno
     menores = models.BooleanField(default=False)
+    
     class Meta:
         ordering = ["nombre"]
         permissions = [
             ("send_email_grupo", "Send e-mail to group students"),
             ("view_data_grupo", "View group data"),
         ]
+    
     def ver_precio(self):
         if self.precio:
             return self.precio
         else:
             return self.curso.precio
+    
     def get_absolute_url(self):
         return reverse_lazy("grupo_detalle",args=[self.id]) 
+    
     def confirmados(self):
         return self.asistencia_set.filter(confirmado=True).filter(borrada=False).count()
+    
     def sin_confirmar(self):
         return self.asistencia_set.filter(confirmado=False).filter(borrada=False).count()
+    
     def lista_clases(self):
         ret = ""
         for clase in self.clases.all():
             ret = ret + " " + clase.__unicode__()
         return ret
+    
     def get_profesores(self):
         profesores = []
         for clase in self.clases.all():
@@ -525,11 +542,13 @@ class Grupo(models.Model):
         for profesor in profesores:
             texto = "%s / %s"%(texto,profesor)
         return texto
+    
     def get_precio(self):
         if self.precio:
             return self.precio
         else:
             return self.curso.precio
+    
     def next_by_nombre(self,cuatrimestre=False):
         year = Year().get_activo()
         if cuatrimestre:
@@ -569,10 +588,27 @@ class Grupo(models.Model):
             else:
                 return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion-1].id
 
+    def envio_notas_email(self, tipo, trimestre ):
+        print "Se van a enviar las notas de tipo %s y del cua/trimestre %s"%(tipo,trimestre)
+        for asistencia in self.asistencia_set.all():
+            if tipo == "trimestre":
+                print "Enviamos la del trimestre %s"%trimestre
+                nota_model = NotaTrimestral.objects.get(asistencia=asistencia,trimestre=trimestre)
+                nota_model.enviar_mail()
+            elif tipo == "cuatrimestre":
+                print "Enviamos la del cuatrimestre %s"%trimestre
+                nota_model = NotaCuatrimestral.objects.get(asistencia=asistencia,cuatrimestre=trimestre)
+                nota_model.enviar_mail()
+            else:
+                print "tipo desconocido. No hacemos nada"
+                break
+            
     def prev_by_nombre_quatrimestre(self):
         self.prev_by_nombre(cuatrimestre=True)
+    
     def __unicode__(self):
         return "%s - %s"%(self.nombre,self.year)
+    
     def get_absolute_url(self):
         return reverse_lazy("grupo_detalle",args=[self.id])
         
@@ -599,17 +635,9 @@ class Grupo(models.Model):
                     except:
                         dias_clase.append(dia[0])
         return dias_clase
-    
-    def enviar_notas_email(self,tipo,trimestre):
-        debug("Vamos a enviar las notas del grupo %s del tipo %s y del (cua)trimestre %s"%(self.nombre,tipo,trimestre))
-        for asis in self.asistencia_set.all():
-            asis.alumno.enviar_mail("Notas","Prueba","<html><body><h1>Prueba</h1>Solo una prueba</body></html>")
 
     def __str__(self):
         return self.__unicode__()
-    
-    def __unicode__(self):
-        return u"%s"%self.nombre
 
 class AnotacionGrupo(models.Model):
     grupo = models.ForeignKey('Grupo')
@@ -996,6 +1024,12 @@ class NotaCuatrimestral(models.Model):
     
     def enviar_mail(self):
         print("Vamos a enviar los mails de la nota del alumno %s del cuatrimestre %s"%(self.asistencia.alumno,self.cuatrimestre))
+        contexto = {}
+        contexto['year']=self.asistencia.grupo.year.__unicode__()
+        contexto['trimestre']=self.cuatrimestre
+        contexto['asistencia']=self.asistencia
+        nota_html = render_to_string("alumnos_carta_nota_cuatrimestre.html",contexto,request=None)
+        self.asistencia.alumno.enviar_mail("[EIDE] Notas Cuatrimestre",nota_html,mensaje_html=True)
         self.email_enviado = True
         self.save()
 
@@ -1017,9 +1051,14 @@ class NotaTrimestral(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
 
-    def enviar_mail(self,texto_html):
+    def enviar_mail(self):
         print("Vamos a enviar los mails de la nota del alumno %s del trimestre %s"%(self.asistencia.alumno,self.trimestre))
-        self.asistencia.alumno.enviar_mail("Boletín de notas","",mensaje_html=texto_html)
+        contexto = {}
+        contexto['year']=self.asistencia.grupo.year.__unicode__()
+        contexto['trimestre']=self.trimestre
+        contexto['asistencia']=self.asistencia
+        nota_html = render_to_string("alumnos_carta_nota.html",contexto,request=None)
+        self.asistencia.alumno.enviar_mail("[EIDE] Notas Trimestre",nota_html,mensaje_html=True)
         self.email_enviado = True
         self.save()
 

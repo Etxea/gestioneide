@@ -47,8 +47,12 @@ class AlumnoBuscarView(AlumnoListView):
             return Alumno.objects.filter((Q(email__icontains=cadena) | Q(email2__icontains=cadena)))
         try:
             numero = int(cadena)
-            debug("tenemos el numero de alumno ",numero)
-            return Alumno.objects.filter(id=numero)
+            debug("tenemos el numero ",numero)
+            if numero > 9999:
+                cadena = str(numero)
+                return Alumno.objects.filter((Q(telefono1__icontains=cadena) | Q(telefono2__icontains=cadena)))
+            else:
+                return Alumno.objects.filter(id=numero)
         except:
             debug("No es un numero, buscamos los que el primer apellido coincida con", cadena)
             palabras = cadena.split(" ")

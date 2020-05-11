@@ -261,3 +261,28 @@ class GrupoClaseVideurlCreateView(UpdateView):
     #     #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
     #     #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
     #     return { 'group_id': self.kwargs['grupo_id'] , 'creador_id': self.request.user.id }        
+
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
+class GrupoNotasTrimestreEmailView(FormView):
+    template_name = 'grupos/envio_notas_email_form.html'
+    form_class = EnvioNotasForm
+
+    def get_initial(self):
+        grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
+        trimestre = Grupo.objects.get(id=self.kwargs['trimestre'])
+        #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
+        return { 'grupo_id': grupo, 'trimestre': trimestre , 'user_id': self.request.user.id }
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.send_email()
+        return super(GrupoNotasTrimestreEmailView, self).form_valid(form)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(GrupoNotasTrimestreEmailView, self).get_context_data(**kwargs)
+    #     context['asistencia_id'] = self.kwargs['pk']
+    #     return context
+    
+    def get_success_url(self):
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.kwargs['grupo_id'] })
