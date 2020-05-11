@@ -1,0 +1,32 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% block body %}
+<h1>Pagos online</h1>
+<table class="table">
+<thead>
+	<th>ID</th>
+	<th>Importe</th>
+	<th>Descripcion</th>
+	<th>Fecha creacion</th>
+	<th>Fecha Pago</th>
+	<th>Url de pado Pago</th>
+	<th>Editar</th>
+	<th>Borrar</th>
+</thead>
+<tbody>
+{% for pago in object_list %}
+<tr>
+	<td>{{ pago.id }}</td>
+	<td>{{ pago.importe }}</td>
+	<td>{{ pago.descripcion }}</td>
+	<td>{{ pago.fecha_creacion }}</td>
+	<td>{{ pago.fecha_pago }}</td>
+	<td><a href="{{ pago.get_absolute_url }}">Pagar</a></td>
+	<td><a href="{% url 'pago_manual_editar' pago.id %}">Editar</a></td>
+	<td><a href="{% url 'pago_manual_borrar' pago.id %}">Borrar</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

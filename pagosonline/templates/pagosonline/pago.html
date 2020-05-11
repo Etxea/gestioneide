@@ -1,0 +1,38 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% block body %}
+    <TITLE>P&aacute;gina de pago</TITLE>
+    <h1>Realizar pago Online</h1>
+
+<div id="normativa_pago" class="well well-small" style="text-align: justify; text-justify: newspape" > 
+Vamos aproceder al pago de la matrícula a través de tarjeta de crédito. Lo operación tendrá el identificardor 
+<b>{{payament_info.order_id}}</b> y un importe de <b>{{ payament_info.amount_text }}</b>€.
+
+</div> 
+<p class="well well-big"> 
+	Utilizamos la plataforma de pago <b>seguro</b> de Kutxabank proporcionada por la CECA (Confederación Española Cajas de Ahorros), un sistema <b>completamente seguro</b>.<br />
+	Cuando pulséis “Realizar Pago”, el sistema os redireccionará al sistema de pago CECA, integrado en Cecabank, donde deberéis facilitar todos los datos necesarios para dicho medio de pago. Este será el único momento en que se os solicitará esa información.
+	<br />
+	EIDE nunca tendrá acceso al a informaciónde vuestra tarjeta, siendo una operación segura con la garantía del CECA.
+	<br />
+	El pago del pedido se produce en tiempo real a través del TPV Virtual una vez se haya comprobado que los datos proporcionados son correctos.
+</p>
+
+<FORM ACTION="{{ payament_info.action_url }}" METHOD="POST" ENCTYPE="application/x-www-form-urlencoded">
+<INPUT id="merchant" NAME="MerchantID" TYPE=hidden VALUE="{{ payament_info.MerchantID }}">
+<INPUT id="acquire" NAME="AcquirerBIN" TYPE=hidden VALUE="{{ payament_info.AcquirerBIN }}">
+<INPUT id="terminal" NAME="TerminalID" TYPE=hidden VALUE="{{ payament_info.TerminalID }}">
+<INPUT id="url_ok" NAME="URL_OK" TYPE=hidden VALUE="{{ payament_info.url_ok }}">
+<INPUT id="url_nok" NAME="URL_NOK" TYPE=hidden VALUE="{{ payament_info.url_nok }}">
+<INPUT id="firma" NAME="Firma" readonly TYPE=hidden VALUE="{{ payament_info.firma }}"><br />
+<INPUT NAME="Cifrado" TYPE=hidden VALUE="{{ payament_info.cifrado }}">
+<INPUT id="num_operacion" NAME="Num_operacion" TYPE=hidden VALUE="{{ payament_info.order_id }}"><br />
+<INPUT id="importe" NAME="Importe" READONLY TYPE=hidden VALUE={{ payament_info.amount }}><br />
+<INPUT id="tipo_moneda" NAME="TipoMoneda" TYPE=hidden VALUE={{ payament_info.tipo_moneda }}>
+<INPUT id="exponente" NAME="Exponente" TYPE=hidden VALUE={{ payament_info.exponente }}>
+<INPUT NAME="Pago_soportado" TYPE=hidden VALUE=SSL>
+<CENTER>
+<INPUT TYPE="submit" VALUE="Realizar Pago">
+
+</FORM>
+{% endblock %}

@@ -151,6 +151,8 @@ INSTALLED_APPS = [
     "centros",
     "mensajes",
     "confirmaciones",
+    "pagosonline",
+    "sermepa",
 ]
 
 LOGGING = {

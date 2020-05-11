@@ -37,6 +37,9 @@ urlpatterns = [
     url(r"^docs/", include("pinax.documents.urls", namespace="pinax_documents")),
     url(r"^messages/", include("pinax.messages.urls", namespace="pinax_messages")),
     url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
+    url(r"^sermepa/", include("sermepa.urls")),
+    url(r"^pasarela/", include("pasarela.urls")),
+    url(r"^pagosonline/", include("pagosonline.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
