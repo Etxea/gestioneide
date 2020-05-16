@@ -41,6 +41,7 @@ urlpatterns = [
     url(r"^pasarela/", include("pasarela.urls")),
     url(r"^pagosonline/", include("pagosonline.urls")),
     #rl(r"^cambridge/", include("cambridge.urls")),
+    url(r"^matriculas/", include("matriculas.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -155,6 +155,7 @@ INSTALLED_APPS = [
     "pasarela",
     "pagosonline",
     "cambridge",
+    "matriculas",
     
 ]
 

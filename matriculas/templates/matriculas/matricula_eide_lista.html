@@ -1,0 +1,23 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+{% block extra_header %}
+<h1>{% trans "Lista Matriculas" %}</h1>
+{% endblock %}
+{% block body %}
+    <table class="table">
+        <thead>
+            <th>ID</th><th>Quien</th><th>Cuando</th><th>Pagada</th>
+        </thead>
+        <tbody>
+            {% for matricula in lista_matriculas %}
+            <tr>
+                <td>{{ matricula.id }}</td>
+                <td>{{ matricula.surname }}, {{ matricula.name }} </td>
+                <td>{{ matricula.fecha_matricula }}</td>
+                <td>{{ matricula.pagada | yesno }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
