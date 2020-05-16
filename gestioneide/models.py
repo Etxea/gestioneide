@@ -589,15 +589,16 @@ class Grupo(models.Model):
                 return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion-1].id
 
     def envio_notas_email(self, tipo, trimestre ):
-        print "Se van a enviar las notas de tipo %s y del cua/trimestre %s"%(tipo,trimestre)
+        #print "Se van a enviar las notas de tipo %s y del cua/trimestre %s"%(tipo,trimestre)
         for asistencia in self.asistencia_set.all():
             if tipo == "trimestre":
-                print "Enviamos la del trimestre %s"%trimestre
+                #print "Enviamos la del trimestre %s"%trimestre
                 nota_model = NotaTrimestral.objects.get(asistencia=asistencia,trimestre=trimestre)
                 nota_model.enviar_mail()
             elif tipo == "cuatrimestre":
-                print "Enviamos la del cuatrimestre %s"%trimestre
                 nota_model = NotaCuatrimestral.objects.get(asistencia=asistencia,cuatrimestre=trimestre)
+                #print nota_model
+                #print "Enviamos la del cuatrimestre %s "%trimestre
                 nota_model.enviar_mail()
             else:
                 print "tipo desconocido. No hacemos nada"
@@ -919,11 +920,13 @@ class Nota(models.Model):
     comportamiento = models.CharField(max_length=2,default="B")
     comportamiento_np = models.BooleanField("NP",default=False)
     comportamiento_na = models.BooleanField(default=False)
+
     def ver_legacy_faltas(self):
         try:
             return self.asistencia.legacyfalta_set.all()[0].__unicode__()
         except:
             return "-/-"
+    
     def media(self):
         #print self.asistencia.grupo.curso.tipo_evaluacion
         if self.asistencia.grupo.curso.tipo_evaluacion == 1: #"elementary_intermediate":
@@ -1023,10 +1026,10 @@ class NotaCuatrimestral(models.Model):
         return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
     
     def enviar_mail(self):
-        print("Vamos a enviar los mails de la nota del alumno %s del cuatrimestre %s"%(self.asistencia.alumno,self.cuatrimestre))
+        #print("Vamos a enviar los mails de la nota del alumno %s del cuatrimestre %s"%(self.asistencia.alumno,self.cuatrimestre))
         contexto = {}
         contexto['year']=self.asistencia.grupo.year.__unicode__()
-        contexto['trimestre']=self.cuatrimestre
+        contexto['cuatrimestre']=self.cuatrimestre
         contexto['asistencia']=self.asistencia
         nota_html = render_to_string("alumnos_carta_nota_cuatrimestre.html",contexto,request=None)
         self.asistencia.alumno.enviar_mail("[EIDE] Notas Cuatrimestre",nota_html,mensaje_html=True)

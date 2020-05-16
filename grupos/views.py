@@ -281,8 +281,12 @@ class GrupoNotasCuatrimestreEmailView(View):
     http_method_names = ['post']
     def post(self, request, *args, **kwargs):
         print("Vamos a enviar las notas del grupo %s del cuatrimestre %s"%(kwargs['pk'],kwargs['cuatrimestre']))
-        grupo = Grupo.objects.get(pk=kwargs['pk'])
-        grupo.envio_notas_email('cuatrimestre',kwargs['cuatrimestre'])
+        try:
+            grupo = Grupo.objects.get(pk=kwargs['pk'])
+            grupo.envio_notas_email('cuatrimestre',kwargs['cuatrimestre'])
+        except Exception as e:
+            print("Error",e)
+            mensaje = "Error"
         return redirect(grupo)
 
     
