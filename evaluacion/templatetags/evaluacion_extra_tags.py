@@ -32,7 +32,7 @@ def notas_trimestre(asistencia, trimestre):
 def tabla_notas_trimestre(context):
     trimestre = context['trimestre']
     asistencia = context['asistencia']
-    tabla = """<table class="table">
+    tabla = """<table class="table" style="text-align:center;width=100%">
             <thead>
                 <th>&nbsp;</th>
                 <th> Trimestre 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

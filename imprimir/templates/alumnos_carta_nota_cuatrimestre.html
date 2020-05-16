@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load evaluacion_extra_tags %}
-{% block body %}
 
 <div>
     <div style="float:left" >
@@ -25,10 +24,12 @@
     </div>
 </div>
 <div style="clear:both"></div>
-
+<div style="height:100px"></div>
+<br />
 </div>
 <div style="font-size: 150%;">
     <h1 style="text-align:center">BOLETÍN EVALUACIÓN</h1>
+    <br />    
     <div>
         Período de la Evaluación: <b>Cuatrimestre: {{ cuatrimestre }}</b>
     </div>
@@ -47,7 +48,7 @@
 </div>
     <h2 style="text-align:center">Exámenes de Vocabulario y Gramática</h2>
     <div style="text-align:center;width=100%">
-    <table class="table">
+    <table class="table" style="text-align:center;width=100%">
         <thead>
             <th>&nbsp;</th>
             <th> Trimestre 1</th>
@@ -108,4 +109,3 @@
             Plaza Balleni 3 (Kabiezes) 48980 Santurtzi –946037112<br />
             www.eide.es – eide@eide.es <br />
         </div>
-{% endblock %}
