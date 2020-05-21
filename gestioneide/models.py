@@ -54,9 +54,9 @@ NIVELES_CAMBRIDGE = (
 )
 
 LISTA_MATERIAS_TIPO_EVALUACION = {
-    2: ['reading_writing','speaking','listenning' ],
-    3: ['reading','writing','speaking','listenning'],
-    4: ['reading','writing','speaking','listenning','useofenglish'],
+    2: ['reading_writing','speaking','listening' ],
+    3: ['reading','writing','speaking','listening'],
+    4: ['reading','writing','speaking','listening','useofenglish'],
     5: ['']
 }
 
@@ -909,9 +909,9 @@ class Nota(models.Model):
     useofenglish_np = models.BooleanField("NP",default=False)
     useofenglish_na = models.BooleanField(default=False)
 
-    listenning = models.DecimalField(max_digits=3,decimal_places=0,default=0)
-    listenning_np = models.BooleanField("NP",default=False)
-    listenning_na = models.BooleanField(default=False)
+    listening = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    listening_np = models.BooleanField("NP",default=False)
+    listening_na = models.BooleanField(default=False)
 
     speaking = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     speaking_np = models.BooleanField("NP",default=False)
@@ -933,10 +933,10 @@ class Nota(models.Model):
             lista_materias = ['control']
 
         elif self.asistencia.grupo.curso.tipo_evaluacion == 2: #"elementary_intermediate":
-            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listenning']
+            lista_materias = ['reading', 'grammar', 'writing', 'speaking', 'listening']
 
         elif self.asistencia.grupo.curso.tipo_evaluacion == 3: #"upper_proficiency":
-            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listenning']
+            lista_materias = ['reading', 'useofenglish', 'writing', 'speaking', 'listening']
 
         else:
             lista_materias = ['grammar']
@@ -979,8 +979,8 @@ class NotaCuatrimestral(models.Model):
     useofenglish = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     useofenglish_np = models.BooleanField("NP", default=False)
 
-    listenning = models.DecimalField(max_digits=3, decimal_places=0, default=0)
-    listenning_np = models.BooleanField("NP", default=False)
+    listening = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    listening_np = models.BooleanField("NP", default=False)
 
     speaking = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     speaking_np = models.BooleanField("NP", default=False)
