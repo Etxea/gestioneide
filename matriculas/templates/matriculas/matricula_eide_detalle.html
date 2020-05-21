@@ -1,0 +1,24 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+{% block extra_header %}
+<h1>{% trans "Matricula" %} {{ object.id }}</h1>
+{% endblock %}
+{% block body %}
+<table class="table">
+    <thead>
+        <th>ID</th><th>Quien</th><th>Cuando</th><th>Pagada</th><th>Url Pago</th>
+    </thead>
+    <tbody>
+        {% with object as matricula %}
+        <tr>
+            <td>{{ matricula.id }}</td>
+            <td>{{ matricula.apellido1 }} {{ matricula.apellido1 }}, {{ matricula.nombre }} </td>
+            <td>{{ matricula.fecha_matricula }}</td>
+            <td>{{ matricula.pagada | yesno }}</td>
+            <td><a href="{% url 'matricula_eide_pagar' matricula.id %}">Pagar</a></td>
+        </tr>
+        {% endwith %}
+    </tbody>
+</table>
+{% endblock %}

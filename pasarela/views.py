@@ -35,6 +35,7 @@ import sys
 from pagosonline.models import Pago
 from forms import *
 from cambridge.models import Registration
+from matriculas.models import MatriculaEide
 
 import logging
 log = logging.getLogger("MatriculaEIDE")
@@ -127,6 +128,10 @@ def payment_ok(sender, **kwargs):
         log.debug("Hemos encontrado el pago manual %s"%r.id)
         log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
         r.set_as_paid()
+    elif registration_type=="eide":
+        log.debug("Vamos a confirmar un pago EIDE. Lo buscamos en BBDD...")
+        r = MatriculaEide.objects.filter(id=registration_id)
+
     elif registration_type=="man":
         log.debug("Vamos a confirmar un pago manual. Lo buscamos en BBDD...")
         print Pago.objects.all()
