@@ -39,15 +39,10 @@
     <div>
     Grupo: <b>{{ asistencia.grupo }}</b>
     </div>
-    <!--
-    <div>
-    Profesores: <b>{{ asistencia.grupo.get_profesores }}</b>
-    </div>
-    -->
     <div>
         Faltas de asistencias: <b>{{ asistencia|faltas_trimestre:trimestre }}</b> Faltas justificadas <b>{{ asistencia|justificadas_trimestre:trimestre }}</b>
     </div>
-<br />
+    <br />
 </div>
     <h2 style="text-align:center">Exámenes de Vocabulario y Gramática</h2>
 <br />

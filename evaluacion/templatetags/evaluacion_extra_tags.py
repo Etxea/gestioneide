@@ -103,7 +103,7 @@ def tabla_notas_cuatrimestre(context):
     except:
         cuatrimestre = context['trimestre']
 
-    tabla = """<table class="table" style="width=100%">
+    tabla = """<table class="table" style="text-align:center;width=100%">
 <thead><th>Materia</th><th>Resultado Cuatrimestre 1</th><th>Resultado Cuatrimestre 2</th></thead>
 <tbody>"""
 
