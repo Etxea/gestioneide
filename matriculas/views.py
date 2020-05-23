@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.contrib.sites.models import Site
 from django.conf import settings
 
+from sermepa.signals import payment_was_successful, payment_was_error, signature_error
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
 

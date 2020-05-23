@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
-from django.core.mail import EmailMultiAlternatives, mail_admins
+from django.core.mail import mail_admins
+from anymail.message import AnymailMessage
 from django.conf import settings
 from django.db import models
 
@@ -22,12 +23,12 @@ class MatriculaEide(models.Model):
     apellido1 = models.CharField(_('Primer Apellido'),max_length=100)
     apellido2 = models.CharField(_('Segundo Apellido'),max_length=100,default='',blank=True)
     direccion = models.CharField(_('Dirección'),max_length=100)
-    email = models.EmailField("Dirección de correo-e")
+    email = models.EmailField("E-mail principal",help_text="Cuenta de correo principal, recibirá confirmación de esta matrícula")
     email2 = models.EmailField("Segundo e-mail",help_text="Otra cuenta de correo-e (opcional)",default="",blank=True)
     localidad = models.CharField(_('Localidad'),max_length=100)
     codigo_postal = models.DecimalField(_('Código Postal'),max_digits=6, decimal_places=0)
     fecha_nacimiento = models.DateField(_('Fecha Nacimiento del alumno'), 
-        help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
+        help_text=_('Formato: DD\MM\AAAA(día\mes\año)'))
     telefono1 = models.CharField(_('Teléfono Móvil de contacto'),max_length=12)
     telefono2 = models.CharField(_('Segundo Teléfono Contacto'),max_length=12,default='',blank=True)
     
@@ -35,9 +36,9 @@ class MatriculaEide(models.Model):
     pagada = models.BooleanField(_('Pagada'),default=False)
     gestionada = models.BooleanField(_('Pagada'),default=False)
     
-    nivel_ingles = models.CharField(_('Estudios previos de ingles'),help_text="¿Ha ido antes a una academia? ¿Puedes decirnos el libro que utiliza/utilizaba?",max_length=150,default="",blank=True)
-    titulo_ingles = models.CharField(_('Títulación previa'),help_text="¿Tiene alguna titulación de inglés? ¿Cuál? ¿Cuándo la obtuvo?",max_length=150,default="",blank=True)
-    clases_previas = models.CharField(_('Estudios previos de ingles'),max_length=150,default="",blank=True)
+    nivel_ingles = models.CharField(_('Nivel de ingles [opcional]'),help_text="¿Conoce su nivel de ingles (A1/2,B1-1/1-2/2-1/2-2,C1)?",max_length=150,default="",blank=True)
+    titulo_ingles = models.CharField(_('Títulación previa [opcional]'),help_text="¿Tiene alguna titulación de inglés? ¿Cuál? ¿Cuándo la obtuvo?",max_length=150,default="",blank=True)
+    clases_previas = models.CharField(_('Estudios previos de ingles [opcional]'),help_text="¿Ha ido antes a una academia? ¿Puedes decirnos el libro que utiliza/utilizaba?",max_length=150,default="",blank=True)
     
     accepta_condiciones = models.BooleanField(_('Acepto las condiciones'),
         help_text=_('''Doy mi consentimiento expreso para recibir comunicaciones en 
@@ -45,19 +46,24 @@ class MatriculaEide(models.Model):
 
     def send_confirmation_email(self):
         ##Para el alumno
-        subject = _("Te has matriculadoen EIDE")
+        subject = "[EIDE][Matricula] Te has matriculado en EIDE %s" %(self.get_centro_display())
         
-        html_content = ""
+        message_body = "Buenas,<br>Hemos recibido tu matrícula, cuando se confirme el pago recibirás un segundo e-mail.<br>Un saludo."
         
-        message_body = html_content
-        ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        msg = EmailMultiAlternatives(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        msg.attach_alternative(html_content, "text/html")
-        ##msg.content_subtype = "html"
-        #msg.send()
+        email = AnymailMessage(
+            subject=subject,
+            body=message_body,
+            to = [self.email],
+        )
+        email.content_subtype = "html"
+        try:
+            email.send(fail_silently=False)
+        except Exception, e:
+            log.error("(matriculas) Error al enviar mail",str(e))
+        
          
         ### Para los admins
-        subject = "Hay una nueva matricula (sin pagar) para EIDE"
+        subject = "[EIDE][Matricula] Hay una nueva matricula (sin pagar) para EIDE %s"%(self.get_centro_display())
         message_body = u"""Se ha dado de alta una nueva matricula para EIDE. 
 Los datos son del alumno son: 
     Nombre: %s
@@ -66,18 +72,24 @@ Los datos son del alumno son:
     e-mail: %s
 """%(self.nombre,self.apellido1,self.telefono1,self.email)
         mail_admins(subject, message_body)
+    
     def send_paiment_confirmation_email(self):
-        subject = "Se ha confirmado el pago de la matricula para EIDE %s"%self.centro
-        html_content=u""""""%(self.exam)
+        subject = "[EIDE][Matricula] Se ha confirmado el pago de la matricula para EIDE %s"%self.get_centro_display()
+        html_content=u"""Hola,<br>Se ha confirmado el pago para el centro %s de EIDE."""%(self.get_centro_display())
         message_body = html_content
-        ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        #msg = EmailMultiAlternatives(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        #msg.attach_alternative(html_content, "text/html")
-        ##msg.content_subtype = "html"
-        #msg.send()
-        send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
         
-        subject = "[EIDE] Se ha confirmado el pago de una matrcicula"
+        email = AnymailMessage(
+            subject=subject,
+            body=message_body,
+            to = [self.email],
+        )
+        email.content_subtype = "html"
+        try:
+            email.send(fail_silently=False)
+        except Exception, e:
+            log.error("(matriculas) Error al enviar mail",str(e))    
+        
+        subject = "[EIDE][Matricula] Se ha confirmado el pago de una matrcicula"
         message_body = u"""Se acaba de confirmar el pago de un matricula para EIDE  %s. \n 
 Los datos son:\n
 ID de la mátricula: %s \n 
@@ -87,9 +99,9 @@ Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es
         mail_admins(subject, message_body, html_message=message_body)
     
     def set_as_paid(self):
-        self.paid = True
+        self.pagada = True
         self.save()
-        self.send_paiment_confirmation_email()
+        #self.send_paiment_confirmation_email()
         
     def __unicode__(self):
         return "%s-%s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
@@ -97,11 +109,9 @@ Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es
     def save(self, *args, **kwargs):
         ##We generate a random password
         if self.id is not None:
-            if self.paid:
+            if self.pagada:
                 self.send_paiment_confirmation_email()      
         else:
-            pass
-            #We send a confirmation mail to te registrant and a advise mail to the admins
             self.send_confirmation_email()
         super(MatriculaEide, self).save(*args, **kwargs)
         

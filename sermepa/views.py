@@ -9,13 +9,15 @@ from sermepa.forms import SermepaResponseForm
 from sermepa.models import OPER_REFUND, SermepaResponse
 from sermepa.utils import decode_parameters, redsys_check_response
 
-from pasarela.views import payment_ok, payment_ko, sermepa_ipn_error
+from gestioneide.receivers import payment_ok, payment_ko, sermepa_ipn_error
 
 import logging
-log = logging.getLogger("MatriculaEIDE")
+log = logging.getLogger("django")
 
 @csrf_exempt
 def sermepa_ipn(request):
+    print "prueba"
+    log.error("Prueba")
     log.debug("Somos sermepa_ipn y hemos recibido:")
     log.debug(request.POST)
     form = SermepaResponseForm(request.POST)

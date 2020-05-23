@@ -25,7 +25,6 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.dispatch import receiver
 from sermepa.forms import SermepaPaymentForm
-from sermepa.signals import payment_was_successful, payment_was_error, signature_error
 from sermepa.models import SermepaIdTPV
 
 
@@ -38,7 +37,8 @@ from cambridge.models import Registration
 from matriculas.models import MatriculaEide
 
 import logging
-log = logging.getLogger("MatriculaEIDE")
+log = logging.getLogger("django")
+
 
 class pagos_lista(ListView):
     model = Pago
@@ -77,6 +77,7 @@ def confirm_payment(request):
     log.debug("Recibimos una confirmación de pago")
     log.debug(request.POST)
     print request
+    print request.POST
     try:
         #Leemos el bumero de operación donde tenemo s la referencia a la matricula
         log.debug("Vamos a leer el Num_operacion para ver que vamos a confirmar")
@@ -111,45 +112,49 @@ def confirm_payment(request):
         log.debug(exc_value)
         log.debug(exc_traceback)
         return TemplateResponse(request,"pago_noconfirmar.html")
+
+## Anañadir lo siguiente a receivers.py
+
+# from sermepa.signals import payment_was_successful, payment_was_error, signature_error
+# @receiver(payment_was_successful)
+# def payment_ok(sender, **kwargs):
+#     log.debug("Somos el evento payment_was_successful gestionado por payment_ok")
+#     reference = sender.Ds_MerchantData
+#     log.debug("tenemos la referencia: %s"%reference)
+#     registration_type = reference.split('-')[0]
+#     registration_id = reference.split('-')[1]
+#     log.debug( "tenemos una matricula de %s con el id %s"%(registration_type, registration_id))
+#     r = None
+#     #Buscamos la matricula 
+#     if registration_type=="cam":
+#         log.debug("Es cambridge la buscamos en BBDD")
+#         r = Registration.objects.get(id=registration_id)
+#         log.debug("Hemos encontrado el pago manual %s"%r.id)
+#         log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
+#         r.set_as_paid()
+#     elif registration_type=="eide":
+#         log.debug("Vamos a confirmar un pago EIDE. Lo buscamos en BBDD...")
+#         r = MatriculaEide.objects.filter(id=registration_id)
+#         r.set_as_paid()
+
+#     elif registration_type=="man":
+#         log.debug("Vamos a confirmar un pago manual. Lo buscamos en BBDD...")
+#         print Pago.objects.all()
+#         r = Pago.objects.filter(id=registration_id)
+#         if len(r)>0:
+#             log.debug("Hemos encontrado el pago manual %s"%r[0].id)
+#             log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
+#             r.set_as_paid()
+#         else:
+#             log.debug("Problemas encontrando el pago manual con ID: %s"%registration_id)
+#     else:
+#         log.debug( "No sabemos que tipo de matricula es!" )
     
-@receiver(payment_was_successful)
-def payment_ok(sender, **kwargs):
-    log.debug("Somos el evento payment_was_successful gestionado por payment_ok")
-    reference = sender.Ds_MerchantData
-    log.debug("tenemos la referencia: %s"%reference)
-    registration_type = reference.split('-')[0]
-    registration_id = reference.split('-')[1]
-    log.debug( "tenemos una matricula de %s con el id %s"%(registration_type, registration_id))
-    r = None
-    #Buscamos la matricula 
-    if registration_type=="cam":
-        log.debug("Es cambridge la buscamos en BBDD")
-        r = Registration.objects.get(id=registration_id)
-        log.debug("Hemos encontrado el pago manual %s"%r.id)
-        log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
-        r.set_as_paid()
-    elif registration_type=="eide":
-        log.debug("Vamos a confirmar un pago EIDE. Lo buscamos en BBDD...")
-        r = MatriculaEide.objects.filter(id=registration_id)
 
-    elif registration_type=="man":
-        log.debug("Vamos a confirmar un pago manual. Lo buscamos en BBDD...")
-        print Pago.objects.all()
-        r = Pago.objects.filter(id=registration_id)
-        if len(r)>0:
-            log.debug("Hemos encontrado el pago manual %s"%r[0].id)
-            log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
-            r.set_as_paid()
-        else:
-            log.debug("Problemas encontrando el pago manual con ID: %s"%registration_id)
-    else:
-        log.debug( "No sabemos que tipo de matricula es!" )
-    
+# @receiver(payment_was_error)
+# def payment_ko(sender, **kwargs):
+#     pass
 
-@receiver(payment_was_error)
-def payment_ko(sender, **kwargs):
-    pass
-
-def sermepa_ipn_error(sender, **kwargs):
-    pass
+# def sermepa_ipn_error(sender, **kwargs):
+#     pass
 
