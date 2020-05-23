@@ -18,3 +18,4 @@ old_data*
 nohup.out
 .vscode
 codigos_optimise.csv
+debug.log
