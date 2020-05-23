@@ -14,7 +14,7 @@ from anymail.message import AnymailMessage
 from django.template.loader import render_to_string
 
 import logging
-logger = logging.getLogger('gestioneide.debug')
+logger = logging.getLogger('django')
 debug = logger.debug
 
 import datetime

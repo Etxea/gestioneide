@@ -6,6 +6,9 @@ from anymail.message import AnymailMessage
 from django.conf import settings
 from django.db import models
 
+import logging
+log = logging.getLogger("django")
+
 SEXO = (
     (1, _('Male')),
     (2, _('Female')),
@@ -102,7 +105,30 @@ Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es
         self.pagada = True
         self.save()
         #self.send_paiment_confirmation_email()
-        
+
+    def generate_alumno(self):
+        from gestioneide.models import Alumno
+        a = Alumno(
+            nombre = self.nombre,
+            apellido1 = self.apellido1,
+            apellido2 = self.apellido2,
+            fecha_nacimiento = self.fecha_nacimiento,
+            telefono1 = self.telefono1,
+            telefono2 = self.telefono2,
+            email = self.email,
+            email2 = self.email2,
+            direccion = self.direccion,
+            ciudad = self.localidad,
+            cp = self.codigo_postal,
+            observaciones = "Matricula Online %s para el centro %s"%(self.id,self.get_centro_display()),
+        )
+        try:
+            a.save()
+            self.gestionada=True
+            self.save()
+            mail_admins("[GESTIONEIDE] Alumno %s creado"%(a.id), "Se ha creado el alumno %s de la matricula %s"%(a.id,self.id))
+        except Exception, e:
+            log.error("(matriculas) Error al generar el alumno ",str(e)) 
     def __unicode__(self):
         return "%s-%s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
 
