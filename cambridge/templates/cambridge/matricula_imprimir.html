@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=us-ascii">
+	<TITLE>MATRICULA {{ registration.id }}-{{ registration.dni }}</TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 3.5  (Linux)">
+	<META NAME="AUTHOR" CONTENT="Beatriz Iglesias Uriarte">
+	<META NAME="CREATED" CONTENT="20120307;19470000">
+	<META NAME="CHANGEDBY" CONTENT="EIDE">
+	<META NAME="CHANGED" CONTENT="20120313;13360000">
+	<META NAME="Info 1" CONTENT="">
+	<META NAME="Info 2" CONTENT="">
+	<META NAME="Info 3" CONTENT="">
+	<META NAME="Info 4" CONTENT="">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin-left: 2cm; margin-right: 2cm; margin-top: 1.25cm; margin-bottom: 0.83cm }
+		P { margin-bottom: 0.21cm; direction: ltr; color: #000000; widows: 2; orphans: 2 }
+		P.western { font-family: "Times New Roman", serif; font-size: 18pt; so-language: es-ES }
+		P.cjk { font-family: "Times New Roman", serif; font-size: 18pt }
+		P.ctl { font-family: "Times New Roman", serif; font-size: 18pt; so-language: es-ES }
+		H1 { margin-top: 0cm; margin-bottom: 0cm; direction: ltr; color: #000000; text-align: center; widows: 2; orphans: 2 }
+		H1.western { font-family: "Times New Roman", serif; font-size: 18pt; so-language: es-ES }
+		H1.cjk { font-family: "Times New Roman", serif; font-size: 18pt }
+		H1.ctl { font-family: "Tahoma", sans-serif; font-size: 18pt; so-language: es-ES }
+		H2 { margin-top: 0cm; margin-bottom: 0cm; direction: ltr; color: #000000; text-align: center; widows: 2; orphans: 2 }
+		H2.western { so-language: es-ES; font-style: italic }
+		H2.cjk { font-family: "Times New Roman", serif; font-style: italic }
+		H2.ctl { font-family: "Tahoma", sans-serif; font-size: 18pt; so-language: es-ES; font-style: italic }
+		P.sdfootnote-western { margin-bottom: 0cm; font-family: "Times New Roman", serif; font-size: 16pt; so-language: es-ES }
+		P.sdfootnote-cjk { margin-bottom: 0cm; font-family: "Times New Roman", serif; font-size: 16pt }
+		P.sdfootnote-ctl { margin-bottom: 0cm; font-family: "Times New Roman", serif; font-size: 16pt; so-language: es-ES }
+		A:link { color: #0000ff }
+		A.sdfootnoteanc { font-size: 57% }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="es-ES" TEXT="#000000" LINK="#0000ff" DIR="LTR">
+
+<P LANG="en-GB" CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0cm">
+<BR>
+</P>
+<H1 CLASS="western" ALIGN=LEFT></H1>
+<H1 CLASS="western"><FONT FACE="Arial, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><U>MATR&Iacute;CULA PARA LOS EXAMENES </U></FONT></FONT>
+</H1>
+<H1 CLASS="western"><FONT FACE="Arial, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><U>UNIVERSITY OF CAMBRIDGE &ndash; ESOL</U></FONT></FONT></H1>
+<P CLASS="western" STYLE="margin-bottom: 0cm"><BR>
+</P>
+
+<P CLASS="western" ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Albertus Extra Bold, Times New Roman, serif"><FONT SIZE=4><B>CENTRO
+	N&ordm; ES 165</B></FONT></FONT></P>
+
+<BR>
+
+<H1 CLASS="western" STYLE="background: #737373"><FONT COLOR="#ffffff"><FONT FACE="Arial, sans-serif"><FONT SIZE=4>CONVOCATORIA {{ registration.exam }}</FONT></FONT></FONT></H1>
+
+<br>
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g><B>NOMBRE Y APELLIDOS:</B> {{ registration.surname }}, {{ registration.name }}</FONT></FONT></P>
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g><B>DIRECCI&Oacute;N: </B>{{ registration.address }} </FONT></FONT></P>
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g><B>POBLACI&Oacute;N:</B> {{ registration.location }}
+</FONT></FONT></P>
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g><B> CODIGO POSTAL: {{ registration.postal_code }}</B></FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 150%">
+	
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g><B> EMAIL: {{ registration.email }}</B></FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 150%">
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g><B> PAGADA: {{ registration.paid }}</B></FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 150%">
+
+<FONT FACE="Arial, sans-serif"><FONT g><B>TEL&Eacute;FONO(S):</B> {{ registration.telephone }} </FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+<FONT FACE="Arial, sans-serif"><FONT g>
+<B>   	F. NACIMIENTO:</B>{{ registration.birth_date }}</FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 150%">
+<B><FONT FACE="Arial, sans-serif"><FONT g>ALUMNO/A DE EIDE:</B>{{ registration.eide_alumn }}</FONT></FONT></P>
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+	<FONT FACE="Arial, sans-serif"><FONT g>
+	<B>CENTRO:</B>{{ registration.centre_name }}
+	</FONT></FONT>
+</P>
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+	<FONT FACE="Arial, sans-serif"><FONT g>
+	<B>Fecha Propuesta (LinguaSchool):</B>{{ registration.proposed_date }}
+	</FONT></FONT>
+</P>
+
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+	<FONT FACE="Arial, sans-serif"><FONT g>
+	<B>FECHA DE REALIZACI&Oacute;N DE LA MATR&Iacute;CULA:</B>{{ registration.registration_date }}
+	</FONT></FONT>
+</P>
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; line-height: 200%">
+	<FONT FACE="Arial, sans-serif"><FONT g>
+	<B>C&Oacute;DIGO DEL PAGO:</B>cambridge-pb.{{ registration.id }}
+	</FONT></FONT>
+</P>
+
+
+<P CLASS="western" ALIGN=JUSTIFY STYLE="margin-right: 8.75cm; margin-bottom: 0cm; border: 1.50pt solid #000000; padding: 0.04cm 0.14cm">
+<FONT FACE="Arial, sans-serif"><B>CANDIDATE NUMBER: </B></FONT>
+</P>
+
+</BODY>
+</HTML>

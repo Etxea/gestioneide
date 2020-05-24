@@ -13,6 +13,7 @@ from django import forms
 from django.contrib.sites.shortcuts import get_current_site
 
 from models import Consulta, Confirmacion
+from forms import *
 from gestioneide.models import Asistencia,Year,Grupo,MailAlumno
 
 class ConsultaListView(ListView):
@@ -79,11 +80,12 @@ class ConsultaUpdateView(UpdateView):
 
 class ConfirmacionListView(ListView):
     model = Confirmacion
+    template_name = ""
     def get_queryset(self):
         consulta = Consulta.objects.get(id=self.kwargs['consulta_id'])
         return Confirmacion.objects.filter(consulta=consulta)
 
-class ConfirmacionCreateView(CreateView):
+class RespuestaCreateView(CreateView):
     model = Confirmacion
     fields = '__all__'
 
@@ -109,5 +111,12 @@ class ConfirmacionCreateView(CreateView):
     def get_success_url(self):
         return reverse('confirmacion_gracias')
 
+class ConfirmacionSendView(FormView):
+    form_class = ConfirmacionForm
+
 class ConfirmacionGraciasView(TemplateView):
     template_name = 'confirmaciones/confirmacion_gracias.html'
+
+class ConfirmacionResponseView(CreateView):
+    model = Confirmacion
+    fields = "__all__"

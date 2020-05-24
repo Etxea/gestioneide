@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'borrar/(?P<pk>\d+)/$',login_required(AsistenciaDeleteView.as_view()), name="asistencia_borrar"),
     url(r'recuperar/$',login_required(asistencia_recuperar), name="asistencia_recuperar"),
     url(r'pago/domiciliacion/$',login_required(asistencia_domiciliacion), name="asistencia_set_domiciliacion"),
+    url(r'envio/notas/trimestre/(?P<pk>\d+)/(?P<trimestre>\d+)/$',login_required(EnvioNotaTrimestre.as_view()), name="envio_notas_trimestre_alumno"),
     #~ url(r'activar/$',login_required(asistencia_activate), name="asistencia_activar"),
     #~ url(r'clone/$',login_required(asistencia_clone), name="asistencia_clone"),
     #~ url(r'empty/$',login_required(asistencia_empty), name="asistencia_empty"),

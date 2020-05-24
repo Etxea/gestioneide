@@ -14,6 +14,11 @@ class AnotacionGrupoForm(ModelForm):
         model = AnotacionGrupo
         fields = "__all__"
 
+class EnvioNotasForm(forms.Form):
+    group_id = forms.CharField(widget=forms.HiddenInput)
+    trimestre = forms.CharField(widget=forms.HiddenInput)
+    user_id = forms.CharField(widget=forms.HiddenInput)
+
 class ContactForm(forms.Form):
     title = forms.CharField()
     message = forms.CharField(widget=forms.Textarea)

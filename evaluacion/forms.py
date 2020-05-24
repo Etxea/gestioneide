@@ -14,7 +14,7 @@ from django.forms.models import modelformset_factory
 class NotaCreateForm(ModelForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ('reading','reading_np','useofenglish','useofenglish_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np')
+        fields = ('reading','reading_np','useofenglish','useofenglish_np','writing','writing_np','speaking','speaking_np','listening','listening_np')
         exclude = ('id',)
         widgets = {
             'reading': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'width':'3','size':'3','maxlength': '3'}),
@@ -22,7 +22,7 @@ class NotaCreateForm(ModelForm):
             'useofenglish': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'}),
             'writing': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'}),
             'speaking': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'}),
-            'listenning': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'})
+            'listening': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'})
         }
 
 class NotaTrimestralCreateForm(ModelForm):
@@ -44,17 +44,17 @@ class NotaTrimestralKidsCreateForm(ModelForm):
 class ElementaryNotaCreateForm(NotaCreateForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ['reading_writing','reading_writing_np', 'speaking','speaking_np','listenning','listenning_np','observaciones']
+        fields = ['reading_writing','reading_writing_np', 'speaking','speaking_np','listening','listening_np','observaciones']
 
 class IntermediateNotaCreateFrom(NotaCreateForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np','observaciones']
+        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listening','listening_np','observaciones']
 
 class UpperNotaCreateFrom(NotaCreateForm):
     class Meta:
         model = NotaCuatrimestral
-        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listenning','listenning_np','useofenglish','useofenglish_np','observaciones']
+        fields = ['reading','reading_np','writing','writing_np','speaking','speaking_np','listening','listening_np','useofenglish','useofenglish_np','observaciones']
 
 
 

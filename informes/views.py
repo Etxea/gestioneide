@@ -486,7 +486,7 @@ def export_notas_cuatrimestre_xls(request, ano):
         (u"Q1. Writing", 2000),
         (u"Q1. Read./Wri.", 2000),
         (u"Q1. Use of english", 2000),
-        (u"Q1. Listenning", 2000),
+        (u"Q1. listening", 2000),
         (u"Q1. Speaking", 2000),
         (u"Q1. Media", 2000),
         (u"Q1. Observaciones", 8000),
@@ -495,7 +495,7 @@ def export_notas_cuatrimestre_xls(request, ano):
         (u"Q2. Writing", 2000),
         (u"Q2. Read./Wri.", 2000),
         (u"Q2. Use of english", 2000),
-        (u"Q2. Listenning", 2000),
+        (u"Q2. listening", 2000),
         (u"Q2. Speaking", 2000),
         (u"Q2. Media", 2000),
         (u"Q2. Observaciones", 8000),
@@ -504,7 +504,7 @@ def export_notas_cuatrimestre_xls(request, ano):
         (u"Q3. Writing", 2000),
         (u"Q3. Read./Wri.", 2000),
         (u"Q3. Use of english", 2000),
-        (u"Q3. Listenning", 2000),
+        (u"Q3. listening", 2000),
         (u"Q3. Speaking", 2000),
         (u"Q3. Media", 2000),
         (u"Q3. Observaciones", 8000),
@@ -559,7 +559,7 @@ def export_notas_cuatrimestre_xls(request, ano):
                 row.append(nota.writing)
                 row.append(nota.reading_writing)
                 row.append(nota.useofenglish)
-                row.append(nota.listenning)
+                row.append(nota.listening)
                 row.append(nota.speaking)
                 row.append(nota.media())
                 row.append(nota.observaciones)

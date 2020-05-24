@@ -1,9 +1,10 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import redirect
 from grupos.forms import *
 from gestioneide.models import *
 import calendar
@@ -261,3 +262,31 @@ class GrupoClaseVideurlCreateView(UpdateView):
     #     #grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
     #     #print("Somo get initial y tenemos: %s"%self.kwargs['pk'])
     #     return { 'group_id': self.kwargs['grupo_id'] , 'creador_id': self.request.user.id }        
+
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
+class GrupoNotasTrimestreEmailView(View):
+    http_method_names = ['post']
+    def post(self, request, *args, **kwargs):
+        print("Vamos a enviar las notas del grupo %s del trimestre %s"%(kwargs['pk'],kwargs['trimestre']))
+        try:
+            grupo = Grupo.objects.get(pk=kwargs['pk'])
+            grupo.envio_notas_email('trimestre',kwargs['trimestre'])
+        except Exception as e:
+            print("Error",e)
+            mensaje = "Error"
+        return redirect(grupo)
+    
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
+class GrupoNotasCuatrimestreEmailView(View):
+    http_method_names = ['post']
+    def post(self, request, *args, **kwargs):
+        print("Vamos a enviar las notas del grupo %s del cuatrimestre %s"%(kwargs['pk'],kwargs['cuatrimestre']))
+        try:
+            grupo = Grupo.objects.get(pk=kwargs['pk'])
+            grupo.envio_notas_email('cuatrimestre',kwargs['cuatrimestre'])
+        except Exception as e:
+            print("Error",e)
+            mensaje = "Error"
+        return redirect(grupo)
+
+    

@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -133,3 +133,16 @@ def asistencia_recuperar(request):
         return JsonResponse({'state':'ok','msg': "done"})
     else:
         return HttpResponseRedirect(reverse('asistencia_deleted_lista'))
+
+
+class EnvioNotaTrimestre(View):
+    http_method_names = ['post']
+    def post(self, request, *args, **kwargs):
+        print("Vamos a enviar las notas de la asistencia %s del trimestre %s"%(kwargs['pk'],kwargs['trimestre']))
+        try:
+            asistencia = Asistencia.objects.get(pk=kwargs['pk'])
+            asistencia.envio_notas_email('trimestre',kwargs['trimestre'])
+        except Exception as e:
+            print("Error",e)
+            mensaje = "Error"
+        return redirect(grupo)

@@ -167,6 +167,30 @@
             {% include "grupos/asistencia_modal.html" %}
         </table>
         {% if request.user.is_staff %}<a class="btn btn-primary" href="{% url 'asistencia_nueva_grupo' object.id %}">Añadir alumno</a>{% endif %}
+        {% if request.user.is_staff %}
+        <h3>Envio Notas</h3>
+        <form action="{% url 'envio_notas_trimestre' grupo.id 1 %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Trimestre 1</button>
+        </form>
+        <form action="{% url 'envio_notas_trimestre' grupo.id 2 %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Trimestre 2</button>
+        </form>
+        <form action="{% url 'envio_notas_trimestre' grupo.id 3 %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Trimestre 3</button>
+        </form>
+        <br />
+        <form action="{% url 'envio_notas_cuatrimestre' grupo.id 1 %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Cuatrimestre 1</button>
+        </form>
+        <form action="{% url 'envio_notas_cuatrimestre' grupo.id 2 %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Cuatrimestre 2</button>
+        </form>
+        {% endif %}
     </div>
 </div>    
 

@@ -1,0 +1,29 @@
+{% extends "site_base_clean.html"%}
+{% load i18n %}
+{% block body %}
+<h1>Pago de la matrícula {{object}}</h1>
+
+<div class="well">
+    Acaba de realizar una solicitud de matrícula para: <b>{{registration.exam}}</b><br />
+    La matrícula se hará efectiva una vez se haya recibido el pago de {{registration.exam.level.price}} €.
+
+<!--
+	    {{ form.render }}
+-->
+	{% if debug %}
+	    {{ form.sandbox }}
+	{% else %}
+	    {{ form.render }}
+        <h3>Form final </h3>
+	{% endif %}
+</div>
+<div class="well">
+    <h1>DATOS DE CONTACTO</h1>
+    <ul>
+        <li>Mail: <a href="mailto:eide@eide.es">eide@eide.es</a></li>
+        <li>Tel: 94 493 70 05</li>
+        <li>Fax: 94 461 57 23</li>
+        <li>Dirección: Genaro Oraá 6 - 48980 Santurtzi</li>
+    </ul>
+</div>
+{% endblock %}

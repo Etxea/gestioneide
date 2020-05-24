@@ -38,6 +38,12 @@
 				{% for field in form %}
 					<td>{{ field }}  {{ field.errors }}</td>
 				{% endfor %}
+				<td>
+					<form action="{% url 'envio_notas_trimestre_alumno' asistencia.id trimestre %}" method="post">
+					{% csrf_token %}
+					<button class="btn btn-primary" type="submit"><i class="zmdi zmdi-email"></i>
+						Envío por mail</button>
+					</form></td>
 				{% endwith %}
 			 </tr>
 		{% endfor %}
