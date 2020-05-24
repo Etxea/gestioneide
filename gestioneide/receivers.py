@@ -86,6 +86,7 @@ def payment_ok(sender, **kwargs):
         log.debug("Vamos a confirmar un pago EIDE. Lo buscamos en BBDD...")
         r = MatriculaEide.objects.get(id=registration_id)
         r.set_as_paid()
+        log.debug("Matricula marcada como pagada")
 
     elif registration_type=="man":
         log.debug("Vamos a confirmar un pago manual. Lo buscamos en BBDD...")

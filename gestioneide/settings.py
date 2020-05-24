@@ -150,7 +150,7 @@ INSTALLED_APPS = [
     "empresas",
     "centros",
     "mensajes",
-    "confirmaciones",
+    "consultas",
     "sermepa",
     "pasarela",
     "pagosonline",

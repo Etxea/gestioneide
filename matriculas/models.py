@@ -66,19 +66,21 @@ class MatriculaEide(models.Model):
         
          
         ### Para los admins
-        subject = "[EIDE][Matricula] Hay una nueva matricula (sin pagar) para EIDE %s"%(self.get_centro_display())
+        subject = "[GESTIONEIDE][Matricula] Hay una nueva matricula (sin pagar) para EIDE %s"%(self.get_centro_display())
         message_body = u"""Se ha dado de alta una nueva matricula para EIDE. 
-Los datos son del alumno son: 
-    Nombre: %s
-    Apellidos: %s
-    Telefono: %s
-    e-mail: %s
-"""%(self.nombre,self.apellido1,self.telefono1,self.email)
+        Los datos son del alumno son: 
+            Nombre: %s
+            Apellidos: %s
+            Telefono: %s
+            e-mail: %s
+        """%(self.nombre,self.apellido1,self.telefono1,self.email)
         mail_admins(subject, message_body)
     
     def send_paiment_confirmation_email(self):
         subject = "[EIDE][Matricula] Se ha confirmado el pago de la matricula para EIDE %s"%self.get_centro_display()
-        html_content=u"""Hola,<br>Se ha confirmado el pago para el centro %s de EIDE."""%(self.get_centro_display())
+        html_content=u"""Hola,<br>Se ha confirmado el pago para el centro %s de EIDE.
+        <br>En breve se pondrán en contacto contigo para ultimar los detalles.
+        <br>Un saludo."""%(self.get_centro_display())
         message_body = html_content
         
         email = AnymailMessage(
@@ -92,19 +94,20 @@ Los datos son del alumno son:
         except Exception, e:
             log.error("(matriculas) Error al enviar mail",str(e))    
         
-        subject = "[EIDE][Matricula] Se ha confirmado el pago de una matrcicula"
+        subject = "[GESTIONEIDE][Matricula] Se ha confirmado el pago de una matrcicula"
         message_body = u"""Se acaba de confirmar el pago de un matricula para EIDE  %s. \n 
-Los datos son:\n
-ID de la mátricula: %s \n 
-Nombre: %s \n Apellidos: %s %s\n
-Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/eide/
-"""%(self.centro,self.id,self.nombre,self.apellido1,self.apellido2)
+        Los datos son:\n
+        ID de la mátricula: %s \n 
+        Nombre: %s \n Apellidos: %s %s\n
+        Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/eide/lista/
+        """%(self.get_centro_display(),self.id,self.nombre,self.apellido1,self.apellido2)
         mail_admins(subject, message_body, html_message=message_body)
     
     def set_as_paid(self):
         self.pagada = True
         self.save()
-        #self.send_paiment_confirmation_email()
+        self.send_paiment_confirmation_email()
+        self.generate_alumno()
 
     def generate_alumno(self):
         from gestioneide.models import Alumno
@@ -126,7 +129,9 @@ Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es
             a.save()
             self.gestionada=True
             self.save()
-            mail_admins("[GESTIONEIDE] Alumno %s creado"%(a.id), "Se ha creado el alumno %s de la matricula %s"%(a.id,self.id))
+            mail_admins(
+                "[GESTIONEIDE] Alumno %s creado"%(a.id), 
+                "Se ha creado el alumno %s de la matricula %s . Puedes ver los detalles en: https://gestion.eide.es%s"%(a.id,self.id,a.get_absolute_url()))
         except Exception, e:
             log.error("(matriculas) Error al generar el alumno ",str(e)) 
     def __unicode__(self):

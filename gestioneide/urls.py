@@ -33,7 +33,7 @@ urlpatterns = [
     url(r"^empresas/", include("empresas.urls")),
     url(r"^perfil/", include("perfil.urls")),
     url(r"^mensajes/", include("mensajes.urls")),
-    url(r"^confirmaciones/", include("confirmaciones.urls")),
+    url(r"^consultas/", include("consultas.urls")),
     url(r"^docs/", include("pinax.documents.urls", namespace="pinax_documents")),
     url(r"^messages/", include("pinax.messages.urls", namespace="pinax_messages")),
     url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
