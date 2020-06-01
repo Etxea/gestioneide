@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
+
+import logging
+log = logging.getLogger("django")
 
 from gestioneide.models import *
 
@@ -61,20 +66,32 @@ def year_clone(request):
         year_id = request.POST.get('id')
         year_actual = Year.objects.get(activo=True)
         year_nuevo = Year.objects.get(id=year_id)
+        log.debug("Vamos a copiar el ano activo %s al ano elegido %s"%(year_actual,year_nuevo))
+        print("Vamos a copiar el ano activo %s al ano elegido %s"%(year_actual,year_nuevo))
+        log.debug("Primero limpiamos")
         for grupo_nuevo in year_nuevo.grupo_set.all():
             for asistencia_nueva in grupo_nuevo.asistencia_set.all():
                 asistencia_nueva.delete()
             grupo_nuevo.delete()
         for grupo in year_actual.grupo_set.all():
-            grupo_new = Grupo(year = year_nuevo,\
+            log.debug("Copiando grupo %s"%grupo)
+            print("Copiando grupo %s"%grupo)
+            grupo_new = Grupo(\
+                year = year_nuevo,\
                 nombre = grupo.nombre,\
                 curso = grupo.curso,\
                 precio = grupo.precio,\
                 num_max = grupo.num_max,\
                 menores = grupo.menores)
             grupo_new.save()
+            print("Creado nuevo grupo %s"%grupo_new)
+            log.debug("Copiando Asistencias")
+            print("Copiando Asistencias")
             for asistencia in grupo.asistencia_set.all():
-                asistencia_new = Asistencia (year = year_nuevo,\
+                log.debug("Copiando asistencia %s"%asistencia)
+                print("Copiando asistencia %s"%asistencia)
+                asistencia_new = Asistencia (
+                    year = year_nuevo,\
                     grupo = grupo_new,\
                     alumno = asistencia.alumno,\
                     confirmado = False,\
@@ -82,6 +99,7 @@ def year_clone(request):
                     precio = asistencia.precio,\
                     metalico = asistencia.metalico)
                 asistencia_new.save()
+                print("Creada asistencia nueva %s"%asistencia_new)
         return JsonResponse({'state':'ok','msg': "clone done"})
     else:
         return HttpResponseRedirect(reverse('year_lista'))
@@ -98,3 +116,5 @@ def year_empty(request):
         return JsonResponse({'state':'ok','msg': "empty done"})
     else:
         return HttpResponseRedirect(reverse('year_lista'))
+
+
