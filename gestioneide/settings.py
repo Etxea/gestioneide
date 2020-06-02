@@ -31,6 +31,9 @@ LANGUAGE_CODE = "es-es"
 
 SITE_ID = int(os.environ.get("SITE_ID", 1))
 
+import os.path
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
 USE_I18N = True
 
 USE_L10N = True
@@ -166,7 +169,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/var/www/vhosts/eide.es/gestioneide/debug.log',
+            'filename': os.path.join(SITE_ROOT,'debug.log'),
         },
     },
     'loggers': {
