@@ -6,7 +6,7 @@
 
 {% include "pagination/pagination.html" %} 
 Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirmaciones del año {{ year }}.
-<a href="{% url 'confirmaciones_crear' %}" class="btn btn-primary pull-right">Crear Confirmaciones</a>
+<a href="{% url 'confirmaciones_crear' %}" class="btn btn-primary pull-right">Enviar Confirmaciones</a>
 {% endblock %}
 
 {% block body %}
@@ -26,7 +26,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirm
                 {% for confirmacion in object_list %}
                 <tr>
                     <td>{{ confirmacion.asistencia.alumno }}</a></td>
-                    <td>{{ confirmacion.fecha_creacion }}</td>
+                    <td>{{ confirmacion.fecha_respuesta }}</td>
                     <td>{{ confirmacion.get_respuesta_choice_display }} </td>
                     <td>{{ confirmacion.respuesta_texto }}</td>
                 </tr>

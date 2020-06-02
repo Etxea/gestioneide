@@ -52,7 +52,7 @@ class Confirmacion(models.Model):
     respuesta_choice = models.DecimalField('Respuesta',max_digits=1, decimal_places=0,choices=CONFIRMACION_CHOICES,default=0)
     respuesta_texto = models.CharField('Razón (1000carac. max.)',max_length=1000,)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_respuesta = models.DateTimeField(blank=True)
+    fecha_respuesta = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.pk == None:
@@ -62,8 +62,12 @@ class Confirmacion(models.Model):
             self.fecha_respuesta=datetime.now()
             titulo = "Confirmacion alumno %s para el año %s en el centro %s"\
                 %(self.asistencia.alumno,self.asistencia.year,self.asistencia.grupo.centro)
-            mensaje = """El alumno %s con ID %s a contestado %s con las razones %s"""%(self.asistencia.alumno,self.asistencia.alumno.id,self.get_respuesta_choice_display(),self.respuesta_texto)
+            mensaje = """El alumno %s con ID %s a contestado: <br /> %s <br />Con las razones: <br /> %s"""%(self.asistencia.alumno,self.asistencia.alumno.id,self.get_respuesta_choice_display(),self.respuesta_texto)
             self.asistencia.grupo.centro.enviar_mail(titulo, mensaje)
+            if self.respuesta_choice == 1:
+                print "Ha dicho que sí"
+                self.asistencia.confirmado = True
+                self.asistencia.save()
         super(Confirmacion, self).save(*args, **kwargs)
 
     def get_confirmacion_url(self):
@@ -73,13 +77,24 @@ class Confirmacion(models.Model):
         ##Para el alumno
         subject = "[EIDE][Confirmacion] Confirmación curso %s en EIDE %s" %(self.asistencia.year,self.asistencia.grupo.centro)
         
-        message_body = """Buenas,<br>
-        De cara al proximo curso necesitamos que confirmes si deseas continuar cursando estudios en EIDE. 
-        Por favor visita la siguente web y contestanos:
-        
-        %s
-
-        <br>Un saludo."""%(self.get_confirmacion_url())
+        message_body = """<p>Le enviamos el horario propuesto para el curso %s en EIDE. 
+        Puede consultar el horario en el enlace al final de este email. En el mismo enlace, 
+        DEBERÁ INDICARNOS HASTA EL 14 DE JUNIO SI ESTÁ DE ACUERDO CON ESE HORARIO, SI PREFIERE 
+        OTRO HORARIO O SI NO VA A ASISTIR EL CURSO QUE VIENE. Para ello, tendrá que elegir u
+        na de las opciones del desplegable que aparece debajo del horario. En caso de que 
+        prefiera otro horario, puede acudir al centro o puede ponerse en contacto con nosotros 
+        tanto por mail como por teléfono.<p>
+        <br />
+<a href="%s">%s</a>
+<br />
+<p>
+Les recordamos los horarios, emails y teléfonos de contacto de los centros:
+<p>
+ <ul>
+<li>SANTURTZI. De 8.00 a 20.30. Teléfono: 94 493 70 05. Email: secretaria@eide.es</li>
+<li>KABIEZES. De 11.00 a 13.00  y de 17.30 a 20.00. Teléfono: 94 603 71 12. Email: kabiezes@eide.es</li>
+<li>SESTAO. De 11.00 a 13.00 y de 17.00 a 20.00. Teléfono: 94 662 01 95. Email: sestao@eide.es</li>
+</ul>"""%(self.asistencia.year,self.get_confirmacion_url(),self.get_confirmacion_url())
         
         if self.asistencia.alumno.enviar_mail(subject,message_body):
             print "mail enviado"

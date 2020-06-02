@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-<h2>Esta es la página para crear confirmaciones para el curso {{ year }}</h2>
+<h2>Esta es la página para enviar confirmaciones para el curso {{ year }}</h2>
 <table class="table">
     <thead>
         <th>Asistencias</th>
@@ -24,8 +24,12 @@
     </tr>
     </tbody>
 </table>
+<br>
+<div class="alert alert-primary">
+Se enviarán peticiones de confirmaciones a todas las asistencias sin confirmar o contestar
+</div>
 <form action="" method="POST">
     {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Crear confirmaciones</button>
+    <button type="submit" class="btn btn-primary">Enviar confirmaciones</button>
 </form>
 {% endblock %}
