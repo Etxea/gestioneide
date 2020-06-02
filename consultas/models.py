@@ -65,7 +65,7 @@ class Confirmacion(models.Model):
             mensaje = """El alumno %s con ID %s a contestado: <br /> %s <br />Con las razones: <br /> %s"""%(self.asistencia.alumno,self.asistencia.alumno.id,self.get_respuesta_choice_display(),self.respuesta_texto)
             self.asistencia.grupo.centro.enviar_mail(titulo, mensaje)
             if self.respuesta_choice == 1:
-                print "Ha dicho que sí"
+                print "Ha dicho que si"
                 self.asistencia.confirmado = True
                 self.asistencia.save()
         super(Confirmacion, self).save(*args, **kwargs)
