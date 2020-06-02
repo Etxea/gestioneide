@@ -5,9 +5,10 @@ from django.core.mail import mail_admins
 from anymail.message import AnymailMessage
 from django.conf import settings
 from django.db import models
-
 import logging
 log = logging.getLogger("django")
+
+from gestioneide.models import Alumno
 
 SEXO = (
     (1, _('Male')),
@@ -21,6 +22,7 @@ CENTROS = (
 )
 
 class MatriculaEide(models.Model):
+    alumno_id = models.DecimalField(max_digits=6, decimal_places=0,blank=True,default=0)
     centro = models.DecimalField(_('Centro'),max_digits=1, decimal_places=0,choices=CENTROS)
     nombre = models.CharField(_('Nombre'),max_length=50)
     apellido1 = models.CharField(_('Primer Apellido'),max_length=100)
@@ -43,9 +45,13 @@ class MatriculaEide(models.Model):
     titulo_ingles = models.CharField(_('Títulación previa [opcional]'),help_text="¿Tiene alguna titulación de inglés? ¿Cuál? ¿Cuándo la obtuvo?",max_length=150,default="",blank=True)
     clases_previas = models.CharField(_('Estudios previos de ingles [opcional]'),help_text="¿Ha ido antes a una academia? ¿Puedes decirnos el libro que utiliza/utilizaba?",max_length=150,default="",blank=True)
     
-    accepta_condiciones = models.BooleanField(_('Acepto las condiciones'),
-        help_text=_('''Doy mi consentimiento expreso para recibir comunicaciones en 
-        los términos anteriormente descritos.'''))
+    accepta_condiciones_imagen = models.BooleanField(_('Acepto las condiciones'),
+        help_text=_('''Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página 
+        Web o en redes sociales del centro así como en todo el material publicitario que pueda utilizar, 
+        en los términos anteriormente descritos'''))
+
+    accepta_condiciones_comunicacion = models.BooleanField(_('Acepto las condiciones'),
+        help_text=_('''Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'''))
 
     def send_confirmation_email(self):
         ##Para el alumno
@@ -102,6 +108,23 @@ class MatriculaEide(models.Model):
         Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/eide/lista/
         """%(self.get_centro_display(),self.id,self.nombre,self.apellido1,self.apellido2)
         mail_admins(subject, message_body, html_message=message_body)
+
+        subject = "[GESTIONEIDE][Matricula] Se ha confirmado el pago de una matrcicula"
+        message_body = u"""Se acaba de confirmar el pago de un matricula para EIDE  %s. \n 
+        Los datos son:\n
+        ID de la mátricula: %s \n 
+        Nombre: %s \n Apellidos: %s %s\n
+        Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/eide/lista/"""
+        email_secretaria = AnymailMessage(
+            subject=subject,
+            body=message_body,
+            to = [self.centro.email],
+        )
+        email.content_subtype = "html"
+        try:
+            email.send(fail_silently=False)
+        except Exception, e:
+            log.error("(matriculas) Error al enviar mail",str(e))
     
     def set_as_paid(self):
         self.pagada = True
@@ -110,7 +133,6 @@ class MatriculaEide(models.Model):
         self.generate_alumno()
 
     def generate_alumno(self):
-        from gestioneide.models import Alumno
         a = Alumno(
             nombre = self.nombre,
             apellido1 = self.apellido1,
@@ -127,6 +149,7 @@ class MatriculaEide(models.Model):
         )
         try:
             a.save()
+            self.alumno_id = a.id
             self.gestionada=True
             self.save()
             mail_admins(

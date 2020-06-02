@@ -4,6 +4,7 @@
 {% block extra_header %}
 <h1>{% trans "Lista Matriculas" %}</h1>
 {% endblock %}
+
 {% block body %}
     <table class="table">
         <thead>
@@ -12,7 +13,7 @@
         <tbody>
             {% for matricula in object_list %}
             <tr>
-                <td>{{ matricula.id }}</td>
+                <td><a href="{% url 'matricula_eide_editar' matricula.id %}"></a> {{ matricula.id }}</a></td>
                 <td>{{ matricula.apellido1 }} {{ matricula.apellido1 }}, {{ matricula.nombre }}</td>
                 <td>{{ matricula.get_centro_display }}</td>
                 <td>{{ matricula.fecha_matricula }}</td>

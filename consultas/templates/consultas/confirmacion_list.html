@@ -5,12 +5,9 @@
 {% block page_header %}
 
 {% include "pagination/pagination.html" %} 
-Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirmaciones.
-<a class="btn btn-primary pull-right" href="{% url 'consulta_lista' %}">Volver</a>
-
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirmaciones del año {{ year }}.
+<a href="{% url 'confirmaciones_crear' %}" class="btn btn-primary pull-right">Crear Confirmaciones</a>
 {% endblock %}
-
-
 
 {% block body %}
 <div class="row">
@@ -21,7 +18,8 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirm
                 <tr>
                     <th>Nombre</th>
                     <th>Fecha</th>
-                    <th>Respuestas</th>                    
+                    <th>Respuesta</th>    
+                    <th>Razones</th>                
                 </tr>
             </thead>
             <tbody>
@@ -29,7 +27,8 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirm
                 <tr>
                     <td>{{ confirmacion.asistencia.alumno }}</a></td>
                     <td>{{ confirmacion.fecha_creacion }}</td>
-                    <td>{{ confirmacion.respuesta_bool | yesno }} <br /> {{ confirmacion.respuesta_texto }}</td>
+                    <td>{{ confirmacion.get_respuesta_choice_display }} </td>
+                    <td>{{ confirmacion.respuesta_texto }}</td>
                 </tr>
                 {%  endfor %}
              </tbody>

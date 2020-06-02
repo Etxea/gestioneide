@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, FormView, TemplateView
+from django.views.generic import ListView, DetailView, FormView, TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -78,12 +78,7 @@ class ConsultaUpdateView(UpdateView):
     def get_success_url(self):
         return reverse("consulta_lista")
 
-class ConfirmacionListView(ListView):
-    model = Confirmacion
-    template_name = ""
-    def get_queryset(self):
-        consulta = Consulta.objects.get(id=self.kwargs['consulta_id'])
-        return Confirmacion.objects.filter(consulta=consulta)
+
 
 class RespuestaCreateView(CreateView):
     model = Confirmacion
@@ -111,12 +106,60 @@ class RespuestaCreateView(CreateView):
     def get_success_url(self):
         return reverse('confirmacion_gracias')
 
+
+class ConfirmacionListView(ListView):
+    model = Confirmacion
+    template_name = "consultas/confirmacion_lista.html"
+    
+    
+    def get_queryset(self):
+        year=Year()
+        return Confirmacion.objects.filter(asistencia__in=Asistencia.objects.filter(year=year.get_activo(self.request)))
+    
+
 class ConfirmacionSendView(FormView):
     form_class = ConfirmacionForm
 
 class ConfirmacionGraciasView(TemplateView):
-    template_name = 'confirmaciones/confirmacion_gracias.html'
+    template_name = 'consultas/confirmacion_gracias.html'
 
 class ConfirmacionResponseView(CreateView):
     model = Confirmacion
     fields = "__all__"
+
+class ConfirmacionesCrearView(ListView):
+    template_name = "consultas/confirmaciones_crear.html"
+    model = Confirmacion
+    
+    def post(self, request, *args, **kwargs):
+        print "Somos post vamos a generar las confirmaciones pendiente"
+        year = Year().get_activo(self.request)
+        for asistencia in Asistencia.objects.filter(year=year):
+            if asistencia.confirmacion_set.all().count() == 0:
+                print "No tiene confirmación"
+                confirmacion = Confirmacion(asistencia=asistencia)
+                confirmacion.save()
+                confirmacion.send_mail()
+            else:
+                print asistencia,"Ya tiene confirmación"
+        return HttpResponseRedirect(reverse('confirmaciones_crear'))
+    
+    def get_queryset(self):
+        year = Year().get_activo(self.request)
+        return Confirmacion.objects.filter(asistencia__in=Asistencia.objects.filter(year=year))    
+    
+    def get_context_data(self, **kwargs):
+        context = super(ConfirmacionesCrearView, self).get_context_data(**kwargs)
+        year = Year().get_activo(self.request)
+        context['year'] = year
+        context['confirmaciones_contestadas'] = Confirmacion.objects.filter(asistencia__in=Asistencia.objects.filter(year=year)).exclude(respuesta_choice=0)
+        return context
+
+class ConfirmacionContestarView(UpdateView):
+    model = Confirmacion
+    fields = ['respuesta_choice','respuesta_texto']
+    success_url = reverse_lazy('confirmacion_gracias')
+    
+    #def get_context_data(self, **kwargs):
+
+    

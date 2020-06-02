@@ -1,0 +1,31 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block page_header %}
+
+<h1>Confirmaciones {{ year }} </h1>
+
+{% endblock %}
+
+{% block body %}
+<h2>Esta es la página para crear confirmaciones para el curso {{ year }}</h2>
+<table class="table">
+    <thead>
+        <th>Asistencias</th>
+        <th>Confirmaciones enviadas</th>
+        <th>Confirmaciones contestadas</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ year.asistencia_set.all.count }}</td>
+        <td>{{ object_list.count }}</td>
+        <td>{{ confirmaciones_contestadas.count }}</td>
+    </tr>
+    </tbody>
+</table>
+<form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Crear confirmaciones</button>
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "site_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+    <h1>Confirmacion del curso {{ object.asistencia.year }}</h1>
+    <p>Buenas {{ object.asistencia.alumno.nombre }},</p>
+    
+    <p>¿Confirmas la asistencia el curso {{ object.asistencia.year }} al grupo {{ object.asistencia.grupo }}?</p>
+    
+    <p>El horario es:</p>
+    <table class="table">
+      <tr>
+        <th>Día</th>
+        <th>Hora</th>
+      </tr>
+      {% for clase in object.asistencia.grupo.clases.all %}
+      <tr>
+        <td>{{ clase.get_dia_semana_display }}</td>
+        <td>{{ clase.hora_inicio }} - {{ clase.hora_fin }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <form action="" method="post">{% csrf_token %}
+      {{ form|as_bootstrap }}
+      <br />
+      <div class="form-actions">
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+    </form>
+{% endblock %}

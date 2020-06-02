@@ -144,6 +144,22 @@
 			<span>Informes</span>
 		</a>
 	</li>
+	<li class="sm-sub">
+		<a href="">
+			<i class="zmdi zmdi-trending-up"></i>
+			<span>Consultas</span>
+		</a>
+		<ul>
+			<li><a href="{% url 'consulta_lista' %}"><i class="zmdi zmdi-trending-up"></i>Consultas genéricas</a></li>
+			<li><a href="{% url 'confirmacion_lista' %}"><i class="zmdi zmdi-confirmation-number"></i>Confirmaciones</a></li>
+		</ul>
+	</li>
+	<li>
+		<a href="{% url 'matricula_eide_lista' %}">
+			<i class="zmdi zmdi-receipt"></i>
+			<span>Matrículas</span>
+		</a>
+	</li>
 	{% endif %}
 	<li>
 		<a href="{% url 'mensajes' %}">
@@ -151,12 +167,7 @@
 			<span>Mensajes</span>
 		</a>
 	</li>
-	<li>
-		<a href="{% url 'consulta_lista' %}">
-			<i class="zmdi zmdi-trending-up"></i>
-			<span>Consultas</span>
-		</a>
-	</li>
+	
 	
 	{% endif %}
 </ul>

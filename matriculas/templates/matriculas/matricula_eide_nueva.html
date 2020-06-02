@@ -6,9 +6,115 @@
     <h1>{% trans "Nueva Matricula" %}</h1>
     <form action="" method="post">{% csrf_token %}
       {{ form|as_bootstrap }}
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">CONTRATO INSCRIPCIÓN PARA CURSOS DE IDIOMAS EN ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL
+            DESARROLLO EIDE S.L. Y EN EIDE LANGUAGE EXPERIENCES S.L.</h3>
+        </div>
+        <div class="panel-body">
+          El alumno al formalizar la presente matrícula acepta las condiciones siguientes:
+          <br />
+          1. La duración del curso es la estipulada por la Dirección del Centro recogida
+          en el calendario escolar que se entrega antes del comienzo del curso junto
+          con el horario y grupo en el que el/la alumno/a se matricula.
+          <br />
+          2. En concepto de INSCRIPCIÓN o MATRÍCULA se cobra una cantidad que no es susceptible de devolución una vez
+          entregada. Esta cantidad sólo es necesaria para ALUMNOS NUEVOS. Los alumnos que finalicen el curso completo
+          y continúen el curso siguiente desde el inicio no deberán satisfacer cantidad alguna.
+          <br />
+          3. Aquellos alumnos que causen BAJA ANTES DE LA FECHA FIJADA COMO FIN DE CURSO en el calendario
+          escolar, serán CONSIDERADOS COMO ALUMNOS NUEVOS si desean REINCORPORARSE AL CENTRO DE
+          NUEVO, por lo que deberán ABONAR LA CUOTA DE INSCRIPCIÓN.
+          <br />
+          4. Los precios de los distintos cursos así como la cuota de inscripción están publicados en la secretaría del centro en
+          una zona bien visible. Los PRECIOS PUEDEN SUFRIR VARIACIONES DE AÑO EN AÑO.
+          <br />
+          5. El PRECIO DEL CURSO ES ANUAL Y LA FORMA DE PAGO EN CUOTAS MENSUALES. La cuota se abonará
+          por adelantado (del 1 al 10 de cada mes) a través de domiciliación bancaria.
+          <br />
+          6. La dirección del Centro se reserva el derecho de cancelar las matrículas de aquellos alumnos cuya conducta afecte
+          desfavorablemente la marcha de las actividades del centro.
+          <br />
+          7. El Centro se reserva el derecho de cancelar las clases de los grupos, cuyo número sea inferior a 4 alumnos.
+          <br />
+          8. Una vez cobrada la cuota mensual, no se reembolsará la misma aun cuando el alumno se dé de baja antes de
+          finalizar el mes.
+          <br />
+          9. En el caso de devolución de recibo bancario, el alumno abonará en secretaría el importe relativo a la devolución
+          más los gastos que se hayan producido.
+          <br />
+          10. Tanto el equipamiento como el material pedagógico de uso general de los alumnos es propiedad de EIDE, y no
+          deben, en ningún caso, ser retirados del centro.
+          <br />
+          11. La vigencia de la matrícula será para el curso escolar contratado.
+          <br />
+          12. La matrícula quedará renovada si el alumno entrega en Secretaría el documento de “renovación de matrícula” que
+          se distribuye antes de finalizar el curso escolar. El coste del nuevo curso podrá ser consultado en la secretaría del
+          centro, como se indica en el punto 4 de esta matrícula.
+          <br />
+          ALUMNOS ACADEMIA DE SANTURTZI Y KABIEZES
+          Le informamos conforme a lo previsto en el RGPD de 27 de abril de 2016 que ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL
+          DESARROLLO EIDE S.L. recaba y trata sus datos de carácter personal, aplicando las medidas técnicas y organizativas que garantizan su
+          confidencialidad, con la finalidad de gestionar la relación que le vincula. Usted da su consentimiento y autorización para dicho tratamiento. Conservaremos
+          sus datos de carácter personal únicamente el tiempo imprescindible para gestionar nuestra relación. Podrá ejercitar los derechos de acceso, rectificación,
+          supresión, limitación, portabilidad y oposición dirigiéndose al responsable. con dirección Genaro Oraá 6, Santurtzi, BIZKAIA.
+          <br />
+          ALUMNOS ACADEMIA DE SESTAO
+          Le informamos conforme a lo previsto en el RGPD de 27 de abril de 2016 que EIDE LANGUAGE EXPERIENCES S.L., recaba y trata sus datos de
+          carácter personal, aplicando las medidas técnicas y organizativas que garantizan su confidencialidad, con la finalidad de gestionar la relación que le
+          vincula. Usted da su consentimiento y autorización para dicho tratamiento. Conservaremos sus datos de carácter personal únicamente el tiempo
+          imprescindible para gestionar nuestra relación. Podrá ejercitar los derechos de acceso, rectificación, supresión, limitación, portabilidad y oposición
+          dirigiéndose al responsable. con dirección Plaza Balleni 3 Bajo, Santurtzi, BIZKAIA.
+          Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.
+          Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página Web o en redes sociales del centro así como en todo el
+          material publicitario que pueda utilizar, en los términos anteriormente descritos
+        </div>
+      </div>
+
+      
+
       <br />
       <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Matriculate!</button>
+        
+      <button id="send_button"  type="submit" class="btn btn-primary">Matriculate!</button>
     </div>
     </form>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+  function comprobar_aceptacion() {
+    console.log("Han hecho click en el check de las condiciones");
+    acepta = false ;
+    if ($("#id_accepta_condiciones_imagen").is(":checked") && $("#id_accepta_condiciones_comunicacion").is(":checked"))
+    {
+      console.log("Condiciones generales aceptadas");
+      acepta = true;  
+    }
+
+    if (acepta) {
+        console.log("Dice que las acepta");
+        $("#send_button").prop('disabled', false);
+        console.log("Ocultamos el aviso");
+        $("#aviso_condiciones").hide();
+    }
+    else {
+      //Deshabilitamos el envio hasta que acepten las condiciones
+      console.log("Dice que NO las acepta");
+      $("#send_button").prop('disabled', true);
+      console.log("Mostramos el aviso");
+      $("#aviso_condiciones").show();
+    }
+  }
+
+  $(document).ready(function() {
+    $("#normativa_general").hide();
+    $("#normativa_foto").hide();
+    //Comprobamos si se puede enviar
+    comprobar_aceptacion();
+    $("#id_accepta_condiciones_imagen").change(comprobar_aceptacion);
+    $("#id_accepta_condiciones_comunicacion").change(comprobar_aceptacion);
+  });
+</script>
 {% endblock %}

@@ -4,4 +4,4 @@ from models import *
 class MatriculaEideForm(ModelForm):
     class Meta:
         model = MatriculaEide
-        exclude = ('pagada','gestionada')
+        exclude = ('pagada','gestionada','alumno_id')

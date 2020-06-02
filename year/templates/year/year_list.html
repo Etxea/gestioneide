@@ -32,29 +32,30 @@ function activate_year(id) {
 }
 
 function clone_year(id) {
+    console.log("Vamos a mandar clonar el año activo al año con id"+id);
     if ( confirm("¿Está seguro de querer copiar todos los grupos del año activo al año seleccionado? Esta acción borrará todo los grupos que existan en el año de destino") ==true )
     {
-        console.log("Vamos a mandar clonar el año con id"+id);
-	     $('body').addClass('wait');
-	     $.ajax({
-	        url : "{% url 'year_clone' %}",
-	        type : "POST", 
-	        data : { id : id,
-	                csrfmiddlewaretoken: '{{ csrf_token }}',
-	             },
-	        
-	        success : function(json) {
-	            console.log(json); // log the returned json to the console
-	            console.log("success"); // another sanity check
-	            $('body').removeClass('wait');
-	            //FIXME un reload?
-	            location.reload(); 
-	        },
-	        
-	        error : function(xhr,errmsg,err) {
-	            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-	            $('body').removeClass('wait');
-	        }
+        console.log("Ha confirmado!");
+        $('body').addClass('wait');
+        $.ajax({
+            url : "{% url 'year_clone' %}",
+            type : "POST", 
+            data : { id : id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+            
+            success : function(json) {
+                console.log(json); // log the returned json to the console
+                console.log("success"); // another sanity check
+                $('body').removeClass('wait');
+                //FIXME un reload?
+                location.reload(); 
+            },
+            
+            error : function(xhr,errmsg,err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                $('body').removeClass('wait');
+            }
 	    });
         
     } else {
