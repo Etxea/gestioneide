@@ -141,7 +141,12 @@ class ConfirmacionesCrearView(ListView):
                 confirmacion.save()
                 confirmacion.send_mail()
             else:
-                print asistencia,"Ya tiene confirmación"
+                confirmacion = asistencia.confirmacion_set.all()[0]
+                if confirmacion.respuesta_choice == 0:
+                    print asistencia,"Ya tiene confirmación, pero la enviamos"
+                    confirmacion.send_mail()
+                else:
+                    print "Ya ha contestado"
         return HttpResponseRedirect(reverse('confirmaciones_crear'))
     
     def get_queryset(self):

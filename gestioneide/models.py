@@ -171,6 +171,29 @@ class Centro(models.Model):
 
     def __unicode__(self):
         return "%s"%self.nombre
+
+    def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None,from_email=None):
+        mails_destino = [ self.email , "moebius1984@gmail.com" , "ruth.farpon@eide.es"]
+        email = AnymailMessage(
+            subject=titulo,
+            body=mensaje,
+            to = mails_destino,
+        )
+        if from_email is not None:
+            email.from_email = from_email
+        
+        if mensaje_html:
+            #email.attach_alternative(html_content, "text/html")
+            email.content_subtype = "html"
+        if adjunto:
+            email.attach("adjunto.pdf",adjunto,"application/pdf")
+        try:
+            email.send(fail_silently=False)
+            status = email.anymail_status  # available after sending
+            return True
+        except Exception, e:
+            print("Error al enviar mail",str(e))
+            return False        
     
 class Aula(models.Model):
     centro = models.ForeignKey(Centro,blank=True,null=True)

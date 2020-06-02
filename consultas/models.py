@@ -5,8 +5,14 @@ from django.db import models
 from django.core.urlresolvers import reverse_lazy,reverse
 import uuid
 from datetime import datetime
+from anymail.message import AnymailMessage
 
 from gestioneide.models import Asistencia,Year,Asistencia,Grupo
+
+import logging
+log = logging.getLogger('django')
+debug = log.debug
+
 
 # Create your models here.
 
@@ -51,8 +57,13 @@ class Confirmacion(models.Model):
     def save(self, *args, **kwargs):
         if self.pk == None:
             self.password = uuid.uuid4().hex[:8].upper()
-        if self.respuesta_choice != None:
+        if self.respuesta_choice != 0:
+            print "A contestado"
             self.fecha_respuesta=datetime.now()
+            titulo = "Confirmacion alumno %s para el año %s en el centro %s"\
+                %(self.asistencia.alumno,self.asistencia.year,self.asistencia.grupo.centro)
+            mensaje = """El alumno %s con ID %s a contestado %s con las razones %s"""%(self.asistencia.alumno,self.asistencia.alumno.id,self.get_respuesta_choice_display(),self.respuesta_texto)
+            self.asistencia.grupo.centro.enviar_mail(titulo, mensaje)
         super(Confirmacion, self).save(*args, **kwargs)
 
     def get_confirmacion_url(self):
@@ -60,17 +71,17 @@ class Confirmacion(models.Model):
 
     def send_mail(self):
         ##Para el alumno
-        subject = "[EIDE][Confirmacion] Confirmación curso %s en EIDE %s" %(self.asistencia.year,self.asistencia.get_centro_display())
+        subject = "[EIDE][Confirmacion] Confirmación curso %s en EIDE %s" %(self.asistencia.year,self.asistencia.grupo.centro)
         
-        message_body = "Buenas,<br>Hemos recibido tu matrícula, cuando se confirme el pago recibirás un segundo e-mail.<br>Un saludo."
+        message_body = """Buenas,<br>
+        De cara al proximo curso necesitamos que confirmes si deseas continuar cursando estudios en EIDE. 
+        Por favor visita la siguente web y contestanos:
         
-        email = AnymailMessage(
-            subject=subject,
-            body=message_body,
-            to = [self.asistencia.alumno.email1,self.asistencia.alumno.email2],
-        )
-        email.content_subtype = "html"
-        try:
-            email.send(fail_silently=False)
-        except Exception, e:
-            log.error("(confirmaciones) Error al enviar mail",str(e))
+        %s
+
+        <br>Un saludo."""%(self.get_confirmacion_url())
+        
+        if self.asistencia.alumno.enviar_mail(subject,message_body):
+            print "mail enviado"
+        else:
+            print "Error enviando mail"
