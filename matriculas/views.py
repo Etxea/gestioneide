@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.views.generic import TemplateView, ListView, CreateView, DeleteView, DetailView, View
+from django.views.generic import TemplateView, ListView, CreateView, DeleteView, DetailView, View, UpdateView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render
 from django.contrib.sites.models import Site
@@ -21,6 +21,11 @@ class MatriculaEideCreateView(CreateView):
     def get_success_url(self):
         #return reverse_lazy(MatriculaEidePayView,self.object.id)
         return reverse('matricula_eide_pagar', args=[self.object.id])
+
+class MatriculaEideUpdateView(UpdateView):
+    model = MatriculaEide
+    template_name = "matriculas/matricula_eide_nueva.html"
+    fields = "__all__"
 
 class MatriculaEideListView(ListView):
     model = MatriculaEide
