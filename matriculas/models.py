@@ -43,7 +43,7 @@ class MatriculaEide(models.Model):
     
     nivel_ingles = models.CharField(_('Nivel de ingles [opcional]'),help_text="¿Conoce su nivel de ingles (A1/2,B1-1/1-2/2-1/2-2,C1)?",max_length=150,default="",blank=True)
     titulo_ingles = models.CharField(_('Títulación previa [opcional]'),help_text="¿Tiene alguna titulación de inglés? ¿Cuál? ¿Cuándo la obtuvo?",max_length=150,default="",blank=True)
-    clases_previas = models.CharField(_('Estudios previos de ingles [opcional]'),help_text="¿Ha ido antes a una academia? ¿Puedes decirnos el libro que utiliza/utilizaba?",max_length=150,default="",blank=True)
+    clases_previas = models.CharField(_('Estudios previos de inglés [opcional]'),help_text="¿Ha ido antes a una academia? ¿Puede decirnos el libro que utiliza/utilizaba?",max_length=150,default="",blank=True)
     
     accepta_condiciones_imagen = models.BooleanField(_('Acepto las condiciones'),
         help_text=_('''Doy mi consentimiento expreso para que mi imagen pueda ser utilizada en la página 
@@ -57,7 +57,9 @@ class MatriculaEide(models.Model):
         ##Para el alumno
         subject = "[EIDE][Matricula] Te has matriculado en EIDE %s" %(self.get_centro_display())
         
-        message_body = "Buenas,<br>Hemos recibido tu matrícula, cuando se confirme el pago recibirás un segundo e-mail.<br>Un saludo."
+        message_body = """Hemos recibido su matrícula, muchas gracias. En cuanto realice el pago recibirá otro mail de confirmación. <br>
+        Un saludo. <br>
+        Secretaría."""
         
         email = AnymailMessage(
             subject=subject,
@@ -84,9 +86,9 @@ class MatriculaEide(models.Model):
     
     def send_paiment_confirmation_email(self):
         subject = "[EIDE][Matricula] Se ha confirmado el pago de la matricula para EIDE %s"%self.get_centro_display()
-        html_content=u"""Hola,<br>Se ha confirmado el pago para el centro %s de EIDE.
-        <br>En breve se pondrán en contacto contigo para ultimar los detalles.
-        <br>Un saludo."""%(self.get_centro_display())
+        html_content=u"""Se ha confirmado el pago de la matrícula, muchas gracias. En breve nos pondremos en contacto con usted para darle más instrucciones e indicarle cómo realizar la prueba de nivel, en caso de que sea necesario
+        <br>Un saludo.
+        <br>Secretaría."""%(self.get_centro_display())
         message_body = html_content
         
         email = AnymailMessage(
