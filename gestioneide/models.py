@@ -710,11 +710,13 @@ class Asistencia(models.Model):
         # Guardamos en la historia
         if self.pk is None:
             active_year = Year().get_activo()
-            try:
-                debug("Tenemos el año %s"%(self.year))
+            if self.year is None:
                 self.year = active_year
-            except:
-                self.year = active_year
+            # try:
+            #     debug("Tenemos el año %s"%(self.year))
+            #     self.year = active_year
+            # except:
+            #     self.year = active_year
             hist = Historia(alumno=self.alumno, tipo="altagrupo",
                             anotacion="Alta en el grupo")
             hist.save()

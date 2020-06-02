@@ -77,6 +77,13 @@ class AsistenciaGrupoCreateView(CreateView):
         print "Establecemos el ano en ",year, "y el grupo",grupo
         return { 'year': year , 'grupo': grupo }        
 
+    # def form_valid(self, form):
+    #     self.object = form.save()
+    #     self.object.save()
+    #     self.object.year = Year().get_activo(self.request)
+    #     self.object.save()
+    #     return HttpResponseRedirect(self.get_success_url())
+
     
 @method_decorator(permission_required('gestioneide.asistencia_change',raise_exception=True),name='dispatch')
 class AsistenciaUpdateView(UpdateView):
