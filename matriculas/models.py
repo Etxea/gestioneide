@@ -6,9 +6,11 @@ from anymail.message import AnymailMessage
 from django.conf import settings
 from django.db import models
 import logging
+from django.core.urlresolvers import reverse_lazy
+
 log = logging.getLogger("django")
 
-from gestioneide.models import Alumno
+from gestioneide.models import Alumno, Centro
 
 SEXO = (
     (1, _('Male')),
@@ -39,7 +41,7 @@ class MatriculaEide(models.Model):
     
     fecha_matricula = models.DateTimeField(auto_now_add=True)
     pagada = models.BooleanField(_('Pagada'),default=False)
-    gestionada = models.BooleanField(_('Pagada'),default=False)
+    gestionada = models.BooleanField(_('Gestionada'),default=False)
     
     nivel_ingles = models.CharField(_('Nivel de ingles [opcional]'),help_text="¿Conoce su nivel de ingles (A1/2,B1-1/1-2/2-1/2-2,C1)?",max_length=150,default="",blank=True)
     titulo_ingles = models.CharField(_('Títulación previa [opcional]'),help_text="¿Tiene alguna titulación de inglés? ¿Cuál? ¿Cuándo la obtuvo?",max_length=150,default="",blank=True)
@@ -88,7 +90,7 @@ class MatriculaEide(models.Model):
         subject = "[EIDE][Matricula] Se ha confirmado el pago de la matricula para EIDE %s"%self.get_centro_display()
         html_content=u"""Se ha confirmado el pago de la matrícula, muchas gracias. En breve nos pondremos en contacto con usted para darle más instrucciones e indicarle cómo realizar la prueba de nivel, en caso de que sea necesario
         <br>Un saludo.
-        <br>Secretaría."""%(self.get_centro_display())
+        <br>Secretaría."""
         message_body = html_content
         
         email = AnymailMessage(
@@ -116,11 +118,14 @@ class MatriculaEide(models.Model):
         Los datos son:\n
         ID de la mátricula: %s \n 
         Nombre: %s \n Apellidos: %s %s\n
-        Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/eide/lista/"""
+        Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/eide/lista/
+        """%(self.get_centro_display(),self.id,self.nombre,self.apellido1,self.apellido2)
+
+        centro = Centro.objects.get(id=self.centro)
         email_secretaria = AnymailMessage(
             subject=subject,
             body=message_body,
-            to = [self.centro.email],
+            to = [centro.email],
         )
         email.content_subtype = "html"
         try:
@@ -152,11 +157,13 @@ class MatriculaEide(models.Model):
         try:
             a.save()
             self.alumno_id = a.id
-            self.gestionada=True
+            #self.gestionada=True
             self.save()
-            mail_admins(
-                "[GESTIONEIDE] Alumno %s creado"%(a.id), 
-                "Se ha creado el alumno %s de la matricula %s . Puedes ver los detalles en: https://gestion.eide.es%s"%(a.id,self.id,a.get_absolute_url()))
+            texto = """Se ha creado el alumno %s de la matricula %s . <br />
+                Puedes ver los detalles del alumno en: https://gestion.eide.es%s <br />
+                Puedes ver los detalles de la matricula en : https://gestion.eide.es%s
+                """%(a.id,self.id,a.get_absolute_url(),self.get_absolute_url())
+            mail_admins("[GESTIONEIDE] Alumno %s creado via m"%(a.id), texto )
         except Exception, e:
             log.error("(matriculas) Error al generar el alumno ",str(e)) 
     def __unicode__(self):
@@ -172,5 +179,8 @@ class MatriculaEide(models.Model):
         super(MatriculaEide, self).save(*args, **kwargs)
         
     def generate_payment_url(self):
-        return '/pagos/eide/%s/'%(self.id)
+        return '/matriculas/eide/pagar/%s/'%(self.id)
+
+    def get_absolute_url(self):
+        return reverse_lazy('matricula_eide_editar', kwargs={'pk': self.pk })
 
