@@ -50,7 +50,7 @@ class Confirmacion(models.Model):
     asistencia = models.ForeignKey(Asistencia)
     password = models.CharField(max_length=8,default="",blank=True)
     respuesta_choice = models.DecimalField('Respuesta',max_digits=1, decimal_places=0,choices=CONFIRMACION_CHOICES,default=0)
-    respuesta_texto = models.CharField('Si no va a asistir el curso que viene, por favor, indíquenos por favor la razón',max_length=1000,)
+    respuesta_texto = models.CharField('Si no va a asistir el curso que viene, por favor, indíquenos por favor la razón',max_length=1000,blank=True,default="")
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_respuesta = models.DateTimeField(auto_now_add=True)
 
