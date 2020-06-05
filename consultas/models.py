@@ -18,7 +18,7 @@ debug = log.debug
 
 CONFIRMACION_CHOICES = (
     (1,"Sí"),
-    (2,"Sí pero deseo otro horario"),
+    (2,"Sí, pero deseo otro horario"),
     (3,"No"),
 )
 
@@ -50,7 +50,7 @@ class Confirmacion(models.Model):
     asistencia = models.ForeignKey(Asistencia)
     password = models.CharField(max_length=8,default="",blank=True)
     respuesta_choice = models.DecimalField('Respuesta',max_digits=1, decimal_places=0,choices=CONFIRMACION_CHOICES,default=0)
-    respuesta_texto = models.CharField('Razón (1000carac. max.)',max_length=1000,)
+    respuesta_texto = models.CharField('Si no va a asistir el curso que viene, por favor, indíquenos por favor la razón',max_length=1000,)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_respuesta = models.DateTimeField(auto_now_add=True)
 
@@ -77,26 +77,21 @@ class Confirmacion(models.Model):
         ##Para el alumno
         subject = "[EIDE][Confirmacion] Confirmación curso %s en EIDE %s" %(self.asistencia.year,self.asistencia.grupo.centro)
         
-        message_body = """<p>Le enviamos el horario propuesto para el curso %s en EIDE. 
-        Puede consultar el horario en el enlace al final de este email. En el mismo enlace, 
-        DEBERÁ INDICARNOS HASTA EL 14 DE JUNIO SI ESTÁ DE ACUERDO CON ESE HORARIO, SI PREFIERE 
-        OTRO HORARIO O SI NO VA A ASISTIR EL CURSO QUE VIENE. Para ello, tendrá que elegir u
-        na de las opciones del desplegable que aparece debajo del horario. En caso de que 
-        prefiera otro horario, puede acudir al centro o puede ponerse en contacto con nosotros 
-        tanto por mail como por teléfono.<p>
+        message_body = """<html><body><p>En el enlace al final de este email puede consultar el HORARIO PROPUESTO para el curso %s.
+        EN ESE MISMO ENLACE, DEBERÁ INDICARNOS HASTA EL 14 DE JUNIO SI ESTÁ DE ACUERDO CON ESE HORARIO, 
+        SI PREFIERE OTRO HORARIO O SI NO VA A ASISTIR EL CURSO QUE VIENE. Para ello, tendrá que elegir 
+        una de las opciones del desplegable que aparece debajo del horario. En caso de que prefiera otro 
+        horario, puede ponerse en contacto con nosotros tanto por email, como por teléfono o de forma 
+        presencial. </p>
+        <p>
+        NOTA: En previsión de las medidas marcadas por las autoridades sanitarias, las clases se han acortado 5 minutos para poder realizar las desinfecciones necesarias entre clase y clase. Asimismo, para poder realizar entradas y salidas escalonadas, es posible que los horarios de entradas y salidas sufran variaciones de entre 5 y 10 minutos. Por supuesto, se les informará de las mismas con antelación suficiente.
+        </p>
         <br />
-<a href="%s">%s</a>
+<p><a href="%s">%s</a></p>
 <br />
-<p>
-Les recordamos los horarios, emails y teléfonos de contacto de los centros:
-<p>
- <ul>
-<li>SANTURTZI. De 8.00 a 20.30. Teléfono: 94 493 70 05. Email: secretaria@eide.es</li>
-<li>KABIEZES. De 11.00 a 13.00  y de 17.30 a 20.00. Teléfono: 94 603 71 12. Email: kabiezes@eide.es</li>
-<li>SESTAO. De 11.00 a 13.00 y de 17.00 a 20.00. Teléfono: 94 662 01 95. Email: sestao@eide.es</li>
-</ul>"""%(self.asistencia.year,self.get_confirmacion_url(),self.get_confirmacion_url())
+</body></html>"""%(self.asistencia.year,self.get_confirmacion_url(),self.get_confirmacion_url())
         
-        if self.asistencia.alumno.enviar_mail(subject,message_body):
+        if self.asistencia.alumno.enviar_mail(subject,message_body,mensaje_html=True):
             print "mail enviado"
         else:
             print "Error enviando mail"

@@ -136,14 +136,14 @@ class ConfirmacionesCrearView(ListView):
         year = Year().get_activo(self.request)
         for asistencia in Asistencia.objects.filter(year=year):
             if asistencia.confirmacion_set.all().count() == 0:
-                print "No tiene confirmación"
+                print "No tiene confirmacion"
                 confirmacion = Confirmacion(asistencia=asistencia)
                 confirmacion.save()
                 confirmacion.send_mail()
             else:
                 confirmacion = asistencia.confirmacion_set.all()[0]
                 if confirmacion.respuesta_choice == 0:
-                    print asistencia,"Ya tiene confirmación, pero la enviamos"
+                    print asistencia,"Ya tiene confirmacion, pero la enviamos"
                     confirmacion.send_mail()
                 else:
                     print "Ya ha contestado"
