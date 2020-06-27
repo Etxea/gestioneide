@@ -1,7 +1,8 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"name": "SSH FS - gestion_en_eide.es",
+			"uri": "ssh://gestion_en_eide.es/"
 		}
 	]
 }
