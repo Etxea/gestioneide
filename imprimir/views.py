@@ -41,6 +41,18 @@ class ImprimirGruposAlumnos(PDFTemplateView):
         return context
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class ImprimirGrupoHorario(PDFTemplateView):
+    template_name='grupo_horario_pdf.html'
+    def get_context_data(self, **kwargs):
+        context = super(ImprimirGrupoHorario, self).get_context_data(**kwargs)
+        grupo_id=kwargs['grupo_id']
+        grupo = Grupo.objects.get(id=grupo_id)
+        context['grupo'] = grupo
+        year = Year().get_activo(self.request)
+        context['lista_festivos'] =Festivo.objects.filter(year=year)
+        return context
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirAsistenciaHorario(PDFTemplateView):
     template_name='asistencia_horario_pdf.html'
     cmd_options = {
