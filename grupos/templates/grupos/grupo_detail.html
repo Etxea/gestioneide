@@ -15,7 +15,7 @@
     
     {% if request.user.is_staff %}
     <div class="col-md-12">
-		<div class="btn-group" role="group" aria-label="...">
+		<div class="btn-group" role="group" aria-label="pasar_lista">
 		<button class="btn">Pasar Lista</button>
         <a type="button" class="btn btn-default" href="{% url 'evaluacion_pasarlista_grupo_mes' grupo.id 9%}">9</a>
         <a type="button" class="btn btn-default" href="{% url 'evaluacion_pasarlista_grupo_mes' grupo.id 10%}">10</a>
@@ -30,11 +30,14 @@
         <a type="button" class="btn btn-default" href="{% url 'evaluacion_pasarlista_grupo_mes' grupo.id 7%}">7</a>
         <a type="button" class="btn btn-default" href="{% url 'evaluacion_pasarlista_grupo_mes' grupo.id 8%}">8</a>
     </div>
-    <div class="btn-group" role="group" aria-label="...">
+    <div class="btn-group" role="group" aria-label="notas">
 		<button class="btn">Planilla Notas</button>
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 1%}">1</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 2%}">2</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 3%}">3</a>
+    </div>
+    <div class="btn-group" role="group" aria-label="imprimit">
+        <a class="btn" href="{% url 'imprimir_grupo_horario' grupo.id %}">Imprimir Horario</a>
     </div>
     {% endif %}
     </div>
@@ -106,6 +109,8 @@
         {% include 'grupos/anotacion_grupo_modal.html' %}
         
         {% include 'grupos/email_grupo_modal.html' %}
+
+        <a href="" class="btn btn-primary">Enviar horario mail</a>
         
         <h3>Últimas anotaciones</h3>
         <table class="table">
