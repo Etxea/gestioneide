@@ -8,32 +8,23 @@
 <br />
 <div class="row">    
     <div class="col-md-12" style="text-align:center">
-        <h1 style="text-align:center" >Alumno</h1>
-        <table style="border-top-width: 2px ;border-color: black" class="table" >
-            <tr>
-            <td width="35%" ><b>Nombre del Alumno</b></td><td>{{asistencia.alumno.nombre}} {{asistencia.alumno.apellido1}} {{alumno.apellido2}}</td>
-            <td> <b> Número Alumno:</b></td><td>{{asistencia.alumno.id }}</td>
-            </tr>
-            <tr>
-            <td width="35%"><b>Grupo</b></td><td>{{asistencia.grupo.nombre}}</td>
-            </tr>
-        </table>
+        
         
         <h1 style="text-align:center" >Clases</h1>
         <table class="table" style="text-align:left">
             <thead style="text-align:left">
                 <th>Día</th>
                 <th>Horario</th>
-                <th>Aula</th>
-                <th>Profesor</th>
+                <!-- <th>Aula</th>
+                <th>Profesor</th> -->
             </thead>
             <tbody>
-                {% for clase in asistencia.grupo.clases.all %}
+                {% for clase in grupo.clases.all %}
                 <tr>
                     <td>{{ clase.get_dia_semana_display }}</td>
                     <td>{{ clase.hora_inicio }}-{{ clase.hora_fin }}</td>
-                    <td>{{ clase.aula }}</td>
-                    <td>{{ clase.profesor }}</td>
+                    <!-- <td>{{ clase.aula }}</td>
+                    <td>{{ clase.profesor }}</td> -->
                 </tr>
                 {% endfor %}
             </tbody>
@@ -46,7 +37,7 @@
                 <th>Título</th>
             </thead>
             <tbody>
-                {% for libro in asistencia.grupo.curso.libros.all %}
+                {% for libro in grupo.curso.libros.all %}
                 <tr>
                     <td width="35%" >{{ libro.isbn }}</td>
                     <td>{{ libro.titulo }}</td>

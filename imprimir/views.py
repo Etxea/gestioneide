@@ -16,7 +16,8 @@ from gestioneide.models import *
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirGrupos(PDFTemplateView):
     filename='grupos.pdf'
-    template_name = "grupos_pdf.html"    
+    template_name = "grupos_pdf.html"
+
     def get_context_data(self, **kwargs):
         context = super(ImprimirGrupos, self).get_context_data(**kwargs)
         year = Year().get_activo(self.request)
@@ -43,9 +44,10 @@ class ImprimirGruposAlumnos(PDFTemplateView):
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirGrupoHorario(PDFTemplateView):
     template_name='grupo_horario_pdf.html'
+
     def get_context_data(self, **kwargs):
         context = super(ImprimirGrupoHorario, self).get_context_data(**kwargs)
-        grupo_id=kwargs['grupo_id']
+        grupo_id = kwargs['grupo_id']
         grupo = Grupo.objects.get(id=grupo_id)
         context['grupo'] = grupo
         year = Year().get_activo(self.request)
