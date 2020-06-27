@@ -114,8 +114,15 @@ class ConfirmacionListView(ListView):
     
     def get_queryset(self):
         year=Year()
-        return Confirmacion.objects.filter(asistencia__in=Asistencia.objects.filter(year=year.get_activo(self.request)))
+        asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
+        return Confirmacion.objects.filter(asistencia__in=asistencias_ano).exclude(respuesta_choice=0).exclude(respuesta_choice=1).exclude(gestionada=True)
     
+class ConfirmacionUpdateView(UpdateView):
+    model = Confirmacion
+    fields = "__all__"
+    #success_url = reverse('confirmacion_lista')
+    def get_success_url(self):
+        return reverse('confirmacion_lista')
 
 class ConfirmacionSendView(FormView):
     form_class = ConfirmacionForm
@@ -143,7 +150,7 @@ class ConfirmacionesCrearView(ListView):
             else:
                 confirmacion = asistencia.confirmacion_set.all()[0]
                 if confirmacion.respuesta_choice == 0:
-                    print asistencia,"Ya tiene confirmacion, pero la enviamos"
+                    print asistencia,"Ya tiene confirmacion, pero no ha contestado, la enviamos"
                     confirmacion.send_mail()
                 else:
                     print "Ya ha contestado"

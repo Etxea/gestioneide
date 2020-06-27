@@ -19,16 +19,18 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirm
                     <th>Nombre</th>
                     <th>Fecha</th>
                     <th>Respuesta</th>    
-                    <th>Razones</th>                
+                    <th>Razones</th>      
+                    <th></th>          
                 </tr>
             </thead>
             <tbody>
                 {% for confirmacion in object_list %}
                 <tr>
-                    <td>{{ confirmacion.asistencia.alumno }}</a></td>
+                    <td><a href="{% url 'alumno_detalle' confirmacion.asistencia.alumno.id %}" >{{ confirmacion.asistencia.alumno }}</a></td>
                     <td>{{ confirmacion.fecha_respuesta }}</td>
                     <td>{{ confirmacion.get_respuesta_choice_display }} </td>
                     <td>{{ confirmacion.respuesta_texto }}</td>
+                    <td><a href="{% url 'confirmacion_editar' confirmacion.id %}">Editar</a></td>
                 </tr>
                 {%  endfor %}
              </tbody>

@@ -53,6 +53,7 @@ class Confirmacion(models.Model):
     respuesta_texto = models.CharField('Si no va a asistir el curso que viene, por favor, indíquenos por favor la razón',max_length=1000,blank=True,default="")
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_respuesta = models.DateTimeField(auto_now_add=True)
+    gestionada = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.pk == None:
@@ -63,7 +64,7 @@ class Confirmacion(models.Model):
             titulo = "Confirmacion alumno %s para el año %s en el centro %s"\
                 %(self.asistencia.alumno,self.asistencia.year,self.asistencia.grupo.centro)
             mensaje = """El alumno %s con ID %s a contestado: <br /> %s <br />Con las razones: <br /> %s"""%(self.asistencia.alumno,self.asistencia.alumno.id,self.get_respuesta_choice_display(),self.respuesta_texto)
-            self.asistencia.grupo.centro.enviar_mail(titulo, mensaje)
+            #self.asistencia.grupo.centro.enviar_mail(titulo, mensaje)
             if self.respuesta_choice == 1:
                 print "Ha dicho que si"
                 self.asistencia.confirmado = True
