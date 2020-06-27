@@ -44,6 +44,38 @@ class ContactForm(forms.Form):
             mail.enviado = alumno.enviar_mail(self.cleaned_data['title'],self.cleaned_data['message'],from_email=from_email)
             mail.save()
 
+class GrupoHorarioEmailForm(forms.Form):
+    
+    message = forms.CharField(widget=forms.Textarea)
+    
+    group_id = forms.CharField(widget=forms.HiddenInput)
+    user_id = forms.CharField(widget=forms.HiddenInput)
+
+    def send_email(self):
+        grupo = Grupo.objects.get(id=self.cleaned_data["group_id"])
+        for asis in grupo.asistencia_set.all():
+            alumno = asis.alumno
+            titulo = "Horarios %s"%grupo.year
+            mail = MailAlumno()
+            mail.alumno = alumno
+            mail.creador = User.objects.get(id=self.cleaned_data["user_id"])
+            mail.titulo = titulo
+            
+            context={}
+            context['grupo'] = grupo
+            year = grupo.year
+            context['lista_festivos'] =Festivo.objects.filter(year=year) 
+            context['message'] = self.cleaned_data["message"]
+            mensaje = render_to_string('grupos/email_horario.html', context=context)
+            mail.mensaje = mensaje[:490]
+            try:
+                from_email=mail.creador.profesor.email
+            except:
+                from_email=None
+            mail.enviado = alumno.enviar_mail(titulo,mensaje,from_email=from_email,mensaje_html=True)
+            mail.save()
+
+
 class ContactAlumnoForm(forms.Form):
     title = forms.CharField()
     message = forms.CharField(widget=forms.Textarea)

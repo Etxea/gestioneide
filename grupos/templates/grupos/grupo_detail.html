@@ -110,7 +110,8 @@
         
         {% include 'grupos/email_grupo_modal.html' %}
 
-        <a href="" class="btn btn-primary">Enviar horario mail</a>
+        {% include 'grupos/email_grupo_horario_modal.html' %}
+        
         
         <h3>Últimas anotaciones</h3>
         <table class="table">
@@ -208,6 +209,15 @@ $('#emailGrupoModal').on('show.bs.modal', function (event) {
   var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes
   var modal = $(this);
   var form_url = "/grupos/email/"+grupo_id+"/";
+  console.log("Vamos a cargar la form de ",form_url);
+  modal.find('.modal-body').load(form_url);
+});
+
+$('#emailGrupoHorarioModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var grupo_id = button.data('grupo_id'); // Extract info from data-* attributes
+  var modal = $(this);
+  var form_url = "{% url 'grupo_email_horario' object.id%}";
   console.log("Vamos a cargar la form de ",form_url);
   modal.find('.modal-body').load(form_url);
 });

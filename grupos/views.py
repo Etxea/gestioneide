@@ -122,6 +122,38 @@ class GrupoEmailView(FormView):
         return reverse_lazy("grupo_detalle", kwargs={'pk': self.kwargs['pk']})
 
 @method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
+class GrupoEmailHorarioView(FormView):
+    template_name = 'grupos/grupo_email_horarios_form.html'
+    form_class = GrupoHorarioEmailForm
+    
+    def get_context_data(self, **kwargs):
+        context = super(GrupoEmailHorarioView, self).get_context_data(**kwargs)
+        context['grupo_id'] = self.kwargs['pk']
+        return context
+    
+    def get_initial(self):
+        return { 'group_id': self.kwargs['pk'] , 'user_id': self.request.user.id }
+    
+    def form_valid(self, form):
+        form.send_email()
+        return super(GrupoEmailHorarioView, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("grupo_detalle", kwargs={'pk': self.kwargs['pk']})
+
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
+class GrupoEmailHorarioHtmlView(DetailView):
+    template_name = "grupos/email_horario.html"
+    model = Grupo
+    context_object_name = 'grupo'
+
+    def get_context_data(self, **kwargs):
+        context = super(GrupoEmailHorarioHtmlView, self).get_context_data(**kwargs)
+        year = Year().get_activo(self.request)
+        context['lista_festivos'] =Festivo.objects.filter(year=year)
+        return context
+
+@method_decorator(permission_required('gestioneide.send_email_grupo',raise_exception=True),name='dispatch')
 class GrupoAlumnoEmailView(FormView):
     template_name = 'grupos/email_alumno_form.html'
     form_class = ContactAlumnoForm

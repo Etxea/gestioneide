@@ -1,0 +1,7 @@
+{% load i18n %}
+{% load bootstrap %}
+<form action="{% url 'grupo_email_horario' grupo_id %}" method="post">
+    {{ form|bootstrap }}
+    {% csrf_token %}
+    <input type="submit" class="btn primary" value="Enviar">
+</form>
