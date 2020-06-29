@@ -55,6 +55,10 @@ class ImprimirGrupoHorario(PDFTemplateView):
         return context
 
 @method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
+class ImprimirGrupoHorarioAlumnos(ImprimirGrupoHorario):
+    template_name='grupo_horario_alumnos_pdf.html'
+
+@method_decorator(permission_required('gestioneide.informes_view',raise_exception=True),name='dispatch')
 class ImprimirAsistenciaHorario(PDFTemplateView):
     template_name='asistencia_horario_pdf.html'
     cmd_options = {

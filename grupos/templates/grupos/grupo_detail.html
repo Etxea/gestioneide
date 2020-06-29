@@ -36,13 +36,17 @@
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 2%}">2</a>
         <a type="button" class="btn btn-default" href="{% url 'grupo_notas_trimestre' grupo.id 3%}">3</a>
     </div>
-    <div class="btn-group" role="group" aria-label="imprimit">
-        <a class="btn" href="{% url 'imprimir_grupo_horario' grupo.id %}">Imprimir Horario</a>
-    </div>
+    
+        <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_grupo_horario' grupo.id %}">Imprimir Horario</a>
+        &nbsp;
+        <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_grupo_horario_alumnos' grupo.id %}">Imprimir Horario Alumnos</a>
+    
     {% endif %}
     </div>
 </div>
+
 <div class="row">
+    
     <div class="col-lg-6"> 
         <h3>Clases</h3>
         <table class="table">
@@ -104,14 +108,13 @@
             <tr><td>Num Max. Alumnos</td><td>{{object.num_max}}</td></tr>
             <tr><td>Menores</td><td>{{object.menores|yesno}}</td></tr>
         </table>
+        
         <h3>Comunicar</h3>
-
+        <div>
         {% include 'grupos/anotacion_grupo_modal.html' %}
-        
         {% include 'grupos/email_grupo_modal.html' %}
-
         {% include 'grupos/email_grupo_horario_modal.html' %}
-        
+        </div>
         
         <h3>Últimas anotaciones</h3>
         <table class="table">
@@ -137,6 +140,7 @@
         </a>
         {% endif %}
     </div>
+
     <div class="col-lg-6"> 
         <h3>Alumnos</h3>
         <table class="table">
@@ -161,7 +165,7 @@
                     {% if not asistencia.confirmado %}
                         <a class="btn btn-primary zmdi zmdi-check" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Confirmar</a>
                     {% endif %}
-                    <a class="btn zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a>
+                    <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a>
                     <a class="btn zmdi zmdi-edit" href="{% url 'asistencia_editar' asistencia.id %}"></a>
                     <button type="button" class="btn zmdi zmdi-delete" data-toggle="modal" data-target="#deleteAsistenciaModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}"></button>
                     {% endif %}
@@ -175,27 +179,41 @@
         {% if request.user.is_staff %}<a class="btn btn-primary" href="{% url 'asistencia_nueva_grupo' object.id %}">Añadir alumno</a>{% endif %}
         {% if request.user.is_staff %}
         <h3>Envio Notas</h3>
-        <form action="{% url 'envio_notas_trimestre' grupo.id 1 %}" method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary" type="submit">Trimestre 1</button>
-        </form>
-        <form action="{% url 'envio_notas_trimestre' grupo.id 2 %}" method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary" type="submit">Trimestre 2</button>
-        </form>
-        <form action="{% url 'envio_notas_trimestre' grupo.id 3 %}" method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary" type="submit">Trimestre 3</button>
-        </form>
-        <br />
-        <form action="{% url 'envio_notas_cuatrimestre' grupo.id 1 %}" method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary" type="submit">Cuatrimestre 1</button>
-        </form>
-        <form action="{% url 'envio_notas_cuatrimestre' grupo.id 2 %}" method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary" type="submit">Cuatrimestre 2</button>
-        </form>
+        <table>
+            <tr>
+                <td>
+                <form action="{% url 'envio_notas_trimestre' grupo.id 1 %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Trimestre 1</button>
+                </form>                
+                </td>
+                <td>
+                <form action="{% url 'envio_notas_trimestre' grupo.id 2 %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Trimestre 2</button>
+                </form>
+                </td>
+                <td>
+                <form action="{% url 'envio_notas_trimestre' grupo.id 3 %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Trimestre 3</button>
+                </form>
+                </td>
+                <td>
+                <form action="{% url 'envio_notas_cuatrimestre' grupo.id 1 %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Cuatrimestre 1</button>
+                </form>
+                </td>
+                <td>
+                <form action="{% url 'envio_notas_cuatrimestre' grupo.id 2 %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Cuatrimestre 2</button>
+                </form>
+                </td>
+            </tr>
+        </table>
+        
         {% endif %}
     </div>
 </div>    

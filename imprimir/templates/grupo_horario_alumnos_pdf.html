@@ -1,0 +1,91 @@
+{% extends "print_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block body %}
+
+{% for asistencia in grupo.asistencia_set.all %}
+
+<div style="text-align: right">
+    <img width="120px" height="55px" src='{% static "img/logo_eide_horizontal.png" %}' />
+</div>
+<br />
+
+<div>
+    <div style="float:left" >
+        <img width="120px" height="75px" src='{% static "img/logo_eide_horizontal.png" %}' />
+    </div>
+    <div style="float:right;font-size: 150%;">
+        <span style="text-align:right" >
+            <b>
+                {{ asistencia.alumno.nombre }}
+                {{ asistencia.alumno.apellido1 }}
+                {{ asistencia.alumno.apellido2 }}
+            </b>
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.direccion }}
+        </span><br />
+        <span style="text-align:right" >
+                {{ asistencia.alumno.cp }}
+                {{ asistencia.alumno.ciudad }}
+        </span><br />
+    </div>
+</div>
+<div style="clear:both"></div>
+
+<div class="row">    
+    <div class="col-md-12" style="text-align:center">
+        
+        
+        <h1 style="text-align:center" >Clases</h1>
+        <table class="table" style="text-align:left">
+            <thead style="text-align:left">
+                <th>Día</th>
+                <th>Horario</th>
+                <!-- <th>Aula</th>
+                <th>Profesor</th> -->
+            </thead>
+            <tbody>
+                {% for clase in grupo.clases.all %}
+                <tr>
+                    <td>{{ clase.get_dia_semana_display }}</td>
+                    <td>{{ clase.hora_inicio }}-{{ clase.hora_fin }}</td>
+                    <!-- <td>{{ clase.aula }}</td>
+                    <td>{{ clase.profesor }}</td> -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h1 style="text-align:center" >Libros</h1>
+        <table class="table" width="100%"  style="text-align: left" >
+            <thead>
+                <th>ISBN</th>
+                <th>Título</th>
+            </thead>
+            <tbody>
+                {% for libro in grupo.curso.libros.all %}
+                <tr>
+                    <td width="35%" >{{ libro.isbn }}</td>
+                    <td>{{ libro.titulo }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <h1 style="text-align:center">Calendario</h1>
+    <br />
+    <div style="text-align:left">
+            {% for festivo in lista_festivos %}
+            <b>{{ festivo.fecha }}</b>:<i>{{ festivo.anotacion }}</i><br />
+            {% endfor %}
+
+    </div>
+    </div>
+</div>    
+{% if not forloop.last %}
+<div><pdf:nextpage /></div>
+{% endif %}
+
+{% endfor %}    
+{% endblock %}
