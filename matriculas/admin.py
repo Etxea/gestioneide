@@ -3,4 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-# Register your models here.
+from models import Venue, LinguaskillLevel
+
+admin.site.register(Venue)
+admin.site.register(LinguaskillLevel)
+
