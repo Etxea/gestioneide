@@ -53,20 +53,20 @@ class GrupoHorarioEmailForm(forms.Form):
 
     def send_email(self):
         grupo = Grupo.objects.get(id=self.cleaned_data["group_id"])
+        context={}
+        context['grupo'] = grupo
+        year = grupo.year
+        context['lista_festivos'] =Festivo.objects.filter(year=year) 
+        context['message'] = self.cleaned_data["message"]
+        titulo = "Horarios %s"%grupo.year
+        mensaje = render_to_string('grupos/email_horario.html', context=context)
+
         for asis in grupo.asistencia_set.all():
-            alumno = asis.alumno
-            titulo = "Horarios %s"%grupo.year
+            alumno = asis.alumno    
             mail = MailAlumno()
             mail.alumno = alumno
             mail.creador = User.objects.get(id=self.cleaned_data["user_id"])
             mail.titulo = titulo
-            
-            context={}
-            context['grupo'] = grupo
-            year = grupo.year
-            context['lista_festivos'] =Festivo.objects.filter(year=year) 
-            context['message'] = self.cleaned_data["message"]
-            mensaje = render_to_string('grupos/email_horario.html', context=context)
             mail.mensaje = mensaje[:490]
             try:
                 from_email=mail.creador.profesor.email

@@ -789,6 +789,7 @@ class Asistencia(models.Model):
             else:
                 nota = notaquery[0].nota
         return nota
+    
     def get_nota_trimestre_obj(self,trimestre):
         nota = None
         notaquery = self.notatrimestral_set.filter(trimestre=trimestre)
@@ -882,6 +883,9 @@ class Asistencia(models.Model):
         nota_final = { "media": nota, "tipo": tipo, "faltas": self.faltas_finales(), "justificadas": self.justificadas_finales() }
         return nota_final
 
+    def envio_horario(self):
+        pass
+    
     def __unicode__(self):
         return "%s"%(self.alumno.id)
 
