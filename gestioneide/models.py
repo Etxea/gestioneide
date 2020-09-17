@@ -694,7 +694,7 @@ class Asistencia(models.Model):
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
     metalico = models.BooleanField(default=False)
-    precio = models.FloatField(null=True,blank=True)
+    precio = models.FloatField(default=None, null=True,blank=True)
     borrada = models.BooleanField(default=False)
     objects = AsistenciaManager()
     all_objects = models.Manager() # The default manager.

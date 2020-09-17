@@ -80,7 +80,7 @@ def year_clone(request):
                 year = year_nuevo,\
                 nombre = grupo.nombre,\
                 curso = grupo.curso,\
-                precio = grupo.precio,\
+                #precio = grupo.precio,\
                 num_max = grupo.num_max,\
                 menores = grupo.menores)
             grupo_new.save()
