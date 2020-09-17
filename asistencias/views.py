@@ -83,7 +83,6 @@ class AsistenciaGrupoCreateView(CreateView):
     #     self.object.year = Year().get_activo(self.request)
     #     self.object.save()
     #     return HttpResponseRedirect(self.get_success_url())
-
     
 @method_decorator(permission_required('gestioneide.asistencia_change',raise_exception=True),name='dispatch')
 class AsistenciaUpdateView(UpdateView):
@@ -155,3 +154,34 @@ class EnvioNotaTrimestre(View):
             print("Error",e)
             mensaje = "Error"
         return redirect(grupo)
+
+class EnvioHorario(View):
+    http_method_names = ['post']
+    def post(self, request, *args, **kwargs):
+        print("Vamos a enviar el horario de la asistencia %s")
+        try:
+            asistencia = Asistencia.objects.get(pk=kwargs['pk'])
+            #asistencia.envio_horario()
+            context={}
+            context['grupo'] = self.grupo
+            year = grupo.year
+            context['lista_festivos'] =Festivo.objects.filter(year=year) 
+            #context['message'] = self.cleaned_data["message"]
+            titulo = "Horarios %s"%grupo.year
+            mensaje = render_to_string('grupos/email_horario.html', context=context)
+            alumno = asistencia.alumno    
+            mail = MailAlumno()
+            mail.alumno = alumno
+            mail.creador = self.request.user
+            mail.titulo = titulo
+            mail.mensaje = mensaje[:490]
+            try:
+                from_email=mail.creador.profesor.email
+            except:
+                from_email=None
+            mail.enviado = alumno.enviar_mail(titulo,mensaje,from_email=from_email,mensaje_html=True)
+            mail.save()
+        except Exception as e:
+            print("Error",e)
+            mensaje = "Error"
+        return redirect(grupo)        
