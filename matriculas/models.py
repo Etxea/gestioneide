@@ -7,10 +7,12 @@ from django.conf import settings
 from django.db import models
 import logging
 from django.core.urlresolvers import reverse_lazy
+from random import choice
+from string import letters
+from gestioneide.models import Alumno, Centro
 
 log = logging.getLogger("django")
 
-from gestioneide.models import Alumno, Centro
 
 SEXO = (
     (1, _('Male')),
@@ -218,7 +220,7 @@ class LinguaskillLevel(models.Model):
         return "[LS][%s]%s(%s)"%(self.venue,self.name,self.price)
 
 class MatriculaLinguaskill(models.Model):
-    proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
+    proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'), blank=True)
     level = models.ForeignKey(LinguaskillLevel)
     password = models.CharField(_('Password'),max_length=6,blank=True,editable=False)
     name = models.CharField(_('Nombre'),max_length=50)
@@ -255,24 +257,24 @@ class MatriculaLinguaskill(models.Model):
 <div class="well">
     <h1>Pago de la matrícula</h1>
     La matrícula se hará efectiva una vez se haya recibido el pago. Puede hacer el pago en la siguiente dirección: <a href="http://matricula-eide.es/%s">http://matricula-eide.es/%s</a>
-</div>"""%(self.exam,self.generate_payment_url(),self.generate_payment_url())
+</div>"""%(self.level,self.generate_payment_url(),self.generate_payment_url())
         
         message_body = html_content
         ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        msg = EmailMultiAlternatives(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
+        msg = AnymailMessage(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
         msg.attach_alternative(html_content, "text/html")
         ##msg.content_subtype = "html"
         #msg.send()
          
         ### Para los admins
-        subject = "Hay una nueva matricula (sin pagar) para cambridge %s"%self.exam
+        subject = "Hay una nueva matricula (sin pagar) para Cambridge LS %s"%self.level
         message_body = u"""Se ha dado de alta una nueva matricula para el examen %s. 
 Los datos son del alumno son: 
     Nombre: %s
     Apellidos: %s
     Telefono: %s
     e-mail: %s
-"""%(self.exam,self.name,self.surname,self.telephone,self.email)
+"""%(self.level,self.name,self.surname,self.telephone,self.email)
         mail_admins(subject, message_body)
     
     def send_paiment_confirmation_email(self):
@@ -280,8 +282,8 @@ Los datos son del alumno son:
             ls = MatriculaLinguaskill.objects.get(id=self.id)
             exam_date=ls.proposed_date
         except:
-            exam_date=self.exam.exam_date
-        subject = "Se ha confirmado el pago de la matricula para el examen %s"%self.exam
+            exam_date="sin fecha propuesta"
+        subject = "Se ha confirmado el pago de la matricula para el LS %s"%self.level
         html_content=u"""<html><body>
         <h2>CONFIRMACIÓN DE MATRÍCULA</h2>
 <p>Se ha matriculado para el examen <b> %s </b>. Tras el cierre del periodo de matriculación se le enviará el COE (Confirmation of Entry) 
@@ -310,7 +312,7 @@ Los datos son:\n
 ID de la mátricula: %s \n 
 Nombre: %s \n Apellidos: %s \n
 Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.es/cambridge/edit/%s/
-"""%(self.exam,self.id,self.name,self.surname,self.id)
+"""%(self.level,self.id,self.name,self.surname,self.id)
         mail_admins(subject, message_body, html_message=message_body)
     
     def set_as_paid(self):
@@ -319,7 +321,7 @@ Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.e
         self.send_paiment_confirmation_email()
         
     def __unicode__(self):
-        return "%s-%s"%(self.id,self.exam)
+        return "%s-%s"%(self.id,self.level)
     
     def save(self, *args, **kwargs):
         
@@ -334,5 +336,4 @@ Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.e
         super(MatriculaLinguaskill, self).save(*args, **kwargs)
             
     def generate_payment_url(self):
-        return '/pagos/cambridge/%s/'%(self.id)
-        return '/matriculas/eide/pagar/%s/'%(self.id)
+        return '/linguaskill/pagar/%s/'%(self.id)

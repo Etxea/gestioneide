@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'linguaskill/(?P<venue>\w+)/nueva/$',MatriculaLinguaskillCreateView.as_view(), name="matricula_linguaskill_nueva"),
     url(r'linguaskill/gracias/$',MatriculaLinguaskillGracias.as_view(), name="matricula_linguaskill_gracias"),
     url(r'linguaskill/error/$',MatriculaLinguaskillError.as_view(), name="matricula_linguaskill_error"),
+    url(r'linguaskill/pagar/(?P<pk>\d+)/$',MatriculaLinguaskillPayView.as_view(), name="matricula_linguaskill_pagar"),
     url(r"eide/lista/$", login_required(MatriculaEideListView.as_view()), name="matricula_eide_lista"),
     url(r'eide/nueva/$',MatriculaEideCreateView.as_view(), name="matricula_eide_nueva"),
     url(r'eide/gracias/$',MatriculaEideGracias.as_view(), name="matricula_eide_gracias"),
