@@ -456,9 +456,11 @@ class Alumno(models.Model):
             mail.enviado = mail.alumno.enviar_mail(titulo=mail.titulo,mensaje=mail.mensaje)
             mail.save()
     
-    def enviar_sms(self):
-        
+    def enviar_sms(self):    
         return True
+
+    def sincronizar_moodle(self):
+        return True 
 
 class Historia(models.Model):
     alumno = models.ForeignKey('Alumno')
