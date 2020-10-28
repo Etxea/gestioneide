@@ -14,5 +14,7 @@ urlpatterns = [
     url(r'editar/(?P<pk>\d+)/$',ProfesorUpdateView.as_view(), name="profesor_editar"),
     url(r'borrar/(?P<pk>\d+)/$',ProfesorDeleteView.as_view(), name="profesor_borrar"),
     url(r'passwordreset/(?P<pk>\d+)/$',ProfesorPasswordResetView.as_view(), name="profesor_passwordreset"),
+    url(r'createuser/(?P<pk>\d+)/$',ProfesorCreateUserView.as_view(), name="profesor_createuser"),
+    url(r'disableuser/(?P<pk>\d+)/$',ProfesorDisableUserView.as_view(), name="profesor_disableuser"),
     url(r'(?P<pk>\d+)/$',ProfesorDetailView.as_view(), name="profesor_detalle"),
 ]
