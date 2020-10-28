@@ -228,14 +228,11 @@ class MatriculaLinguaskill(models.Model):
     postal_code = models.DecimalField(_('Código Postal'),max_digits=6, decimal_places=0)
     sex = models.DecimalField(_('Sexo'),max_digits=1, decimal_places=0,choices=SEXO)
     birth_date = models.DateField(_('Fecha Nacm. DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
-    #dni = models.CharField(max_length=9,blank=True,help_text=_('Introduce el DNI completo con la letra sin espacios ni guiones'))
     telephone = models.CharField(_('Teléfono'),max_length=12)
     email = models.EmailField()
-    #eide_alumn = models.BooleanField(_('Alumno EIDE'), default="False", blank=True, help_text=_('Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.'))
-    #centre_name = models.CharField(_('Nombre del Centro'),max_length=100, blank=True) 
     registration_date = models.DateField(auto_now_add=True)
     paid = models.BooleanField(_('Pagada'),default=False)
-    accept_conditions = models.BooleanField(_('Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'), help_text=_('Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'),default=True,blank=True)
+    accept_conditions = models.BooleanField(_('Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'), help_text=_('Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'),default=False,blank=True)
 
     def pay_code(self):
         return "linguaskill-%s"%self.id    

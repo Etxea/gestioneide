@@ -3,9 +3,120 @@
 {% load i18n %}
 
 {% block body %}
-<div class="jumbotron">
-  <h1 class="display-4">Muy pronto</h1>
-  <p class="lead">
-    En breve activaremos esta sección.</p>
+<h1>{% trans "Nueva Matricula" %}</h1>
+<form action="" method="post">{% csrf_token %}
+  {{ form|as_bootstrap }}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">CONTRATO INSCRIPCIÓN PARA CURSOS DE IDIOMAS EN ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL
+        DESARROLLO EIDE S.L. Y EN EIDE LANGUAGE EXPERIENCES S.L.</h3>
+    </div>
+    <div class="panel-body">
+      El alumno al formalizar la presente matrícula acepta las condiciones siguientes:
+      <h3>1. NORMATIVA GENERAL</h3>
+
+      <p>
+          Todos los candidatos deberán cumplimentar el impreso de matrícula y realizar el pago de 
+          la tasa de examen a la hora de matricularse. Una vez realizada la matrícula, EIDE 
+          contactará con el candidato para confirmarle la fecha y hora del examen.  Es 
+          responsabilidad del candidato llegar al lugar del examen con <b>30 minutos de antelación</b>. 
+          Los candidatos deben traer un <b>DNI o pasaporte</b> en vigor que atestigüe su identidad. Se 
+          recomienda no traer <b>teléfono móvil</b> ni <b>reloj inteligente</b> ya que éstos se le retirarán 
+          durante toda la duración de la prueba. EIDE no se responsabiliza del robo o extravío 
+          del teléfono móvil o reloj que le sea retirado.
+      </p>
+      
+      <h3>2. CANCELACIONES Y CAMBIOS DE FECHA</h3>
+      
+      <p>
+          No se admiten cancelaciones una vez pagada la tasa de examen. Se admiten cambios de 
+          fecha de examen sin coste alguno siempre y cuando se haga 24 horas antes de la fecha 
+          acordada. Pasadas las 24 horas no se admitirán cambios.
+      </p>
+      
+      <h3>3. RESULTADOS</h3>
+      
+      <p>
+          Los resultados del Reading & Listening son inmediatos. Los del Writing están disponibles 
+          en un máximo de 12 horas y los del Speaking en un máximo de 48 horas. En caso de realizar 
+          los 4 módulos, los resultados se proporcionan en un máximo de 48 horas por medio de un 
+          informe generado por ordenador, por lo que no hay que esperar a certificados impresos.
+      </p>
+      
+      <h3>4. PROTECCIÓN DE DATOS</h3>
+      
+      <p>
+          Se le informa al interesado que conforme a lo previsto en el RGPD de 27 de abril de 2016 
+          y la LO 3/2018, de 5 de diciembre (LOPDGDD) el Responsable de este tratamiento de datos 
+          personales es Escuelas Internacionales para la Educación y el Desarrollo Eide, S.L., 
+          (CIF: B48474647), Genaro Oraá Kalea, Santurce (48980, Bizkaia); Tel.: 944937005; 
+          email: <a href="mailto://eide@eide.es">eide@eide.es</a>
+      
+          Las finalidades del tratamiento de datos versarán sobre la gestión genérica del examen 
+          Cambridge English, incluyendo el proceso de matrícula y cobro de tasas, organización 
+          de la sesión del examen, para comunicarnos con el candidato, o con sus representantes 
+          legales debidamente acreditados a tal efecto sobre cuestiones relacionadas con el examen 
+          contratado y/o facilitar condiciones especiales para la realización del examen, cuando 
+          ello sea necesario. Dichos datos serán conservados durante el plazo mínimo necesario 
+          establecido para la oportuna gestión y tramitación de la prueba.
+          
+          Dichos datos serán en su caso cedidos única y exclusivamente a los organismos competentes 
+          encargados del proceso administrativo y de ejecución del examen, así como otros 
+          supuestos establecidos en la ley.
+          
+          Podrá ejercitar los derechos de acceso, rectificación, supresión, limitación, portabilidad 
+          y oposición dirigiéndose a Escuelas Internacionales para la Educación y el Desarrollo 
+          Eide, S.L. con dirección en Genaro Oraá Kalea, Santurce (48980, Bizkaia), o enviando una 
+          comunicación con referencia RGPD/LOPDGDD al email de contacto 
+          <a href="mailto://eide@eide.es">eide@eide.es</a>.
+      </p>
+      
+    </div>
+  </div>
+
+  
+
+  <br />
+  <div class="form-actions">
+    
+  <button id="send_button"  type="submit" class="btn btn-primary">Realizar Matrícula</button>
 </div>
+</form>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+  function comprobar_aceptacion() {
+    console.log("Han hecho click en el check de las condiciones");
+    acepta = false ;
+    if ($("#id_accept_conditions").is(":checked"))
+    {
+      console.log("Condiciones generales aceptadas");
+      acepta = true;  
+    }
+
+    if (acepta) {
+        console.log("Dice que las acepta");
+        $("#send_button").prop('disabled', false);
+        console.log("Ocultamos el aviso");
+        $("#aviso_condiciones").hide();
+    }
+    else {
+      //Deshabilitamos el envio hasta que acepten las condiciones
+      console.log("Dice que NO las acepta");
+      $("#send_button").prop('disabled', true);
+      console.log("Mostramos el aviso");
+      $("#aviso_condiciones").show();
+    }
+  }
+
+  $(document).ready(function() {
+    $("#normativa_general").hide();
+    $("#normativa_foto").hide();
+    //Comprobamos si se puede enviar
+    comprobar_aceptacion();
+    $("#id_accept_conditions").change(comprobar_aceptacion);
+    });
+</script>
 {% endblock %}

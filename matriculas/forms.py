@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm,DateField
-from models import MatriculaEide, MatriculaLinguaskill, Venue
+from models import MatriculaEide, MatriculaLinguaskill, LinguaskillLevel, Venue
 
 class MatriculaEideForm(ModelForm):
     class Meta:
@@ -11,8 +11,9 @@ class MatriculaEideForm(ModelForm):
 class MatriculaLinguaskillForm(ModelForm):
     class Meta:
         model = MatriculaLinguaskill
-        exclude = ('pagada','registration_date')
+        exclude = ('paid','registration_date')
     def __init__(self, *args, **kwargs):
-        venue = kwargs.pop('venue')
+        venue_name = kwargs.pop('venue')
         super(MatriculaLinguaskillForm, self).__init__(*args, **kwargs)
-        #self.fields['venue'].queryset = Venue.objects.filter(name=venue)     
+        self.fields['level'].queryset = LinguaskillLevel.objects.filter(venue=Venue.objects.filter(name=venue_name))
+             
