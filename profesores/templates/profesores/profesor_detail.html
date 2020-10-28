@@ -25,7 +25,28 @@
         <tr>
             <td>E-mail</td><td><a href="mailto:{{profesor.email}}">{{profesor.email}}</a></td>
         </tr>
-        
+        <tr>
+            <td>Usuario</td>
+            <td>
+                {% if profesor.has_user %} 
+                {{ profesor.user }} (activo: {{ profesor.user | yesno }}) 
+                <form method="POST" action="{% url 'profesor_passwordreset' profesor.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-refresh" ></i>Resetear pass.</button>
+                </form>
+                <form method="POST" action="{% url 'profesor_passwordreset' profesor.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary"><i class="zmdi zmdi-account-o" ></i>Disable</button>
+                </form>
+                
+                {% else %} 
+                <form method="POST" action="{% url 'profesor_disableuser' profesor.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" > <i class="zmdi zmdi-account-add" ></i>Crear</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
     </table>
     <h2>Clases</h2>
     

@@ -68,9 +68,35 @@ class ProfesorUpdateView(UpdateView):
 class ProfesorPasswordResetView(View,SingleObjectMixin):
     model = Profesor
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse_lazy("profesores_lista"))
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
     def post(self, request, *args, **kwargs):
         # Look up the author we're interested in.
         self.object = self.get_object()
         self.object.update_user_password()
-        return HttpResponseRedirect(reverse_lazy("profesores_lista"))
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
+
+@method_decorator(permission_required('gestioneide.profesor_change',raise_exception=True),name='dispatch')
+class ProfesorCreateUserView(View,SingleObjectMixin):
+    model = Profesor
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        # Look up the author we're interested in.
+        self.object = self.get_object()
+        self.object.create_user()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
+
+@method_decorator(permission_required('gestioneide.profesor_change',raise_exception=True),name='dispatch')
+class ProfesorDisableUserView(View,SingleObjectMixin):
+    model = Profesor
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        # Look up the author we're interested in.
+        self.object = self.get_object()
+        self.object.user.active=False
+        self.object.user.save()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))

@@ -272,6 +272,12 @@ class Profesor(models.Model):
         self.user.email_user("Cambio contraseña en gestion de alumnos EIDE",mensaje)
         #send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
 
+    def has_user(self):
+        if self.user == None:
+            return False
+        else:
+            return True
+
     def create_user(self):
         try:
             pg = Group.objects.get(name="profesores")            
@@ -307,7 +313,7 @@ class Profesor(models.Model):
             self.user=u
             self.save()
             u.email_user("Alta en gestion de alumnos EIDE",mensaje)
-            send_mail(u"Alta en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
+            mail_admins(u"Alta en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
         else:
             print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 
