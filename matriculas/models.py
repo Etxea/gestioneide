@@ -296,7 +296,17 @@ más instrucciones. Si no recibes noticias nuestras en 24 horas, puedes contacta
         #msg.attach_alternative(html_content, "text/html")
         ##msg.content_subtype = "html"
         #msg.send()
-        send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
+        #send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
+        email = AnymailMessage(
+            subject=subject,
+            body=message_body,
+            to = [self.email],
+        )
+        email.content_subtype = "html"
+        try:
+            email.send(fail_silently=False)
+        except Exception, e:
+            log.error("(matriculas) Error al enviar mail",str(e))
         
         subject = "[EIDE] Se ha confirmado el pago de una matrcicula LS"
         message_body = u"""Se acaba de confirmar el pago de un matricula para examen %s. \n 
