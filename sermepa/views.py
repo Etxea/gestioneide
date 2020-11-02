@@ -16,12 +16,11 @@ log = logging.getLogger("django")
 
 @csrf_exempt
 def sermepa_ipn(request):
-    log.error("Prueba")
-    log.debug("Somos sermepa_ipn y hemos recibido:")
-    log.debug(request.POST)
+    log.info("sermepa.views.sermepa_ipn: Somos sermepa_ipn y hemos recibido:")
+    log.info(request.POST)
     form = SermepaResponseForm(request.POST)
     if form.is_valid():
-        log.debug("Form is valid")
+        log.info("sermepa.views.sermepa_ipn: Form is valid")
         # Get parameters from decoded Ds_MerchantParameters object
         merchant_parameters = decode_parameters(form.cleaned_data['Ds_MerchantParameters'])
         sermepa_resp = SermepaResponse()
@@ -60,26 +59,26 @@ def sermepa_ipn(request):
             sermepa_resp.Ds_ExpiryDate = merchant_parameters['Ds_ExpiryDate']
 
         sermepa_resp.save()
-        log.debug("Guardada la respuesta")
-        log.debug(sermepa_resp)
+        log.info("Guardada la respuesta")
+        log.info(sermepa_resp)
         # Check signature
         valid_signature = redsys_check_response(form.cleaned_data['Ds_Signature'], form.cleaned_data['Ds_MerchantParameters'], )
         if valid_signature:
             if int(sermepa_resp.Ds_Response) < 100:
-                log.debug( "payment_was_successful")
+                log.info( "payment_was_successful")
                 payment_was_successful.send(sender=sermepa_resp) #signal
             elif sermepa_resp.Ds_Response == '0900' and\
                  sermepa_resp.Ds_TransactionType==OPER_REFUND:
                     refund_was_successful.send(sender=sermepa_resp)  #signal
             else:
-                log.debug( "payment_was_error")
+                log.info( "payment_was_error")
                 payment_was_error.send(sender=sermepa_resp) #signal
         else:
-            log.debug( "signature_error")
+            log.info( "signature_error")
             signature_error.send(sender=sermepa_resp) #signal
     else:
-        log.debug( "Form not valid")
-        log.debug( form.errors )
+        log.info( "Form not valid")
+        log.info( form.errors )
     return HttpResponse()
 
 payment_was_successful.connect(payment_ok)

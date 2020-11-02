@@ -10,9 +10,9 @@ from gestioneide.models import *
 from alumnos.forms import *
 
 
-import logging
-logger = logging.getLogger('gestioneide.debug')
-debug = logger.debug
+#import logging
+#logger = logging.getLogger('gestioneide.debug')
+#debug = logger.debug
 
 #Clase base de lista de alumnos
 
