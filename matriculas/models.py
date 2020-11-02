@@ -287,7 +287,7 @@ Los datos son del alumno son:
 Linguaskill. En breve nos pondremos en contacto contigo para confirmarte la fecha elegida y darte 
 más instrucciones. Si no recibes noticias nuestras en 24 horas, puedes contactar con nosotros en el 
 44937005 o por email <a href="mailto:eide@eide.es">eide@eide.es</a></p>
-        """%(self.exam_date)
+        """%(exam_date)
 	#html_content= html_content+render_to_string('cambridge/legal.html')
         html_content= html_content+u"""</body></html>"""
         message_body = html_content
