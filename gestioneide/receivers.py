@@ -88,7 +88,7 @@ def payment_ok(sender, **kwargs):
         r.set_as_paid()
         #log.debug("Matricula marcada como pagada")
 
-    elif registration_type=="ls":
+    elif registration_type=="linguaskill":
         #log.debug("Vamos a confirmar un pago LS. Lo buscamos en BBDD...")
         r = MatriculaLinguaskill.objects.get(id=registration_id)
         r.set_as_paid()
