@@ -5,13 +5,13 @@ from account.signals import user_sign_up_attempt, user_signed_up
 from account.signals import user_login_attempt, user_logged_in
 
 from sermepa.signals import payment_was_successful, payment_was_error, signature_error
-from matriculas.models import MatriculaEide
+from matriculas.models import MatriculaEide, MatriculaLinguaskill
 from pagosonline.models import Pago
 
-from pinax.eventlog.models import log
+#from pinax.eventlog.models import log
 
-#import logging
-#log = logging.getLogger("django")
+import logging
+log = logging.getLogger("django")
 
 @receiver(user_logged_in)
 def handle_user_logged_in(sender, **kwargs):
@@ -74,7 +74,7 @@ def payment_ok(sender, **kwargs):
     #log.debug("tenemos la referencia: %s"%reference)
     registration_type = reference.split('-')[0]
     registration_id = reference.split('-')[1]
-    log.debug( "SERMEPA signal receiver payment_ok: tenemos una matricula de %s con el id %s"%(registration_type, registration_id))
+    log.info("SERMEPA signal receiver payment_ok: tenemos una matricula de %s con el id %s"%(registration_type, registration_id))
     r = None
     #Buscamos la matricula 
     if registration_type=="cam":
