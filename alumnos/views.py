@@ -26,7 +26,7 @@ class AlumnoListView(ListView):
 class AlumnoActivosListView(AlumnoListView):
     #Solo listamos los activos
     def get_queryset(self):
-        return Alumno.objects.filter(activo=True)
+        return Alumno.objects.filter(activo=True).order_by('id')
 
 @method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoGrupoListView(AlumnoListView):
@@ -34,33 +34,32 @@ class AlumnoGrupoListView(AlumnoListView):
     def get_queryset(self):
         ano = Year().get_activo(self.request)
         lista = Asistencia.objects.filter(year=ano)
-        return Alumno.objects.filter(asistencia__in=lista)
+        return Alumno.objects.filter(asistencia__in=lista).order_by('id')
 
 @method_decorator(permission_required('gestioneide.alumno_view',raise_exception=True),name='dispatch')
 class AlumnoBuscarView(AlumnoListView):
     #Solo listamos los que coinciden conla busqueda
     def get_queryset(self):
-        #~ cadena = self.kwargs['cadena']
         cadena = self.request.GET.get("cadena")
         if cadena.find("@") > 0:
             print("tenemos el email",cadena)
-            return Alumno.objects.filter((Q(email__icontains=cadena) | Q(email2__icontains=cadena)))
+            return Alumno.objects.filter((Q(email__icontains=cadena) | Q(email2__icontains=cadena))).order_by('id')
         try:
             numero = int(cadena)
-            debug("tenemos el numero ",numero)
+            # debug("tenemos el numero ",numero)
             if numero > 9999:
                 cadena = str(numero)
-                return Alumno.objects.filter((Q(telefono1__icontains=cadena) | Q(telefono2__icontains=cadena)))
+                return Alumno.objects.filter((Q(telefono1__icontains=cadena) | Q(telefono2__icontains=cadena))).order_by('id')
             else:
-                return Alumno.objects.filter(id=numero)
+                return Alumno.objects.filter(id=numero).order_by('id')
         except:
-            debug("No es un numero, buscamos los que el primer apellido coincida con", cadena)
+            # debug("No es un numero, buscamos los que el primer apellido coincida con", cadena)
             palabras = cadena.split(" ")
             if len(palabras)>1:
                 filtro = (Q(apellido1__icontains=palabras[0]) & Q(apellido2__icontains=palabras[1])) | (Q(nombre__icontains=palabras[0]) & Q(apellido1__icontains=palabras[1]))
             else:
                 filtro = Q(apellido1__icontains=cadena)
-            return Alumno.objects.filter(filtro)
+            return Alumno.objects.filter(filtro).order_by('id')
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')        
 class AlumnoCreateView(CreateView):
