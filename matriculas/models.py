@@ -234,7 +234,7 @@ class MatriculaLinguaskill(models.Model):
     email = models.EmailField()
     registration_date = models.DateField(auto_now_add=True)
     paid = models.BooleanField(_('Pagada'),default=False)
-    accept_conditions = models.BooleanField(_('Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'), help_text=_('Doy mi consentimiento expreso para recibir comunicaciones en los términos anteriormente descritos.'),default=False,blank=True)
+    accept_conditions = models.BooleanField(_('Acepto los términos y condiciones descritos a continuación '),default=False,blank=True)
 
     def pay_code(self):
         return "linguaskill-%s"%self.id    
