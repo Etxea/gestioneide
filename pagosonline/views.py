@@ -49,7 +49,7 @@ def pagar_manual(request,pago_id):
         "Ds_Merchant_Titular": 'John Doe',
         "Ds_Merchant_MerchantData": 'man-%s' % pago.id,   # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
         "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
-        "Ds_Merchant_ProductDescription": 'eide-onlinepayment-%s' % pago.id,
+        "Ds_Merchant_ProductDescription": 'eidemanual-%s' % pago.id,
         "Ds_Merchant_Amount": int(pago.importe * 100),
         "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
         "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,

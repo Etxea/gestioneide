@@ -8,17 +8,23 @@
 {% block body %}
     <table class="table">
         <thead>
-            <th>ID</th><th>Quien</th><th>Centro</th><th>Cuando</th><th>Pagada</th><th>Gestionada</th><th>Url Pago</th>
+            <th>ID</th>
+            <th>Quien</th>
+            <th>Centro</th>
+            <th>Tipo</th>
+            <th>Cuando</th>
+            <th>Pagada</th>
+            <th>Url Pago</th>
         </thead>
         <tbody>
             {% for matricula in object_list %}
             <tr>
                 <td><a href="{% url 'matricula_linguaskill_editar' matricula.id %}">{{ matricula.id }}</a></td>
-                <td>{{ matricula.apellido1 }} {{ matricula.apellido1 }}, {{ matricula.nombre }}</td>
-                <td>{{ matricula.get_venue_display }}</td>
+                <td>{{ matricula.surname }} , {{ matricula.name }}</td>
+                <td>{{ matricula.level.venue }}</td>
+                <td>{{ matricula.level.name }}</td>
                 <td>{{ matricula.registration_date }}</td>
                 <td>{{ matricula.paid | yesno }}</td>
-                <td>{{ matricula.gestionada | yesno }}</td>
                 <td><a href="https://portal-alumno.eide.es{{ matricula.generate_payment_url }}">Pagar</a></td>
             </tr>
             {% endfor %}

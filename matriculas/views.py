@@ -206,3 +206,8 @@ class MatriculaLinguaskillPayView(DetailView):
         context['debug']= settings.DEBUG
 
         return context
+
+class MatriculaLinguaskillUpdateView(UpdateView):
+    model = MatriculaEide
+    template_name = "matriculas/matricula_linguaskill_nueva.html"
+    fields = "__all__"        

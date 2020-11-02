@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'venue/nueva/$',login_required(VenueCreateView.as_view()), name="venue_nueva"),
     url(r"linguaskill/lista/$", login_required(MatriculaLinguaskillListView.as_view()), name="matricula_linguaskill_lista"),
     url(r'linguaskill/(?P<venue>\w+)/nueva/$',MatriculaLinguaskillCreateView.as_view(), name="matricula_linguaskill_nueva"),
+    url(r'linguaskill/editar/(?P<pk>\d+)/$',login_required(MatriculaLinguaskillUpdateView.as_view()), name="matricula_linguaskill_editar"),
     url(r'linguaskill/gracias/$',MatriculaLinguaskillGracias.as_view(), name="matricula_linguaskill_gracias"),
     url(r'linguaskill/error/$',MatriculaLinguaskillError.as_view(), name="matricula_linguaskill_error"),
     url(r'linguaskill/pagar/(?P<pk>\d+)/$',MatriculaLinguaskillPayView.as_view(), name="matricula_linguaskill_pagar"),

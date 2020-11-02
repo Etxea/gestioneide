@@ -6,6 +6,7 @@ from account.signals import user_login_attempt, user_logged_in
 
 from sermepa.signals import payment_was_successful, payment_was_error, signature_error
 from matriculas.models import MatriculaEide
+from pagosonline.models import Pago
 
 from pinax.eventlog.models import log
 
@@ -91,6 +92,12 @@ def payment_ok(sender, **kwargs):
     elif registration_type=="linguaskill":
         #log.debug("Vamos a confirmar un pago LS. Lo buscamos en BBDD...")
         r = MatriculaLinguaskill.objects.get(id=registration_id)
+        r.set_as_paid()
+        #log.debug("Matricula marcada como pagada")
+
+    elif registration_type=="eidemanual":
+        #log.debug("Vamos a confirmar un pago LS. Lo buscamos en BBDD...")
+        r = Pago.objects.get(id=registration_id)
         r.set_as_paid()
         #log.debug("Matricula marcada como pagada")
 

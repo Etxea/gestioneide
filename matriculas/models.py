@@ -338,4 +338,4 @@ Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es
         super(MatriculaLinguaskill, self).save(*args, **kwargs)
             
     def generate_payment_url(self):
-        return '/linguaskill/pagar/%s/'%(self.id)
+        return '/matriculas/linguaskill/pagar/%s/'%(self.id)
