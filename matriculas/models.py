@@ -246,25 +246,22 @@ class MatriculaLinguaskill(models.Model):
         ##Para el alumno
         subject = _("Te has matriculado para un examen Cambridge en EIDE")
         
-        html_content = u"""
+#         html_content = u"""
+# <div class="well">
+#     Acaba de realizar una solicitud de matrícula para: <br />
+#     %s 
+# </div>
+# <div class="well">
+#     <h1>Pago de la matrícula</h1>
+#     La matrícula se hará efectiva una vez se haya recibido el pago. Puede hacer el pago en la siguiente dirección: <a href="http://matricula-eide.es/%s">http://matricula-eide.es/%s</a>
+# </div>"""%(self.level,self.generate_payment_url(),self.generate_payment_url())
         
-
-
-<div class="well">
-    Acaba de realizar una solicitud de matrícula para: <br />
-    %s 
-</div>
-<div class="well">
-    <h1>Pago de la matrícula</h1>
-    La matrícula se hará efectiva una vez se haya recibido el pago. Puede hacer el pago en la siguiente dirección: <a href="http://matricula-eide.es/%s">http://matricula-eide.es/%s</a>
-</div>"""%(self.level,self.generate_payment_url(),self.generate_payment_url())
-        
-        message_body = html_content
-        ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        msg = AnymailMessage(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
-        msg.attach_alternative(html_content, "text/html")
-        ##msg.content_subtype = "html"
-        #msg.send()
+#         message_body = html_content
+#         ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
+#         msg = AnymailMessage(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
+#         msg.attach_alternative(html_content, "text/html")
+#         ##msg.content_subtype = "html"
+#         #msg.send()
          
         ### Para los admins
         subject = "Hay una nueva matricula (sin pagar) para Cambridge LS %s"%self.level
@@ -286,15 +283,10 @@ Los datos son del alumno son:
         subject = "Se ha confirmado el pago de la matricula para el LS %s"%self.level
         html_content=u"""<html><body>
         <h2>CONFIRMACIÓN DE MATRÍCULA</h2>
-<p>Se ha matriculado para el examen <b> %s </b>. Tras el cierre del periodo de matriculación se le enviará el COE (Confirmation of Entry) 
-con las fechas y horas del examen escrito y oral a la dirección de e-mail que ha proporcionado el candidato en la 
-hoja de matrícula. Si dos semanas antes de la fecha del examen el candidato no ha recibido el COE, es su responsabilidad 
-el ponerse en contacto con EIDE y solicitar el COE. EIDE no se responsabiliza del extravío o no recepción del mismo y no 
-asume ninguna responsabilidad por cualquier problema derivado del desconocimiento de la fecha, horario y lugar del examen 
-y se reserva el derecho de no admitir a candidatos que lleguen tarde.</p>
-
-<p>Es responsabilidad del candidato llegar al lugar del examen con 15 minutos de antelación. Los candidatos deben traer un 
-DNI o pasaporte que atestigüe su identidad en cada examen (escrito y oral).</p>
+<p>Gracias por matricularte con nosotros. Te confirmamos que hemos recibido tu matrícula y pago de 
+Linguaskill. En breve nos pondremos en contacto contigo para confirmarte la fecha elegida y darte 
+más instrucciones. Si no recibes noticias nuestras en 24 horas, puedes contactar con nosotros en el 
+44937005 o por email <a href="mailto://eide@eide.es">eide@eide.es</a></p>
         """%(self.exam)
 	#html_content= html_content+render_to_string('cambridge/legal.html')
         html_content= html_content+u"""</body></html>"""
@@ -306,12 +298,12 @@ DNI o pasaporte que atestigüe su identidad en cada examen (escrito y oral).</p>
         #msg.send()
         send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
         
-        subject = "[cambridge] Se ha confirmado el pago de una matrcicula"
+        subject = "[cambridge] Se ha confirmado el pago de una matrcicula LS"
         message_body = u"""Se acaba de confirmar el pago de un matricula para examen %s. \n 
 Los datos son:\n
 ID de la mátricula: %s \n 
 Nombre: %s \n Apellidos: %s \n
-Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.es/cambridge/edit/%s/
+Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/linguaskills/edit/%s/
 """%(self.level,self.id,self.name,self.surname,self.id)
         mail_admins(subject, message_body, html_message=message_body)
     
