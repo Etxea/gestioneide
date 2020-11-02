@@ -74,7 +74,7 @@ def payment_ok(sender, **kwargs):
     #log.debug("tenemos la referencia: %s"%reference)
     registration_type = reference.split('-')[0]
     registration_id = reference.split('-')[1]
-    #log.debug( "tenemos una matricula de %s con el id %s"%(registration_type, registration_id))
+    log.debug( "SERMEPA signal receiver payment_ok: tenemos una matricula de %s con el id %s"%(registration_type, registration_id))
     r = None
     #Buscamos la matricula 
     if registration_type=="cam":
@@ -89,7 +89,7 @@ def payment_ok(sender, **kwargs):
         r.set_as_paid()
         #log.debug("Matricula marcada como pagada")
 
-    elif registration_type=="linguaskill":
+    elif registration_type=="linguaskill" or registration_type=="ls":
         #log.debug("Vamos a confirmar un pago LS. Lo buscamos en BBDD...")
         r = MatriculaLinguaskill.objects.get(id=registration_id)
         r.set_as_paid()

@@ -16,7 +16,6 @@ log = logging.getLogger("django")
 
 @csrf_exempt
 def sermepa_ipn(request):
-    print "prueba"
     log.error("Prueba")
     log.debug("Somos sermepa_ipn y hemos recibido:")
     log.debug(request.POST)
