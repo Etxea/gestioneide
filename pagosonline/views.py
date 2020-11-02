@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -9,11 +9,13 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.views.generic.detail import DetailView
 
 from django.contrib.sites.models import Site
+from django.shortcuts import render
 
 from forms import *
 from models import Pago
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
+import sys
 
 import logging
 log = logging.getLogger("MatriculaEIDE")
@@ -111,7 +113,13 @@ class PagoManual(DetailView):
         return context
 
 
-
+class MakePaymentView(TemplateView):
+    template_name = "pagosonline/pago.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(ExtraContextTemplateView, self).get_context_data(*args, **kwargs)
+        context['payament_info']= payament_info(kwargs['reference'], kwargs['order_id'])
+        return context
+        
 def make_payment(request, reference, order_id):
     """ Recibimos un texto de referencia, el ID de la orden y una cantidad en euros (sin decimales)"""
     return direct_to_template(request,
@@ -147,14 +155,14 @@ def confirm_payment(request):
             log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
             r.set_as_paid()
             log.debug( "Mostramos al TPV la pagina de pago OK")
-            return direct_to_template(request,template="pago_confirmar.html")
+            return render(request,"pago_confirmar.html")
         else:
-            return direct_to_template(request,template="pago_noconfirmar.html")
+            return render(request,"pago_noconfirmar.html")
     except:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         log.debug("No hemos sido capaces de validar el pago de la matricula ha fallado el try con la excepcion: %s %s %s"%(exc_type,exc_value,exc_traceback))
         log.debug(exc_type)
         log.debug(exc_value)
         log.debug(exc_traceback)
-        return direct_to_template(request,template="pago_noconfirmar.html")
+        return render(request,"pago_noconfirmar.html")
 

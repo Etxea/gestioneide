@@ -26,5 +26,4 @@ class MessagesMiddleware:
             unread_messages_count =  unread_messages.count()
             request.session['unread_messages_count'] = unread_messages_count
             request.session['unread_messages'] = unread_messages
-
         return None
