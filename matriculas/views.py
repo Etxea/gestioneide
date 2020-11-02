@@ -102,7 +102,7 @@ class MatriculaEidePayView(DetailView):
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
-            "Ds_Merchant_Titular": 'John Doe',
+            "Ds_Merchant_Titular": 'EIDE',
             "Ds_Merchant_MerchantData": 'eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
             "Ds_Merchant_ProductDescription": 'matricula-eide-%s'%self.object.id,
@@ -175,8 +175,8 @@ class MatriculaLinguaskillPayView(DetailView):
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
-            "Ds_Merchant_Titular": 'John Doe',
-            "Ds_Merchant_MerchantData": 'eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
+            "Ds_Merchant_Titular": 'EIDE Lingua Skill',
+            "Ds_Merchant_MerchantData": 'ls-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
             "Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
             "Ds_Merchant_Amount": int(self.object.level.price*100),

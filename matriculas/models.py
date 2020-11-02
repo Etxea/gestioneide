@@ -286,7 +286,7 @@ Los datos son del alumno son:
 <p>Gracias por matricularte con nosotros. Te confirmamos que hemos recibido tu matrícula y pago de 
 Linguaskill. En breve nos pondremos en contacto contigo para confirmarte la fecha elegida y darte 
 más instrucciones. Si no recibes noticias nuestras en 24 horas, puedes contactar con nosotros en el 
-44937005 o por email <a href="mailto://eide@eide.es">eide@eide.es</a></p>
+44937005 o por email <a href="mailto:eide@eide.es">eide@eide.es</a></p>
         """%(self.exam)
 	#html_content= html_content+render_to_string('cambridge/legal.html')
         html_content= html_content+u"""</body></html>"""
@@ -298,7 +298,7 @@ más instrucciones. Si no recibes noticias nuestras en 24 horas, puedes contacta
         #msg.send()
         send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
         
-        subject = "[cambridge] Se ha confirmado el pago de una matrcicula LS"
+        subject = "[EIDE] Se ha confirmado el pago de una matrcicula LS"
         message_body = u"""Se acaba de confirmar el pago de un matricula para examen %s. \n 
 Los datos son:\n
 ID de la mátricula: %s \n 
