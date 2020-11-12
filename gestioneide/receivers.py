@@ -8,61 +8,66 @@ from sermepa.signals import payment_was_successful, payment_was_error, signature
 from matriculas.models import MatriculaEide, MatriculaLinguaskill
 from pagosonline.models import Pago
 
-#from pinax.eventlog.models import log
+from pinax.eventlog.models import log
 
 import logging
 log = logging.getLogger("django")
 
 @receiver(user_logged_in)
 def handle_user_logged_in(sender, **kwargs):
-    log(
-        user=kwargs.get("user"),
-        action="USER_LOGGED_IN",
-        extra={}
-    )
+    pass
+    # log(
+    #     user=kwargs.get("user"),
+    #     action="USER_LOGGED_IN",
+    #     extra={}
+    # )
 
 
 @receiver(password_changed)
 def handle_password_changed(sender, **kwargs):
-    log(
-        user=kwargs.get("user"),
-        action="PASSWORD_CHANGED",
-        extra={}
-    )
+    pass
+    # log(
+    #     user=kwargs.get("user"),
+    #     action="PASSWORD_CHANGED",
+    #     extra={}
+    # )
 
 
 @receiver(user_login_attempt)
 def handle_user_login_attempt(sender, **kwargs):
-    log(
-        user=None,
-        action="LOGIN_ATTEMPTED",
-        extra={
-            "username": kwargs.get("username"),
-            "result": kwargs.get("result")
-        }
-    )
+    pass
+    # log(
+    #     user=None,
+    #     action="LOGIN_ATTEMPTED",
+    #     extra={
+    #         "username": kwargs.get("username"),
+    #         "result": kwargs.get("result")
+    #     }
+    # )
 
 
 @receiver(user_sign_up_attempt)
 def handle_user_sign_up_attempt(sender, **kwargs):
-    log(
-        user=None,
-        action="SIGNUP_ATTEMPTED",
-        extra={
-            "username": kwargs.get("username"),
-            "email": kwargs.get("email"),
-            "result": kwargs.get("result")
-        }
-    )
+    pass
+    # log(
+    #     user=None,
+    #     action="SIGNUP_ATTEMPTED",
+    #     extra={
+    #         "username": kwargs.get("username"),
+    #         "email": kwargs.get("email"),
+    #         "result": kwargs.get("result")
+    #     }
+    # )
 
 
 @receiver(user_signed_up)
 def handle_user_signed_up(sender, **kwargs):
-    log(
-        user=kwargs.get("user"),
-        action="USER_SIGNED_UP",
-        extra={}
-    )
+    pass
+    # log(
+    #     user=kwargs.get("user"),
+    #     action="USER_SIGNED_UP",
+    #     extra={}
+    # )
 
 ## SERMEPA
 

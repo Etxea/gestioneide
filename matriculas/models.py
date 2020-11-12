@@ -309,12 +309,12 @@ más instrucciones. Si no recibes noticias nuestras en 24 horas, puedes contacta
         except Exception, e:
             log.error("(matriculas) Error al enviar mail",str(e))
         
-        subject = "[EIDE][Linguskill] Se ha confirmado el pago de una matricula LS"
+        subject = "[EIDE][Linguaskill] Se ha confirmado el pago de una matricula LS"
         message_body = u"""Se acaba de confirmar el pago de un matricula para examen %s. \n 
 Los datos son:\n
 ID de la mátricula: %s \n 
 Nombre: %s \n Apellidos: %s \n
-Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/linguaskills/edit/%s/
+Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/linguaskill/edit/%s/
 """%(self.level,self.id,self.name,self.surname,self.id)
         mail_admins(subject, message_body, html_message=message_body)
     

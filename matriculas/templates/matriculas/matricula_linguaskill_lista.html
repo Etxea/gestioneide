@@ -12,7 +12,8 @@
             <th>Quien</th>
             <th>Centro</th>
             <th>Tipo</th>
-            <th>Cuando</th>
+            <th>Fecha propuesta</th>
+            <th>Fecha matrícula</th>
             <th>Pagada</th>
             <th>Url Pago</th>
         </thead>
@@ -23,6 +24,7 @@
                 <td>{{ matricula.surname }} , {{ matricula.name }}</td>
                 <td>{{ matricula.level.venue }}</td>
                 <td>{{ matricula.level.name }}</td>
+                <td>{{ matricula.proposed_date}}</td>
                 <td>{{ matricula.registration_date }}</td>
                 <td>{{ matricula.paid | yesno }}</td>
                 <td><a href="https://portal-alumno.eide.es{{ matricula.generate_payment_url }}">Pagar</a></td>

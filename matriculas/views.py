@@ -208,6 +208,6 @@ class MatriculaLinguaskillPayView(DetailView):
         return context
 
 class MatriculaLinguaskillUpdateView(UpdateView):
-    model = MatriculaEide
+    model = MatriculaLinguaskill
     template_name = "matriculas/matricula_linguaskill_nueva.html"
     fields = "__all__"        
