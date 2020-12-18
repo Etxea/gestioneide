@@ -1,0 +1,27 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+  
+    <h1>{% trans "Exam " %}{{object}}</h1>
+	<table class="table">
+
+    </table>
+    <h2>Matrículas</h2>
+    <table class="table">
+        <thead>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for matricula in object.registration_set.all %}
+            <tr>
+                <td>{{ matricula }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

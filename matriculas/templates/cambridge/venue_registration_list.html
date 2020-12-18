@@ -1,0 +1,53 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+<p>
+<a class="btn btn-success" href="{% url 'cambridge_excel' %}">Bajar como fichero excel</a></li>
+</p>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <td>Identificador</td>
+            <td>Venue</td>
+            <td>Fecha Reali.</td>
+            <td>{% trans "Level" %}</td>
+            <td>{% trans "Exam Date" %}</td>
+            <td>{% trans "Surname" %}</td>
+            <td>{% trans "Name" %}</td>
+            <!--<td>{% trans "Paid" %}</td>-->
+            <td> </td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for matricula in object_list %}
+        <tr>
+            <td> <a href="{% url 'cambridge_edit' matricula.id %}">cambridge.pb-{{ matricula.id }}</a> </td>
+            <td>{{ matricula.exam.venueexam.venue }}</td>
+            <td>{{ matricula.registration_date }}</td>
+            <td>{{ matricula.exam.level.name }}</td>
+            <td>{{ matricula.exam.exam_date }}</td>
+            <td>{{ matricula.surname }}</td>
+            <td>{{ matricula.name }}</td>
+            
+            <!--<td>{{ matricula.paid }}<a href="{% url 'cambridge_pay' matricula.id %}">Pagar</a></td>-->
+            <td>
+                <a class="btn btn-primary" href="{% url 'cambridge_imprimir' matricula.id %}">
+                <i class="icon-user icon-white"></i>
+                {% trans "Print" %}
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-primary" href="{% url 'cambridge_delete' matricula.id %}">
+                <i class="icon-delete icon-white"></i>
+                {% trans "Delete" %}
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

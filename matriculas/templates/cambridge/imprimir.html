@@ -1,0 +1,54 @@
+{% extends "theme_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+<h1>La matricula de {{ registration.id }}</h1>
+<table>
+	<tr>
+		<td>Nombre</td><td>{{ registration.name }}</td>
+	</tr>
+	<tr>
+		<td>Apellidos</td><td>{{ registration.surname }}</td>
+	</tr>
+	<tr>
+		<td>Dirección</td><td>{{ registration.address }}</td>
+	</tr>
+
+	<tr>
+		<td>Localidad</td><td>{{ registration.location }}</td>
+	</tr>
+	<tr>
+		<td>CP</td><td>{{ registration.postal_code }}</td>
+	</tr>
+	<tr>
+		<td>Sexo</td><td>{{ registration.sex }}</td>
+	</tr>
+	<tr>
+		<td>Fecha Nac.</td><td>{{ registration.birth_date }}</td>
+	</tr>
+	<tr>
+		<td>DNI</td><td>{{ registration.dni }}</td>
+	</tr>
+	<tr>
+		<td>Teléfono</td><td>{{ registration.telephone }}</td>
+	</tr>
+	<tr>
+		<td>e-mail</td><td>{{ registration.email }}</td>
+	</tr>
+	<tr>
+		<td>¿Es alumno de EIDE?</td><td>{{ registration.eide_alumn }}</td>
+	</tr>
+	<tr>
+		<td>Centro</td><td>{{ registration.centre_name }}</td>
+	</tr>
+	<tr>
+		<td>Fecha Matrícula</td><td>{{ registration.registration_date }}</td>
+	</tr>
+
+
+</table>
+
+
+{% endblock %}

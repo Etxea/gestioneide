@@ -1,0 +1,12 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block body %}
+    <h1>{% trans "Delete Exam" %}{{object}}</h1>
+
+	<form action="{% url 'cambridge_exam_delete' object.id %}" method="post">{% csrf_token %}
+	¿Seguro que desas borrar exámen {{object}} ?
+    <br />
+	<input class="btn submit" type="submit" value="Eliminar"/>
+	<a class="btn" href="{% url 'cambridge_exam_list' %}">{% trans "Cancel" %}</a>
+    </form>
+{% endblock %}
