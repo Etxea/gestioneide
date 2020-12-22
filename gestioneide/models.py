@@ -588,8 +588,9 @@ class Grupo(models.Model):
             filtro = Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')
         posicion = int(filtro.filter(nombre__lt = self.nombre).count())
         total = len(filtro)
+        ultimo = total - 1
         print("Somo el %s de %s"%(posicion,total))
-        if posicion == total:
+        if posicion == ultimo :
             return self.id
         else:
             return filtro[posicion+1].id
@@ -1063,7 +1064,7 @@ class NotaCuatrimestral(models.Model):
         return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
     
     def enviar_mail(self):
-        #print("Vamos a enviar los mails de la nota del alumno %s del cuatrimestre %s"%(self.asistencia.alumno,self.cuatrimestre))
+        #print(u"Vamos a enviar los mails de la nota del alumno %s del cuatrimestre %s"%(self.asistencia.alumno,self.cuatrimestre))
         contexto = {}
         contexto['year']=self.asistencia.grupo.year.__unicode__()
         contexto['cuatrimestre']=self.cuatrimestre
@@ -1092,7 +1093,7 @@ class NotaTrimestral(models.Model):
         return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
 
     def enviar_mail(self):
-        print("Vamos a enviar los mails de la nota del alumno %s del trimestre %s"%(self.asistencia.alumno,self.trimestre))
+        #print(u"Vamos a enviar los mails de la nota del alumno %s del trimestre %s"%(self.asistencia.alumno,self.trimestre))
         contexto = {}
         contexto['year']=self.asistencia.grupo.year.__unicode__()
         contexto['trimestre']=self.trimestre
