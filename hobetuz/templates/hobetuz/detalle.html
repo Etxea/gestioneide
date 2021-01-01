@@ -1,0 +1,81 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+<h1>Solicitud Hobetuz {{ registration.surname }},{{ registration.name }}</h1>
+<h2>Datos de Contacto</h2>
+<table class="table">
+	<tr>
+		<td><b>Nombre</b></td><td>{{ registration.name }}</td>
+	
+		<td><b>Apellidos</b></td><td>{{ registration.surname }}</td>
+	</tr>
+	<tr>
+		<td><b>Teléfono Fijo</b></td><td>{{ registration.telephone }}</td>
+		<td><b>Teléfono Móvil</b></td><td>{{ registration.telephone2 }}</td>
+	</tr>
+	<tr>
+		<td><b>e-mail</b></td><td>{{ registration.email }}</td>
+	
+		<td><b>Fecha Solicitud</b></td><td>{{ registration.registration_date }}</td>
+	</tr>
+	</table>
+
+<h2>Datos laborales</h2>
+<table class="table">
+	<tr>
+		<td>Desempleado</td><td>{%if registration.desempleado %} Sí {% else  %} No {% endif %} </td>  {% if registration.desempleado %} <td>fecha</td><td>{{ registration.fecha_desempleo|date:"c" }}</td>{% else%}<td></td><td></td>{% endif %}<td></td><td></td>
+	</tr>
+	<tr>
+		<td>Empresa</td><td>{% if registration.empresa_nombre %}{{ registration.empresa_nombre }}{% endif %}</td>
+		<td>Puesto</td><td>{% if registration.empresa_puesto %}{{ registration.empresa_puesto }}{% endif %}</td>
+		<td>Actividad</td><td>{% if registration.empresa_actividad %}{{ registration.empresa_actividad }}{% endif %}</td>
+	</tr>
+</table>
+<h2>Solicitud</h2>
+<table class="table">
+	<tr>
+		<td  ><b>Primera Opción</td><td  >{{ registration.curso }}</td>
+	</tr>
+	<tr>
+		<td ><b>Segunda Opción</b></td><td >{{ registration.curso2 }}</td>
+	</tr>
+	<tr>
+		<td ><b>Terecera Opción</b></td><td >{{ registration.curso3 }}</td>
+	</tr>
+	<tr>
+		<td ><b>Cuarta Opción</b></td><td >{{ registration.curso4 }}</td>
+	</tr>
+	<tr>
+		<td ><b>Quinta Opción</b></td><td >{{ registration.curso5 }}</td>
+	</tr>
+</table>
+
+<h2>Niveles idiomas</h2>
+<table class="table">
+	<thead>
+		<th></th><th>Inglés</th><th>Frances</th><th>Aleman</th><th>Chino</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td><b>Nivel</b></td>
+			<td>{{ registration.get_nivel_ingles_display }}</td>
+			<td>{{ registration.get_nivel_frances_display }}</td>
+			<td>{{ registration.get_nivel_aleman_display }}</td>
+			<td>{{ registration.get_nivel_chino_display }}</td>
+		</tr>
+	</tbody>
+</table>
+
+<button class="btn primary" onclick="myFunction()">Imprimir</button>
+
+<script>
+function myFunction() {
+    window.print();
+}
+</script>
+
+{% endblock %}
+

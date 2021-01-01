@@ -131,7 +131,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'pinax.notifications',
     'anymail',
-
+    'cookie_consent',
     # project
     "gestioneide",
     "alumnos",
@@ -159,6 +159,7 @@ INSTALLED_APPS = [
     "pagosonline",
     "cambridge",
     "matriculas",
+    "hobetuz",
     
 ]
 

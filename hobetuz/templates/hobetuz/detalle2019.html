@@ -1,0 +1,57 @@
+{% extends "site_base_clean.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+<h1>Solicitud Hobetuz {{ registration.surname }},{{ registration.name }}</h1>
+<h2>Datos de Contacto</h2>
+<table class="table">
+	<tr>
+		<td><b>Nombre</b></td><td>{{ registration.name }}</td>
+	
+		<td><b>Apellidos</b></td><td>{{ registration.surname }}</td>
+	</tr>
+	<tr>
+		<td><b>Teléfono</b></td><td>{{ registration.telephone }}</td>
+		<td><b>Fecha Nac.</b></td><td>{{ registration.bith_date }}</td>
+	</tr>
+	<tr>
+		<td><b>e-mail</b></td><td>{{ registration.email }}</td>
+	
+		<td><b>Fecha Solicitud</b></td><td>{{ registration.registration_date }}</td>
+	</tr>
+	</table>
+
+<h2>Datos laborales</h2>
+<table class="table">
+	<tr>
+		<td>Desempleado</td><td>{%if registration.desempleado %} Sí {% else  %} No {% endif %} </td>  
+	</tr>
+	<tr>
+		<td>Funcionario</td><td>{%if registration.funcionaio %} Sí {% else  %} No {% endif %} </td>  
+	</tr>
+</table>
+<h2>Solicitud</h2>
+<table class="table">
+	<tr>
+		<td><b>Curso</td><td  >{{ registration.get_curso_display }}</td>
+	</tr>
+	<tr>
+		<td ><b>Titulación</b></td><td >{{ registration.get_titulacion_display }}</td>
+	</tr>
+	<tr>
+		<td ><b>Nivel de Ingles</b></td><td >{{ registration.nivel_ingles }}</td>
+	</tr>
+</table>
+
+<button class="btn primary" onclick="myFunction()">Imprimir</button>
+
+<script>
+function myFunction() {
+    window.print();
+}
+</script>
+
+{% endblock %}
+

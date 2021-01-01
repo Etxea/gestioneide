@@ -1,0 +1,14 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% load bootstrap_tags %}
+{% block body %}
+    <h1>{% trans "Delete Course" %}{{object}}</h1>
+	<div>
+	<form action="" method="post">{% csrf_token %}
+	{{ form|as_bootstrap }}
+	¿Seguro que desas borrar curso {{object}} ?
+	</div>
+	<input class="btn submit large" type="submit" value="Eliminar"/>
+	<a class="btn primary large" href="{% url hobetuz_curso_lista %}">{% trans "Cancel" %}</a>
+    </form>
+{% endblock %}
