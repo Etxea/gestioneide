@@ -205,6 +205,9 @@ AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
 
+SERMEPA_BUTTON_BIZUM_TEXT="Pagar con Bizum"
+SERMEPA_BUTTON_TEXT="Pagar con tarjeta bancaria"
+
 try:
     from local_settings import *
 except ImportError:

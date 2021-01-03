@@ -59,6 +59,7 @@ def pagar_manual(request,pago_id):
         "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('pago_ko')),
         # "Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
         "Ds_Merchant_TransactionType": '0',
+        "Ds_Merchant_Paymethods": "z",
     }
 
     order = SermepaIdTPV.objects.new_idtpv()  # Tiene que ser un número único cada vez
@@ -69,9 +70,10 @@ def pagar_manual(request,pago_id):
     })
 
     form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-    print "Tenemos el form"
-    print form.render()
-    return render_to_response('pagosonline/pago_manual_pagar.html', context={'form': form, 'debug': settings.DEBUG, 'pago': pago})
+    form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters,bizum=True)
+    
+
+    return render_to_response('pagosonline/pago_manual_pagar.html', context={'form': form_bizum, 'form_bizum': form, 'debug': settings.DEBUG, 'pago': pago})
 
 class PagoManual(DetailView):
     template_name = "pagosonline/pago_manual_pagar.html"
@@ -84,7 +86,7 @@ class PagoManual(DetailView):
         site_domain = site.domain
         pago = self.object
         merchant_parameters = {
-            "Ds_Merchant_Titular": 'John Doe',
+            "Ds_Merchant_Titular": 'EIDE',
             "Ds_Merchant_MerchantData": 'man-%s' % pago.id,   # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
             "Ds_Merchant_ProductDescription": 'eide-onlinepayment-%s' % pago.id,
@@ -97,6 +99,7 @@ class PagoManual(DetailView):
             "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('pago_ko')),
             # "Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
             "Ds_Merchant_TransactionType": '0',
+            "Ds_Merchant_Paymethods": 'C'
         }
 
         order = SermepaIdTPV.objects.new_idtpv()  # Tiene que ser un número único cada vez
@@ -107,9 +110,14 @@ class PagoManual(DetailView):
         })
 
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print "Tenemos el form"
-        print form.render()
+        merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
+        form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+        merchant_parameters.update({"Ds_Merchant_Paymethods": 'p'})
+        form_paypal = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+        
         context['form']=form
+        context['form_bizum']=form_bizum
+        context['form_paypal']=form_paypal
         return context
 
 
