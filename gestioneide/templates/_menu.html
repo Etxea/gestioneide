@@ -134,8 +134,10 @@
 			<li><a href="/aulas"><i class="zmdi zmdi-home"></i>&nbsp;&nbsp;Aulas</a></li>
 			<li><a href="{% url 'profesores_lista' %}"><i class="zmdi zmdi-accounts-alt"></i>&nbsp;&nbsp;Profesores</a></li>
 			<li><a href="/libros"><i class="zmdi zmdi-book"></i>&nbsp;&nbsp;Libros</a></li>
-            <li><a href="/year">
-                <i class="zmdi zmdi-calendar"></i>&nbsp;&nbsp;Años</a></li>
+			<li><a href="/year"><i class="zmdi zmdi-calendar"></i>&nbsp;&nbsp;Años</a></li>
+			<li><a href="{% url 'pago_lista' %}"><i class="zmdi zmdi-money"></i>&nbsp;&nbsp; Pagos Online</a></li>
+		
+			
 		</ul>
 	</li>
 	<li>
@@ -160,8 +162,11 @@
 			<span>Matrículas</span>
 		</a>
 		<ul>
-			<li><a href="{% url 'matricula_eide_lista' %}"><i class="zmdi zmdi-receipt"></i>EIDE</a></li>
-			<li><a href="{% url 'matricula_linguaskill_lista' %}"><i class="zmdi zmdi-receipt"></i>Lingua Skill</a></li>
+			<li><a href="{% url 'matricula_eide_lista' %}"><i class="zmdi zmdi-receipt"></i> EIDE</a></li>
+			<li><a href="{% url 'cambridge_list' %}"><i class="zmdi zmdi-receipt"></i> Cambridge</a></li>
+			<li><a href="{% url 'matricula_linguaskill_lista' %}"><i class="zmdi zmdi-receipt"></i> Lingua Skill</a></li>
+			<li><a href="{% url 'matricula_curso_lista' %}"><i class="zmdi zmdi-receipt"></i> Cursos</a></li>
+			<li><a href="{% url 'hobetuz_list_2019' %}"><i class="zmdi zmdi-receipt"></i> Hobetuz</a></li>
 		</ul>
 	</li>
 	{% endif %}

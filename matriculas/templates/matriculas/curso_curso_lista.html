@@ -1,0 +1,19 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block body %}
+<h2>Lista de Venues</h2>
+<table class="table">
+	<thead>
+		<th>Name</th><th>Description</th><th>Registration Form</th><th>Regist. Number</th>
+	</thead>
+	{% for curso in object_list %}
+	<tr>
+		<td><a href="/admin/matriculas/curso/{{curso.id}}/change/"><i class="zmdi zmdi-edit"></i></a> {{curso.name}}</td>
+		<td>{{curso.description}}</td>
+		<td><a href="{% url 'matricula_curso_directo_nueva' curso.id %}">URL Matricula</a></td>
+		<td>{{curso.registration_count}}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

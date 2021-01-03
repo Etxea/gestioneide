@@ -1,0 +1,60 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+<h1>Solicitud Hobetuz {{ registration.surname }},{{ registration.name }}</h1>
+<table class="table">
+	<tr>
+		<td><b>Nombre</b></td><td>{{ registration.name }}</td>
+	
+		<td><b>Apellidos</b></td><td>{{ registration.surname }}</td>
+	</tr>
+	<tr>
+		<td colspan="2" ><b>Primera Opción</td><td colspan="2" >{{ registration.curso }}</td>
+	</tr>
+	<tr>
+		<td colspan="2"><b>Segunda Opción</b></td><td colspan="2">{{ registration.curso2 }}</td>
+	</tr>
+	<tr>
+		<td colspan="2"><b>Terecera Opción</b></td><td colspan="2">{{ registration.curso3 }}</td>
+	</tr>
+	<tr>
+		<td colspan="2"><b>Cuarta Opción</b></td><td colspan="2">{{ registration.curso4 }}</td>
+	</tr>
+	<tr>
+		<td colspan="2"><b>Quinta Opción</b></td><td colspan="2">{{ registration.curso5 }}</td>
+	</tr>
+	<tr>
+		<td><b>Teléfono Fijo</b></td><td>{{ registration.telephone }}</td>
+		<td><b>Teléfono Móvil</b></td><td>{{ registration.telephone2 }}</td>
+	</tr>
+	<tr>
+		<td><b>e-mail</b></td><td>{{ registration.email }}</td>
+	
+		<td><b>Fecha Solicitud</b></td><td>{{ registration.registration_date }}</td>
+	</tr>
+	</table>
+<h2>Datos laborales</h2>
+<table class="table">
+	<tr>
+		<td>Desempleado</td><td>{{ registration.desempleado }} </td>  {% if registration.desempleado %} <td>fecha</td><td>>{{ registration.fecha_desempleo }}</td>{% else%}<td></td><td></td>{% endif %}<td></td><td></td>
+	</tr>
+	<tr>
+		<td>Empresa</td><td>{{ registration.empresa_nombre }}</td><td>Puesto</td><td>{{ registration.empresa_puesto }}</td><td>Actividad</td><td>{{ registration.empresa_actividad }}</td>
+	</tr>
+</table>
+
+<h2>Niveles idiomas</h2>
+<table class="table">
+	<thead>
+		<th></th><th>Inglés</th><th>Frances</th><th>Aleman</th><th>Chino</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td><b>Nivel</b></td><td>{{ registration.nivel_ingles }}</td><td>{{ registration.nivel_frances }}</td><td>{{ registration.nivel_aleman }}</td><td>{{ registration.nivel_chino }}</td>
+		</tr>
+	</tbody>
+</table>
+{% endblock %}

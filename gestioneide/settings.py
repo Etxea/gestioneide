@@ -131,7 +131,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'pinax.notifications',
     'anymail',
-
+    'cookie_consent',
     # project
     "gestioneide",
     "alumnos",
@@ -159,6 +159,7 @@ INSTALLED_APPS = [
     "pagosonline",
     "cambridge",
     "matriculas",
+    "hobetuz",
     
 ]
 
@@ -203,6 +204,9 @@ ACCOUNT_USE_AUTH_AUTHENTICATE = True
 AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
+
+SERMEPA_BUTTON_BIZUM_TEXT="Pagar con Bizum"
+SERMEPA_BUTTON_TEXT="Pagar con tarjeta bancaria"
 
 try:
     from local_settings import *

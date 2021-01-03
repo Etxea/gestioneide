@@ -1,0 +1,44 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+
+
+<div class="hero-unit">
+
+    <h2>{% trans "Solicita un curso HOBETUZ" %}</h2>
+    <br />
+    <p>{% trans "Solicutar un curso de HOBETUZ en EIDE para es sencillo, tan solo elige tu curso." %}</p>
+    <p>
+		<ul>
+			{% for course in object_list %}
+			<li>{{ course.name }}</li>
+			{% endfor %}
+		</ul>
+    </p>
+    <p class="pagination-centered" >
+		<a class="btn primary large" href="{% url 'hobetuz_nueva' %}">{% trans "Solicitud" %}</a>
+	</p>
+</div>
+<!--
+<table class="table">
+    <thead>
+        <tr>
+        <td>{% trans "Course Name" %}</td>
+        <td>{% trans "Registration Open" %}</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for course in object_list %}
+    <tr>
+    
+    <td>{{ course.name }}</a></td>
+    <td>{{ course.matricula_abierta }}</td>
+    
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+-->
+{% endblock %}

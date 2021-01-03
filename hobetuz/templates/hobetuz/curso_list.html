@@ -1,0 +1,30 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+<h1>{% trans "Course List" %}</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+        <td>{% trans "Name" %}</td>
+        <td>{% trans "Abierto" %}</td>
+        <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for course in object_list %}
+    <tr>
+    
+    <td><a href="{% url hobetuz_curso_edit course.id %}">{{ course.name }}</a></a></td>
+    <td>{{ course.matricula_abierta }}</td>
+    <td><a href="{% url hobetuz_curso_delete  course.id %}">Borrar</a></a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<hr />
+<a class="btn primary large" href="{% url hobetuz_curso_nuevo %}">{% trans "Curso Nuevo" %}</a>
+{% endblock %}

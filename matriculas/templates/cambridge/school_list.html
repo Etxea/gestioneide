@@ -1,0 +1,21 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block body %}
+<h2>Lista de Schools</h2>
+<table class="table">
+	<thead>
+		<th>Name</th><th>Description</th><th>Registration Form</th><th>Exams</th><th>Regist. Number</th>
+	</thead>
+	{% for school in object_list %}
+	<tr>
+		<td><a href="/admin/cambridge/school/{{school.id}}/" class="icon icon-pencil">edit</a> - {{school}}</td>
+		<td>{{school.description}}</td>
+		<td><a href="{% url 'cambridge_schools_new_registration' school.name school.password %}">Enter</a></td><td>{{school.exam_count}}</td><td>{{school.registration_count}}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+<a class="btn btn-primary" href="{% url 'cambridge_schools_new' %}">New School</a>
+
+
+{% endblock %}

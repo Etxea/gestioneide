@@ -1,0 +1,16 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block body %}
+
+    <h1>{% trans "Curso " %}{{object}}</h1>
+
+	<form class="form-horizontal" action="" method="post">{% csrf_token %}
+	    
+	    {{ form|as_bootstrap }}
+	    
+	    <a class="btn large" href="{% url hobetuz_curso_lista %}">{% trans "Cancel" %}</a>
+	    <input class="submit btn primary large" type="submit" value="{% trans 'Save' %}" />
+	</form>
+{% endblock %}

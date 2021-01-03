@@ -1,0 +1,14 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block body %}
+    <h1>{% trans "Delete Resgistration" %}{{object}}</h1>
+
+	<form action="" method="post">{% csrf_token %}
+	{% load bootstrap_tags %}
+	{{ form|as_bootstrap }}
+    ¿Seguro que desas borrar la solicitud {{object}} {{object.surname}}?
+    <br />
+	<a class="btn primary" href="{% url cambridge_list %}">{% trans "Cancel" %}</a>
+	<input class="btn submit" type="submit" value="Eliminar"/>
+    </form>
+{% endblock %}

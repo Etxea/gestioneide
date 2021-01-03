@@ -15,18 +15,18 @@
 	El pago del pedido se produce en tiempo real a través del TPV Virtual una vez se haya comprobado que los datos proporcionados son correctos.
 </p>
 
-
-
-
 <div class="well">
+    <h2>Tarjeta Bancaria</h2>
+    <img src="https://sis.redsys.es/sis/graficos/logotipos/comunes/VerifiedByVisaLearnMore4.gif" />
+    <img src="https://sis.redsys.es/sis/graficos/logotipos/comunes/MastercardSecureCodeLearnMore4.gif" />
+    {{ form.render }}
+    <h2>Bizum</h2>
+    <img src="https://pagosonline.redsys.es/img/Bizum-imagen1.jpg" />
+    {{ form_bizum.render }}
 <!--
-	    {{ form.render }}
--->
-	{% if debug %}
-	    {{ form.sandbox }}
-	{% else %}
-	    {{ form.render }}
-	{% endif %}
+    <h2>Paypal</h2>
+    {{ form_paypal.render }}
+-->    
 </div>
 <div class="well">
     <h1>DATOS DE CONTACTO</h1>

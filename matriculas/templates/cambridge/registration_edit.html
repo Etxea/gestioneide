@@ -1,0 +1,15 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+
+{% block body %}
+    <h1>{% trans "Registration of " %}{{object.dni}}</h1>
+
+	<form action="{% url 'cambridge_edit' object.id %}" method="post">{% csrf_token %}
+	{% load bootstrap %}
+	{{ form|bootstrap }}
+	<input class="submit btn-form" type="submit" value="Guardar" />
+	<a class="btn" href="{% url 'cambridge_imprimir' object.id %}">{% trans "Print" %}</a>
+	<a class="btn" href="{% url 'cambridge_list' %}">{% trans "Cancel" %}</a>
+    </form>
+{% endblock %}

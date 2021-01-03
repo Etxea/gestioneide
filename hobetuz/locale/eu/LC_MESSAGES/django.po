@@ -1,0 +1,258 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-14 15:26+0200\n"
+"PO-Revision-Date: 2018-04-14 15:31+0200\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.11\n"
+
+#: forms.py:38
+msgid "Teléfono Fijo (*)"
+msgstr ""
+
+#: forms.py:39
+msgid "Teléfono Móvil (*)"
+msgstr ""
+
+#: models.py:42
+msgid "Male"
+msgstr "Gizona"
+
+#: models.py:43
+msgid "Female"
+msgstr "Emakumea"
+
+#: models.py:47
+msgid "Sin titulación"
+msgstr "Titulaziorik gabe"
+
+#: models.py:48
+msgid "Graduado Escolar o ESO"
+msgstr ""
+
+#: models.py:49
+msgid "Bachillerato, COU o similar"
+msgstr ""
+
+#: models.py:50
+msgid "Grado, Licenciatura o Diplomatura"
+msgstr ""
+
+#: models.py:51
+msgid "Certificado de Profesionalidad en Turismo y Hostelería de Nivel 1"
+msgstr ""
+
+#: models.py:52
+msgid "Certificado de Profesionalidad en Turismo y Hostelería de Nivel 2 o 3"
+msgstr ""
+
+#: models.py:53
+msgid ""
+"Ciclo Grado Medio, FPI, Certificado de Profesionalidad de Nivel 2 en otra "
+"especialidad"
+msgstr ""
+
+#: models.py:54
+msgid ""
+"Ciclo de Grado Superior, FPII; Certificado de Profesionalidad de Nivel 3 en "
+"otra especialidad"
+msgstr ""
+
+#: models.py:59
+msgid "Cero"
+msgstr ""
+
+#: models.py:60
+msgid "Inicial"
+msgstr ""
+
+#: models.py:61
+msgid "Intermedio"
+msgstr ""
+
+#: models.py:62
+msgid "Avanzado"
+msgstr ""
+
+#: models.py:67
+msgid "Matricula Abierta"
+msgstr ""
+
+#: models.py:80
+msgid "Password"
+msgstr ""
+
+#: models.py:81
+msgid "Nombre (*)"
+msgstr ""
+
+#: models.py:82
+msgid "Apellido(s) (*)"
+msgstr "Abizena(k) (*)"
+
+#: models.py:87
+msgid "Birth Date"
+msgstr "Jaioteguna"
+
+#: models.py:87 models.py:96
+msgid "Formato: AAAA-MM-DD(año-mes-día)"
+msgstr "Formatua: UUUU-HH-EE(urte-hilabetea-eguna)"
+
+#: models.py:93
+msgid "Titulación (*)"
+msgstr ""
+
+#: models.py:95 templates/hobetuz/lista.html.py:16
+msgid "Desempleado"
+msgstr ""
+
+#: models.py:95
+msgid "haga click en el check si se encuentra en situación de desempleo"
+msgstr ""
+
+#: models.py:98
+msgid "Nombre de la empresa"
+msgstr ""
+
+#: models.py:99
+msgid "Puesto en la empresa"
+msgstr ""
+
+#: models.py:100
+msgid "Actividad de la empresa"
+msgstr ""
+
+#: models.py:104
+msgid "Nivel Ingles"
+msgstr ""
+
+#: models.py:105
+msgid "Nivel Frances"
+msgstr ""
+
+#: models.py:106
+msgid "Nivel Aleman"
+msgstr ""
+
+#: models.py:107
+msgid "Nivel Chino"
+msgstr ""
+
+#: models.py:109
+msgid "Accept the conditions"
+msgstr ""
+
+#: models.py:109
+msgid "You must accept the conditions to register"
+msgstr ""
+
+#: templates/hobetuz/curso_confirm_delete.html:5
+msgid "Delete Course"
+msgstr ""
+
+#: templates/hobetuz/curso_confirm_delete.html:12
+#: templates/hobetuz/curso_edit.html:15 templates/hobetuz/curso_form.html:13
+#: templates/hobetuz/registration_confirm_delete.html:11
+#: templates/hobetuz/registration_edit.html:13
+msgid "Cancel"
+msgstr ""
+
+#: templates/hobetuz/curso_edit.html:11
+msgid "Exam "
+msgstr ""
+
+#: templates/hobetuz/curso_edit.html:16 templates/hobetuz/curso_form.html:14
+msgid "Save"
+msgstr ""
+
+#: templates/hobetuz/curso_form.html:7
+msgid "Curso "
+msgstr ""
+
+#: templates/hobetuz/curso_list.html:6
+msgid "Course List"
+msgstr ""
+
+#: templates/hobetuz/curso_list.html:11
+msgid "Name"
+msgstr ""
+
+#: templates/hobetuz/curso_list.html:12
+msgid "Abierto"
+msgstr ""
+
+#: templates/hobetuz/curso_list.html:29
+msgid "Curso Nuevo"
+msgstr ""
+
+#: templates/hobetuz/lista.html:14
+msgid "Cursos"
+msgstr ""
+
+#: templates/hobetuz/lista.html:15
+msgid "Nombre"
+msgstr ""
+
+#: templates/hobetuz/lista.html:34 templates/hobetuz/registration_edit.html:12
+msgid "Print"
+msgstr ""
+
+#: templates/hobetuz/lista.html:35
+msgid "Delete"
+msgstr ""
+
+#: templates/hobetuz/portada.html:10
+msgid "Solicita un curso HOBETUZ"
+msgstr ""
+
+#: templates/hobetuz/portada.html:12
+msgid ""
+"Solicutar un curso de HOBETUZ en EIDE para es sencillo, tan solo elige tu "
+"curso."
+msgstr ""
+
+#: templates/hobetuz/portada.html:21
+msgid "Solicitud"
+msgstr ""
+
+#: templates/hobetuz/portada.html:28
+msgid "Course Name"
+msgstr ""
+
+#: templates/hobetuz/portada.html:29
+msgid "Registration Open"
+msgstr ""
+
+#: templates/hobetuz/registration_confirm_delete.html:4
+msgid "Delete Resgistration"
+msgstr ""
+
+#: templates/hobetuz/registration_edit.html:6
+msgid "Registration of "
+msgstr ""
+
+#: templates/hobetuz/registration_form.html:70
+msgid "Solicita un curso de Hobetuz"
+msgstr ""
+
+#: templates/hobetuz/registration_form.html:93
+msgid ""
+"<b>¡Atención!.</b> Todavía no ha aceptado las condiciones. Si no acepta las "
+"condiciones generales no podrá enviar la matrícula."
+msgstr ""
+
+#: templates/hobetuz/registration_form.html:95
+msgid "Submit"
+msgstr ""

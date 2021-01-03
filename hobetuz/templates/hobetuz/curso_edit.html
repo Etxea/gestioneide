@@ -1,0 +1,18 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+  <script>
+  $(document).ready(function() {
+	  $("#id_exam_date").datepicker({format: "yyyy-mm-dd"});
+	  $("#id_registration_start_date").datepicker({format: "yyyy-mm-dd"});
+  });
+  </script>
+    <h1>{% trans "Exam " %}{{object}}</h1>
+	<form action="{% url cambridge_exam_edit object.id %}" method="post">{% csrf_token %}
+      {{ form.as_p }}
+	
+	<a class="btn" href="{% url cambridge_exam_list %}">{% trans "Cancel" %}</a>
+	<input class="submit btn primary" type="submit" value="{% trans 'Save' %}" />
+    </form>
+{% endblock %}
