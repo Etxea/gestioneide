@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
+from django.shortcuts import redirect
 from gestioneide.models import *
 from asistencias.forms import *
 
