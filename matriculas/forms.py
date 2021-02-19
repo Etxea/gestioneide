@@ -24,9 +24,12 @@ class MatriculaCursoForm(ModelForm):
         #     'birth_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}),
         # }
     def __init__(self, *args, **kwargs):
-        curso = kwargs.pop('curso')
-        super(MatriculaCursoForm, self).__init__(*args, **kwargs)
-        
+        try:
+            self.curso = kwargs.pop('curso')
+            super(MatriculaCursoForm, self).__init__(*args, **kwargs)
+            self.fields['curso'].choices = self.curso
+        except:
+            super(MatriculaCursoForm, self).__init__(*args, **kwargs)
 
 
 class MatriculaLinguaskillForm(ModelForm):

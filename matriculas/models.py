@@ -236,10 +236,14 @@ class MatriculaEide(models.Model):
 ## EIDE ##
 ##########
 
+############
 ## CURSOS ##
+############
 
 class Curso(models.Model):
     name = models.CharField(_('Nombre'),max_length=50)
+    activo = models.BooleanField(default=True)
+    descripcion = models.TextField(default="")
     condiciones = models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2)
 
@@ -267,6 +271,9 @@ class MatriculaCurso(models.Model):
     
     def price(self):
         return self.curso.price
+
+    def get_absolute_url(self):
+        return reverse_lazy('matricula_curso_editar', kwargs={'pk': self.pk })
 
     def send_confirmation_email(self):
         ##Para el alumno
@@ -329,7 +336,7 @@ class MatriculaCurso(models.Model):
             Nombre: %s \n Apellidos: %s \n
             Curso: %s \n
             Puedes ver más detalles e imprimirla en la siguente url https://gestion.eide.es/matriculas/curso/edit/%s/
-        """%(self.level,self.id,self.name,self.surname,self.curso,self.id)
+        """%(self.name,self.id,self.name,self.surname,self.curso,self.id)
         mail_admins(subject, message_body, html_message=message_body)
     
     def set_as_paid(self):
@@ -355,6 +362,10 @@ class MatriculaCurso(models.Model):
             
     def generate_payment_url(self):
         return '/matriculas/curso/pagar/%s/'%(self.id)
+
+############
+## CURSOS ##
+############
 
 #################
 ## LINGUASKILL ##

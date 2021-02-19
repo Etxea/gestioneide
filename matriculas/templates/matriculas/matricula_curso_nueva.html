@@ -3,73 +3,21 @@
 {% load i18n %}
 
 {% block body %}
-<h1>{% trans "Nueva Matricula" %}</h1>
+<h1>{% trans "Nueva Matricula para" %} {{ curso.name }}</h1>
 <form action="" method="post">{% csrf_token %}
   {{ form|as_bootstrap }}
     {% if curso %}
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3>0. NORMATIVA CURSO</h3>
+            <h3>1. NORMATIVA CURSO</h3>
 
+            {{ curso.condiciones|safe }}
             </div>
     </div>
     {% endif %}
   <div class="panel panel-default">
     <div class="panel-body">
-      El alumno al formalizar la presente matrícula acepta las condiciones siguientes:
-      <h3>1. NORMATIVA GENERAL</h3>
-
-      <p>
-        Todos los candidatos deberán cumplimentar la matrícula online y realizar el pago de la tasa de 
-        examen online. Una vez formalizada y pagada la matrícula, EIDE contactará con el candidato para 
-        confirmar la fecha y hora de la prueba. 
-      </p>
-      <p>
-        En caso de examen <b>presencial</b>: Es responsabilidad del candidato llegar al lugar del examen con 
-        <b>30 minutos</b> de antelación. El candidato debe traer un <b>DNI</b> o <b>pasaporte</b> en vigor que atestigüe 
-        su identidad. Se recomienda <b>no traer teléfono móvil ni reloj inteligente</b> ya que éstos se le 
-        retirarán durante toda la duración de la prueba. EIDE no se responsabiliza del robo o extravío 
-        del teléfono móvil o reloj que le sea retirado.
-      </p>
-      <p>
-         En caso de examen <b>desde casa</b>: El día de la prueba, el candidato deberá mostrar un <b>DNI</b> o <b>pasaporte</b> 
-         en vigor que atestigüe su identidad.
-      </p>
-      
-      <h3>2. FECHA DE REALIZACIÓN DE LA PRUEBA</h3>
-      
-      <p>
-      En el momento de matricularse, el candidato podrá elegir la fecha de realización de la prueba. Puede ser cualquier fecha, de lunes a viernes, siempre y cuando se formalice la matrícula y el pago al menos 48 horas antes de la fecha elegida y siempre y cuando el centro esté abierto en esa fecha. 
-      </p>
-
-      <h3>3. REQUISITOS TÉCNICOS (EN CASO DE REALIZAR LA PRUEBA EN CASA) </h3>
-      <ul>
-        <li>Un ordenador con Windows 8 o más</li>
-        <li>Una webcam</li>
-        <li>Conexión a internet con velocidad mínima de 512kbps</li>
-        <li>Una pantalla de al menos 13” con una resolución mínima de 1280px x 720px</li>
-        <li>Google Chrome Browser</li>
-        <li>Auriculares con micrófono </li>
-    </ul>
-    <p>Es responsabilidad del candidato cumplir con los requisitos técnicos arriba indicados y asegurarse que su equipo funciona correctamente el día del examen. EIDE no se responsabiliza de cualquier error derivado del malfuncionamiento del equipo del candidato.</p>
-      
-      <h3>4. CANCELACIONES Y CAMBIOS DE FECHA</h3>
-      
-      <p>
-        No se admiten cancelaciones una vez pagada la tasa de examen. Se admiten cambios de fecha de examen sin coste alguno siempre y cuando se haga 24 horas antes de la fecha acordada. Pasadas las 24 horas no se admitirán cambios de fecha.
-      </p>
-      
-      <h3>5. RESULTADOS</h3>
-      
-      <p>
-        Los resultados del Reading & Listening son inmediatos. Los del Writing están disponibles en un máximo de 12 horas y los del Speaking en un máximo de 48 horas. En caso de realizar las 4 destrezas, los resultados se proporcionan en un máximo de 48 horas por medio de un informe generado por ordenador, de forma que no hay que esperar a certificados impresos. Los resultados son definitivos, no se puede pedir la revisión de los mismos.
-      </p>
-      
-      <h3>6. PROTECCIÓN DE DATOS</h3>
-      
-      <p>
-        Le informamos conforme a lo previsto en el RGPD de 27 de abril de 2016 que ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL DESARROLLO EIDE S.L., recaba y trata sus datos de carácter personal, aplicando las medidas técnicas y organizativas que garantizan su confidencialidad, con la finalidad de gestionar la relación que le vincula. Usted da su consentimiento y autorización para dicho tratamiento. Conservaremos sus datos de carácter personal únicamente el tiempo imprescindible para gestionar nuestra relación. Podrá ejercitar los derechos de acceso, rectificación, supresión, limitación, portabilidad y oposición dirigiéndose a ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL DESARROLLO EIDE S.L. con dirección Genaro Oraá Kalea 6, Santurce,48980,BIZKAIA.
-      </p>
+      <h3>2. NORMATIVA GENERAL</h3>
       
     </div>
   </div>
