@@ -1,0 +1,24 @@
+{% extends "public_base.html"%}
+{% load bootstrap_tags %}
+{% load i18n %}
+
+{% block body %}
+
+<h1>Cursos Disponibles</h1>>
+
+<table class="table">
+	<thead>
+		<th>Nombre</th><th>Descripción</th><th>Precio</th><th></th>
+	</thead>
+	{% for curso in object_list %}
+	<tr>
+		<td> {{curso.name}}</td>
+        <td> {{curso.descripcion }}</td>
+		<td> {{curso.price}} </td>
+		<td><a class="btn btn-primary" href="{% url 'matricula_curso_directo_nueva' curso.id %}">Matriculate!</a></td>
+		
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

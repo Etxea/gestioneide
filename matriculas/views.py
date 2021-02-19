@@ -151,6 +151,11 @@ class MatriculaEideError(TemplateView):
 class CursoListView(ListView):
     model = Curso
     template_name = "matriculas/curso_curso_lista.html"
+    
+class CursoListViewPublica(ListView):
+    model = Curso
+    queryset = Curso.objects.filter(activo=True)
+    template_name = "matriculas/curso_curso_lista_publica.html"
 
 class CursoCreateView(CreateView):
     model = Curso
@@ -171,14 +176,35 @@ class MatriculaCursoCreateView(CreateView):
         #return reverse_lazy(MatriculaLinguaskillPayView,self.object.id)
         return reverse('matricula_curso_pagar', args=[self.object.id])
     
-
+class MatriculaCursoDirectaCreateView(CreateView):
+    model = MatriculaCurso
+    template_name = "matriculas/matricula_curso_nueva.html"
+    form_class = MatriculaCursoForm
+    
+    def get_success_url(self):
+        #return reverse_lazy(MatriculaLinguaskillPayView,self.object.id)
+        return reverse('matricula_curso_pagar', args=[self.object.id])
+    
+    def get_context_data(self, **kwargs):
+        context = super(MatriculaCursoDirectaCreateView, self).get_context_data(**kwargs)
+        try:
+            context['curso'] = context['form'].initial['curso']
+        except:
+            print "No hay curso"
+            pass
+        return context
+    
+    def get_initial(self, *args, **kwargs):
+        initial = super(MatriculaCursoDirectaCreateView, self).get_initial(**kwargs)
+        initial['curso'] = Curso.objects.get(id=self.kwargs.pop('curso_id'))
+        return initial
 
     ##Pasamos el argumento del curso
     def get_form_kwargs(self):
-        kwargs = super(MatriculaCursoCreateView, self).get_form_kwargs()
+        kwargs = super(MatriculaCursoDirectaCreateView, self).get_form_kwargs()
         ##Intentamos leer el curso (puede que no exista)
         try:
-            kwargs['curso'] = self.kwargs.pop('curso')
+            kwargs['curso'] = Curso.objects.get(id=self.kwargs.pop('curso_id'))
         except:
             kwargs['curso'] = None
         return kwargs
@@ -239,6 +265,7 @@ class MatriculaCursoDetailView(DetailView):
 class MatriculaCursoUpdateView(UpdateView):
     model = MatriculaCurso
     template_name = "matriculas/matricula_curso_nueva.html"
+    success_url = reverse_lazy('matricula_curso_lista')
     fields = "__all__"
 
 ## LINGUASKILL

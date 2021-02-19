@@ -1,25 +1,34 @@
 {% extends "site_base.html"%}
 {% load bootstrap_tags %}
 {% load i18n %}
-{% block extra_header %}
-<h1>{% trans "Lista Matriculas a Cursos" %}</h1>
-{% endblock %}
 
+{% block page_header %}
+
+
+<h1>
+{% trans "Lista Matriculas a Cursos" %}
+<a class="btn btn-primary pull-right" href="{% url 'curso_lista' %}">Lista cursos</a>
+</h1>
+
+{% include "pagination/pagination.html" %} 
+{% endblock %}
 {% block body %}
+
+<div class="right">
+</div>
     <table class="table">
         <thead>
             <th>ID</th><th>Quien</th><th>Curso</th><th>Cuando</th>
-            <th>Pagada</th><th>Gestionada</th><th>Url Pago</th>
+            <th>Pagada</th><th>Url Pago</th>
         </thead>
         <tbody>
             {% for matricula in object_list %}
             <tr>
-                <td><a href="{% url 'matricula_eide_editar' matricula.id %}">{{ matricula.id }}</a></td>
-                <td>{{ matricula.apellido1 }} {{ matricula.apellido1 }}, {{ matricula.nombre }}</td>
-                <td>{{ matricula.get_ccurso_display }}</td>
-                <td>{{ matricula.fecha_matricula }}</td>
-                <td>{{ matricula.pagada | yesno }}</td>
-                <td>{{ matricula.gestionada | yesno }}</td>
+                <td><a href="{% url 'matricula_curso_editar' matricula.id %}">{{ matricula.id }}</a></td>
+                <td>{{ matricula.surname }}, {{ matricula.name }}</td>
+                <td>{{ matricula.curso }}</td>
+                <td>{{ matricula.registration_date }}</td>
+                <td>{{ matricula.paid | yesno }}</td>
                 <td><a href="https://portal-alumno.eide.es{{ matricula.generate_payment_url }}">Pagar</a></td>
             </tr>
             {% endfor %}
