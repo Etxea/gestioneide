@@ -160,6 +160,7 @@ INSTALLED_APPS = [
     "cambridge",
     "matriculas",
     "hobetuz",
+    "ticketbai",
     
 ]
 

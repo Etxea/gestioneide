@@ -44,6 +44,7 @@ urlpatterns = [
     url(r"^matriculas/", include("matriculas.urls")),
     url(r'^cookies/', include('cookie_consent.urls')),
     url(r'^hobetuz/', include('hobetuz.urls')),
+    url(r'^ticketbai/', include('ticketbai.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
