@@ -21,7 +21,7 @@
 	<tr>
 		<td><a href="/admin/matriculas/curso/{{curso.id}}/change/"><i class="zmdi zmdi-edit"></i></a> {{curso.name}}</td>
 		<td>{{curso.price}}</td>
-		<td><a href="{% url 'matricula_curso_directo_nueva' curso.id %}">URL Matricula</a></td>
+		<td><a href="https://portal-alumno.eide.es/matriculas/curso/nueva/{{curso.id }}/">URL Matricula</a></td>
 		<td>{{curso.registration_count}}</td>
 	</tr>
 	{% endfor %}
