@@ -50,7 +50,7 @@ class Confirmacion(models.Model):
     asistencia = models.ForeignKey(Asistencia)
     password = models.CharField(max_length=8,default="",blank=True)
     respuesta_choice = models.DecimalField('Respuesta',max_digits=1, decimal_places=0,choices=CONFIRMACION_CHOICES,default=0)
-    respuesta_texto = models.CharField('Si no va a asistir el curso que viene, por favor, indíquenos por favor la razón',max_length=1000,blank=True,default="")
+    respuesta_texto = models.CharField('OBSERVACIONES. Indíquenos por favor su preferencia de horario, en caso de que quiera cambiar, o, si no va a asistir el curso que viene,  la razón por la que no va a hacerlo.',max_length=1000,blank=True,default="")
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_respuesta = models.DateTimeField(auto_now_add=True)
     gestionada = models.BooleanField(default=False)
@@ -78,14 +78,23 @@ class Confirmacion(models.Model):
         ##Para el alumno
         subject = "[EIDE][Confirmacion] Confirmación curso %s en EIDE %s" %(self.asistencia.year,self.asistencia.grupo.centro)
         
-        message_body = """<html><body><p>En el enlace al final de este email puede consultar el HORARIO PROPUESTO para el curso %s.
+        message_body = """<html><body><p>En el enlace al final de este email puede consultar el HORARIO PROPUESTO 
+        para el curso %s.
         EN ESE MISMO ENLACE, DEBERÁ INDICARNOS HASTA EL 14 DE JUNIO SI ESTÁ DE ACUERDO CON ESE HORARIO, 
         SI PREFIERE OTRO HORARIO O SI NO VA A ASISTIR EL CURSO QUE VIENE. Para ello, tendrá que elegir 
-        una de las opciones del desplegable que aparece debajo del horario. En caso de que prefiera otro 
-        horario, puede ponerse en contacto con nosotros tanto por email, como por teléfono o de forma 
-        presencial. </p>
+        una de las opciones del desplegable que aparece debajo del horario. 
+        </p>
         <p>
-        NOTA: En previsión de las medidas marcadas por las autoridades sanitarias, las clases se han acortado 5 minutos para poder realizar las desinfecciones necesarias entre clase y clase. Asimismo, para poder realizar entradas y salidas escalonadas, es posible que los horarios de entradas y salidas sufran variaciones de entre 5 y 10 minutos. Por supuesto, se les informará de las mismas con antelación suficiente.
+         En caso de que prefiera otro horario, háganoslo saber a traves del despelegable. 
+         También puede indicarnos sus preferencias en el campo "observaciones" que aparece en el enlace. 
+         Una persona del centro le contactará para ofrecerle las diferentes alternativas de horario 
+        </p>
+        <p>
+        NOTA: En previsión de las medidas marcadas por las autoridades sanitarias, las clases se han acortado 
+        5 minutos para poder realizar las desinfecciones necesarias entre clase y clase. Asimismo, para poder 
+        realizar entradas y salidas escalonadas, es posible que los horarios de entradas y salidas sufran 
+        variaciones de entre 5 y 10 minutos. Por supuesto, se les informará de las mismas con antelación 
+        suficiente.
         </p>
         <br />
 <p><a href="%s">%s</a></p>
