@@ -161,6 +161,7 @@ INSTALLED_APPS = [
     "matriculas",
     "hobetuz",
     "ticketbai",
+    "portalalumno",
     
 ]
 

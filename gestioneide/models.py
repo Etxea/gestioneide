@@ -365,6 +365,7 @@ class Profesor(models.Model):
         return "%s:%s"%(pendiente_horas,pendiente_minutos)
 
 class Alumno(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     nombre = models.CharField(max_length=25,default="")
     apellido1 = models.CharField(max_length=100,default="")
     apellido2 = models.CharField(max_length=100,default="",blank=True,null=True)
