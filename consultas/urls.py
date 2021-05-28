@@ -6,6 +6,7 @@ from views import *
 urlpatterns = [
     url(r'confirmar/crear/$',login_required(ConfirmacionesCrearView.as_view()), name="confirmaciones_crear"),
     url(r'confirmar/lista/$',(ConfirmacionListView.as_view()), name="confirmacion_lista"),
+    url(r'confirmar/lista/pendientes/$',(ConfirmacionPendientesListView.as_view()), name="confirmacion_pendiente_lista"),
     url(r'confirmar/gracias/$',ConfirmacionGraciasView.as_view(), name="confirmacion_gracias"),
     url(r'consulta/editar/(?P<pk>\d+)/$',login_required(ConfirmacionUpdateView.as_view()), name="confirmacion_editar"),
     url(r'confirmar/(?P<pk>\d+)/(?P<password>\w+)/$',ConfirmacionContestarView.as_view(), name="confirmacion_contestar"),

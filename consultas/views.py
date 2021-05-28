@@ -116,6 +116,13 @@ class ConfirmacionListView(ListView):
         year=Year()
         asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
         return Confirmacion.objects.filter(asistencia__in=asistencias_ano).exclude(respuesta_choice=0).exclude(respuesta_choice=1).exclude(gestionada=True)
+
+class ConfirmacionPendientesListView(ListView):
+    template_name = "consultas/confirmacion_lista.html"
+    def get_queryset(self):
+        year=Year()
+        asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
+        return Confirmacion.objects.filter(asistencia__in=asistencias_ano).filter(respuesta_choice=0).exclude(gestionada=True)
     
 class ConfirmacionUpdateView(UpdateView):
     model = Confirmacion

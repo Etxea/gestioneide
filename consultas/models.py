@@ -17,6 +17,7 @@ debug = log.debug
 # Create your models here.
 
 CONFIRMACION_CHOICES = (
+    (0,"Sin contestar"),
     (1,"Sí"),
     (2,"Sí, pero deseo otro horario"),
     (3,"No"),
