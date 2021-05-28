@@ -21,7 +21,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ["gestion.eide.es","127.0.0.1","localhost","portal-alumno.eide.es"]
+ALLOWED_HOSTS = ["127.0.0.1","localhost"]
 
 PHONENUMBER_DEFAULT_REGION="ES"
 
