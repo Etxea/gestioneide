@@ -93,6 +93,7 @@ class MatriculaEideUpdateView(UpdateView):
 class MatriculaEideListView(ListView):
     model = MatriculaEide
     template_name = "matriculas/matricula_eide_lista.html"
+    ordering = ['-pk']
 
 class MatriculaEideDetailView(DetailView):
     model = MatriculaEide
@@ -166,6 +167,7 @@ class CursoCreateView(CreateView):
 class MatriculaCursoListView(ListView):
     model = MatriculaCurso
     template_name = "matriculas/matricula_curso_lista.html"
+    ordering = ['-pk']
 
 class MatriculaCursoCreateView(CreateView):
     model = MatriculaCurso
@@ -287,6 +289,7 @@ class MatriculaLinguaskillCreateView(CreateView):
 class MatriculaLinguaskillListView(ListView):
     model = MatriculaLinguaskill
     template_name = "matriculas/matricula_linguaskill_lista.html"
+    ordering = ['-registration_date']
 
 class MatriculaLinguaskillGracias(TemplateView):
     template_name = "matriculas/matricula_linguaskill_gracias.html"
@@ -344,6 +347,7 @@ class MatriculaLinguaskillUpdateView(UpdateView):
     model = MatriculaLinguaskill
     template_name = "matriculas/matricula_linguaskill_nueva.html"
     fields = "__all__"   
+    success_url = reverse_lazy('matricula_linguaskill_lista')
 
 def ver(request, pk):
     registration = get_object_or_404(Registration, id=pk)
