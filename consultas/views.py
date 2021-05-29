@@ -15,7 +15,7 @@ from excel_response import ExcelView
 
 from models import Consulta, Confirmacion
 from forms import *
-from gestioneide.models import Asistencia,Year,Grupo,MailAlumno
+from gestioneide.models import Alumno, Asistencia,Year,Grupo,MailAlumno
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaListView(ListView):
@@ -131,11 +131,13 @@ class ConfirmacionPendientesListView(ListView):
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')    
 class ConfirmacionPendientesExcelView(ExcelView):
-    model = Confirmacion
+    model = Alumno
     def get_queryset(self):
         year=Year()
         asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
-        return Confirmacion.objects.filter(asistencia__in=asistencias_ano).filter(respuesta_choice=0).exclude(gestionada=True)
+        confirmaciones_pendientes = Confirmacion.objects.filter(asistencia__in=asistencias_ano).filter(respuesta_choice=0).exclude(gestionada=True)        
+        asistencias_pendientes_confirmar = Asistencia.objects.filter(confirmacion__in=confirmaciones_pendientes)
+        return Alumno.objects.filter(asistencia__in=asistencias_pendientes_confirmar)
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConfirmacionUpdateView(UpdateView):
