@@ -23,6 +23,8 @@ DATABASES = {
 
 ALLOWED_HOSTS = ["127.0.0.1","localhost"]
 
+SITE_NAME = "Eide"
+
 PHONENUMBER_DEFAULT_REGION="ES"
 
 TIME_ZONE = "Europe/Madrid"

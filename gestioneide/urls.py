@@ -7,10 +7,11 @@ from django.views.generic.base import RedirectView
 from views import *
 from django.contrib import admin
 
+admin.site.site_header = 'Gestion EIDE'
+admin.site.site_title = 'GE'
+admin.site.index_title = 'Welcome Admin'
 
 urlpatterns = [
-    #url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="home"),
-    #url(r"^$", RedirectView.as_view(url='/alumnos', permanent=False), name="home"),
     url(r"^$", HomeView.as_view(), name="home"),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^accounts/", include("account.urls")),
