@@ -31,3 +31,4 @@ python-dateutil
 pycrypto
 bootstrap3-datetime
 django-cookie-consent
+django-excel-response

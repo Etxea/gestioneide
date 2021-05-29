@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, FormView, TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth.models import User
+
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
@@ -12,13 +11,17 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django import forms
 from django.contrib.sites.shortcuts import get_current_site
 
+from excel_response import ExcelView
+
 from models import Consulta, Confirmacion
 from forms import *
 from gestioneide.models import Asistencia,Year,Grupo,MailAlumno
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaListView(ListView):
     model = Consulta
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaCreateView(CreateView):
     model = Consulta
     fields = '__all__'
@@ -33,9 +36,11 @@ class ConsultaCreateView(CreateView):
     def get_success_url(self):
         return reverse("consulta_lista")
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaDetailView(DetailView):
     model = Consulta
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaEnviarView(DetailView):
     model = Consulta    
     template_name = 'confirmaciones/consulta_enviar.html'
@@ -60,12 +65,14 @@ class ConsultaEnviarView(DetailView):
             
         return HttpResponseRedirect(reverse("consulta_lista"))
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaDeleteView(DeleteView):
     model = Consulta
 
     def get_success_url(self):
         return reverse("consulta_lista")
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConsultaUpdateView(UpdateView):
     model = Consulta
     fields = '__all__'
@@ -77,8 +84,6 @@ class ConsultaUpdateView(UpdateView):
     
     def get_success_url(self):
         return reverse("consulta_lista")
-
-
 
 class RespuestaCreateView(CreateView):
     model = Confirmacion
@@ -106,24 +111,33 @@ class RespuestaCreateView(CreateView):
     def get_success_url(self):
         return reverse('confirmacion_gracias')
 
-
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConfirmacionListView(ListView):
     model = Confirmacion
     template_name = "consultas/confirmacion_lista.html"
-    
-    
+   
     def get_queryset(self):
         year=Year()
         asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
         return Confirmacion.objects.filter(asistencia__in=asistencias_ano).exclude(respuesta_choice=0).exclude(respuesta_choice=1).exclude(gestionada=True)
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConfirmacionPendientesListView(ListView):
     template_name = "consultas/confirmacion_lista.html"
     def get_queryset(self):
         year=Year()
         asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
         return Confirmacion.objects.filter(asistencia__in=asistencias_ano).filter(respuesta_choice=0).exclude(gestionada=True)
-    
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')    
+class ConfirmacionPendientesExcelView(ExcelView):
+    model = Confirmacion
+    def get_queryset(self):
+        year=Year()
+        asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))
+        return Confirmacion.objects.filter(asistencia__in=asistencias_ano).filter(respuesta_choice=0).exclude(gestionada=True)
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConfirmacionUpdateView(UpdateView):
     model = Confirmacion
     fields = "__all__"
@@ -141,6 +155,7 @@ class ConfirmacionResponseView(CreateView):
     model = Confirmacion
     fields = "__all__"
 
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConfirmacionesCrearView(ListView):
     template_name = "consultas/confirmaciones_crear.html"
     model = Confirmacion
@@ -178,7 +193,3 @@ class ConfirmacionContestarView(UpdateView):
     model = Confirmacion
     fields = ['respuesta_choice','respuesta_texto']
     success_url = reverse_lazy('confirmacion_gracias')
-    
-    #def get_context_data(self, **kwargs):
-
-    
