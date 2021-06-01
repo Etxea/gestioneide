@@ -21,7 +21,8 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirm
                     <th>Telefono</th>
 		            <th>Centro</th>
 		            <th>Grupo</th>
-                    <th>URL</th>          
+                    <th>URL</th>
+                    <th>Editar</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@ Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirm
                             {{ confirmacion.get_confirmacion_url }}
                         </a>
                     </td>
+                    <td><a href="{% url 'confirmacion_editar' confirmacion.id %}"><i class="zmdi zmdi-edit pull-right"></i></a></td>
                 </tr>
                 {%  endfor %}
              </tbody>
