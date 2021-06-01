@@ -123,7 +123,7 @@ class ConfirmacionListView(ListView):
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
 class ConfirmacionPendientesListView(ListView):
-    template_name = "consultas/confirmacion_lista.html"
+    template_name = "consultas/confirmacion_pendiente_list.html"
     def get_queryset(self):
         year=Year()
         asistencias_ano = Asistencia.objects.filter(year=year.get_activo(self.request))

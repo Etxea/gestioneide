@@ -1,0 +1,51 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block page_header %}
+
+{% include "pagination/pagination.html" %} 
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> confirmaciones del año {{ year }}.
+<a href="{% url 'confirmacion_pendiente_excel' %}" class="btn btn-primary pull-right">Descargar Excel</a>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <h4>Listado de respuestas</h4>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Numero</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+		            <th>Centro</th>
+		            <th>Grupo</th>
+                    <th>URL</th>          
+                </tr>
+            </thead>
+            <tbody>
+                {% for confirmacion in object_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'alumno_detalle' confirmacion.asistencia.alumno.id %}" >
+                            {{confirmacion.asistencia.alumno.id}}
+                        </a>
+                    </td>
+                    <td>{{ confirmacion.asistencia.alumno }}</td>
+                    <td>{{ confirmacion.asistencia.alumno.telefono1 }}</td>
+                    <td>{{ confirmacion.asistencia.grupo.centro }}</td>
+                    <td>{{ confirmacion.asistencia.grupo }}</td>
+                    <td>
+                        <a href="{{ confirmacion.get_confirmacion_url }}">
+                            {{ confirmacion.get_confirmacion_url }}
+                        </a>
+                    </td>
+                </tr>
+                {%  endfor %}
+             </tbody>
+	 </table>
+    </div>
+	
+</div>
+{% endblock %}
