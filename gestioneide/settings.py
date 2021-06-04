@@ -182,6 +182,7 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'INFO',
             'propagate': True,
+            'filename': os.path.join(SITE_ROOT,'info.log'),
         },
     },
 }
