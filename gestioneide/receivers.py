@@ -5,7 +5,7 @@ from account.signals import user_sign_up_attempt, user_signed_up
 from account.signals import user_login_attempt, user_logged_in
 
 from sermepa.signals import payment_was_successful, payment_was_error, signature_error
-from matriculas.models import MatriculaEide, MatriculaLinguaskill
+from matriculas.models import MatriculaEide, MatriculaLinguaskill, MatriculaCurso
 from pagosonline.models import Pago
 
 from pinax.eventlog.models import log
@@ -102,23 +102,33 @@ def payment_ok(sender, **kwargs):
 
     elif registration_type=="eidemanual":
         #log.debug("Vamos a confirmar un pago LS. Lo buscamos en BBDD...")
-        r = Pago.objects.get(id=registration_id)
-        r.set_as_paid()
-        #log.debug("Matricula marcada como pagada")
+        try:
+            r = Pago.objects.get(id=registration_id)
+            r.set_as_paid()
+            #log.debug("Matricula marcada como pagada")
+        except ObjectDoesNotExist:
+            log.debug("Problemas encontrando el pago eidemanual con ID: %s"%registration_id)
+            pass
 
     elif registration_type=="man":
-        #log.debug("Vamos a confirmar un pago manual. Lo buscamos en BBDD...")
-        #print Pago.objects.all()
-        r = Pago.objects.filter(id=registration_id)
-        if len(r)>0:
-            #log.debug("Hemos encontrado el pago manual %s"%r[0].id)
-            #log.debug( "Tenemos la matricula/pago, vamos a marcalo como pagado")
+        try:
+            r = Pago.objects.get(id=registration_id)
+            log.debug("Hemos encontrado el pago manual %s"%r.id)
             r.set_as_paid()
-        else:
-            #log.debug("Problemas encontrando el pago manual con ID: %s"%registration_id)
+        except ObjectDoesNotExist:
+            log.debug("Problemas encontrando el pago manual con ID: %s"%registration_id)
             pass
+    elif registration_type=="curso":
+        try:
+            r = MatriculaCurso.objects.get(id=registration_id)
+            log.info("Hemos encontrado el pago curso %s"%r.id)
+            r.set_as_paid()
+        except ObjectDoesNotExist:
+            log.info("Problemas encontrando la matricula de curso con ID: %s"%registration_id)
+            pass
+        
     else:
-        #log.debug( "No sabemos que tipo de matricula es!" )
+        log.info( "No sabemos que tipo de matricula es!" )
         pass
     
 
