@@ -7,11 +7,12 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
 from django.utils.dates import MONTHS
-from django.utils.timezone import now
-from django.db.models import Q
 from django.conf import settings
+from django.core.mail import mail_admins
 from anymail.message import AnymailMessage
 from django.template.loader import render_to_string
+
+
 
 import logging
 logger = logging.getLogger('django')
@@ -259,8 +260,7 @@ class Profesor(models.Model):
         password = User.objects.make_random_password()
         self.user.set_password(password)
         self.user.save()
-        mensaje = u"""Acabamos de crear o modificar la contraseña para el sistema de
-        gestión de alumnos de EIDE. 
+        mensaje = u"""Acabamos de modificar la contraseña para el sistema de gestión de EIDE. 
 
         Los datos de acceso son:
         https://gestion.eide.es
@@ -269,8 +269,8 @@ class Profesor(models.Model):
         Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
-        self.user.email_user("Cambio contraseña en gestion de alumnos EIDE",mensaje)
-        #send_mail(u"Cambio contraseña en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
+        self.user.email_user("[gestioneide] Cambio contraseña en gestion de alumnos EIDE",mensaje)
+        mail_admins(u'[gestioneide] Cambio contraseña profesor','Se ha cambiado el pass del profesor %s'%self )
 
     def has_user(self):
         if self.user == None:
@@ -312,8 +312,8 @@ class Profesor(models.Model):
             """%(nombreusuario,password)
             self.user=u
             self.save()
-            u.email_user("Alta en gestion de alumnos EIDE",mensaje)
-            mail_admins(u"Alta en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL,['eide@eide.es','moebius1984@gmail.com'])
+            u.email_user("[gestioneide] Alta en Gestion EIDE",mensaje)
+            mail_admins(u"[gestioneide] Alta usuario profesor en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
         else:
             print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 

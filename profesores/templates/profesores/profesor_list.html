@@ -1,18 +1,23 @@
 {% extends "site_base.html"%}
 {% load i18n %}
+{% block page_header %}
+<h2>Listado de profesors</h2>
+{% include "pagination/pagination.html" %} 
+Viendo <b>{{ page_obj.start_index }}</b>-<b>{{ page_obj.end_index }}</b> profesores.
+<a class="btn btn-primary pull-right" href="{% url 'profesor_nuevo' %}"><i class="zmdi zmdi-account-add"></i>&nbsp;&nbsp; Nuevo</a>
+{% endblock %}
 
 {% block body %}
 
 <div class="row">
-    <div class="col-md-10 col-xs-12">
-        <h4>Listado de profesors</h4>
+    <div class="col-md-12">
         <table class="table">
             <thead>
                 <tr>
                 <td>Nombre</td>
                 <td>Email</td>
                 <td>Telefono</td>
-                
+                <td>Usuario</td>
                 <td>Acciones</td>
                 </tr>
             </thead>
@@ -23,7 +28,14 @@
                 <td><a href="{{profesor.get_absolute_url}}">{{ profesor.nombre }} {{ profesor.apellido }} </a></td>
                 <td>{{ profesor.email }}</td>
                 <td>{{ profesor.telefono }}</td>
-                
+                <td> {% if profesor.user %} {{ profesor.user }}
+                {% else %}
+                <form method="POST" action="{% url 'profesor_createuser' profesor.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" > <i class="zmdi zmdi-account-add" ></i>&nbsp;&nbsp;Crear</button>
+                </form>
+                {% endif %}
+                </td>
                 <td>
                     <a href="{% url 'profesor_detalle' profesor.id %}"><span class="glyphicon glyphicon-search"></span></a>
                     <a href="{% url 'profesor_editar' profesor.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -33,10 +45,6 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
-    <div class="col-md-2">
-    <h4>Acciones</h4>
-    <a href="{% url 'profesor_nuevo' %}"><button>Nuevo</button></a>
     </div>
 </div>
 {% endblock %}

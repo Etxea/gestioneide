@@ -2,10 +2,10 @@
 
 {% load i18n %}
 
-
-
 {% block page_header %}
-    <h1>{% trans "Profesor" %} {{profesor.nombre}} <a href="{% url 'profesor_editar' profesor.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    <h1>{% trans "Profesor" %} {{profesor.nombre}}
+    <a class="pull-right" href="{% url 'profesor_editar' profesor.id %}"><i class="zmdi zmdi-edit"></i>Editar</a>
+    </h1>
 {% endblock %}
 
 {% block body %}
@@ -29,21 +29,33 @@
             <td>Usuario</td>
             <td>
                 {% if profesor.has_user %} 
-                {{ profesor.user }} (activo: {{ profesor.user | yesno }}) 
-                <form method="POST" action="{% url 'profesor_passwordreset' profesor.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-refresh" ></i>Resetear pass.</button>
-                </form>
-                <form method="POST" action="{% url 'profesor_passwordreset' profesor.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-secondary"><i class="zmdi zmdi-account-o" ></i>Disable</button>
-                </form>
-                
+                    {{ profesor.user }} (activo: {{ profesor.user.is_active | yesno }})
+                    {% if profesor.user.is_active %}
+                    <td>
+                    <form method="POST" action="{% url 'profesor_passwordreset' profesor.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning"><i class="zmdi zmdi-refresh" ></i>&nbsp;&nbsp;Resetear pass.</button>
+                    </form>
+                    </td>
+                    <td>
+                    <form method="POST" action="{% url 'profesor_disableuser' profesor.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger"><i class="zmdi zmdi-account-o" ></i>&nbsp;&nbsp;Disable</button>
+                    </form>
+                    </td>
+                    {% else %}
+                    <td>
+                    <form method="POST" action="{% url 'profesor_enableuser' profesor.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-info"><i class="zmdi zmdi-account-o" ></i>&nbsp;&nbsp;Enable</button>
+                    </form>
+                    </td>
+                    {% endif %}
                 {% else %} 
-                <form method="POST" action="{% url 'profesor_disableuser' profesor.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary" > <i class="zmdi zmdi-account-add" ></i>Crear</button>
-                </form>
+                    <form method="POST" action="{% url 'profesor_createuser' profesor.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" > <i class="zmdi zmdi-account-add" ></i>&nbsp;&nbsp;Crear</button>
+                    </form>
                 {% endif %}
             </td>
         </tr>

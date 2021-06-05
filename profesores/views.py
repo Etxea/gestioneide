@@ -12,11 +12,12 @@ from pinax.documents.models import *
 from gestioneide.models import *
 from profesores.forms import *
 
+@method_decorator(permission_required('gestioneide.profesor_view',raise_exception=True),name='dispatch')
 class ProfesorListView(ListView):
 	model=Profesor
 	template_name = "profesores/profesor_list.html"
 
-#@method_decorator(permission_required('gestioneide.profesor_view',raise_exception=True),name='dispatch')
+@method_decorator(permission_required('gestioneide.profesor_view',raise_exception=True),name='dispatch')
 class ProfesorDashboardView(ListView):
     model=Profesor
     template_name = "profesores/profesor_dashboad.html"
@@ -83,7 +84,6 @@ class ProfesorCreateUserView(View,SingleObjectMixin):
         self.object = self.get_object()
         return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
     def post(self, request, *args, **kwargs):
-        # Look up the author we're interested in.
         self.object = self.get_object()
         self.object.create_user()
         return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
@@ -95,8 +95,19 @@ class ProfesorDisableUserView(View,SingleObjectMixin):
         self.object = self.get_object()
         return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
     def post(self, request, *args, **kwargs):
-        # Look up the author we're interested in.
         self.object = self.get_object()
-        self.object.user.active=False
+        self.object.user.is_active = False
+        self.object.user.save()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
+
+@method_decorator(permission_required('gestioneide.profesor_change',raise_exception=True),name='dispatch')
+class ProfesorEnableUserView(View,SingleObjectMixin):
+    model = Profesor
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.user.is_active = True
         self.object.user.save()
         return HttpResponseRedirect(reverse_lazy("profesor_detalle",kwargs={'pk': self.object.id}))
