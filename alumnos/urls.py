@@ -27,5 +27,9 @@ urlpatterns = [
     url(r'cambridge/(?P<pk>\d+)/borrar',login_required(AlumnoResultadoCambridgeDeleteView.as_view()), name="alumno_resultadocambridge_borrar"),
     url(r'mail/(?P<pk>\d+)/enviar/$',login_required(AlumnoMailView.as_view()), name="alumno_mail_enviar"),
     url(r'mail/(?P<pk>\d+)/lista/$',login_required(AlumnoMailList.as_view()), name="alumno_mail_lista"),
+    url(r'passwordreset/(?P<pk>\d+)/$',AlumnoPasswordResetView.as_view(), name="alumno_passwordreset"),
+    url(r'createuser/(?P<pk>\d+)/$',AlumnoCreateUserView.as_view(), name="alumno_createuser"),
+    url(r'disableuser/(?P<pk>\d+)/$',AlumnoDisableUserView.as_view(), name="alumno_disableuser"),
+    url(r'enableuser/(?P<pk>\d+)/$',AlumnoEnableUserView.as_view(), name="alumno_enableuser"),
     
 ]

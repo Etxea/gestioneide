@@ -1,8 +1,23 @@
 {% extends "site_base.html"%}
 {% load i18n %}
+{% load gestioneide_extra_tags %}
 
 {% block page_header %}
 {% endblock %}
 {% block body %}
-Sistema de Gestión de Alumnos de EIDE.
+{% if request.user.is_staff %}
+    Hola admin!!
+{% elif request.user|has_group:"profesores"%}
+    Hola profesor {{ request.user.profesor.name }}
+    {% with request.user.profesor as  profesor %}
+        {% include "profesores/profesor_dashboard.html" %}
+    {% endwith %}
+{% elif request.user|has_group:"alumnos" %}
+    Hola alumno
+    {% with request.user.alumno as  alumno %}
+        {% include "portalalumno/alumno_dashboard.html" %}
+    {% endwith %}
+{% else %}
+    Sistema de Gestión de Alumnos de EIDE.
+{% endif %}
 {% endblock %}

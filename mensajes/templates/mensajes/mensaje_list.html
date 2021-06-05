@@ -4,7 +4,9 @@
 {% block page_header %}
 <div class="pull-right" > 
 <a class="btn btn-primary" href="{% url 'mensaje_nuevo' %}">Mandar Mensaje Personal</a> 
+{% if request.user.is_staff %}
 <a class="btn btn-primary" href="{% url 'mensaje_todos_nuevo' %}">Mandar Mensaje Global</a>
+{% endif %}
 </div>
 {% endblock %}
 

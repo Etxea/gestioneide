@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.mail import mail_admins
 from anymail.message import AnymailMessage
 from django.template.loader import render_to_string
-
+from django.core.exceptions import ObjectDoesNotExist 
 
 
 import logging
@@ -269,8 +269,8 @@ class Profesor(models.Model):
         Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
-        self.user.email_user("[gestioneide] Cambio contraseña en gestion de alumnos EIDE",mensaje)
-        mail_admins(u'[gestioneide] Cambio contraseña profesor','Se ha cambiado el pass del profesor %s'%self )
+        self.user.email_user("[GESTIONEIDE] Cambio contraseña en gestion de alumnos EIDE",mensaje)
+        mail_admins(u'[GESTIONEIDE] Cambio contraseña profesor','Se ha cambiado el pass del profesor %s'%self )
 
     def has_user(self):
         if self.user == None:
@@ -312,8 +312,8 @@ class Profesor(models.Model):
             """%(nombreusuario,password)
             self.user=u
             self.save()
-            u.email_user("[gestioneide] Alta en Gestion EIDE",mensaje)
-            mail_admins(u"[gestioneide] Alta usuario profesor en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
+            u.email_user("[GESTIONEIDE] Alta en Gestion EIDE",mensaje)
+            mail_admins(u"[GESTIONEIDE] Alta usuario profesor en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
         else:
             print('El profesor %s Ya tiene un usuario %s'%(self,self.user))
 
@@ -383,7 +383,7 @@ class Alumno(models.Model):
     activo = models.BooleanField(default=True)
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
     
-    #Hacemos un overrido de save para añadir entradas al historico
+    #Hacemos un override de save para añadir entradas al historico
     def save(self, *args, **kw):
         if self.pk is not None:
             orig = Alumno.objects.get(pk=self.pk)
@@ -416,15 +416,7 @@ class Alumno(models.Model):
         for asis in self.asistencia_set.all():
             ret = ret + " %s"%asis.grupo.nombre
         return ret
-    
-    def enviar_mail_sendinblue(self,titulo,mensaje): 
-        try:
-            send_mail(titulo, mensaje,
-            settings.DEFAULT_FROM_EMAIL, [self.email,self.email2])
-            return True
-        except:
-            return False
-    
+        
     def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None,from_email=None):
         if self.email2:
             mails_destino = [ self.email , self.email2 ]
@@ -468,6 +460,76 @@ class Alumno(models.Model):
 
     def sincronizar_moodle(self):
         return True 
+
+    def update_user_password(self):
+        password = User.objects.make_random_password()
+        self.user.set_password(password)
+        self.user.save()
+        mensaje = u"""Acabamos de modificar la contraseña para el portal de alumnos de EIDE. 
+
+        Los datos de acceso son:
+        https://portal-alumno.eide.es
+        usuario: %s
+        contraseña: %s
+        Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
+        print(self.nombre,self.user.username,password)
+
+        self.user.email_user("[EIDE] Cambio contraseña en portal de alumnos EIDE",mensaje)
+        mail_admins(u'[GESTIONEIDE] Cambio contraseña alumno','Se ha cambiado el pass del alumno %s'%self )
+
+    def has_user(self):
+        if self.user == None:
+            return False
+        else:
+            return True
+
+    def create_user(self,nombreusuario=None):
+        if nombreusuario == None:
+           nombreusuario = slugify("%s%s" % (self.nombre,self.apellido1)).replace('-', '')
+        try:
+            ag = Group.objects.get(name="alumnos")            
+        except:
+            ag = Group(name="alumnos")
+            ag.save()
+        if self.user == None:
+            password = User.objects.make_random_password()  # type: unicode
+            
+            print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
+            if len(User.objects.filter(username=nombreusuario))>0:
+                print("Pero ya existe el usuario %s")
+                u = User.objects.get(username=nombreusuario)
+                try:
+                    alu = u.alumno
+                    nombreusuario = slugify("%s%s" % (self.nombre,self.apellido1,self.apellido2)).replace('-', '')
+                    print("El usuario tiene alumno asociado(%s), creamos un nuevo user con %s"%(alu,nombreusuario))
+                    self.create_user(nombreusuario=nombreusuario)
+                except ObjectDoesNotExist:
+                    print("El usuario %s no tiene alumno, lo asociamos"%u)
+                    self.user = u
+                    self.save()
+            else:
+                try:
+                    u = User(username=nombreusuario,email=self.email)
+                    u.save()
+                except Exception as e:
+                    print("No hemos podido crearlo")
+                    print(e)
+                    return
+            u.set_password(password)
+            u.groups.add(ag)
+            u.save()
+            mensaje = u"""Acabamos de crear un usuario para el portal de alumnos de EIDE. Los datos de acceso son:
+            https://portal-alumno.eide.es/
+            usuario: %s
+            contraseña: %s
+            Guarda en lugar seguro estos datos por favor.
+            """%(nombreusuario,password)
+            self.user=u
+            self.save()
+            u.email_user("[EIDE] Alta en Portal Alumno EIDE",mensaje)
+            mail_admins(u"[GESTIONEIDE] Alta usuario alumno en gestion de alumnos EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
+        else:
+            print('El alumno %s Ya tiene un usuario %s'%(self,self.user))
 
 class Historia(models.Model):
     alumno = models.ForeignKey('Alumno')

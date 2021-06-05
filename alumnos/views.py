@@ -102,6 +102,8 @@ class AlumnoBajaView(View,SingleObjectMixin):
             asistencia.delete()
         hist = Historia(alumno=self.object,tipo="baja",anotacion="")
         hist.save()
+        self.object.user.is_active = False
+        self.object.user.save()
         self.object.activo = False
         self.object.save()
         return HttpResponseRedirect(reverse_lazy("alumnos_lista"))
@@ -203,3 +205,51 @@ class AlumnoMailList(ListView):
         context = super(AlumnoMailList,self).get_context_data(**kwargs)
         context['alumno'] = Alumno.objects.get(pk=self.kwargs['pk'])
         return context    
+
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
+class AlumnoPasswordResetView(View,SingleObjectMixin):
+    model = Alumno
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        # Look up the author we're interested in.
+        self.object = self.get_object()
+        self.object.update_user_password()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
+class AlumnoCreateUserView(View,SingleObjectMixin):
+    model = Alumno
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.create_user()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
+class AlumnoDisableUserView(View,SingleObjectMixin):
+    model = Alumno
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.user.is_active = False
+        self.object.user.save()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+
+@method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
+class AlumnoEnableUserView(View,SingleObjectMixin):
+    model = Alumno
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.user.is_active = True
+        self.object.user.save()
+        return HttpResponseRedirect(reverse_lazy("alumno_detalle",kwargs={'pk': self.object.id}))
