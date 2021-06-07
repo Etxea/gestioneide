@@ -1,0 +1,30 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block page_header %}<h1> {{object.apellido1}} {{object.apellido2}}, {{object.nombre}}</h1>{% endblock %}
+
+{% block body %}
+
+<h2>Grupos </h2>
+{% include "portalalumno/asistencia_tabla_grupos.html" %}
+
+
+<h2>Histórico</h2>
+<table class="table">
+    <thead><th>Fecha</th><th>Tipo</th><th>Anotación</th></thead>
+    <tbody>
+        {% for historia in object.historia_set.all %}
+        <tr>
+            <td>{{historia.fecha}}</td><td>{{historia.tipo}}</td><td>{{historia.anotacion}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+</script>
+{% endblock %}
