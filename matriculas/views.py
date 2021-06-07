@@ -105,7 +105,8 @@ class MatriculaEidePayView(DetailView):
     template_name = "matriculas/matricula_eide_pagar.html"
     def get_context_data(self, **kwargs):
         context = super(MatriculaEidePayView, self).get_context_data(**kwargs)
-
+        centro = Centro.object.get(id=self.object.centro)
+        precio_matricula = centro.precio_matricula()*100
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
@@ -113,7 +114,7 @@ class MatriculaEidePayView(DetailView):
             "Ds_Merchant_MerchantData": 'eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
             "Ds_Merchant_ProductDescription": 'matricula-eide-%s'%self.object.id,
-            "Ds_Merchant_Amount": int(settings.PRECIO_MATRICULA*100),
+            "Ds_Merchant_Amount": precio_matricula,
             "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
             "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
             "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,

@@ -26,6 +26,7 @@ CENTROS = (
     (1,"Santurce"),
     (2,"Kabiezes"),
     (3,"Sestao"),
+    (4,"Portugalete"),
 )
 
 
@@ -168,14 +169,15 @@ class MatriculaEide(models.Model):
         """%(self.get_centro_display(),self.id,self.nombre,self.apellido1,self.apellido2)
 
         centro = Centro.objects.get(id=self.centro)
+
         email_secretaria = AnymailMessage(
             subject=subject,
             body=message_body,
             to = [centro.email],
         )
-        email.content_subtype = "html"
+        email_secretaria.content_subtype = "html"
         try:
-            email.send(fail_silently=False)
+            email_secretaria.send(fail_silently=False)
         except Exception, e:
             log.error("(matriculas) Error al enviar mail",str(e))
     

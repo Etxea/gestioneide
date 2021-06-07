@@ -13,6 +13,8 @@ from anymail.message import AnymailMessage
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist 
 
+from decimal import Decimal
+
 
 import logging
 logger = logging.getLogger('django')
@@ -169,6 +171,7 @@ class Centro(models.Model):
     telefono = models.CharField(max_length=12, default="")
     email = models.EmailField(default="", blank=True, null=True)
     direccion = models.CharField(max_length=250, default="", blank=True, null=True)
+    precio_matricula = models.DecimalField(max_digits=5,decimal_places=2,default=Decimal(25.00))
 
     def __unicode__(self):
         return "%s"%self.nombre
