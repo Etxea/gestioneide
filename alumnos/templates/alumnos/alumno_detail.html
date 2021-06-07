@@ -14,8 +14,8 @@
             <td>Nombre</td><td>{{object.nombre}}</td>
             <td>Apellido(s)</td><td>{{object.apellido1}} {{object.apellido2}}</td>
         </tr>
-            <td>Teléfonos</td><td>{{object.telefono1}}</td>
-            <td>{{object.telefono2}}</td>
+            <td>Teléfonos</td><td>{{object.telefono1}} <a href="https://wa.me/+34{{object.telefono1}}"><i class="zmdi zmdi-whatsapp"></i></a> </td>
+            <td>{{object.telefono2}} <a href="https://wa.me/+34{{object.telefono2}}"><i class="zmdi zmdi-whatsapp"></i></a></td>
             {% include 'alumnos/alumno_usuario.html' %}
         </tr>
         </tr>

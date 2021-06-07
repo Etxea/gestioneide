@@ -1,4 +1,4 @@
-{% extends "public_base.html"%}
+{% extends "site_base.html"%}
 
 {% load i18n %}
 
@@ -6,134 +6,33 @@
 
 {% block body %}
 
-{% if user.is_authenticated %}
-<li>User: {{ user.get_username }}</li>
-<li><a href="{% url 'account_logout'%}?next={{request.path}}">Logout</a></li>
+<h2>Datos personales</h2>
 
-    <h2>Datos personales</h2>
-
-    <table class="table">
-        <tr>
-            <td>Nombre</td><td>{{object.nombre}}</td>
-            <td>Apellido(s)</td><td>{{object.apellido1}} {{object.apellido2}}</td>
-        </tr>
-            <td>Teléfonos</td><td>{{object.telefono1}}</td>
-            <td>{{object.telefono2}}</td>
-        </tr>
-        </tr>
-            <td>E-Mail</td>
-            <td><e-mail>{{object.email}}</e-mail></td>
-            <td><e-mail>{{object.email2}}</e-mail></td>
-        </tr>
-        <tr>
-            <td>Fecha Nac.</td> <td>{{ object.fecha_nacimiento }}</td> <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
-        </tr>
-        <tr>
-            <td>Dirección</td><td>{{object.direccion}}</td>
-            <td>Ciudad</td><td>{{object.ciudad}}</td>
-            <td>CP</td><td>{{object.cp}}</td>
-        </tr>
-    </table>
-    
-    <h2>Grupos </h2>
-    {% include "portalalumno/asistencia_tabla_grupos.html" %}
-
-{% comment %}
-<h2>Observaciones</h2>
-<table class="table table-hover table-bordered bootgrid-table table-striped">
-        <thead>
-            <th>Anotación</th>
-            <th>Fecha</th>
-            <th>Usuario</th>
-        </thead>
-        <tbody>
-            {% for anotacion in object.anotacion_set.all %}
-            <tr>
-            <td>{{anotacion.texto}}</td>
-            <td>{{anotacion.fecha}}</td>
-            <td>{{anotacion.creador.username}}</td>
-                <td><a href="{% url 'alumno_anotacion_borrar' anotacion.id %}"
-                       class="btn btn-warning zmdi zmdi-delete">Eliminar</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a class="btn btn-primary" href="{% url 'alumno_anotacion_nueva' object.id %}">Añadir anotación</a>
-    {% endcomment %}
-<h2>Notas</h2>
-    {% include "alumnos/tabla_notas_trimestre.html" %}
-    {% include "alumnos/tabla_notas_cuatrimestre.html" %}
-    <h2>Prueba de nivel</h2>
-        <table class="table table-hover table-bordered bootgrid-table table-striped">
-            <thead>
-                <th>Fecha</th>
-                <th>Resutado</th>
-                <th>Nivel recomendado</th>
-                <th>Observaciones</th>
-            </thead>
-            <tbody>
-                {% for prueba in alumno.pruebanivel_set.all %}
-                <tr>
-                    <td>{{ prueba.fecha_creacion }}</td>
-                    <td>{{ prueba.resultado }}</td>
-                    <td>{{ prueba.nivel_recomendado }}</td>
-                    <td>{{ prueba.observaciones }}</td>
-                    <td><a class="btn btn-warning zmdi zmdi-delete"
-                           href="{%  url 'alumno_pruebanivel_borrar' prueba.id %}"> Borrar </a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-    <br />
-    <h2>Exámenes Cambridge</h2>
-        <table class="table table-hover table-bordered bootgrid-table table-striped">
-            <thead>
-                <th>Fecha</th>
-                <th>Nivel</th>
-                <th>Resutado</th>
-                <th>Observaciones</th>
-                <th></th>
-            </thead>
-            <tbody>
-                {% for prueba in alumno.resultadocambridge_set.all %}
-                <tr>
-                    <td>{{ prueba.ano }}</td>
-                    <td>{{ prueba.get_nivel_display }}</td>
-                    <td>{{ prueba.get_resultado_display }}</td>
-                    <td>{{ prueba.observaciones }}</td>
-                    <td><a class="btn btn-warning zmdi zmdi-delete"
-                           href="{%  url 'alumno_resultadocambridge_borrar' prueba.id %}"> Borrar </a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    <br />
-    {% comment "Privado" %}
-    <h2>Histórico</h2>
-    <table class="table">
-        <thead><th>Fecha</th><th>Tipo</th><th>Anotación</th></thead>
-        <tbody>
-            {% for historia in object.historia_set.all %}
-            <tr>
-                <td>{{historia.fecha}}</td><td>{{historia.tipo}}</td><td>{{historia.anotacion}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endcomment %}
-
-
-{% else %}
-<li><a href="{% url 'account_login'%}?next={{request.path}}">Login</a></li>
-{% endif %} 
-
-    
+<table class="table">
+    <tr>
+        <td>Nombre</td><td>{{object.nombre}}</td>
+        <td>Apellido(s)</td><td>{{object.apellido1}} {{object.apellido2}}</td>
+    </tr>
+        <td>Teléfonos</td><td>{{object.telefono1}}</td>
+        <td>{{object.telefono2}}</td>
+    </tr>
+    </tr>
+        <td>E-Mail</td>
+        <td><e-mail>{{object.email}}</e-mail></td>
+        <td><e-mail>{{object.email2}}</e-mail></td>
+    </tr>
+    <tr>
+        <td>Fecha Nac.</td> <td>{{ object.fecha_nacimiento }}</td> <td>E-mail</td><td><a href="mailto:{{object.email}}">{{object.email}}</a></td>
+    </tr>
+    <tr>
+        <td>Dirección</td><td>{{object.direccion}}</td>
+        <td>Ciudad</td><td>{{object.ciudad}}</td>
+        <td>CP</td><td>{{object.cp}}</td>
+    </tr>
+</table>
 {% endblock %}
 
 {% block scripts %}
 <script>
 </script>
-
-
 {% endblock %}

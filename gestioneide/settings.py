@@ -22,48 +22,30 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = ["127.0.0.1","localhost"]
-
 SITE_NAME = "Eide"
-
 PHONENUMBER_DEFAULT_REGION="ES"
-
 TIME_ZONE = "Europe/Madrid"
-
 LANGUAGE_CODE = "es-es"
 
 SITE_ID = int(os.environ.get("SITE_ID", 1))
-
 import os.path
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 MEDIA_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "media")
-
 MEDIA_URL = "/media/"
-
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
-
 STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, "static", "dist"),
 ]
-
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-
 SECRET_KEY = "%(((6#nr1e+-mzzs&7v3%rdxp(x3$yyp7b)ep^_htq+*iubib3"
-
 SESSION_COOKIE_AGE = 180 * 60 #
-
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -89,7 +71,6 @@ TEMPLATES = [
         },
     },
 ]
-
 MIDDLEWARE_CLASSES = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -101,11 +82,8 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
 ROOT_URLCONF = "gestioneide.urls"
-
 WSGI_APPLICATION = "gestioneide.wsgi.application"
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -114,13 +92,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.staticfiles",
-
     # theme
     "bootstrapform",
     "pinax_theme_bootstrap",
     "django_forms_bootstrap",
     "bootstrap3_datetime",
-
     # external
     "account",
     "metron",
@@ -163,8 +139,7 @@ INSTALLED_APPS = [
     "matriculas",
     "hobetuz",
     "ticketbai",
-    "portalalumno",
-    
+    "portalalumno",    
 ]
 
 LOGGING = {
@@ -191,10 +166,6 @@ FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, "fixtures"),
 ]
 
-#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-EMAIL_HOST="localhost"
-EMAIL_PORT="587"
 DEFAULT_FROM_EMAIL = "webmaster@eide.es"
 DEFAULT_REPLYTO_EMAIL = "no-reply@eide.es"
 
@@ -212,6 +183,8 @@ AUTHENTICATION_BACKENDS = [
 
 SERMEPA_BUTTON_BIZUM_TEXT="Pagar con Bizum"
 SERMEPA_BUTTON_TEXT="Pagar con tarjeta bancaria"
+
+GESTIONEIDE_MENSAJESGLOBLALES=False
 
 try:
     from local_settings import *

@@ -172,13 +172,33 @@
 	</li>
 	{% endif %}
 	{% endif %}
+
+	{% if request.user|has_group:"alumnos" %}
+	<li class="sm-sub">
+		<a href="">
+			<i class="zmdi zmdi-account-circle"></i>
+			<span>Portal Alumno</span>
+		</a>
+		<ul>
+			<li><a href="{% url 'portalalumno_datospersonales' %}"><i class="zmdi zmdi-account"></i>&nbsp;&nbsp;Datos Personales</a></li>
+			<li><a href="{% url 'portalalumno_notas' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;Notas</a></li>
+			<li><a href="{% url 'portalalumno_faltas' %}"><i class="zmdi zmdi-case-check"></i>&nbsp;&nbsp;Faltas</a></li>
+			<li><a href="{% url 'portalalumno_historico' %}"><i class="zmdi zmdi-collection-text"></i>&nbsp;&nbsp;Historico</a></li>
+	
+		</ul>
+	</li>
+	{% endif %}
 	{% if request.user.is_authenticated %}
+	<!--
 	<li>
 		<a href="{% url 'mensajes' %}">
 			<i class="zmdi zmdi-trending-up"></i>
 			<span>Mensajes</span>
 		</a>
 	</li>
+	-->
 	{% endif %}
+
+	
 
 </ul>

@@ -2,15 +2,13 @@
     <thead>
         <th>Año</th>
         <th>Grupo</th>
-        <th></th>
+        <th>Nota</th>
     </thead>
     {% for asistencia in object.asistencia_todas %}
     <tr {% if asistencia.year == year and not asistencia.borrada %} class="active" {% endif %}>
         <td>{{ asistencia.year }}</td>
         <td>{% if asistencia.year == year and not asistencia.borrada %}<a href="{% url 'grupo_detalle' asistencia.grupo.id %}">{% endif %}{{ asistencia.grupo.nombre }}{% if asistencia.year == year %}</a>{% endif %}</td>      
-        <td>            
-            <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a>
-        </td>
+        <td></td>
     </tr>
     {% endfor %}
 </table>

@@ -26,6 +26,9 @@
         
         <link href="{% static "css/app.min.css" %}" rel="stylesheet">
         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+
         {% block extra_head_base %}
             {% block extra_head %}{% endblock %}
         {% endblock %}
@@ -40,27 +43,31 @@
                     <div id="menu-trigger"><i class="zmdi zmdi-menu"></i></div>
                 </li>
                 {% if request.user.is_authenticated %}
-                <!-- Messages -->
-				{% include "theme_superflat/_messages.html" %}
-                <!-- Notifications -->
-				{% include "theme_superflat/_notifications.html" %}
-                <!-- Ongoing Projects -->
-				{% include "theme_superflat/_projects.html" %}
-                <!-- Events -->
-                {% include "theme_superflat/_events.html" %}
-    
-                <li class="dropdown">
-                <a href="" data-toggle="dropdown" >
-                <i class="zmdi zmdi-calendar"></i>
-                {% if year_user %}
-                    {{year_user.name}}
-                {% else %}
-                    {{year.name}}
+                    <!-- Messages -->    
+                    {% include "theme_superflat/_messages.html" %}
+                    
+                    {% if GESTIONEIDE_MENSAJESGLOBLALES %}
+                        <!-- Notifications -->
+                        {% include "theme_superflat/_notifications.html" %}
+                    {% endif %}
+
+                    <!-- Ongoing Projects -->
+                    {% include "theme_superflat/_projects.html" %}
+                    <!-- Events -->
+                    {% include "theme_superflat/_events.html" %}
+        
+                    <li class="dropdown">
+                        <a href="" data-toggle="dropdown" >
+                        <i class="zmdi zmdi-calendar"></i>
+                        {% comment %} Viene del context_processor {% endcomment %}
+                        {{ year }}
+                        </a>
+                    </li>
+                    {% if request.user.is_staff %}
+                        {% include "theme_superflat/_search.html" %}
+                    {% endif %}
                 {% endif %}
-                </a>
-                </li>
-                {% include "theme_superflat/_search.html" %}
-                {% endif %}
+
 		        {% block extra_top_bar %}{% endblock %}
                 
                 <!-- Settings -->
