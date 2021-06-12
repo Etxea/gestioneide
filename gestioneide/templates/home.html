@@ -6,7 +6,8 @@
 {% endblock %}
 {% block body %}
 {% if request.user.is_staff %}
-    Hola admin!!
+    <h2>Hola {{request.user}}</h2>
+    {% include "admin_dashboard.html" %}
 {% elif request.user|has_group:"profesores"%}
     Hola profesor {{ request.user.profesor.name }}
     {% with request.user.profesor as  profesor %}

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Últimos alumnos</h3>
+      <ul>
+      {% for alumno in ultimos_alumnos %}
+      <li><a href="{{alumno.get_absolute_url}}">{{alumno}}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="col-sm-6">
+      <h3>Últimas matriculas EIDE</h3>
+      <ul>
+      {% for matricula in ultimas_matriculas_eide %}
+      <li><a href="{{matricula.get_absolute_url}}">{{matricula}}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Últimas matriculas cursos</h3>
+      <ul>
+      {% for matricula in ultimas_matriculas_cursos %}
+      <li><a href="{{matricula.get_absolute_url}}">{{matricula}}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="col-sm-6">
+      <h3>Últimas matriculas LS</h3>
+      <ul>
+      {% for matricula in ultimas_matriculas_ls %}
+      <li><a href="{{matricula.get_absolute_url}}">{{matricula}}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
