@@ -4,54 +4,55 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import JsonResponse
-from gestioneide.models import *
+from models import *
+from gestioneide.models import Falta, Presencia, Justificada
 
 import logging
 logger = logging.getLogger('gestioneide.debug')
 debug = logger.debug
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
-class TurismoView(ListView):
-    model = TurismoCurso
+class View(ListView):
+    model = Curso
     template_name = "turismo/home.html"
     def get_queryset(self):
         year = Year().get_activo(self.request)
-        return TurismoCurso.objects.filter(year=year).order_by('nombre')
+        return Curso.objects.filter(year=year).order_by('nombre')
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
-class TurismoCursoDeleteView(DeleteView):
-    model = TurismoCurso
+class CursoDeleteView(DeleteView):
+    model = Curso
     template_name = "turismo/curso_delete.html"
     success_url = "/turismo"
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
-class TurismoCursoCreateView(CreateView):
-    model = TurismoCurso
+class CursoCreateView(CreateView):
+    model = Curso
     fields = "__all__"
     template_name = "turismo/curso_nuevo.html"
     success_url = "/turismo"
     def get_initial(self):
-        super(TurismoCursoCreateView, self).get_initial()
+        super(CursoCreateView, self).get_initial()
         year = Year().get_activo(self.request)
         self.initial = {"year":year}
         return self.initial
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
-class TurismoAsignaturaCreateView(CreateView):
-    model = TurismoAsignatura
+class AsignaturaCreateView(CreateView):
+    model = Asignatura
     fields = "__all__"
     template_name = "turismo/asignatura_nueva.html"
     success_url = "/turismo"
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
-class TurismoAsignaturaDetailView(DetailView):
-    model = TurismoAsignatura
+class AsignaturaDetailView(DetailView):
+    model = Asignatura
     context_object_name = 'asignatura'
     template_name = "turismo/asignatura_detalle.html"
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
-class TurismoAsistenciaCreateView(CreateView):
-    model = TurismoAsistencia
+class AsistenciaCreateView(CreateView):
+    model = Asistencia
     fields = "__all__"
     template_name = "turismo/asistencia_nueva.html"
 
@@ -59,54 +60,54 @@ class TurismoAsistenciaCreateView(CreateView):
         return reverse('turismo_asignatura_detalle', kwargs ={'pk': self.object.asignatura.id})
 
     def get_initial(self):
-        super(TurismoAsistenciaCreateView, self).get_initial()
-        asignatura = TurismoAsignatura.objects.get(pk=self.kwargs['asignatura_id'])
+        super(AsistenciaCreateView, self).get_initial()
+        asignatura = Asignatura.objects.get(pk=self.kwargs['asignatura_id'])
         self.initial = {"asignatura":asignatura.id}
         return self.initial
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')    
-class TurismoAsistenciaDetailView(DetailView):
-    model = TurismoAsistencia
+class AsistenciaDetailView(DetailView):
+    model = Asistencia
     template_name = "turismo/asistencia_detalle.html"
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
-class TurismoClaseCreateView(CreateView):
-    model = TurismoClase
+class ClaseCreateView(CreateView):
+    model = Clase
     fields = "__all__"
     template_name = "turismo/clase_nueva.html"
     def get_success_url(self):
         return reverse_lazy('turismo_asignatura_detalle', args = (self.object.asignatura.id,))
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
-class TurismoClaseAsignaturaCreateView(TurismoClaseCreateView):
+class ClaseAsignaturaCreateView(ClaseCreateView):
     template_name = "turismo/clase_nueva_form.html"
     def get_success_url(self):
         return reverse_lazy('turismo_asignatura_detalle', args = (self.object.asignatura.id,))
     def get_initial(self):
-        super(TurismoClaseAsignaturaCreateView, self).get_initial()
-        asignatura = TurismoAsignatura.objects.get(pk=self.kwargs['asignatura_id'])
+        super(ClaseAsignaturaCreateView, self).get_initial()
+        asignatura = Asignatura.objects.get(pk=self.kwargs['asignatura_id'])
         user = self.request.user
         self.initial = {"asignatura":asignatura.id,"profesor":asignatura.profesor}
         return self.initial
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
-class TurismoClaseUpdateView(UpdateView):
-    model = TurismoClase
+class ClaseUpdateView(UpdateView):
+    model = Clase
     fields = "__all__"
     template_name = "turismo/clase_nueva_form.html"
     def get_success_url(self):
         return reverse_lazy('turismo_asignatura_detalle', args = (self.object.asignatura.id))
 
 @method_decorator(permission_required('gestioneide.turismo_view',raise_exception=True),name='dispatch')
-class TurismoClaseDeleteView(DeleteView):
-    model = TurismoClase
+class ClaseDeleteView(DeleteView):
+    model = Clase
     fields = "__all__"
     template_name = "turismo/clase_borrar.html"
     def get_success_url(self):
         return reverse_lazy('turismo_asignatura_detalle', args = (self.object.asignatura.id,))
 
 class PasarListaView(ListView):
-    model = TurismoAsignatura
+    model = Asignatura
     template_name = "turismo/pasarlista_lista.html"
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -117,17 +118,17 @@ class PasarListaView(ListView):
     def get_queryset(self):
         year = Year().get_activo(self.request)
         if self.request.user.is_staff:
-            return TurismoAsignatura.objects.filter(curso__in=TurismoCurso.objects.filter(year=year))
+            return Asignatura.objects.filter(curso__in=Curso.objects.filter(year=year))
         else:
-            return TurismoAsignatura.objects.filter(curso__in=TurismoCurso.objects.filter(year=year)).filter(clases__in=TurismoAsignaturaClase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
+            return Asignatura.objects.filter(curso__in=Curso.objects.filter(year=year)).filter(clases__in=AsignaturaClase.objects.filter(profesor=Profesor.objects.get(user_id=self.request.user.id)))
 
-class PasarListaAsignaturaTurismoView(DetailView):
-    model =TurismoAsignatura
+class PasarListaAsignaturaView(DetailView):
+    model =Asignatura
     template_name = "turismo/pasarlista.html"
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super(PasarListaAsignaturaTurismoView, self).get_context_data(**kwargs)
+        context = super(PasarListaAsignaturaView, self).get_context_data(**kwargs)
 
         dias_clase = self.object.get_dias_clase_mes(int(self.kwargs['mes']))
         presentes = []
@@ -137,7 +138,7 @@ class PasarListaAsignaturaTurismoView(DetailView):
         justificadas = []
         justificadas_id = []
 
-        presentes_queryset = TurismoPresencia.objects.filter(mes=self.kwargs['mes'])
+        presentes_queryset = Presencia.objects.filter(mes=self.kwargs['mes'])
         for presente in presentes_queryset:
             presentes.append("%s_%s_%s" % (presente.asistencia.id, presente.mes, presente.dia))
             presentes_id.append(presente.id)
@@ -190,31 +191,31 @@ class AjaxableResponseMixin(object):
             return response
 
 class FaltaCreateView(AjaxableResponseMixin, CreateView):
-    model = TurismoFalta
+    model = Falta
     template_name = "turismo/falta_form.html"
     fields = '__all__'
     success_url = reverse_lazy('evaluacion')
 
 class FaltaDeleteView(AjaxableResponseMixin, DeleteView):
-    model = TurismoFalta
+    model = Falta
     success_url = reverse_lazy('evaluacion')
 
 class JustificadaCreateView(AjaxableResponseMixin, CreateView):
-    model = TurismoJustificada
+    model = Justificada
     template_name = "turismo/Justificada_form.html"
     fields = '__all__'
     success_url = reverse_lazy('evaluacion')
 
 class JustificadaDeleteView(AjaxableResponseMixin, DeleteView):
-    model = TurismoJustificada
+    model = Justificada
     success_url = reverse_lazy('evaluacion')
 
 class PresenciaCreateView(AjaxableResponseMixin, CreateView):
-    model = TurismoPresencia
+    model = Presencia
     template_name = "turismo/presencia_form.html"
     fields = '__all__'
     success_url = reverse_lazy('evaluacion')
 
 class PresenciaDeleteView(AjaxableResponseMixin, DeleteView):
-    model = TurismoPresencia
+    model = Presencia
     success_url = reverse_lazy('evaluacion')
