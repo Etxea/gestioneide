@@ -105,8 +105,8 @@ class MatriculaEidePayView(DetailView):
     template_name = "matriculas/matricula_eide_pagar.html"
     def get_context_data(self, **kwargs):
         context = super(MatriculaEidePayView, self).get_context_data(**kwargs)
-        centro = Centro.object.get(id=self.object.centro)
-        precio_matricula = centro.precio_matricula()*100
+        centro = Centro.objects.get(id=self.object.centro)
+        precio_matricula = "%d"%centro.precio_matricula*100
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
