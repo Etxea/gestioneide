@@ -163,7 +163,7 @@ class CursoCreateView(CreateView):
     model = Curso
     template_name = "matriculas/curso_curso_nuevo.html"
     fields = "__all__"
-    success_url = reverse_lazy('curso_lista')
+    success_url = reverse_lazy('curso_online_lista')
 
 class MatriculaCursoListView(ListView):
     model = MatriculaCurso
@@ -177,7 +177,7 @@ class MatriculaCursoCreateView(CreateView):
     
     def get_success_url(self):
         #return reverse_lazy(MatriculaLinguaskillPayView,self.object.id)
-        return reverse('matricula_curso_pagar', args=[self.object.id])
+        return reverse('matricula_curso_online_pagar', args=[self.object.id])
     
 class MatriculaCursoDirectaCreateView(CreateView):
     model = MatriculaCurso
@@ -186,7 +186,7 @@ class MatriculaCursoDirectaCreateView(CreateView):
     
     def get_success_url(self):
         #return reverse_lazy(MatriculaLinguaskillPayView,self.object.id)
-        return reverse('matricula_curso_pagar', args=[self.object.id])
+        return reverse('matricula_curso_online_pagar', args=[self.object.id])
     
     def get_context_data(self, **kwargs):
         context = super(MatriculaCursoDirectaCreateView, self).get_context_data(**kwargs)
@@ -237,9 +237,9 @@ class MatriculaCursoPayView(DetailView):
             "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
             "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
             "Ds_Merchant_MerchantURL":  settings.SERMEPA_URL_DATA,
-            "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('matricula_curso_gracias')),
+            "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('matricula_curso_online_gracias')),
             #~ "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('end')),
-            "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('matricula_curso_error')),
+            "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('matricula_curso_online_error')),
             #~ "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('end')),
             #"Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
             "Ds_Merchant_TransactionType": '0',
@@ -268,7 +268,7 @@ class MatriculaCursoDetailView(DetailView):
 class MatriculaCursoUpdateView(UpdateView):
     model = MatriculaCurso
     template_name = "matriculas/matricula_curso_nueva.html"
-    success_url = reverse_lazy('matricula_curso_lista')
+    success_url = reverse_lazy('matricula_curso_online_lista')
     fields = "__all__"
 
 ## LINGUASKILL

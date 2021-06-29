@@ -7,7 +7,7 @@
 
 <h1>
 {% trans "Lista Matriculas a Cursos" %}
-<a class="btn btn-primary pull-right" href="{% url 'curso_lista' %}">Lista cursos</a>
+<a class="btn btn-primary pull-right" href="{% url 'curso_online_lista' %}">Lista cursos</a>
 </h1>
 
 {% include "pagination/pagination.html" %} 
@@ -24,7 +24,7 @@
         <tbody>
             {% for matricula in object_list %}
             <tr>
-                <td><a href="{% url 'matricula_curso_editar' matricula.id %}">{{ matricula.id }}</a></td>
+                <td><a href="{% url 'matricula_curso_online_editar' matricula.id %}">{{ matricula.id }}</a></td>
                 <td>{{ matricula.surname }}, {{ matricula.name }}</td>
                 <td>{{ matricula.curso }}</td>
                 <td>{{ matricula.registration_date }}</td>
