@@ -3,7 +3,7 @@ from django.views.generic.edit import View,CreateView, UpdateView, DeleteView, F
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from gestioneide.models import *

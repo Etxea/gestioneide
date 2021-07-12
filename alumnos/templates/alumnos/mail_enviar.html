@@ -1,5 +1,5 @@
 {% extends "site_base.html"%}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 {% block page_header %}
 <h1>{% trans "Enviar mail" %} {{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
@@ -7,7 +7,7 @@
 {% block body %}
 <div class="row">
     <form action="" method="post" class="form">{% csrf_token %}
-        {{ form|as_bootstrap }}
+        {{ form|crispy }}
         <div class="alert alert-info" role="alert">
             Se va a enviar un mail a {{ alumno.email }} y {{ alumno.email2 }}
         </div>

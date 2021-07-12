@@ -65,22 +65,20 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "account.context_processors.account",
-                "pinax_theme_bootstrap.context_processors.theme",
                 "gestioneide.context_processors.current_year_processor",
             ],
         },
     },
 ]
-MIDDLEWARE_CLASSES = [
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-    "gestioneide.middleware.SessionIdleTimeout",
-    "gestioneide.middleware.MessagesMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'gestioneide.middleware.SessionIdleTimeout',
+    'gestioneide.middleware.MessagesMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
 ]
 ROOT_URLCONF = "gestioneide.urls"
 WSGI_APPLICATION = "gestioneide.wsgi.application"
@@ -94,8 +92,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # theme
     "bootstrapform",
-    "pinax_theme_bootstrap",
-    "django_forms_bootstrap",
+    "crispy_forms",
     "bootstrap3_datetime",
     # external
     "account",
@@ -187,7 +184,7 @@ SERMEPA_BUTTON_TEXT="Pagar con tarjeta bancaria"
 GESTIONEIDE_MENSAJESGLOBLALES=False
 
 try:
-    from local_settings import *
+    from gestioneide.local_settings import *
 except ImportError:
     pass
           

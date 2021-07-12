@@ -1,5 +1,5 @@
 {% extends "site_base.html"%}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
 
@@ -120,7 +120,7 @@
         <div id="calendario"></div>
         <h2>Añadir clases</h2>
             <form action="{% url 'clase_curso_nueva' object.id %}" method="post">{% csrf_token %}
-                {{ clase_form|as_bootstrap }}
+                {{ clase_form|crispy }}
                 <div class="form-actions">
 
                     <button type="submit" class="btn btn-primary">Añadir</button>

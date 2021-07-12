@@ -4,15 +4,15 @@ from gestioneide.models import DIAS_SEMANA
 import calendar
 
 class Curso(models.Model):
-    year = models.ForeignKey('gestioneide.Year')
+    year = models.ForeignKey('gestioneide.Year',on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50,default="")
     def __unicode__(self):
         return "%s - %s"%(self.year,self.nombre)
 
 class Asignatura(models.Model):
-    curso = models.ForeignKey('Curso', related_name='asignaturas')
+    curso = models.ForeignKey('Curso', related_name='asignaturas',on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, default="")
-    profesor = models.ForeignKey('gestioneide.Profesor')
+    profesor = models.ForeignKey('gestioneide.Profesor',on_delete=models.CASCADE)
 
     def __unicode__(self):
         return u"%s - %s"%(self.curso, self.nombre)
@@ -41,52 +41,33 @@ class Asignatura(models.Model):
         return dias_clase
 
 class Asistencia(models.Model):
-    asignatura = models.ForeignKey(Asignatura)
-    alumno = models.ForeignKey('gestioneide.Alumno',related_name="asistencia_turismo")
+    asignatura = models.ForeignKey(Asignatura,on_delete=models.CASCADE)
+    alumno = models.ForeignKey('gestioneide.Alumno',related_name="asistencia_turismo",on_delete=models.CASCADE)
     def __unicode__(self):
         return "%s-%s"%(self.asignatura,self.alumno)
 
 class Clase(models.Model):
     dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
-    aula = models.ForeignKey('gestioneide.Aula',related_name='clases_turismo')
-    profesor = models.ForeignKey('gestioneide.Profesor',related_name='clases_turismo')
-    asignatura = models.ForeignKey(Asignatura,related_name='clases_turismo')
+    aula = models.ForeignKey('gestioneide.Aula',related_name='clases_turismo',on_delete=models.CASCADE)
+    profesor = models.ForeignKey('gestioneide.Profesor',related_name='clases_turismo',on_delete=models.CASCADE)
+    asignatura = models.ForeignKey(Asignatura,related_name='clases_turismo',on_delete=models.CASCADE)
     hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     def __unicode__(self):
         return "%s/%s-%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin)
 
 class Presencia(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 
 class Falta(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 
-    # def save(self, *args, **kwargs):
-    #     #evitamos duplicar faltas el mismo día por error
-    #     if Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).filter(dia=self.dia).count() > 0:
-    #         print "Ya tiene falta ese día! no la guardamos."
-    #         return
-    #     else:
-    #         super(Falta, self).save(*args, **kwargs)  # Call the "real" save() method.
-    #         #Si el grupo es de menores y suma cinco mandamos mail
-    #         if self.asistencia.grupo.menores:
-    #             print "es un grupo de menores contamos las faltas"
-    #             num_faltas_mes = Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).count()
-    #             print "tiene %s faltas"%num_faltas_mes
-    #             if num_faltas_mes > 3:
-    #                 print "Mandamos mail"
-    #                 subject="[Gestion Alumnos]Aviso de faltas %s en el mes %s"%(self.asistencia.alumno,self.mes)
-    #                 message="El alumno %s en el grupo %s a sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
-    #                 print "Mandamos mail: %s \n %s"%(subject,message)
-    #                 mail_admins(subject,message)
-
 class Justificada(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 

@@ -1,7 +1,5 @@
 from django.conf.urls import url
 from turismo.views import *
-from django.contrib import admin
-
 
 urlpatterns = [
     url(r"^$", View.as_view(), name="turismo_home"),

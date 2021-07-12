@@ -1,9 +1,9 @@
 {% load i18n %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 
 
 <form action="{% url 'turismo_clase_nueva' %}" method="post">{% csrf_token %}
-{{ form|as_bootstrap }}
+{{ form|crispy }}
 <br />
 <div class="form-actions">
 <button type="submit" class="btn btn-primary">Guardar</button>

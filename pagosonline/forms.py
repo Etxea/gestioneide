@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from models import *
+from pagosonline.models import *
 
 class PagoForm(ModelForm):
     class Meta:

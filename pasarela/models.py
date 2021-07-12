@@ -46,12 +46,12 @@ class Pago(models.Model):
         self.save()
         return True
     def send_paiment_confirmation_email(self):
-		subject = "[PagosOnline] Se ha confirmado un pago manual online"
-		message_body = u"""Se acaba de confirmar un pago online creado manualmente. Los datos son: \n
+        subject = "[PagosOnline] Se ha confirmado un pago manual online"
+        message_body = u"""Se acaba de confirmar un pago online creado manualmente. Los datos son: \n
         \tid: %s. \n 
         \tfecha creacion: %s. \n 
         \tdescripcion: %s. \n 
         \timporte: %s. \n 
 """%(self.id,self.fecha_creacion,self.descripcion,self.importe)
-		mail_admins(subject, message_body)
+        mail_admins(subject, message_body)
 

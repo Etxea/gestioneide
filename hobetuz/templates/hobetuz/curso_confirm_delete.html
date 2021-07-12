@@ -1,11 +1,11 @@
 {% extends "site_base.html"%}
 {% load i18n %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% block body %}
     <h1>{% trans "Delete Course" %}{{object}}</h1>
 	<div>
 	<form action="" method="post">{% csrf_token %}
-	{{ form|as_bootstrap }}
+	{{ form|crispy }}
 	¿Seguro que desas borrar curso {{object}} ?
 	</div>
 	<input class="btn submit large" type="submit" value="Eliminar"/>

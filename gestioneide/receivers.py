@@ -74,7 +74,7 @@ def handle_user_signed_up(sender, **kwargs):
 @receiver(payment_was_successful)
 def payment_ok(sender, **kwargs):
     #log.debug("Somos el evento payment_was_successful gestionado por payment_ok")
-    print sender
+    #print sender
     reference = sender.Ds_MerchantData
     #log.debug("tenemos la referencia: %s"%reference)
     registration_type = reference.split('-')[0]

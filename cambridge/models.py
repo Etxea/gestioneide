@@ -23,7 +23,7 @@ from django.core.mail import EmailMultiAlternatives, send_mail, mail_admins
 from django.template.loader import render_to_string
 
 from random import choice
-from string import letters
+from string import ascii_letters
 import datetime
 import sys
 
@@ -65,7 +65,7 @@ class Level(models.Model):
 
 class Exam(models.Model):
     exam_type =  models.DecimalField(_('Tipo Examen'),max_digits=1, decimal_places=0,choices=EXAM_TYPE)
-    level = models.ForeignKey(Level)
+    level = models.ForeignKey(Level,on_delete=models.CASCADE)
     exam_date =  models.DateField(default=timezone.now)
     registration_end_date =  models.DateField(_('Fecha fin de la matriculación'),default=timezone.now)
     def registrations(self):
@@ -121,21 +121,21 @@ class Venue(models.Model):
         return total
 
 class SchoolLevel(Level):
-    school = models.ForeignKey(School)
+    school = models.ForeignKey(School,on_delete=models.CASCADE)
 
 class SchoolExam(Exam):
-    school = models.ForeignKey(School)
+    school = models.ForeignKey(School,on_delete=models.CASCADE)
     def __unicode__(self):
         return "%s %s %s"%(self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
 class VenueExam(Exam):
-    venue = models.ForeignKey(Venue)
+    venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
     def __unicode__(self):
         return "[%s]%s %s %s"%(self.venue,self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
 
 class Registration(models.Model):
-    exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()})
+    exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.CASCADE)
     password = models.CharField(_('Password'),max_length=6,blank=True,editable=False)
     name = models.CharField(_('Nombre'),max_length=50)
     surname = models.CharField(_('Apellido(s)'),max_length=100)
@@ -235,11 +235,10 @@ Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.e
         
     def __unicode__(self):
         return "%s-%s"%(self.id,self.exam)
-    def registration_name(self):
-        #return "%s - %s, %s"%(self.exam,self.surname,self.name)
-	try:
-	    return "%s"%(self.exam.level.schoollevel.__unicode__())
-	except:
+    def registration_name(self):    
+        try:
+            return "%s"%(self.exam.level.schoollevel.__unicode__())
+        except:
             return "%s"%(self.exam)
     def save(self, *args, **kwargs):
         ##We generate a random password
@@ -248,7 +247,7 @@ Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.e
                 self.send_paiment_confirmation_email()      
         else:
             #We set th password, not used right now
-            self.password = ''.join([choice(letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
             #COmprobamos si es un schoolexam
             try:
                 if isinstance(self.exam.schoolexam,SchoolExam):

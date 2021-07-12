@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import *
+from turismo.models import *
 
 admin.site.register(Asignatura)
 admin.site.register(Asistencia)

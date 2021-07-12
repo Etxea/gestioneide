@@ -1,14 +1,14 @@
-Django==1.11.29
-pinax-theme-bootstrap==7.2.0
+Django==2.2.24
+pinax-templates
 pinax-documents==1.0.2
 pinax-templates
+django-crispy-forms
 pinax-messages==2.0.2
 pinax-notifications==5.0.3
-django-forms-bootstrap
-django-user-accounts==1.3.1
+django-user-accounts==2.1.0
 Django-appconf==1.0.2
 metron==1.3.7
-pinax-eventlog==1.1.1
+pinax-eventlog==4.0.1
 django-localflavor==2.2
 phonenumbers
 django-phonenumber-field
@@ -19,6 +19,7 @@ ipython
 xlwt
 #MySQL-python
 mysqlclient
+django-mysql
 django-fixture-magic
 #django-tables2
 django-wkhtmltopdf

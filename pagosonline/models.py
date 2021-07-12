@@ -11,7 +11,7 @@ from cambridge.models import Registration
 from django.core.mail import send_mail, mail_admins
 
 import logging
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 log = logging.getLogger("MatriculaEIDE")
 

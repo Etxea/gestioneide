@@ -1,6 +1,6 @@
 {% extends "site_base.html"%}
 {% load i18n %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 
 {% block page_header %}
 Cursos Turismo
@@ -9,7 +9,7 @@ Cursos Turismo
 {% block body %}
 
 <form action="" method="post">{% csrf_token %}
-{{ form|as_bootstrap }}
+{{ form|crispy }}
 <br />
 <div class="form-actions">
 <a href="{% url 'turismo_home' %}" class="btn">Cancelar</a>

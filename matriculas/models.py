@@ -6,9 +6,9 @@ from anymail.message import AnymailMessage
 from django.conf import settings
 from django.db import models
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from random import choice
-from string import letters
+from string import ascii_letters
 from django.utils import timezone
 
 from gestioneide.models import Alumno, Centro
@@ -118,7 +118,7 @@ class MatriculaEide(models.Model):
         email.content_subtype = "html"
         try:
             email.send(fail_silently=False)
-        except Exception, e:
+        except Exception as e:
             log.error("(matriculas) Error al enviar mail",str(e))
         
          
@@ -148,7 +148,7 @@ class MatriculaEide(models.Model):
         email.content_subtype = "html"
         try:
             email.send(fail_silently=False)
-        except Exception, e:
+        except Exception as e:
             log.error("(matriculas) Error al enviar mail",str(e))    
         
         subject = "[GESTIONEIDE][Matricula] Se ha confirmado el pago de una matricula"
@@ -178,7 +178,7 @@ class MatriculaEide(models.Model):
         email_secretaria.content_subtype = "html"
         try:
             email_secretaria.send(fail_silently=False)
-        except Exception, e:
+        except Exception as e:
             log.error("(matriculas) Error al enviar mail",str(e))
     
     def set_as_paid(self):
@@ -212,7 +212,7 @@ class MatriculaEide(models.Model):
                 Puedes ver los detalles de la matricula en : https://gestion.eide.es%s
                 """%(a.id,self.id,a.get_absolute_url(),self.get_absolute_url())
             mail_admins("[GESTIONEIDE] Alumno %s creado via m"%(a.id), texto )
-        except Exception, e:
+        except Exception as e:
             log.error("(matriculas) Error al generar el alumno ",str(e)) 
     
     def __unicode__(self):
@@ -253,7 +253,7 @@ class Curso(models.Model):
         return self.name
 
 class MatriculaCurso(models.Model):
-    curso = models.ForeignKey(Curso)
+    curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
     password = models.CharField(_('Password'),max_length=6,blank=True,editable=False)
     name = models.CharField(_('Nombre'),max_length=50)
     surname = models.CharField(_('Apellido(s)'),max_length=100)
@@ -328,7 +328,7 @@ class MatriculaCurso(models.Model):
         email.content_subtype = "html"
         try:
             email.send(fail_silently=False)
-        except Exception, e:
+        except Exception as e:
             log.error("(matriculas) Error al enviar mail",str(e))
         
         subject = "[EIDE][MATRICULA][CURSO] Se ha confirmado el pago de un curso"
@@ -357,7 +357,7 @@ class MatriculaCurso(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set a random password, not used right now
-            self.password = ''.join([choice(letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
             #We send a confirmation mail to te registrant and a advise mail to the admins
             self.send_confirmation_email()
         super(MatriculaCurso, self).save(*args, **kwargs)
@@ -376,14 +376,14 @@ class MatriculaCurso(models.Model):
 class LinguaskillLevel(models.Model):
     name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    venue = models.ForeignKey(Venue)
+    venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
 
     def __unicode__(self):
         return "[LS][%s]%s(%s)"%(self.venue,self.name,self.price)
 
 class MatriculaLinguaskill(models.Model):
     proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'), blank=True)
-    level = models.ForeignKey(LinguaskillLevel)
+    level = models.ForeignKey(LinguaskillLevel,on_delete=models.CASCADE)
     password = models.CharField(_('Password'),max_length=6,blank=True,editable=False)
     name = models.CharField(_('Nombre'),max_length=50)
     surname = models.CharField(_('Apellido(s)'),max_length=100)
@@ -467,7 +467,7 @@ class MatriculaLinguaskill(models.Model):
         email.content_subtype = "html"
         try:
             email.send(fail_silently=False)
-        except Exception, e:
+        except Exception as e:
             log.error("(matriculas) Error al enviar mail",str(e))
         
         subject = "[EIDE][Linguaskill] Se ha confirmado el pago de una matricula LS"
@@ -495,7 +495,7 @@ class MatriculaLinguaskill(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set a random password, not used right now
-            self.password = ''.join([choice(letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
             #We send a confirmation mail to te registrant and a advise mail to the admins
             self.send_confirmation_email()
         super(MatriculaLinguaskill, self).save(*args, **kwargs)
@@ -524,7 +524,7 @@ class Level(models.Model):
 
 class Exam(models.Model):
     exam_type =  models.DecimalField(_('Tipo Examen'),max_digits=1, decimal_places=0,choices=EXAM_TYPE)
-    level = models.ForeignKey(Level)
+    level = models.ForeignKey(Level,on_delete=models.CASCADE)
     exam_date =  models.DateField(default=timezone.now)
     registration_end_date =  models.DateField(_('Fecha fin de la matriculación'),default=timezone.now)
     def registrations(self):
@@ -566,20 +566,20 @@ class School(models.Model):
         return total
 
 class SchoolLevel(Level):
-    school = models.ForeignKey(School)
+    school = models.ForeignKey(School,on_delete=models.CASCADE)
 
 class SchoolExam(Exam):
-    school = models.ForeignKey(School)
+    school = models.ForeignKey(School,on_delete=models.CASCADE)
     def __unicode__(self):
         return "%s %s %s"%(self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
 class VenueExam(Exam):
-    venue = models.ForeignKey(Venue)
+    venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
     def __unicode__(self):
         return "[%s]%s %s %s"%(self.venue,self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
 class Registration(models.Model):
-    exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()})
+    exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.CASCADE)
     password = models.CharField(_('Password'),max_length=6,blank=True,editable=False)
     name = models.CharField(_('Nombre'),max_length=50)
     surname = models.CharField(_('Apellido(s)'),max_length=100)
@@ -678,9 +678,9 @@ class Registration(models.Model):
         return "%s-%s"%(self.id,self.exam)
     def registration_name(self):
         #return "%s - %s, %s"%(self.exam,self.surname,self.name)
-	try:
-	    return "%s"%(self.exam.level.schoollevel.__unicode__())
-	except:
+        try:
+            return "%s"%(self.exam.level.schoollevel.__unicode__())
+        except:
             return "%s"%(self.exam)
     def save(self, *args, **kwargs):
         ##We generate a random password
@@ -689,7 +689,7 @@ class Registration(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set th password, not used right now
-            self.password = ''.join([choice(letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
             #Comprobamos si es un schoolexam
             try:
                 if isinstance(self.exam.schoolexam,SchoolExam):

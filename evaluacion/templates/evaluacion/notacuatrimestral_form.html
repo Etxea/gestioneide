@@ -1,12 +1,12 @@
 {% extends "site_base.html"%}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block body %}
 
     <h1>Editar la nota del alumnos {{ object.asistencia.alumno }} en el grupo {{ object.grupo }} en el trimestre {{ object.trimestre }}</h1>
     <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap }}
+      {{ form|crispy }}
       <br />
       <div class="form-actions">
       <button type="submit">Enviar</button>

@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
-from views import *
+from gestioneide.views import *
 from django.contrib import admin
 
 admin.site.site_header = 'Gestion EIDE'
@@ -13,7 +13,7 @@ admin.site.index_title = 'Welcome Admin'
 
 urlpatterns = [
     url(r"^$", HomeView.as_view(), name="home"),
-    url(r"^admin/", include(admin.site.urls)),
+    url(r"^admin/",  admin.site.urls),
     url(r"^accounts/", include("account.urls")),
     url(r"^alumnos/", include("alumnos.urls")),
     url(r"^grupos/", include("grupos.urls")),

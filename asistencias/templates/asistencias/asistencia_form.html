@@ -1,6 +1,6 @@
 {% extends "site_base.html"%}
 {% load staticfiles %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
 
@@ -9,7 +9,7 @@
     <h1>{% trans "Nueva Asistencia" %}</h1>
 
     <form action="" method="post">{% csrf_token %}
-      {{ form|as_bootstrap }}
+      {{ form|crispy }}
       <br />
       <div class="form-actions">
 <!--

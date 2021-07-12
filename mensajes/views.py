@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, DetailView, View
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User

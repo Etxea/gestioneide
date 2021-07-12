@@ -2,9 +2,9 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import View,CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import JsonResponse
-from models import *
+from turismo.models import *
 from gestioneide.models import Falta, Presencia, Justificada
 
 import logging

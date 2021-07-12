@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from matriculas.models import MatriculaCurso
 from django.forms import ModelForm,DateField
-from models import *
+from matriculas.models import *
 from localflavor.es.forms import *
 from django.utils.translation import ugettext_lazy as _
 from datetime import date

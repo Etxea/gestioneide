@@ -17,7 +17,7 @@
 #  
 
 
-from models import *
+from cambridge.models import *
 from django.contrib import admin
 
 class RegistrationAdmin(admin.ModelAdmin):
