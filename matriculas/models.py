@@ -275,7 +275,7 @@ class MatriculaCurso(models.Model):
         return self.curso.price
 
     def get_absolute_url(self):
-        return reverse_lazy('matricula_curso_editar', kwargs={'pk': self.pk })
+        return reverse_lazy('matricula_curso_online_editar', kwargs={'pk': self.pk })
 
     def send_confirmation_email(self):
         ##Para el alumno

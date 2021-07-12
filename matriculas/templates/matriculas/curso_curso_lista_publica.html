@@ -15,7 +15,7 @@
 		<td> {{curso.name}}</td>
         <td> {{curso.descripcion }}</td>
 		<td> {{curso.price}} </td>
-		<td><a class="btn btn-primary" href="{% url 'matricula_curso_directo_nueva' curso.id %}">Matriculate!</a></td>
+		<td><a class="btn btn-primary" href="{% url 'matricula_curso_online_directo_nueva' curso.id %}">Matriculate!</a></td>
 		
 	</tr>
 	{% endfor %}
