@@ -1,0 +1,13 @@
+{% extends "site_base.html"%}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+
+{% block page_header %}<h1> Ticket Bai Nuevo Ticket</h1>{% endblock %}
+
+{% block body %}
+<form method="post" action="">{% csrf_token %}
+{{ form|crispy }}
+<button action="submit">Crear</button>
+</form>
+{% endblock %}
