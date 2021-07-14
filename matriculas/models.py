@@ -591,7 +591,7 @@ class Registration(models.Model):
     #dni = models.CharField(max_length=9,blank=True,help_text=_('Introduce el DNI completo con la letra sin espacios ni guiones'))
     telephone = models.CharField(_('Teléfono'),max_length=12)
     email = models.EmailField()
-    eide_alumn = models.BooleanField(_('Alumno EIDE'), default="False", blank=True, help_text=_('Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.'))
+    eide_alumn = models.BooleanField(_('Alumno EIDE'), default=False, blank=True, help_text=_('Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.'))
     centre_name = models.CharField(_('Nombre del Centro'),max_length=100, blank=True) 
     registration_date = models.DateField(auto_now_add=True)
     paid = models.BooleanField(_('Pagada'),default=False)

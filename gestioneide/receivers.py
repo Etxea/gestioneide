@@ -8,8 +8,6 @@ from sermepa.signals import payment_was_successful, payment_was_error, signature
 from matriculas.models import MatriculaEide, MatriculaLinguaskill, MatriculaCurso
 from pagosonline.models import Pago
 
-from pinax.eventlog.models import log
-
 import logging
 log = logging.getLogger("django")
 

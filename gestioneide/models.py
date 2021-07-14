@@ -285,7 +285,7 @@ class Profesor(models.Model):
             pg = Group(name="profesores")
             pg.save()
         if self.user == None:
-            password = User.objects.make_random_password()  # type: unicode
+            password = User.objects.make_random_password()
             nombreusuario = slugify("%s%s" % (self.nombre,self.apellido)).replace('-', '')
             print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
             if len(User.objects.filter(username=nombreusuario))>0:
@@ -952,9 +952,6 @@ class Asistencia(models.Model):
 
     def envio_horario(self):
         pass
-    
-    def __unicode__(self):
-        return "%s"%(self.alumno.id)
 
 class PruebaNivel(models.Model):
     alumno = models.ForeignKey('Alumno',on_delete=models.CASCADE)

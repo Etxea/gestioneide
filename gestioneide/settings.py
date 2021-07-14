@@ -97,7 +97,6 @@ INSTALLED_APPS = [
     # external
     "account",
     "metron",
-    "pinax.eventlog",
     'fixture_magic',
     'wkhtmltopdf',
     'pinax.documents',
@@ -132,7 +131,6 @@ INSTALLED_APPS = [
     "sermepa",
     "pasarela",
     "pagosonline",
-    "cambridge",
     "matriculas",
     "hobetuz",
     "ticketbai",

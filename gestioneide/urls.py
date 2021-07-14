@@ -41,7 +41,6 @@ urlpatterns = [
     url(r"^sermepa/", include("sermepa.urls")),
     url(r"^pasarela/", include("pasarela.urls")),
     url(r"^pagosonline/", include("pagosonline.urls")),
-    #rl(r"^cambridge/", include("cambridge.urls")),
     url(r"^matriculas/", include("matriculas.urls")),
     url(r'^cookies/', include('cookie_consent.urls')),
     url(r'^hobetuz/', include('hobetuz.urls')),

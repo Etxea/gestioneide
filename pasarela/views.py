@@ -24,7 +24,7 @@ import sys
 
 from pagosonline.models import Pago
 from pasarela.forms import *
-from cambridge.models import Registration
+
 from matriculas.models import MatriculaEide
 
 import logging

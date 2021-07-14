@@ -3,5 +3,23 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"mysqlOptions": {
+					"authProtocol": "default"
+				},
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 3306,
+				"askForPassword": true,
+				"driver": "MySQL",
+				"name": "eide_gestion_localhost",
+				"database": "eide_gestion",
+				"group": "EIDE",
+				"username": "root"
+			}
+		]
+	}
 }
