@@ -1,8 +1,0 @@
-[
- {"pk": 1, "model": "cambridge.exam", "fields": 
-    {"exam_date": "2012-11-01", "registration_start_date": "2012-05-01", "level": 1}
- }, 
- {"pk": 1, "model": "cambridge.computerbasedexam", "fields": 
-    {"exam_date": "2012-11-24", "registration_start_date": "2012-05-27",  "level": 1}
- }
-]
