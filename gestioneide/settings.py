@@ -6,6 +6,7 @@ BASE_DIR = PACKAGE_ROOT
 
 #FOR DEV
 DEBUG = True
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 TIME= 1800*60
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
