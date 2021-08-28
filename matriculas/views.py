@@ -137,6 +137,9 @@ class MatriculaEidePayView(DetailView):
         print "Tenemos el form"
         print form.render()
         context['form'] = form
+        merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
+        form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+        context['form_bizum']=form_bizum
         context['precio'] = settings.PRECIO_MATRICULA
         context['debug']= settings.DEBUG
 
@@ -228,10 +231,11 @@ class MatriculaCursoPayView(DetailView):
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
-            "Ds_Merchant_Titular": 'EIDE Curso',
+            "Ds_Merchant_Titular": 'EIDE',
             "Ds_Merchant_MerchantData": 'curso-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
-            "Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
+            #"Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
+            "Ds_Merchant_ProductDescription": 'matricula-curso-%s'%(self.object.pay_code()),
             "Ds_Merchant_Amount": int(self.object.curso.price*100),
             "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
             "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
@@ -253,6 +257,7 @@ class MatriculaCursoPayView(DetailView):
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
         context['form'] = form
+        context['merchant_parameters'] = merchant_parameters
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
         context['form_bizum']=form_bizum
@@ -396,7 +401,7 @@ def RegistrationPayment(request, pk, trans_type='0'):
     }
     if trans_type == '0': #Compra puntual
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print "Tenemos la order ",order
+        logger.debug("Tenemos la order ",order)
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": trans_type,
@@ -439,8 +444,8 @@ def RegistrationPayment(request, pk, trans_type='0'):
         })
         
     form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-    print "Tenemos el form"
-    print form.render()
+    logger.debug("Tenemos el form")
+    logger.debug(form.render())
     merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
     form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
     return HttpResponse(render_to_response('cambridge/payment.html', {'form': form, 'form_bizum': form_bizum, 'debug': settings.DEBUG, 'registration': reg}))
