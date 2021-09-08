@@ -32,9 +32,10 @@ class MatriculaPayView(DetailView):
         site_domain = site.domain
         merchant_parameters = {
             "Ds_Merchant_Titular": 'EIDE',
-            "Ds_Merchant_MerchantData": 'linguaskill-%s'%self.object.pay_code(), # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
+            "Ds_Merchant_MerchantData": 'matricula-%s'%self.object.pay_code(), # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
-            "Ds_Merchant_ProductDescription": 'matricula-%s'%self.object.pay_code(),
+            #"Ds_Merchant_ProductDescription": 'matricula-%s'%self.object.pay_code(),
+            "Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
             "Ds_Merchant_Amount": int(self.object.price()*100),
             "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
             "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
@@ -111,9 +112,10 @@ class MatriculaEidePayView(DetailView):
         site_domain = site.domain
         merchant_parameters = {
             "Ds_Merchant_Titular": 'EIDE',
-            "Ds_Merchant_MerchantData": 'eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
+            "Ds_Merchant_MerchantData": 'matricula-eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
-            "Ds_Merchant_ProductDescription": 'matricula-eide-%s'%self.object.id,
+            #"Ds_Merchant_ProductDescription": 'matricula-eide-%s'%self.object.id,
+            "Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
             "Ds_Merchant_Amount": precio_matricula,
             "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
             "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
@@ -202,7 +204,7 @@ class MatriculaCursoDirectaCreateView(CreateView):
     
     def get_initial(self, *args, **kwargs):
         initial = super(MatriculaCursoDirectaCreateView, self).get_initial(**kwargs)
-        initial['curso'] = Curso.objects.get(id=self.kwargs.pop('curso_id'))
+        initial['curso'] = Curso.objects.get(id=self.kwargs.pop('curso_online_id'))
         return initial
 
     ##Pasamos el argumento del curso
@@ -210,7 +212,7 @@ class MatriculaCursoDirectaCreateView(CreateView):
         kwargs = super(MatriculaCursoDirectaCreateView, self).get_form_kwargs()
         ##Intentamos leer el curso (puede que no exista)
         try:
-            kwargs['curso'] = Curso.objects.get(id=self.kwargs.pop('curso_id'))
+            kwargs['curso'] = Curso.objects.get(id=self.kwargs.pop('curso_online_id'))
         except:
             kwargs['curso'] = None
         return kwargs

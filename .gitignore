@@ -19,3 +19,4 @@ nohup.out
 .vscode
 codigos_optimise.csv
 debug.log
+pyvenv.cfg
