@@ -551,31 +551,35 @@ class NotaUnitsSendView(DetailView):
 
 def NotasGrupoUnitsView(request, pk):
     grupo = get_object_or_404(Grupo, pk=pk)
+    print(grupo)
     template = get_template("evaluacion/notas_grupo_units.html")
     context={}
     context['grupo'] = grupo
-    context['asistencias'] = grupo.asistencia_set.all()
-    NotaFomsetClass = NotaUnitsFormSet
-
+    lista_asistencias = grupo.asistencia_set.all()
+    print(lista_asistencias)
+    context['asistencias'] = lista_asistencias
+    
     if request.method == 'POST':
-        notas_formset = NotaFomsetClass(request.POST, request.FILES)
+        notas_formset = NotaUnitsFormSet(request.POST, request.FILES)
         context['notas_formset'] = notas_formset
         if notas_formset.is_valid():
             notas_formset.save()
             ## Volvemos a la lista
-            return redirect(reverse_lazy('evaluacion'))
+            return redirect(reverse_lazy('evaluacion_notas'))
         else:
             #print "Formset mal" volvemos a mostrar el formulario
             context['notas_formset'] = notas_formset
     else:
-        lista_asistencias = []
-        #buscamos o creamos las notas
-        for asistencia in grupo.asistencia_set.all().order_by('id'):
-            lista_asistencias.append(asistencia.id)
+        for asistencia in lista_asistencias:
             obj, created = NotaUnits.objects.get_or_create(asistencia=asistencia)
-        notas_formset = NotaFomsetClass(
-            queryset=NotaCuatrimestral.objects.filter(asistencia__in=lista_asistencias)
-                .order_by('asistencia__id'))
+            print(obj,created)
+        for nota in NotaUnits.objects.filter(asistencia__in=lista_asistencias).order_by('asistencia__id'):                    
+            print(nota)
+        notas_formset = NotaUnitsFormSet(
+            queryset=NotaUnits.objects.filter(
+               asistencia__in=lista_asistencias)
+               .order_by('asistencia__id')
+        )
         context['notas_formset'] = notas_formset
-
+    print(notas_formset)
     return HttpResponse(template.render(context, request=request))
