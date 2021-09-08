@@ -519,4 +519,63 @@ class NotaCuatrimestralSendView(DetailView):
         context = super(NotaCuatrimestralSendView, self).get_context_data(**kwargs)
         context['cuatrimestre'] = self.kwargs['cuatrimestre']
         return context
+
+
+##FIXME PERMISOS!!!
+class NotaTrimestralEditView(UpdateView):
+    model = NotaTrimestral
+    fields = "__all__"
+    template_name = "evaluacion/notatrimestral_form.html"
+
+##FIXME PERMISOS!!!
+class NotaUnitsSendView(DetailView):
+    model = Asistencia
+    template_name = "evaluacion/notaUnits_detail.html"
+    context_object_name = "asistencia"
+
+    def get_context_data(self, **kwargs):
+        context = super(NotaUnitsSendView, self).get_context_data(**kwargs)
+        context['trimestre'] = self.kwargs['trimestre']
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        print("Somos POST")
+        self.object = self.get_object()
+        nota = self.object.notaUnits_set.get(trimestre=self.kwargs['trimestre'])
         
+        context = super(NotaUnitsSendView, self).get_context_data(**kwargs)
+        texto_html = render_to_string("evaluacion/notaUnits_detail.html",context)
+        nota.enviar_mail(texto_html)
+        return self.render_to_response( context=context)
+
+
+def NotasGrupoUnitsView(request, pk):
+    grupo = get_object_or_404(Grupo, pk=pk)
+    template = get_template("evaluacion/notas_grupo_units.html")
+    context={}
+    context['grupo'] = grupo
+    context['asistencias'] = grupo.asistencia_set.all()
+    NotaFomsetClass = NotaUnitsFormSet
+
+    if request.method == 'POST':
+        notas_formset = NotaFomsetClass(request.POST, request.FILES)
+        context['notas_formset'] = notas_formset
+        if notas_formset.is_valid():
+            notas_formset.save()
+            ## Volvemos a la lista
+            return redirect(reverse_lazy('evaluacion'))
+        else:
+            #print "Formset mal" volvemos a mostrar el formulario
+            context['notas_formset'] = notas_formset
+    else:
+        lista_asistencias = []
+        #buscamos o creamos las notas
+        for asistencia in grupo.asistencia_set.all().order_by('id'):
+            lista_asistencias.append(asistencia.id)
+            obj, created = NotaUnits.objects.get_or_create(asistencia=asistencia)
+        notas_formset = NotaFomsetClass(
+            queryset=NotaCuatrimestral.objects.filter(asistencia__in=lista_asistencias)
+                .order_by('asistencia__id'))
+        context['notas_formset'] = notas_formset
+
+    return HttpResponse(template.render(context, request=request))

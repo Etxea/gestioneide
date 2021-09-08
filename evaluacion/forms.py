@@ -25,6 +25,14 @@ class NotaCreateForm(ModelForm):
             'listening': forms.NumberInput(attrs={'style':'width: 75px;', 'max':100,'size':'2','maxlength': '2'})
         }
 
+class NotaUnitsCreateForm(ModelForm):
+    class Meta:
+        model = NotaUnits
+        fields = '__all__'
+        widgets = {
+            'id': forms.HiddenInput()
+        }
+
 class NotaTrimestralCreateForm(ModelForm):
     class Meta:
         model = NotaTrimestral
@@ -60,8 +68,7 @@ class UpperNotaCreateFrom(NotaCreateForm):
 
 NotaFormSet = modelformset_factory(NotaCuatrimestral,form=NotaCreateForm,extra=0)
 
-
-
+NotaUnitsFormSet = modelformset_factory(NotaUnits,form=NotaUnitsCreateForm,extra=0)
 NotaTrimestralFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralCreateForm,extra=0)
 NotaTrimestralKidsFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralKidsCreateForm,extra=0)
 

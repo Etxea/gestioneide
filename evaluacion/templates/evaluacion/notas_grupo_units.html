@@ -1,0 +1,70 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Faltas{% endblock %}
+
+
+{% block body %}
+
+<h1>Notas de unidades del grupo {{ grupo.nombre }}</h1>
+
+{{ notas_formset.non_field_errors }}
+
+<form role="form" method="post" action="{% url 'notas_units' grupo.id %}">
+	{% csrf_token %}
+	{{ notas_formset.management_form }}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th>
+                {% with notas_formset|first as form %}
+                {% for field in form %}
+                    {%  if field.label != "Id" %}
+					<th>{{ field.label }}</th>
+                    {% endif %}
+				{% endfor %}
+                {%  endwith %}
+			</tr>
+		</thead>
+		<tbody>    
+		{% for form in notas_formset %}
+			<tr>
+				{% comment %}  {{ form | bootstrap_inline }}<br /> {% endcomment %} 
+				{% with asistencia=asistencias|buscar:forloop.counter0 %}
+				<td> {{ asistencia.alumno }} </td>
+				{% for field in form %}
+					<td>{{ field }}  {{ field.errors }}</td>
+				{% endfor %}
+                <!--
+				<td>
+					<form action="{% url 'envio_notas_trimestre_alumno' asistencia.id trimestre %}" method="post">
+					{% csrf_token %}
+					<button class="btn btn-primary" type="submit"><i class="zmdi zmdi-email"></i>
+						Envío por mail</button>
+					</form>
+                </td>
+                -->
+				{% endwith %}
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+    
+    <div class="form-group">
+	
+		<button type="submit" class="btn btn-primary">Submit</button>
+        <!--
+        {% if request.user.is_staff %}
+        <a class="btn btn-secondary" href="{% url 'notas_grupo' grupo.prev_by_nombre trimestre %}"><i class="zmdi zmdi-caret-left-circle"></i>&nbsp;Anterior</a>
+        <a class="btn" href="{% url 'notas_grupo' grupo.next_by_nombre trimestre %}">Siguiente&nbsp;<i class="zmdi zmdi-caret-right-circle"></i></a>
+        <a class="btn btn-info" href="{% url 'imprimir_alumnos_notas_trimestre' trimestre grupo.id %}"><i class="zmdi zmdi-print"></i>Imprimir</a>
+        {% endif %}
+        -->
+    </div>
+</form>
+
+
+{% endblock %}

@@ -1147,6 +1147,15 @@ class NotaTrimestral(models.Model):
         self.email_enviado = True
         self.save()
 
+class NotaUnits(models.Model):
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
+    unit1 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit2 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit3 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit4 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    
+
+
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
