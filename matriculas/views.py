@@ -401,10 +401,7 @@ def RegistrationPayment(request, pk, trans_type='0'):
     }
     if trans_type == '0': #Compra puntual
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-<<<<<<< HEAD
-=======
         logger.debug("Tenemos la order ",order)
->>>>>>> origin/production
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": trans_type,
@@ -447,11 +444,8 @@ def RegistrationPayment(request, pk, trans_type='0'):
         })
         
     form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-<<<<<<< HEAD
-=======
     logger.debug("Tenemos el form")
     logger.debug(form.render())
->>>>>>> origin/production
     merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
     form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
     return HttpResponse(render_to_response('cambridge/payment.html', {'form': form, 'form_bizum': form_bizum, 'debug': settings.DEBUG, 'registration': reg}))
