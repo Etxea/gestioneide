@@ -1,0 +1,10 @@
+[Unit]
+Description=Unit for starting Django Gestion EIDE
+
+[Service]
+Restart=on-failure
+WorkingDirectory=/var/www/vhosts/eide.es/gestioneide
+ExecStart=/var/www/vhosts/eide.es/gestioneide/runserver.sh
+
+[Install]
+WantedBy=multi-user.target

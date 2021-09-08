@@ -6,6 +6,11 @@
 ## Instalación
 
 ```
+apt install python3 python-is-python3
+
+```
+
+```
 git clone https://github.com/Etxea/gestioneide.git
 cd gestioneide
 git checkout -b nuevotema remotes/origin/nuevotema
@@ -27,6 +32,11 @@ pip install -r requirements.txt
 ./manage.py festivos calendario_laboral_2016.csv
 ./manage.py collectstatic
 ```
+
+### Plesk
+
+https://support.plesk.com/hc/en-us/articles/115002701209-How-to-install-Django-applications-in-Plesk-
+
 
 ## Getting Started
 
