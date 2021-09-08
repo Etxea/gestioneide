@@ -19,12 +19,9 @@
 
 from django import forms
 from django.forms import ModelForm
-from models import *
-from django.forms.models import inlineformset_factory
-from django.forms.extras.widgets import SelectDateWidget
+from hobetuz.models import *
 from localflavor.es.forms import *
 from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.admin import widgets                                       
 from django.utils.translation import gettext_lazy as _
 
 class CursoForm(ModelForm):

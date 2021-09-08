@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.views.generic import ListView, DetailView, FormView, TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
@@ -13,8 +13,8 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from excel_response import ExcelView
 
-from models import Consulta, Confirmacion
-from forms import *
+from consultas.models import Consulta, Confirmacion
+from consultas.forms import *
 from gestioneide.models import Alumno, Asistencia,Year,Grupo,MailAlumno
 
 @method_decorator(permission_required('gestioneide.alumno_add',raise_exception=True),name='dispatch')
@@ -163,21 +163,18 @@ class ConfirmacionesCrearView(ListView):
     model = Confirmacion
     
     def post(self, request, *args, **kwargs):
-        print "Somos post vamos a generar las confirmaciones pendiente"
         year = Year().get_activo(self.request)
         for asistencia in Asistencia.objects.filter(year=year):
-            if asistencia.confirmacion_set.all().count() == 0:
-                print "No tiene confirmacion"
+            if asistencia.confirmacion_set.all().count() == 0:        
                 confirmacion = Confirmacion(asistencia=asistencia)
                 confirmacion.save()
                 confirmacion.send_mail()
             else:
                 confirmacion = asistencia.confirmacion_set.all()[0]
                 if confirmacion.respuesta_choice == 0:
-                    print asistencia,"Ya tiene confirmacion, pero no ha contestado, la enviamos"
                     confirmacion.send_mail()
                 else:
-                    print "Ya ha contestado"
+                    pass
         return HttpResponseRedirect(reverse('confirmaciones_crear'))
     
     def get_queryset(self):

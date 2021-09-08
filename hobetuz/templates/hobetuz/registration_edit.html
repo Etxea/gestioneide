@@ -6,8 +6,8 @@
     <h1>{% trans "Registration of " %}{{object.dni}}</h1>
 
 	<form action="{% url cambridge_edit object.id %}" method="post">{% csrf_token %}
-	{% load bootstrap_tags %}
-	{{ form|as_bootstrap }}
+	{% load crispy_forms_tags %}
+	{{ form|crispy }}
 	
 	<a class="btn" href="{% url cambridge_imprimir object.id %}">{% trans "Print" %}</a>
 	<a class="btn" href="{% url cambridge_list %}">{% trans "Cancel" %}</a>

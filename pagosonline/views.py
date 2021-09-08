@@ -11,8 +11,8 @@ from django.views.generic.detail import DetailView
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 
-from forms import *
-from models import Pago
+from pagosonline.forms import *
+from pagosonline.models import Pago
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
 import sys
@@ -63,7 +63,6 @@ def pagar_manual(request,pago_id):
     }
 
     order = SermepaIdTPV.objects.new_idtpv()  # Tiene que ser un número único cada vez
-    print "Tenemos la order ", order
     merchant_parameters.update({
         "Ds_Merchant_Order": order,
         "Ds_Merchant_TransactionType": '0',
@@ -103,7 +102,6 @@ class PagoManual(DetailView):
         }
 
         order = SermepaIdTPV.objects.new_idtpv()  # Tiene que ser un número único cada vez
-        print "Tenemos la order ", order
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": '0',

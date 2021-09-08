@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from views import *
+from matriculas.views import *
 
 from django.contrib.auth.decorators import login_required
 

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from utils import redsys_generate_request
+from sermepa.utils import redsys_generate_request
 
 
 class SermepaPaymentForm(forms.Form):

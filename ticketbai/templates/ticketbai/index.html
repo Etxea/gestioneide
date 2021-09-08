@@ -1,0 +1,26 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block page_header %}
+<a class="btn btn-primary pull-right" href="{% url 'ticketbai_new' %}">New</a>
+<h1> Listado Ticket Bai </h1>
+{% endblock %}
+
+{% block body %}
+
+<table class="table">
+<tbody>
+{% for ticket in tickets %}
+<tr>
+    <td><a href="{% url 'ticketbai_detail' ticket.pk %}">{{ticket}}</a></td>
+    <td>{{ ticket.Destinatarios_ApellidosNombreRazonSocial }}<td>
+    <td>{{ ticket.DatosFactura_ImporteTotalFactura }}<td>
+    <td> {{ ticket.enviada|yesno }}</td>
+    <td><img width="18px" src="{{ ticket.get_qr_code }}" /></td>
+    <td><butto class="btn btn-primary">Borrar</button></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

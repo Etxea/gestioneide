@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
-from views import *
+from consultas.views import *
 
 urlpatterns = [
     url(r'confirmar/crear/$',login_required(ConfirmacionesCrearView.as_view()), name="confirmaciones_crear"),

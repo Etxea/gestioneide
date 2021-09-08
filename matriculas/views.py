@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, DetailView, View, UpdateView
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.contrib.sites.models import Site
 from django.conf import settings
@@ -12,8 +12,8 @@ from sermepa.signals import payment_was_successful, payment_was_error, signature
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
 
-from models import *
-from forms import *
+from matriculas.models import *
+from matriculas.forms import *
 
 class MatriculaPayView(DetailView):
     #model = Matricula
@@ -49,15 +49,15 @@ class MatriculaPayView(DetailView):
             "Ds_Merchant_TransactionType": '0',
         }
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print "Tenemos la order ",order
+        print("Tenemos la order ",order)
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": 0, #Compra puntual
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print "Tenemos el form"
-        print form.render()
+        print("Tenemos el form")
+        print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -129,15 +129,15 @@ class MatriculaEidePayView(DetailView):
             "Ds_Merchant_TransactionType": '0',
         }
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print "Tenemos la order ",order
+        print("Tenemos la order ",order)
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": 0, #Compra puntual
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print "Tenemos el form"
-        print form.render()
+        print("Tenemos el form")
+        print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -198,7 +198,7 @@ class MatriculaCursoDirectaCreateView(CreateView):
         try:
             context['curso'] = context['form'].initial['curso']
         except:
-            print "No hay curso"
+            print("No hay curso")
             pass
         return context
     
@@ -332,15 +332,15 @@ class MatriculaLinguaskillPayView(DetailView):
             "Ds_Merchant_TransactionType": '0',
         }
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print "Tenemos la order ",order
+        print("Tenemos la order ",order)
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": 0, #Compra puntual
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print "Tenemos el form"
-        print form.render()
+        print("Tenemos el form")
+        print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -542,7 +542,6 @@ class SchoolRegistrationCreateView(RegistrationCreateView):
         #Comprobamos el password
         if 'school_password' in kwargs:
             school = School.objects.get(name=kwargs['school_name'])
-            print "Comprobamos el password",school.password,kwargs['school_password']
             if school.password == kwargs['school_password']:
                 return super(SchoolRegistrationCreateView, self).get(request, *args, **kwargs)
             else:

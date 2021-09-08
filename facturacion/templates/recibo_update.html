@@ -1,7 +1,7 @@
 {% extends "site_base.html" %}
 {% load i18n %}
 {% load bootstrap %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% block head_title %}Editar recibo{% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 <form role="form" method="post" action="{% url 'recibo_editar' recibo.id %}">
 {% csrf_token %}
 
-{{ form|as_bootstrap }}
+{{ form|crispy }}
 
 	<div class="form-group">
 		<button type="submit" class="btn btn-primary">Actualizar</button>

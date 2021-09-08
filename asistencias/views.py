@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
@@ -75,7 +75,7 @@ class AsistenciaGrupoCreateView(CreateView):
     def get_initial(self):
         year = Year().get_activo(self.request)
         grupo = Grupo.objects.get(id=self.kwargs['grupo_id'])
-        print "Establecemos el ano en ",year, "y el grupo",grupo
+        print("Establecemos el ano en ",year, "y el grupo",grupo)
         return { 'year': year , 'grupo': grupo }        
 
     # def form_valid(self, form):

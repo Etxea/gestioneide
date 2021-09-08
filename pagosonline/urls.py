@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 
 
-from views import *
+from pagosonline.views import *
 
 urlpatterns = [
     #url(r"^confirmar/(?P<reference>[-\.\w]+)/$", confirm_payment, name="pago_confirmar"),

@@ -17,23 +17,14 @@
 #
 
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.template.response import TemplateResponse
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from django.core.urlresolvers import reverse
-from django.conf import settings
-from django.dispatch import receiver
-from sermepa.forms import SermepaPaymentForm
-from sermepa.models import SermepaIdTPV
 
-
-import datetime
 import sys
 
 from pagosonline.models import Pago
-from forms import *
-from cambridge.models import Registration
+from pasarela.forms import *
+
 from matriculas.models import MatriculaEide
 
 import logging
@@ -76,8 +67,8 @@ def confirm_payment(request):
     ## FIXME habría que poner algun filtro a la confirmación del pago.
     log.debug("Recibimos una confirmación de pago")
     log.debug(request.POST)
-    print request
-    print request.POST
+    #print(request)
+    #print(request.POST)
     try:
         #Leemos el bumero de operación donde tenemo s la referencia a la matricula
         log.debug("Vamos a leer el Num_operacion para ver que vamos a confirmar")

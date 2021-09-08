@@ -1,23 +1,21 @@
 from django.conf.urls import url
 from turismo.views import *
-from django.contrib import admin
-
 
 urlpatterns = [
-    url(r"^$", TurismoView.as_view(), name="turismo_home"),
-    url(r"clase/nueva/asignatura/(?P<asignatura_id>\d+)/$", TurismoClaseAsignaturaCreateView.as_view(), name="turismo_clase_nueva_asignatura"),
-    url(r"clase/nueva$", TurismoClaseCreateView.as_view(), name="turismo_clase_nueva"),
-    url(r"clase/(?P<pk>\d+)/editar$", TurismoClaseUpdateView.as_view(), name="turismo_clase_editar"),
-    url(r"clase/(?P<pk>\d+)/borrar$", TurismoClaseDeleteView.as_view(), name="turismo_clase_borrar"),
-    url(r"curso/(?P<pk>\d+)/borrar/$", TurismoCursoDeleteView.as_view(), name="turismo_curso_borrar"),
-    url(r"curso/nuevo/$", TurismoCursoCreateView.as_view(), name="turismo_curso_nuevo"),
-    url(r"asignatura/nueva/$", TurismoAsignaturaCreateView.as_view(), name="turismo_asignatura_nueva"),
-    url(r"asignatura/(?P<pk>\d+)/$", TurismoAsignaturaDetailView.as_view(), name="turismo_asignatura_detalle"),
-    url(r"asistencia/nueva/(?P<asignatura_id>\d+)/$", TurismoAsistenciaCreateView.as_view(), name="turismo_asistencia_nueva"),
-    url(r"asistencia/(?P<pk>\d+)/$", TurismoAsistenciaDetailView.as_view(), name="turismo_asistencia_detalle"),
+    url(r"^$", View.as_view(), name="turismo_home"),
+    url(r"clase/nueva/asignatura/(?P<asignatura_id>\d+)/$", ClaseAsignaturaCreateView.as_view(), name="turismo_clase_nueva_asignatura"),
+    url(r"clase/nueva$", ClaseCreateView.as_view(), name="turismo_clase_nueva"),
+    url(r"clase/(?P<pk>\d+)/editar$", ClaseUpdateView.as_view(), name="turismo_clase_editar"),
+    url(r"clase/(?P<pk>\d+)/borrar$", ClaseDeleteView.as_view(), name="turismo_clase_borrar"),
+    url(r"curso/(?P<pk>\d+)/borrar/$", CursoDeleteView.as_view(), name="turismo_curso_borrar"),
+    url(r"curso/nuevo/$", CursoCreateView.as_view(), name="turismo_curso_nuevo"),
+    url(r"asignatura/nueva/$", AsignaturaCreateView.as_view(), name="turismo_asignatura_nueva"),
+    url(r"asignatura/(?P<pk>\d+)/$", AsignaturaDetailView.as_view(), name="turismo_asignatura_detalle"),
+    url(r"asistencia/nueva/(?P<asignatura_id>\d+)/$", AsistenciaCreateView.as_view(), name="turismo_asistencia_nueva"),
+    url(r"asistencia/(?P<pk>\d+)/$", AsistenciaDetailView.as_view(), name="turismo_asistencia_detalle"),
 
     url(r"pasarlista/$", login_required(PasarListaView.as_view()), name="turismo_pasarlista"),
-    url(r"pasarlista/grupo/(?P<pk>\d+)/(?P<mes>\d+)/$", login_required(PasarListaAsignaturaTurismoView.as_view()), name="turismo_pasarlista_mes"),
+    url(r"pasarlista/grupo/(?P<pk>\d+)/(?P<mes>\d+)/$", login_required(PasarListaAsignaturaView.as_view()), name="turismo_pasarlista_mes"),
 
     url(r'falta/nueva/$', login_required(FaltaCreateView.as_view()), name="turismo_falta_nueva"),
     url(r'falta/(?P<pk>\d+)/editar/$', login_required(UpdateView.as_view(model=Falta)), name="turismo_falta_editar"),

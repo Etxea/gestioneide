@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from views import *
+from pasarela.views import *
 from sermepa.views import sermepa_ipn
 
 urlpatterns = [

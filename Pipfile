@@ -1,0 +1,39 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Django = "==2.2.24"
+pinax-templates = "==2.0.6"
+pinax-documents = "==1.0.2"
+django-crispy-forms = "==1.12.0"
+pinax-messages = "==2.0.2"
+pinax-notifications = "==5.0.3"
+django-user-accounts = "==2.1.0"
+django-appconf = "==1.0.2"
+metron = "==1.3.7"
+pinax-eventlog = "==4.0.1"
+django-localflavor = "==2.2"
+phonenumbers = "==8.12.26"
+django-phonenumber-field = "==5.2.0"
+SQLObject = "==3.9.1"
+ipython = "*"
+xlwt = "*"
+mysqlclient = "*"
+django-mysql = "*"
+django-fixture-magic = "*"
+django-wkhtmltopdf = "*"
+Unidecode = "*"
+django-anymail = "*"
+jsonfield = "==2.1.1"
+python-dateutil = "*"
+pycrypto = "*"
+bootstrap3-datetime = "*"
+django-cookie-consent = "*"
+django-excel-response = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

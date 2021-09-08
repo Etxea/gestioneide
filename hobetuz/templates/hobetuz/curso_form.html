@@ -1,6 +1,6 @@
 {% extends "site_base.html"%}
 {% load i18n %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
 
 	<form class="form-horizontal" action="" method="post">{% csrf_token %}
 	    
-	    {{ form|as_bootstrap }}
+	    {{ form|crispy }}
 	    
 	    <a class="btn large" href="{% url hobetuz_curso_lista %}">{% trans "Cancel" %}</a>
 	    <input class="submit btn primary large" type="submit" value="{% trans 'Save' %}" />

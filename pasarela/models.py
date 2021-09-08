@@ -20,9 +20,7 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 import hashlib
 import datetime
-#from django.utils.text import slugify
 from django.template.defaultfilters import slugify
-from cambridge.models import Registration
 from django.core.mail import send_mail, mail_admins
 
 import logging
@@ -46,12 +44,12 @@ class Pago(models.Model):
         self.save()
         return True
     def send_paiment_confirmation_email(self):
-		subject = "[PagosOnline] Se ha confirmado un pago manual online"
-		message_body = u"""Se acaba de confirmar un pago online creado manualmente. Los datos son: \n
+        subject = "[PagosOnline] Se ha confirmado un pago manual online"
+        message_body = u"""Se acaba de confirmar un pago online creado manualmente. Los datos son: \n
         \tid: %s. \n 
         \tfecha creacion: %s. \n 
         \tdescripcion: %s. \n 
         \timporte: %s. \n 
 """%(self.id,self.fecha_creacion,self.descripcion,self.importe)
-		mail_admins(subject, message_body)
+        mail_admins(subject, message_body)
 

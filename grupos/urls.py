@@ -1,8 +1,6 @@
-from django.conf.urls import include, url
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import UpdateView
+from django.conf.urls import url
 
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 
 from gestioneide.models import *
 from grupos.views import *

@@ -89,12 +89,14 @@
 	</li>
     
     {% if request.user.is_staff %}
+	{% comment "" %}
 	<li>
 		<a href="{% url 'turismo_home' %}">
 			<i class="zmdi zmdi-card-travel"></i>
 			<span>Turismo</span>
 		</a>
 	</li>
+	{% endcomment %}
     {% endif %}
 	<li class="sm-sub">
 		<a href="{% url 'evaluacion' %}">
@@ -117,13 +119,26 @@
 			<span>Calendario</span>
 		</a>
 	</li>
-	<li>
-		<a href="{% url 'recibos' %}">
+	<li class="sm-sub">
+		<a href="">
 			<i class="zmdi zmdi-money-box"></i>
-			<span>Recibos</span>
+			<span>Cobros</span>
 		</a>
-	</li>
-	
+		<ul>
+			<li>
+				<a href="{% url 'recibos' %}">
+					<i class="zmdi zmdi-money-box"></i>
+					<span>Recibos</span>
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'ticketbai_index' %}">
+					<i class="zmdi zmdi-money-box"></i>
+					<span>Ticket Bai</span>
+				</a>
+			</li>
+		</ul>
+	<li>
 	<li class="sm-sub">
 		<a href="">
 			<i class="zmdi zmdi-settings"></i>
@@ -135,9 +150,7 @@
 			<li><a href="{% url 'profesores_lista' %}"><i class="zmdi zmdi-accounts-alt"></i>&nbsp;&nbsp;Profesores</a></li>
 			<li><a href="/libros"><i class="zmdi zmdi-book"></i>&nbsp;&nbsp;Libros</a></li>
 			<li><a href="/year"><i class="zmdi zmdi-calendar"></i>&nbsp;&nbsp;Años</a></li>
-			<li><a href="{% url 'pago_lista' %}"><i class="zmdi zmdi-money"></i>&nbsp;&nbsp; Pagos Online</a></li>
-		
-			
+			<li><a href="{% url 'pago_lista' %}"><i class="zmdi zmdi-money"></i>&nbsp;&nbsp; Pagos Online</a></li>			
 		</ul>
 	</li>
 	<li>

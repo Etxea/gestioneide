@@ -1,0 +1,14 @@
+{% extends "site_base.html"%}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+
+{% block page_header %}<h1> Ticket Bai Nuevo Ticket</h1>{% endblock %}
+
+{% block body %}
+
+{% csrf_token %}
+
+{% crispy form form.helper %}
+
+{% endblock %}

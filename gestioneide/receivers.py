@@ -8,8 +8,6 @@ from sermepa.signals import payment_was_successful, payment_was_error, signature
 from matriculas.models import MatriculaEide, MatriculaLinguaskill, MatriculaCurso
 from pagosonline.models import Pago
 
-from pinax.eventlog.models import log
-
 import logging
 log = logging.getLogger("django")
 
@@ -74,7 +72,7 @@ def handle_user_signed_up(sender, **kwargs):
 @receiver(payment_was_successful)
 def payment_ok(sender, **kwargs):
     #log.debug("Somos el evento payment_was_successful gestionado por payment_ok")
-    print sender
+    #print sender
     reference = sender.Ds_MerchantData
     #log.debug("tenemos la referencia: %s"%reference)
     registration_type = reference.split('-')[0]

@@ -20,11 +20,11 @@ from django.db import models
 from localflavor import generic
 from localflavor.es.forms import *
 from django.core.mail import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 
 from random import choice
-from string import letters
+from string import ascii_letters
 import datetime
 
 from django.conf import settings
@@ -170,18 +170,18 @@ class Registration2019(models.Model):
 		##We generate a random password
 		if self.id is None:
 			#We set de password, not used right now
-			self.password = ''.join([choice(letters) for i in xrange(6)])
+			self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
 			#We send a confirmation mail to te registrant and a advise mail to the admins
 			self.send_secretaria_mail()
 			self.send_confirmation_email()
 		super(Registration2019, self).save(*args, **kwargs)
 
 class Registration(models.Model):
-	curso = models.ForeignKey(Curso,verbose_name="Primera Opción (*)",limit_choices_to = {'matricula_abierta': True})
-	curso2 = models.ForeignKey(Curso,verbose_name="Segunda Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration2_set",null=True)
-	curso3 = models.ForeignKey(Curso,verbose_name="Tercera Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration3_set",null=True)
-	curso4 = models.ForeignKey(Curso,verbose_name="Cuarta Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration4_set",null=True)
-	curso5 = models.ForeignKey(Curso,verbose_name="Quinta Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration5_set",null=True)
+	curso = models.ForeignKey(Curso,verbose_name="Primera Opción (*)",limit_choices_to = {'matricula_abierta': True},on_delete=models.CASCADE)
+	curso2 = models.ForeignKey(Curso,verbose_name="Segunda Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration2_set",null=True,on_delete=models.CASCADE)
+	curso3 = models.ForeignKey(Curso,verbose_name="Tercera Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration3_set",null=True,on_delete=models.CASCADE)
+	curso4 = models.ForeignKey(Curso,verbose_name="Cuarta Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration4_set",null=True,on_delete=models.CASCADE)
+	curso5 = models.ForeignKey(Curso,verbose_name="Quinta Opción",limit_choices_to = {'matricula_abierta': True},blank=True,related_name="registration5_set",null=True,on_delete=models.CASCADE)
 
 	password = models.CharField(_('Password'),max_length=6,blank=True,editable=False)
 	name = models.CharField(_('Nombre (*)'),max_length=50)
@@ -327,7 +327,7 @@ Para mas detalle visitar:
 		##We generate a random password
 		if self.id is None:
 			#We set de password, not used roght now
-			self.password = ''.join([choice(letters) for i in xrange(6)])
+			self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
 			#We send a confirmation mail to te registrant and a advise mail to the admins
 			self.send_confirmation_email()
 		super(Registration, self).save(*args, **kwargs)

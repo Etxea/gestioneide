@@ -25,19 +25,11 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, View
 from django.views.generic.edit import ModelFormMixin
 
-import StringIO
-#from utils import  render_to_pdf_response
+from hobetuz.models import *
+from hobetuz.forms import *
 
-from models import *
-from forms import *
-
-
-# import the logging library
 import logging
-
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
-
 
 def ver(request, pk):
 	registration = get_object_or_404(Registration, id=pk)
@@ -91,7 +83,7 @@ class Registration2019ListView(ListView):
 class Registration2019DetailView(DetailView):
 	model=Registration2019
 	template_name='hobetuz/detalle2019.html'
-        context_object_name = "registration"
+	context_object_name = "registration"
 
 class Registration2019CreateView(CreateView):
 	model = Registration2019

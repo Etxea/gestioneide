@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Count
 
 from django.utils.translation import gettext_lazy as _
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
 from django.utils.dates import MONTHS
@@ -12,9 +12,8 @@ from django.core.mail import mail_admins
 from anymail.message import AnymailMessage
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist 
-
 from decimal import Decimal
-
+from gestioneide.utils import csb19_ajustar,csb19_normalizar
 
 import logging
 logger = logging.getLogger('django')
@@ -22,8 +21,6 @@ debug = logger.debug
 
 import datetime
 import calendar
-
-from utils import *
 
 DIAS_SEMANA = (
     (1, _('Lunes')),
@@ -157,7 +154,7 @@ class Empresa(models.Model):
     razon_social= models.CharField('Razón Social',max_length=255,default="ESCUELAS INTERNACIONALES E.I.D.E.  S.L.")
     cif = models.CharField(max_length=9,default='B12345678')
     csb19_suffijo = models.DecimalField(max_digits=3, decimal_places=0, default=000)
-    cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True)
+    cuenta_bancaria = models.ForeignKey(CuentaBancaria,blank=True,null=True,on_delete=models.SET_NULL)
 
     def get_sufijo(self):
         return str(csb19_ajustar(self.csb19_suffijo,3))
@@ -166,7 +163,7 @@ class Empresa(models.Model):
         return "%s"%self.nombre
 
 class Centro(models.Model):
-    empresa = models.ForeignKey(Empresa,blank=True,null=True)
+    empresa = models.ForeignKey(Empresa,blank=True,null=True,on_delete=models.SET_NULL)
     nombre = models.CharField('Nombre',max_length=255)
     telefono = models.CharField(max_length=12, default="")
     email = models.EmailField(default="", blank=True, null=True)
@@ -195,12 +192,12 @@ class Centro(models.Model):
             email.send(fail_silently=False)
             status = email.anymail_status  # available after sending
             return True
-        except Exception, e:
+        except Exception as e:
             print("Error al enviar mail",str(e))
             return False        
     
 class Aula(models.Model):
-    centro = models.ForeignKey(Centro,blank=True,null=True)
+    centro = models.ForeignKey(Centro,blank=True,null=True,on_delete=models.SET_NULL)
     nombre = models.CharField('Nombre',max_length=255,)
     aforo = models.DecimalField(max_digits=3, decimal_places=0)
     pdi = models.BooleanField(default=False,blank=True)
@@ -288,7 +285,7 @@ class Profesor(models.Model):
             pg = Group(name="profesores")
             pg.save()
         if self.user == None:
-            password = User.objects.make_random_password()  # type: unicode
+            password = User.objects.make_random_password()
             nombreusuario = slugify("%s%s" % (self.nombre,self.apellido)).replace('-', '')
             print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
             if len(User.objects.filter(username=nombreusuario))>0:
@@ -447,9 +444,9 @@ class Alumno(models.Model):
             #print status.message_id  # e.g., '<12345.67890@example.com>'
             #print status.message_id
             #print status.recipients
-            print status.esp_response
+            #print status.esp_response
             return True
-        except Exception, e:
+        except Exception as e:
             print("Error al enviar mail",str(e))
             return False
 
@@ -535,7 +532,7 @@ class Alumno(models.Model):
             print('El alumno %s Ya tiene un usuario %s'%(self,self.user))
 
 class Historia(models.Model):
-    alumno = models.ForeignKey('Alumno')
+    alumno = models.ForeignKey('Alumno',on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
     tipo = models.CharField(max_length=25,default="")
     anotacion = models.CharField(max_length=150,default="")
@@ -543,18 +540,18 @@ class Historia(models.Model):
         ordering = ['-fecha']
 
 class Anotacion(models.Model):
-    alumno = models.ForeignKey('Alumno')
+    alumno = models.ForeignKey('Alumno',on_delete=models.SET_NULL,null=True)
     fecha = models.DateField(auto_now_add=True)
-    creador = models.ForeignKey(User)#, editable=False)
+    creador = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)#, editable=False)
     texto = models.CharField(max_length=500,default="")
     class Meta:
         ordering = ['-fecha']
 
 class MailAlumno(models.Model):
-    alumno = models.ForeignKey('Alumno')
+    alumno = models.ForeignKey('Alumno',on_delete=models.SET_NULL,null=True)
     enviado = models.BooleanField(default=False)
     fecha = models.DateField(auto_now_add=True)
-    creador = models.ForeignKey(User)#, editable=False)
+    creador = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)#, editable=False)
     titulo = models.CharField(max_length=100,default="") 
     mensaje = models.CharField(max_length=500,default="")
     mensaje_html = models.CharField(max_length=500,default="")
@@ -591,10 +588,10 @@ class Curso(models.Model):
         ordering = ["nombre"]
 
 class Grupo(models.Model):
-    year = models.ForeignKey('Year')
-    centro = models.ForeignKey(Centro,default=1,blank=True,null=True)
+    year = models.ForeignKey('Year',on_delete=models.CASCADE)
+    centro = models.ForeignKey(Centro,default=1,blank=True,null=True,on_delete=models.SET_NULL)
     nombre = models.CharField(max_length=25,default="")
-    curso = models.ForeignKey('Curso')
+    curso = models.ForeignKey('Curso',on_delete=models.SET_NULL,null=True)
     precio  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     num_max = models.DecimalField(max_digits=2,decimal_places=0,default=14) #El tamano default no es lo mejor que este aqui, pero bueno
     menores = models.BooleanField(default=False)
@@ -687,19 +684,14 @@ class Grupo(models.Model):
                 return Grupo.objects.filter(year=year).annotate(Count('asistencia')).filter(asistencia__count__gt=0).order_by('nombre')[posicion-1].id
 
     def envio_notas_email(self, tipo, trimestre ):
-        #print "Se van a enviar las notas de tipo %s y del cua/trimestre %s"%(tipo,trimestre)
         for asistencia in self.asistencia_set.all():
             if tipo == "trimestre":
-                #print "Enviamos la del trimestre %s"%trimestre
                 nota_model = NotaTrimestral.objects.get(asistencia=asistencia,trimestre=trimestre)
                 nota_model.enviar_mail()
             elif tipo == "cuatrimestre":
                 nota_model = NotaCuatrimestral.objects.get(asistencia=asistencia,cuatrimestre=trimestre)
-                #print nota_model
-                #print "Enviamos la del cuatrimestre %s "%trimestre
                 nota_model.enviar_mail()
             else:
-                print "tipo desconocido. No hacemos nada"
                 break
             
     def prev_by_nombre_quatrimestre(self):
@@ -739,18 +731,18 @@ class Grupo(models.Model):
         return self.__unicode__()
 
 class AnotacionGrupo(models.Model):
-    grupo = models.ForeignKey('Grupo')
+    grupo = models.ForeignKey('Grupo',on_delete=models.CASCADE)
     fecha = models.DateField(auto_now_add=True)
-    creador = models.ForeignKey(User)
+    creador = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     texto = models.CharField(max_length=1000,default="")
     class Meta:
         ordering = ['-fecha']
 
 class Clase(models.Model):
     dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
-    aula = models.ForeignKey(Aula,related_name='clases')
-    profesor = models.ForeignKey(Profesor,related_name='clases')
-    grupo = models.ForeignKey(Grupo,related_name='clases')
+    aula = models.ForeignKey(Aula,related_name='clases',on_delete=models.SET_NULL,null=True)
+    profesor = models.ForeignKey(Profesor,related_name='clases',on_delete=models.SET_NULL,null=True)
+    grupo = models.ForeignKey(Grupo,related_name='clases',on_delete=models.CASCADE)
     hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     video_url = models.URLField(max_length=200,blank=True)
@@ -762,10 +754,10 @@ class AsistenciaManager(models.Manager):
         return super(AsistenciaManager, self).get_queryset().filter(borrada=False)
 
 class Asistencia(models.Model):
-    year = models.ForeignKey('Year')
+    year = models.ForeignKey('Year',on_delete=models.CASCADE)
     #El limit debería tener en cuenta el ano del perfil del usuario, pero como no tenemos request no se puede hacer aquí, habrá que pasarlo al FORM
-    grupo = models.ForeignKey('Grupo')#,limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
-    alumno = models.ForeignKey('Alumno')
+    grupo = models.ForeignKey('Grupo',on_delete=models.CASCADE)#,limit_choices_to=Q(year=Year().get_activo())) #Comentar el limit choices para un primer import
+    alumno = models.ForeignKey('Alumno',on_delete=models.CASCADE)
     confirmado = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
     metalico = models.BooleanField(default=False)
@@ -960,19 +952,16 @@ class Asistencia(models.Model):
 
     def envio_horario(self):
         pass
-    
-    def __unicode__(self):
-        return "%s"%(self.alumno.id)
 
 class PruebaNivel(models.Model):
-    alumno = models.ForeignKey('Alumno')
+    alumno = models.ForeignKey('Alumno',on_delete=models.CASCADE)
     fecha_creacion = models.DateField(auto_now_add=True)
     resultado = models.DecimalField(max_digits=2,decimal_places=0,default=0)
-    nivel_recomendado = models.ForeignKey('Curso')
+    nivel_recomendado = models.ForeignKey('Curso',on_delete=models.SET_NULL,null=True)
     observaciones = models.TextField(max_length=350,default="")
 
 class ResultadoCambridge(models.Model):
-    alumno = models.ForeignKey('Alumno')
+    alumno = models.ForeignKey('Alumno',on_delete=models.CASCADE)
     ano = models.DecimalField(max_digits=4,decimal_places=0,default=2016)
     nivel = models.DecimalField(max_digits=1,decimal_places=0,default=1,choices=NIVELES_CAMBRIDGE)
     resultado = models.DecimalField(max_digits=2,decimal_places=0,default=1,choices=RESULTADOS_CAMBRIDGE)
@@ -980,16 +969,16 @@ class ResultadoCambridge(models.Model):
 
 class GrupoNotasParciales(models.Model):
     fecha_creacion = models.DateField(auto_now_add=True)
-    grupo = models.ForeignKey('Grupo', related_name="notas_parciales")
+    grupo = models.ForeignKey('Grupo', related_name="notas_parciales",on_delete=models.CASCADE)
     nombre = models.CharField(max_length=25)
 
 class NotaParcial(models.Model):
-    grupo_notas_parciales = models.ForeignKey('GrupoNotasParciales')
-    asistencia = models.ForeignKey('Asistencia')
+    grupo_notas_parciales = models.ForeignKey('GrupoNotasParciales',on_delete=models.CASCADE)
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
 
 class Nota(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
     fecha_creacion = models.DateField(auto_now_add=True)
 
@@ -1032,7 +1021,6 @@ class Nota(models.Model):
             return "-/-"
     
     def media(self):
-        #print self.asistencia.grupo.curso.tipo_evaluacion
         if self.asistencia.grupo.curso.tipo_evaluacion == 1: #"elementary_intermediate":
             lista_materias = ['control']
 
@@ -1047,23 +1035,17 @@ class Nota(models.Model):
         lista_notas = []
         print(lista_materias,self.grammar)
         for materia in lista_materias:
-            # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
             nota_temp = getattr(self, materia)
-            #print "hemos leido",nota_temp
             lista_notas.append(nota_temp)
-                # ~ print "Lista", lista_notas
         total = float(0)
         for nota in lista_notas:
             total = total + float(nota)
         numero = float(len(lista_notas))
         media = (total / numero)
-        #print "Total, numero notas, media", total, numero, media
         return media
 
-        #nota_final = nota_media(lista_notas)
-
 class NotaCuatrimestral(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     cuatrimestre = models.DecimalField(max_digits=1, decimal_places=0)
     fecha_creacion = models.DateField(auto_now_add=True)
     observaciones = models.CharField(max_length=500,blank=True,null=True,default="")
@@ -1107,13 +1089,11 @@ class NotaCuatrimestral(models.Model):
         lista_materias = LISTA_MATERIAS_TIPO_EVALUACION[self.asistencia.grupo.curso.tipo_evaluacion]
         lista_notas = []
         for materia in lista_materias:
-            # ~ print "miramos si %s tiene na"%materia,getattr(n,"%s_na"%materia)
             try:
                 nota_temp = getattr(self, materia)
                 lista_notas.append(nota_temp)
             except:
                 pass
-            # ~ print "Lista", lista_notas
         total = float(0)
         for nota in lista_notas:
             total = total + float(nota)
@@ -1123,8 +1103,6 @@ class NotaCuatrimestral(models.Model):
         else:
             media = "-"
         return media
-
-        # nota_final = nota_media(lista_notas)
     
     def get_absolute_url(self):
         return reverse_lazy('nota_trimestral_editar', kwargs={'pk': self.pk })
@@ -1141,7 +1119,7 @@ class NotaCuatrimestral(models.Model):
         self.save()
 
 class NotaTrimestral(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     trimestre = models.DecimalField(max_digits=1,decimal_places=0)
     fecha_creacion = models.DateField(auto_now_add=True)
     nota = models.DecimalField(max_digits=3,decimal_places=0,default=0)
@@ -1170,7 +1148,7 @@ class NotaTrimestral(models.Model):
         self.save()
 
 class Falta(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 
@@ -1194,25 +1172,25 @@ class Falta(models.Model):
                     mail_admins(subject,message)
 
 class Justificada(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 
 class LegacyFalta(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     faltas = models.DecimalField(max_digits=3,decimal_places=0)
     justificadas = models.DecimalField(max_digits=3,decimal_places=0)
     def __unicode__(self):
         return "%s/%s"%(self.faltas,self.justificadas)
     
 class Presencia(models.Model):
-    asistencia = models.ForeignKey('Asistencia')
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
     mes = models.DecimalField(max_digits=2,decimal_places=0)
     dia = models.DecimalField(max_digits=2,decimal_places=0)
 
 class Recibo(models.Model):
-    year = models.ForeignKey('Year')
-    empresa = models.ForeignKey('Empresa',default=1)
+    year = models.ForeignKey('Year',on_delete=models.CASCADE)
+    empresa = models.ForeignKey('Empresa',default=1,on_delete=models.CASCADE)
     fecha_creacion = models.DateField(auto_now_add=True)
     fecha_cargo = models.DateField(auto_now_add=True)
     mes = models.DecimalField(max_digits=2,decimal_places=0,choices=MONTHS.items())
@@ -1409,100 +1387,13 @@ class Recibo(models.Model):
         self.save()
 
 class Festivo(models.Model):
-    year = models.ForeignKey('Year')
+    year = models.ForeignKey('Year',on_delete=models.CASCADE)
     fecha = models.DateField()
     anotacion = models.CharField(max_length=50,default="")
     tipo = models.DecimalField(max_digits=1, decimal_places=0,choices=TIPO_FESTIVO)
     class Meta:
         ordering = ['fecha']
 
-class TurismoCurso(models.Model):
-    year = models.ForeignKey('Year')
-    nombre = models.CharField(max_length=50,default="")
-    def __unicode__(self):
-        return "%s - %s"%(self.year,self.nombre)
-
-class TurismoAsignatura(models.Model):
-    curso = models.ForeignKey('TurismoCurso', related_name='asignaturas')
-    nombre = models.CharField(max_length=50, default="")
-    profesor = models.ForeignKey('Profesor')
-
-    def __unicode__(self):
-        return u"%s - %s"%(self.curso, self.nombre)
-
-    def get_dias_clase_mes(self,mes):
-        dias_semana_clase = []
-        dias_clase = []
-        for dia in self.clases_turismo.all():
-            dias_semana_clase.append(dia.dia_semana)
-        year = Year().get_activo()
-        ano = year.start_year
-        if mes < 8 :
-            ano = ano + 1
-        cal = calendar.Calendar()
-        for semana in cal.monthdays2calendar(ano,mes):
-            for dia in semana:
-                #Comprobamos que ese dia de la semana haya clase y no sea 0 (es de otro mes)
-                #Sumanos 1 al dia ya que empiezan desde 0 y en bbdd empezamos desde 1
-                if ( dia[1]+1 in dias_semana_clase ) and ( dia[0] > 0 ):
-                    fecha = "%s-%s-%s"%(ano,mes,dia[0])
-                    try:
-                        festivo = Festivo.objects.get(fecha=fecha,tipo=1)
-                        continue
-                    except:
-                        dias_clase.append(dia[0])
-        return dias_clase
-
-class TurismoAsistencia(models.Model):
-    asignatura = models.ForeignKey('TurismoAsignatura')
-    alumno = models.ForeignKey('Alumno')
-    def __unicode__(self):
-        return "%s-%s"%(self.asignatura,self.alumno)
-
-class TurismoClase(models.Model):
-    dia_semana = models.DecimalField(max_digits=1, decimal_places=0,choices=DIAS_SEMANA)
-    aula = models.ForeignKey(Aula,related_name='clases_turismo')
-    profesor = models.ForeignKey(Profesor,related_name='clases_turismo')
-    asignatura = models.ForeignKey(TurismoAsignatura,related_name='clases_turismo')
-    hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
-    hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
-    def __unicode__(self):
-        return "%s/%s-%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin)
-
-class TurismoPresencia(models.Model):
-    asistencia = models.ForeignKey('TurismoAsistencia')
-    mes = models.DecimalField(max_digits=2,decimal_places=0)
-    dia = models.DecimalField(max_digits=2,decimal_places=0)
-
-class TurismoFalta(models.Model):
-    asistencia = models.ForeignKey('TurismoAsistencia')
-    mes = models.DecimalField(max_digits=2,decimal_places=0)
-    dia = models.DecimalField(max_digits=2,decimal_places=0)
-
-    # def save(self, *args, **kwargs):
-    #     #evitamos duplicar faltas el mismo día por error
-    #     if Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).filter(dia=self.dia).count() > 0:
-    #         print "Ya tiene falta ese día! no la guardamos."
-    #         return
-    #     else:
-    #         super(Falta, self).save(*args, **kwargs)  # Call the "real" save() method.
-    #         #Si el grupo es de menores y suma cinco mandamos mail
-    #         if self.asistencia.grupo.menores:
-    #             print "es un grupo de menores contamos las faltas"
-    #             num_faltas_mes = Falta.objects.filter(asistencia=self.asistencia).filter(mes=self.mes).count()
-    #             print "tiene %s faltas"%num_faltas_mes
-    #             if num_faltas_mes > 3:
-    #                 print "Mandamos mail"
-    #                 subject="[Gestion Alumnos]Aviso de faltas %s en el mes %s"%(self.asistencia.alumno,self.mes)
-    #                 message="El alumno %s en el grupo %s a sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
-    #                 print "Mandamos mail: %s \n %s"%(subject,message)
-    #                 mail_admins(subject,message)
-
-class TurismoJustificada(models.Model):
-    asistencia = models.ForeignKey('TurismoAsistencia')
-    mes = models.DecimalField(max_digits=2,decimal_places=0)
-    dia = models.DecimalField(max_digits=2,decimal_places=0)
-
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    ano_activo = models.ForeignKey(Year)
+    ano_activo = models.ForeignKey(Year,on_delete=models.SET_NULL,null=True)

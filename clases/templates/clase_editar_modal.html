@@ -1,7 +1,7 @@
 {% load i18n %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 <form action="{% url 'editar_clase_modal' object.id %}" method="post">
-	{{ form	| as_bootstrap }}
+	{{ form	| crispy }}
 	{% csrf_token %}
 	<input type="submit" class="btn primary" value="Guardar">
 </form>
