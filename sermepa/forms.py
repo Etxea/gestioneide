@@ -10,6 +10,7 @@ class SermepaPaymentForm(forms.Form):
     Ds_SignatureVersion = forms.IntegerField(widget=forms.HiddenInput())
     Ds_MerchantParameters = forms.IntegerField(widget=forms.HiddenInput())
     Ds_Signature = forms.IntegerField(widget=forms.HiddenInput())
+    
 
     def __init__(self, *args, **kwargs):
         merchant_parameters = kwargs.pop('merchant_parameters', None)
@@ -18,7 +19,9 @@ class SermepaPaymentForm(forms.Form):
         if merchant_parameters:
             # Generate needed parameters using 256 signature Redsys method
             Ds_MerchantParameters, Ds_Signature = redsys_generate_request(merchant_parameters)
-
+            Ds_Signature = str(Ds_Signature)
+            print("Somos SermepaPaymentForm y la signature es")
+            print(Ds_Signature)
             # Parameters to send to RedSys
             self.initial['Ds_SignatureVersion'] = settings.SERMEPA_SIGNATURE_VERSION
             self.initial['Ds_MerchantParameters'] = Ds_MerchantParameters

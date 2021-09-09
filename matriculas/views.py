@@ -56,8 +56,8 @@ class MatriculaPayView(DetailView):
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print("Tenemos el form")
-        print(form.render())
+        #print("Tenemos el form")
+        #print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -136,8 +136,8 @@ class MatriculaEidePayView(DetailView):
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print("Tenemos el form")
-        print(form.render())
+        #print("Tenemos el form")
+        #print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -343,8 +343,8 @@ class MatriculaLinguaskillPayView(DetailView):
         print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
-        form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        context['form_bizum']=form_bizum
+        #form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+        #context['form_bizum']=form_bizum
         context['precio'] = self.object.level.price
         context['debug']= settings.DEBUG
 

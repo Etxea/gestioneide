@@ -15,7 +15,8 @@ def redsys_generate_request(merchant_parameters):
     Ds_MerchantParameters = encode_parameters(merchant_parameters)
     order_encrypted = encrypt_order_with_3DES(merchant_parameters['Ds_Merchant_Order'])
     Ds_Signature = sign_hmac256(order_encrypted, Ds_MerchantParameters)
-
+    print("Somos redsys_generate_request y la signature es")
+    print(Ds_Signature)
     return Ds_MerchantParameters, Ds_Signature
 
 
@@ -95,6 +96,7 @@ def encrypt_order_with_3DES(Ds_Merchant_Order):
 """
 def sign_hmac256(order_encrypted, Ds_MerchantParameters):
     hmac_value = hmac.new(order_encrypted, Ds_MerchantParameters.encode('utf-8'), hashlib.sha256).digest()
-    return base64.b64encode(hmac_value)
+    hmac_value_b64 = base64.b64encode(hmac_value).decode('ascii')
+    return hmac_value_b64
 
 
