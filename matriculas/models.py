@@ -218,6 +218,9 @@ class MatriculaEide(models.Model):
     def __unicode__(self):
         return "%s-%s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
 
+    def __str__(self) -> str:
+        return self.__unicode__()
+
     def save(self, *args, **kwargs):
         ##We generate a random password
         if self.id is not None:
@@ -251,6 +254,9 @@ class Curso(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    def __str__(self) -> str:
+        return self.__unicode__()
 
 class MatriculaCurso(models.Model):
     curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
@@ -349,6 +355,9 @@ class MatriculaCurso(models.Model):
         
     def __unicode__(self):
         return "%s-%s"%(self.id,self.curso)
+
+    def __str__(self) -> str:
+        return self.__unicode__()
     
     def save(self, *args, **kwargs):
         
@@ -380,6 +389,9 @@ class LinguaskillLevel(models.Model):
 
     def __unicode__(self):
         return "[LS][%s]%s(%s)"%(self.venue,self.name,self.price)
+
+    def __str__(self) -> str:
+        return self.__unicode__()
 
 class MatriculaLinguaskill(models.Model):
     proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'), blank=True)
@@ -487,6 +499,9 @@ class MatriculaLinguaskill(models.Model):
         
     def __unicode__(self):
         return "%s-%s"%(self.id,self.level)
+
+    def __str__(self) -> str:
+        return self.__unicode__()
     
     def save(self, *args, **kwargs):
         
@@ -522,6 +537,9 @@ class Level(models.Model):
         except:
             return "%s-%s"%(self.name,self.price)
 
+    def __str__(self) -> str:
+        return self.__unicode__()            
+
 class Exam(models.Model):
     exam_type =  models.DecimalField(_('Tipo Examen'),max_digits=1, decimal_places=0,choices=EXAM_TYPE)
     level = models.ForeignKey(Level,on_delete=models.CASCADE)
@@ -538,8 +556,10 @@ class Exam(models.Model):
             return self.registration_set.filter(paid=True).count()
         except:
             return 0
+    
     def __str__(self):
         return self.__unicode__()
+
     def __unicode__(self):
         if self.exam_type == 5:
             return "%s"%self.level.name
@@ -555,10 +575,16 @@ class School(models.Model):
     name = models.CharField(_('Name'),max_length=50)
     description = models.CharField(_('Description'),max_length=100,default="")
     password = models.CharField(_('Password'),max_length=50)
+    
     def __unicode__(self):
         return self.name
+    
+    def __str__(self) -> str:
+        return self.__unicode__()
+
     def exam_count(self):
         return self.schoolexam_set.all().count()
+    
     def registration_count(self):
         total=0
         for e in self.schoolexam_set.all():
@@ -572,11 +598,18 @@ class SchoolExam(Exam):
     school = models.ForeignKey(School,on_delete=models.CASCADE)
     def __unicode__(self):
         return "%s %s %s"%(self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
+    
+    def __str__(self) -> str:
+        return self.__unicode__()
 
 class VenueExam(Exam):
     venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
+    
     def __unicode__(self):
         return "[%s]%s %s %s"%(self.venue,self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
+    
+    def __str__(self) -> str:
+        return self.__unicode__()
 
 class Registration(models.Model):
     exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.CASCADE)
@@ -676,6 +709,10 @@ class Registration(models.Model):
         
     def __unicode__(self):
         return "%s-%s"%(self.id,self.exam)
+    
+    def __str__(self) -> str:
+        return self.__unicode__()
+
     def registration_name(self):
         #return "%s - %s, %s"%(self.exam,self.surname,self.name)
         try:
@@ -702,8 +739,6 @@ class Registration(models.Model):
             self.send_confirmation_email()
         super(Registration, self).save(*args, **kwargs)
         
-    
-    
     def generate_payment_url(self):
         return '/pagos/cambridge/%s/'%(self.id)
  

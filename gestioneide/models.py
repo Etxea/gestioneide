@@ -171,7 +171,13 @@ class Centro(models.Model):
     precio_matricula = models.DecimalField(max_digits=5,decimal_places=2,default=Decimal(25.00))
 
     def __unicode__(self):
-        return "%s"%self.nombre
+        return self.nombre
+
+    def __str__(self):
+        return self.nombre
+    
+    def __repr__(self):
+        return "<Centro %s %s"%(self.id,self.nombre)
 
     def enviar_mail(self,titulo,mensaje,mensaje_html=False,adjunto=None,from_email=None):
         mails_destino = [ self.email , "moebius1984@gmail.com" , "ruth.farpon@eide.es"]
@@ -746,8 +752,12 @@ class Clase(models.Model):
     hora_inicio = models.TimeField(auto_now=False, auto_now_add=False)
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
     video_url = models.URLField(max_length=200,blank=True)
+    
     def __unicode__(self):
         return "%s/%s-%s/%s"%(self.get_dia_semana_display(),self.hora_inicio,self.hora_fin,self.profesor)
+
+    def __str__(self):
+        return self.__unicode__()        
 
 class AsistenciaManager(models.Manager):
     def get_queryset(self):
