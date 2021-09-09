@@ -58,7 +58,7 @@ class Venue(models.Model):
 
     def exam_count(self):
         return self.venueexam_set.all().count()
-        
+
     def registration_count(self):
         total=0
         for e in self.venueexam_set.all():
@@ -125,7 +125,7 @@ class MatriculaEide(models.Model):
         try:
             email.send(fail_silently=False)
         except Exception as e:
-            log.error("(matriculas) Error al enviar mail",str(e))
+            log.error("(matriculas) Error al enviar mail %s"%str(e))
         
          
         ### Para los admins
@@ -372,7 +372,7 @@ class MatriculaCurso(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set a random password, not used right now
-            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in range(6)])
             #We send a confirmation mail to te registrant and a advise mail to the admins
             self.send_confirmation_email()
         super(MatriculaCurso, self).save(*args, **kwargs)
@@ -516,7 +516,7 @@ class MatriculaLinguaskill(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set a random password, not used right now
-            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in range(6)])
             #We send a confirmation mail to te registrant and a advise mail to the admins
             self.send_confirmation_email()
         super(MatriculaLinguaskill, self).save(*args, **kwargs)
@@ -698,9 +698,9 @@ class Registration(models.Model):
         #msg.attach_alternative(html_content, "text/html")
         ##msg.content_subtype = "html"
         #msg.send()
-        send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
+        #send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL,[self.email], html_message=message_body)
         
-        subject = "[cambridge] Se ha confirmado el pago de una matrcicula"
+        subject = "[cambridge] Se ha confirmado el pago de una matricula %s"%exam_date
         message_body = u"""Se acaba de confirmar el pago de un matricula para examen %s. \n 
         Los datos son:\n
         ID de la mátricula: %s \n 
@@ -732,7 +732,7 @@ class Registration(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set th password, not used right now
-            self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
+            self.password = ''.join([choice(ascii_letters) for i in range(6)])
             #Comprobamos si es un schoolexam
             try:
                 if isinstance(self.exam.schoolexam,SchoolExam):

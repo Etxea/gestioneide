@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 import hashlib, json, base64, hmac
+from base64 import encodebytes
 from Crypto.Cipher import DES3
 from django.conf import settings
 
@@ -54,7 +55,7 @@ def redsys_check_response(Ds_Signature, Ds_MerchantParameters):
 """
 def encode_parameters(merchant_parameters):
     parameters = (json.dumps(merchant_parameters)).encode()
-    return ''.join(str(base64.encodestring(parameters), 'utf-8').splitlines())
+    return ''.join(str(encodebytes(parameters), 'utf-8').splitlines())
 
 
 
