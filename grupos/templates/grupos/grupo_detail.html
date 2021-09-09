@@ -101,6 +101,7 @@
         {% include 'grupos/clase_modal.html' %}
         {% include 'grupos/clase_editar_modal.html' %}
         {% endif %}
+        {% if request.user.is_staff %}
         <h3>Resumen</h3>
         <table class="table">
             <tr><td>Nombre</td><td>{{object.nombre}}</td></tr>
@@ -108,13 +109,14 @@
             <tr><td>Num Max. Alumnos</td><td>{{object.num_max}}</td></tr>
             <tr><td>Menores</td><td>{{object.menores|yesno}}</td></tr>
         </table>
-        
+        {% endif %}
         <h3>Comunicar</h3>
         <div>
         {% include 'grupos/anotacion_grupo_modal.html' %}
         {% include 'grupos/email_grupo_modal.html' %}
-        {% include 'grupos/email_grupo_horario_modal.html' %}
-        
+        {% if request.user.is_staff %}
+            {% include 'grupos/email_grupo_horario_modal.html' %}
+        {% endif %}
         </div>
         
         <h3>Últimas anotaciones</h3>
