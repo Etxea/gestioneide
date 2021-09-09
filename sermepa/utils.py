@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 import hashlib, json, base64, hmac
-from base64 import encodebytes
 from Crypto.Cipher import DES3
 from django.conf import settings
 
@@ -55,7 +54,7 @@ def redsys_check_response(Ds_Signature, Ds_MerchantParameters):
 """
 def encode_parameters(merchant_parameters):
     parameters = (json.dumps(merchant_parameters)).encode()
-    return ''.join(str(encodebytes(parameters), 'utf-8').splitlines())
+    return ''.join(str(base64.encodebytes(parameters), 'utf-8').splitlines())
 
 
 
@@ -82,7 +81,7 @@ def decode_parameters(Ds_MerchantParameters):
 """
 def encrypt_order_with_3DES(Ds_Merchant_Order):
     pycrypto = DES3.new(base64.standard_b64decode(settings.SERMEPA_SECRET_KEY), DES3.MODE_CBC, IV=b'\0\0\0\0\0\0\0\0')
-    order_padded = Ds_Merchant_Order.ljust(16, b'\0')
+    order_padded = Ds_Merchant_Order.ljust(16, '0')
     return pycrypto.encrypt(order_padded)
 
 
@@ -95,7 +94,7 @@ def encrypt_order_with_3DES(Ds_Merchant_Order):
     @return Ds_Signature: Generated signature encoded in base64
 """
 def sign_hmac256(order_encrypted, Ds_MerchantParameters):
-    hmac_value = hmac.new(order_encrypted, Ds_MerchantParameters, hashlib.sha256).digest()
+    hmac_value = hmac.new(order_encrypted, Ds_MerchantParameters.encode('utf-8'), hashlib.sha256).digest()
     return base64.b64encode(hmac_value)
 
 
