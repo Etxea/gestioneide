@@ -48,6 +48,30 @@ class NotaUnitsCreateForm(ModelForm):
             'unit15': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
         }
 
+class NotaUnitsWritingCreateForm(ModelForm):
+    class Meta:
+        model = NotaUnitsWriting
+        fields = ['id','unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8','unit9','unit10','unit11','unit12','unit13','unit14','unit15']
+        widgets = {
+            'id': forms.HiddenInput(),
+            'writing_number': forms.HiddenInput(),
+            'unit1': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit2': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit3': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit4': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit5': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit6': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit7': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit8': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit9': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit10': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit11': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit12': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit13': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit14': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+            'unit15': forms.NumberInput(attrs={'style':'width: 50px;', 'max':100,'size':'2','maxlength': '2'}),
+        }
+
 class NotaTrimestralCreateForm(ModelForm):
     class Meta:
         model = NotaTrimestral
@@ -84,6 +108,7 @@ class UpperNotaCreateFrom(NotaCreateForm):
 NotaFormSet = modelformset_factory(NotaCuatrimestral,form=NotaCreateForm,extra=0)
 
 NotaUnitsFormSet = modelformset_factory(NotaUnits,form=NotaUnitsCreateForm,extra=0)
+NotaUnitsWritingFormSet = modelformset_factory(NotaUnitsWriting,form=NotaUnitsWritingCreateForm,extra=0)
 NotaTrimestralFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralCreateForm,extra=0)
 NotaTrimestralKidsFormSet = modelformset_factory(NotaTrimestral,form=NotaTrimestralKidsCreateForm,extra=0)
 

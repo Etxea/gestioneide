@@ -16,8 +16,8 @@
                 <th>Grupo</th>
                 <th>Parciales</th>
                 <th>Units</th>
-                <th>Writing 1<th>
-                <th>Writing 2<th>
+                <th>Writing 1</th>
+                <th>Writing 2</th>
                 <th>1º Trim</th>
                 <th>1º Cuat.</th>
                 <th>2º Trim</th>
@@ -30,8 +30,8 @@
 					<td>{{grupo.nombre}} {{ grupo.curso.tipo_evaluacion }}</td>
                     <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_parciales_grupo' grupo.id %}"></td>
                     <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_units_grupo' grupo.id %}"></td>
-                    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_units_grupo' grupo.id %}"></td>
-                    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_units_grupo' grupo.id %}"></td>
+                    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_units_writing_grupo' grupo.id 1 %}"></td>
+                    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_units_writing_grupo' grupo.id 2 %}"></td>
                     {%  if grupo.curso.tipo_evaluacion > 1 %}
                         <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 1 %}"></a></td>
                         <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_cuatrimestre_grupo' grupo.id 1 %}"></a></td>
@@ -39,11 +39,11 @@
 					    <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_cuatrimestre_grupo' grupo.id 2 %}"></a></td>
                         <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 3 %}"></a></td>
                     {% else %}
-					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 1 %}"></a></td>
-                    <td></td>
-					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 2 %}"></a></td>
-                    <td></td>
-					<td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 3 %}"></a></td>
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 1 %}"></a></td>
+                        <td></td>
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 2 %}"></a></td>
+                        <td></td>
+                        <td><a class="glyphicon glyphicon-list-alt" href="{% url 'notas_grupo' grupo.id 3 %}"></a></td>
                     {% endif %}
 				</tr>
                 {% if forloop.counter|divisibleby:"10" %}

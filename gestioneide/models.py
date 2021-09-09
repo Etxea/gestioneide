@@ -1175,7 +1175,24 @@ class NotaUnits(models.Model):
     unit14 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     unit15 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
     
-
+class NotaUnitsWriting(models.Model):
+    asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)
+    writing = models.DecimalField(max_digits=1,decimal_places=0)
+    unit1  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit2  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit3  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit4  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit5  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit6  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit7  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit8  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit9  = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit10 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit11 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit12 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit13 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit14 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
+    unit15 = models.DecimalField(max_digits=3,decimal_places=0,default=0)
 
 class Falta(models.Model):
     asistencia = models.ForeignKey('Asistencia',on_delete=models.CASCADE)

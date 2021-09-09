@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'nota/grupo/(?P<pk>\d+)/(?P<trimestre>\d+)/$',login_required(NotasGrupoTrimestreView), name="notas_grupo"),
     url(r'nota/grupo/(?P<pk>\d+)/(?P<cuatrimestre>\d+)/cuatrimestre$',login_required(NotasGrupoCuatrimestreView), name="notas_cuatrimestre_grupo"),
     url(r'nota/grupo/units/(?P<pk>\d+)/$',login_required(NotasGrupoUnitsView), name="notas_units_grupo"),
+    url(r'nota/grupo/units/writing/(?P<pk>\d+)/(?P<writing>\d+)/$',login_required(NotasGrupoUnitsWritingView), name="notas_units_writing_grupo"),
     url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<asistencia>\d+)/(?P<trimestre>\d+)/trimestre/editar/$',login_required(NotaCreateView.as_view()), name="nota_nueva"),
     url(r'nota/(?P<pk>\d+)/borrar/$',login_required(DeleteView.as_view(model=Nota)), name="nota_borrar"),

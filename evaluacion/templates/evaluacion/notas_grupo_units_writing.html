@@ -1,0 +1,55 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load evaluacion_extra_tags %}
+{% load bootstrap %}
+
+{% block head_title %}Faltas{% endblock %}
+
+
+{% block body %}
+
+<h1>Notas de Writing #{{writing}} del grupo {{ grupo.nombre }}</h1>
+
+{{ notas_formset.non_field_errors }}
+
+<form role="form" method="post" action="{% url 'notas_units_grupo' grupo.id %}">
+	{% csrf_token %}
+	{{ notas_formset.management_form }}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Alumno</th>
+                {% with notas_formset|first as form %}
+                {% for field in form %}
+                    {%  if field.label != "Id" %}
+					<th>{{ field.label }}</th>
+                    {% endif %}
+				{% endfor %}
+                {%  endwith %}
+			</tr>
+		</thead>
+		<tbody>    
+		{% for form in notas_formset %}
+			<tr>
+				{% comment %}  {{ form | bootstrap_inline }}<br /> {% endcomment %} 
+				{% with asistencia=asistencias|buscar:forloop.counter0 %}
+				<td> {{ asistencia.alumno }} </td>
+				{% for field in form %}
+					<td>{{ field }}  {{ field.errors }}</td>
+				{% endfor %}
+				{% endwith %}
+			 </tr>
+		{% endfor %}
+		</tbody>
+    </table>
+    
+    <div class="form-group">
+	
+		<button type="submit" class="btn btn-primary">Submit</button>
+        
+    </div>
+</form>
+
+
+{% endblock %}

@@ -551,12 +551,12 @@ class NotaUnitsSendView(DetailView):
 
 def NotasGrupoUnitsView(request, pk):
     grupo = get_object_or_404(Grupo, pk=pk)
-    print(grupo)
+    #print(grupo)
     template = get_template("evaluacion/notas_grupo_units.html")
     context={}
     context['grupo'] = grupo
     lista_asistencias = grupo.asistencia_set.all()
-    print(lista_asistencias)
+    #print(lista_asistencias)
     context['asistencias'] = lista_asistencias
     
     if request.method == 'POST':
@@ -572,14 +572,44 @@ def NotasGrupoUnitsView(request, pk):
     else:
         for asistencia in lista_asistencias:
             obj, created = NotaUnits.objects.get_or_create(asistencia=asistencia)
-            print(obj,created)
-        for nota in NotaUnits.objects.filter(asistencia__in=lista_asistencias).order_by('asistencia__id'):                    
-            print(nota)
+            #print(obj,created)
+        
         notas_formset = NotaUnitsFormSet(
             queryset=NotaUnits.objects.filter(
                asistencia__in=lista_asistencias)
                .order_by('asistencia__id')
         )
         context['notas_formset'] = notas_formset
-    print(notas_formset)
     return HttpResponse(template.render(context, request=request))
+
+def NotasGrupoUnitsWritingView(request, pk, writing):
+    grupo = get_object_or_404(Grupo, pk=pk)
+    template = get_template("evaluacion/notas_grupo_units_writing.html")
+    context={}
+    context['grupo'] = grupo
+    context['writing'] = writing
+    lista_asistencias = grupo.asistencia_set.all()
+    context['asistencias'] = lista_asistencias
+    
+    if request.method == 'POST':
+        notas_formset = NotaUnitsWritingFormSet(request.POST, request.FILES)
+        context['notas_formset'] = notas_formset
+        if notas_formset.is_valid():
+            notas_formset.save()
+            ## Volvemos a la lista
+            return redirect(reverse_lazy('evaluacion_notas'))
+        else:
+            #print("Formset mal volvemos a mostrar el formulario")
+            context['notas_formset'] = notas_formset
+    else:
+        for asistencia in lista_asistencias:
+            obj, created = NotaUnitsWriting.objects.get_or_create(asistencia=asistencia,writing=writing)
+            #print(obj,created)
+        
+        notas_formset = NotaUnitsFormSet(
+            queryset=NotaUnitsWriting.objects.filter(
+               asistencia__in=lista_asistencias,writing=writing)
+               .order_by('asistencia__id')
+        )
+        context['notas_formset'] = notas_formset
+    return HttpResponse(template.render(context, request=request))    
