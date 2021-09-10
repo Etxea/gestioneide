@@ -8,7 +8,6 @@ from django.conf import settings
 from django.http import Http404
 from django.contrib.auth.decorators import login_required, permission_required
 
-from sermepa.signals import payment_was_successful, payment_was_error, signature_error
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
 
@@ -49,15 +48,15 @@ class MatriculaPayView(DetailView):
             "Ds_Merchant_TransactionType": '0',
         }
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print("Tenemos la order ",order)
+        print("Somos MatriculaPayView y Tenemos la order ",order)
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": 0, #Compra puntual
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        #print("Tenemos el form")
-        #print(form.render())
+        print("Somos MatriculaPayView y Tenemos el form")
+        print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -107,12 +106,12 @@ class MatriculaEidePayView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(MatriculaEidePayView, self).get_context_data(**kwargs)
         centro = Centro.objects.get(id=self.object.centro)
-        precio_matricula = "%d"%centro.precio_matricula*100
+        precio_matricula = "%d"%int(float(centro.precio_matricula)*100)
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
             "Ds_Merchant_Titular": 'EIDE',
-            "Ds_Merchant_MerchantData": 'matricula-eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
+            "Ds_Merchant_MerchantData": 'eide-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
             #"Ds_Merchant_ProductDescription": 'matricula-eide-%s'%self.object.id,
             "Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
@@ -129,15 +128,14 @@ class MatriculaEidePayView(DetailView):
             "Ds_Merchant_TransactionType": '0',
         }
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print("Tenemos la order ",order)
+        #print("Somo MatriculaEidePayView Tenemos la order ",order)
         merchant_parameters.update({
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": 0, #Compra puntual
         })
             
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        #print("Tenemos el form")
-        #print(form.render())
+        #print("Somo MatriculaEidePayView Tenemos la form ",form)
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
@@ -315,7 +313,7 @@ class MatriculaLinguaskillPayView(DetailView):
         site = Site.objects.get_current()
         site_domain = site.domain
         merchant_parameters = {
-            "Ds_Merchant_Titular": 'EIDE Lingua Skill',
+            "Ds_Merchant_Titular": 'EIDE',
             "Ds_Merchant_MerchantData": 'ls-%s'%self.object.id, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
             "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
             "Ds_Merchant_ProductDescription": '%s'%(self.object.pay_code()),
@@ -324,20 +322,12 @@ class MatriculaLinguaskillPayView(DetailView):
             "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
             "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
             "Ds_Merchant_MerchantURL":  settings.SERMEPA_URL_DATA,
-            "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('matricula_eide_gracias')),
-            #~ "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('end')),
-            "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('matricula_eide_error')),
-            #~ "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('end')),
-            #"Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
+            "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('matricula_linguaskill_gracias')),        
+            "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('matricula_linguaskill_error')),
+            "Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
             "Ds_Merchant_TransactionType": '0',
         }
-        order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        print("Tenemos la order ",order)
-        merchant_parameters.update({
-            "Ds_Merchant_Order": order,
-            "Ds_Merchant_TransactionType": 0, #Compra puntual
-        })
-            
+                    
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
         print("Tenemos el form")
         print(form.render())

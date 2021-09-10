@@ -107,6 +107,7 @@ INSTALLED_APPS = [
     'pinax.notifications',
     'anymail',
     'cookie_consent',
+    'sermepa',
     # project
     "gestioneide",
     "alumnos",
@@ -129,7 +130,6 @@ INSTALLED_APPS = [
     "centros",
     "mensajes",
     "consultas",
-    "sermepa",
     "pasarela",
     "pagosonline",
     "matriculas",
