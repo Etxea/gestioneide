@@ -28,5 +28,5 @@ pycrypto
 bootstrap3-datetime
 django-cookie-consent
 django-excel-response
-git+https://github.com/APSL/django-sermepa
+git+https://github.com/Etxea/django-sermepa
 
