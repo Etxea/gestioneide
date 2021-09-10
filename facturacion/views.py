@@ -75,7 +75,7 @@ def ReciboInformeExcelView(request,pk):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -104,7 +104,7 @@ def ReciboInformeExcelView(request,pk):
             asistencia.grupo.nombre,
             tipo
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
     
     wb.save(response)
@@ -129,7 +129,7 @@ def ReciboDevolucionExcelView(request,pk):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -156,7 +156,7 @@ def ReciboDevolucionExcelView(request,pk):
             precio,
             alumno.cuenta_bancaria,
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
     
     wb.save(response)

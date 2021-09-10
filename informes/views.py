@@ -127,7 +127,7 @@ def export_grupos_xls(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -148,7 +148,7 @@ def export_grupos_xls(request):
             grupo.asistencia_set.all().count(),
             grupo.confirmados(),
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
@@ -174,7 +174,7 @@ def export_alumnos_xls(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -192,7 +192,7 @@ def export_alumnos_xls(request):
             alumno.fecha_nacimiento.isoformat(),
             "%s (%s)"%(asistencia.grupo.nombre,year)
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
@@ -234,7 +234,7 @@ def export_asistencias_xls(request,filtro=False):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -261,7 +261,7 @@ def export_asistencias_xls(request,filtro=False):
             alumno.ciudad,
             alumno.cp
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
@@ -296,7 +296,7 @@ def export_telefonos_alumnos_xls(request,ano):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -321,7 +321,7 @@ def export_telefonos_alumnos_xls(request,ano):
             asis.alumno.cp,
             asis.alumno.ciudad,
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
@@ -355,7 +355,7 @@ def export_alumnos_mail_errores_xls(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -382,7 +382,7 @@ def export_alumnos_mail_errores_xls(request):
                 asis.alumno.cp,
                 asis.alumno.ciudad,
             ]
-            for col_num in xrange(len(row)):
+            for col_num in range(len(row)):
                 ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
@@ -417,7 +417,7 @@ def export_notas_trimestre_xls(request,trimestre):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -445,7 +445,7 @@ def export_notas_trimestre_xls(request,trimestre):
             #random.randint(1, 10),
             observaciones
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)
@@ -513,7 +513,7 @@ def export_notas_cuatrimestre_xls(request, ano):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -564,7 +564,7 @@ def export_notas_cuatrimestre_xls(request, ano):
                 row.append(nota.media())
                 row.append(nota.observaciones)
                 
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
 
     wb.save(response)
@@ -652,7 +652,7 @@ def export_notas_finales_xls(request,ano):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    for col_num in xrange(len(columns)):
+    for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num][0], font_style)
         # set column width
         ws.col(col_num).width = columns[col_num][1]
@@ -674,7 +674,7 @@ def export_notas_finales_xls(request,ano):
             nota_final["faltas"],
             nota_final["justificadas"],
         ]
-        for col_num in xrange(len(row)):
+        for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
             
     wb.save(response)

@@ -170,7 +170,7 @@ class Registration2019(models.Model):
 		##We generate a random password
 		if self.id is None:
 			#We set de password, not used right now
-			self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
+			self.password = ''.join([choice(ascii_letters) for i in range(6)])
 			#We send a confirmation mail to te registrant and a advise mail to the admins
 			self.send_secretaria_mail()
 			self.send_confirmation_email()
@@ -327,7 +327,7 @@ Para mas detalle visitar:
 		##We generate a random password
 		if self.id is None:
 			#We set de password, not used roght now
-			self.password = ''.join([choice(ascii_letters) for i in xrange(6)])
+			self.password = ''.join([choice(ascii_letters) for i in range(6)])
 			#We send a confirmation mail to te registrant and a advise mail to the admins
 			self.send_confirmation_email()
 		super(Registration, self).save(*args, **kwargs)
