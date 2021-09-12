@@ -290,7 +290,12 @@ class MatriculaLinguaskillCreateView(CreateView):
     def get_form_kwargs(self):
         kwargs = super(MatriculaLinguaskillCreateView, self).get_form_kwargs()
         kwargs['venue'] = self.kwargs.pop('venue')
-        return kwargs
+        return kwargs 
+    #def get_form(self):
+    #    self.form_class = MatriculaLinguaskillForm
+    #    form = super(MatriculaLinguaskillCreateView, self).get_form(self.form_class)
+    #    form.fields['level'].queryset = LinguaskillLevel.objects.filter(venue=Venue.objects.filter(name=venue_name))
+    #    return form
 
 class MatriculaLinguaskillListView(ListView):
     model = MatriculaLinguaskill

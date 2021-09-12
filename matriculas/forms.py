@@ -43,10 +43,10 @@ class MatriculaLinguaskillForm(ModelForm):
         #     'proposed_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}),
         #     'birth_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}),
         # }
-    def __init__(self, *args, **kwargs):
-        venue_name = kwargs.pop('venue')
+    def __init__(self, venue, *args, **kwargs):
         super(MatriculaLinguaskillForm, self).__init__(*args, **kwargs)
-        self.fields['level'].queryset = LinguaskillLevel.objects.filter(venue=Venue.objects.filter(name=venue_name))
+        #venue_name = kwargs.pop('venue')
+        self.fields['level'].queryset = LinguaskillLevel.objects.filter(venue=Venue.objects.get(name=venue))
 
 class ExamForm(ModelForm):
     
