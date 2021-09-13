@@ -169,7 +169,10 @@
                         <a class="btn btn-primary zmdi zmdi-check" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Confirmar</a>
                     {% endif %}
                     <a class="btn btn-primary zmdi zmdi-print" href="{% url 'imprimir_asistencia_horario' asistencia.id %}">Horario</a>
-                    <a class="btn btn-primary zmdi zmdi-email" href="{% url 'envio_horario_alumno' asistencia.id %}">Enviar Horario</a>
+                    <form method="POST" action="{% url 'envio_horario_alumno' asistencia.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary zmdi zmdi-email" >Enviar Horario</button>
+                    </form>
                     <a class="btn zmdi zmdi-edit" href="{% url 'asistencia_editar' asistencia.id %}"></a>
                     <button type="button" class="btn zmdi zmdi-delete" data-toggle="modal" data-target="#deleteAsistenciaModal" data-delete_url="{% url 'asistencia_borrar' asistencia.id %}"></button>
                     {% endif %}

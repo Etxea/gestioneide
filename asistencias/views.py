@@ -185,4 +185,4 @@ class EnvioHorario(View):
         except Exception as e:
             print("Error",e)
             mensaje = "Error"
-        return redirect(grupo)        
+        return redirect(asistencia.grupo)        
