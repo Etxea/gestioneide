@@ -15,16 +15,16 @@
             <thead style="text-align:left">
                 <th>Día</th>
                 <th>Horario</th>
-		<!--<th>Aula</th>-->
-                <!-- <th>Profesor</th> -->
+		        <th>Aula</th>
+                <th>Profesor</th>
             </thead>
             <tbody>
                 {% for clase in grupo.clases.all %}
                 <tr>
                     <td>{{ clase.get_dia_semana_display }}</td>
                     <td>{{ clase.hora_inicio }}-{{ clase.hora_fin }}</td>
-		    <!--<td>{{ clase.aula }}</td>-->
-                    <!-- <td>{{ clase.profesor }}</td> -->
+		            <td>{{ clase.aula }}</td>
+                    <td>{{ clase.profesor }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

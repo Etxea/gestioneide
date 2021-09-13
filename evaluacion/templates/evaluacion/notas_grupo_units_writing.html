@@ -6,14 +6,19 @@
 
 {% block head_title %}Faltas{% endblock %}
 
+{% block page_header %}
+<h1>Notas de Writing #{{writing}} del grupo {{ grupo.nombre }}</h1>
+{% endblock %}
 
 {% block body %}
 
-<h1>Notas de Writing #{{writing}} del grupo {{ grupo.nombre }}</h1>
+{% for dict in formset.errors %}
+    {% for error in dict.values %}
+        {{ error }}
+    {% endfor %}
+{% endfor %}
 
-{{ notas_formset.non_field_errors }}
-
-<form role="form" method="post" action="{% url 'notas_units_grupo' grupo.id %}">
+<form role="form" method="post" action="{% url 'notas_units_writing_grupo' grupo.id writing %}">
 	{% csrf_token %}
 	{{ notas_formset.management_form }}
 	<table class="table">
@@ -43,6 +48,7 @@
 		{% endfor %}
 		</tbody>
     </table>
+	
     
     <div class="form-group">
 	
