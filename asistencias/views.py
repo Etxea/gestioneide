@@ -159,12 +159,13 @@ class EnvioNotaTrimestre(View):
 class EnvioHorario(View):
     http_method_names = ['post']
     def post(self, request, *args, **kwargs):
-        print("Vamos a enviar el horario de la asistencia %s")
+        
         try:
             asistencia = Asistencia.objects.get(pk=kwargs['pk'])
+            print("Vamos a enviar el horario de la asistencia %s"%asistencia)
             #asistencia.envio_horario()
             context={}
-            context['grupo'] = self.grupo
+            context['grupo'] = asistencia.grupo
             year = grupo.year
             context['lista_festivos'] =Festivo.objects.filter(year=year) 
             #context['message'] = self.cleaned_data["message"]
@@ -182,7 +183,10 @@ class EnvioHorario(View):
                 from_email=None
             mail.enviado = alumno.enviar_mail(titulo,mensaje,from_email=from_email,mensaje_html=True)
             mail.save()
+            return redirect(asistencia.grupo)
         except Exception as e:
-            print("Error",e)
+            print("Error en EnvioHorario",e)
             mensaje = "Error"
-        return redirect(asistencia.grupo)        
+            return redirect(reverse('asistencia_lista'))
+
+                
