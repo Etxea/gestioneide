@@ -1331,7 +1331,7 @@ class Recibo(models.Model):
         else:
             importe_individual = float(asistencia.ver_precio())
         concepto = u"EIDE: %s, %s" % (asistencia.grupo.nombre, MONTHS[self.mes])
-        concepto = unidecode(concepto)
+        concepto = concepto.encode('UTF-8')
         # Sumamos el importe al total
         self.numero_recibos += 1
         cod_reg = "56"
