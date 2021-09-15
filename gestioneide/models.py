@@ -1323,7 +1323,7 @@ class Recibo(models.Model):
         error = ""
         id = asistencia.id
         nombre_cargo = "%s %s" % (asistencia.alumno.apellido1, asistencia.alumno.apellido2)
-        nombre_cargo = unidecode(nombre_cargo)
+        nombre_cargo = nombre_cargo.encode('UTF-8')
         ccc = asistencia.alumno.cuenta_bancaria.replace("-", "")
         importe_individual = float(0)
         if self.medio_mes:
