@@ -162,6 +162,9 @@ class Empresa(models.Model):
     def __unicode__(self):
         return "%s"%self.nombre
 
+    def __str__(self) -> str:
+        return self.__unicode__()
+
 class Centro(models.Model):
     empresa = models.ForeignKey(Empresa,blank=True,null=True,on_delete=models.SET_NULL)
     nombre = models.CharField('Nombre',max_length=255)

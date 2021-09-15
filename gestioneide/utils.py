@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.dates import MONTHS
-from unidecode import unidecode
 import re
 
 
 def csb19_normalizar(campo,longitud):
     """Funcion que normaliza el campo: Lo pasa a mayúsculas, lo recorta
         a la longitud si hace falta o lo rellena con espacios hasta la longitud"""
-    #~ campo = str(campo)
+    campo = str(campo)
     campo = campo.upper()
     if len(campo)>longitud:
         #recortamos hasta longitud
