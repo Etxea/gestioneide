@@ -329,17 +329,17 @@ class PasarListaGrupoView(DetailView):
         justificadas = []
         justificadas_id = []
         
-        presentes_queryset = Presencia.objects.filter(mes=self.kwargs['mes'])
+        presentes_queryset = Presencia.objects.filter(asistencia__in=self.object.asistencia_set.all(),mes=self.kwargs['mes'])
         for presente in presentes_queryset:
             presentes.append("%s_%s_%s"%(presente.asistencia.id,presente.mes,presente.dia))
             presentes_id.append(presente.id)
         
-        faltas_queryset = Falta.objects.filter(mes=self.kwargs['mes'])
+        faltas_queryset = Falta.objects.filter(asistencia__in=self.object.asistencia_set.all(),mes=self.kwargs['mes'])
         for falta in faltas_queryset:
             faltas.append("%s_%s_%s"%(falta.asistencia.id,falta.mes,falta.dia))
             faltas_id.append(falta.id)
         
-        justificadas_queryset = Justificada.objects.filter(mes=self.kwargs['mes'])
+        justificadas_queryset = Justificada.objects.filter(asistencia__in=self.object.asistencia_set.all(),mes=self.kwargs['mes'])
         for justificada in justificadas_queryset:
             justificadas.append("%s_%s_%s"%(justificada.asistencia.id,justificada.mes,justificada.dia))
             justificadas_id.append(justificada.id)
