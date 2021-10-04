@@ -28,4 +28,4 @@ bootstrap3-datetime
 django-cookie-consent
 django-excel-response
 git+https://github.com/Etxea/django-sermepa
-
+newrelic
