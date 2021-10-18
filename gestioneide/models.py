@@ -99,6 +99,11 @@ COMPORTAMIENTO_KIDS = (
     (3,_('Excelente'))
 )
 
+SEXO = (
+    (1, _('Mujer')),
+    (2, _('Hombre')),
+)
+
 class Year(models.Model):
     start_year = models.DecimalField(max_digits=4,decimal_places=0,default=2015)
     name = models.CharField(max_length=8,default="201X-1X")
@@ -376,6 +381,7 @@ class Profesor(models.Model):
 class Alumno(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     nombre = models.CharField(max_length=25,default="")
+    sexo = models.DecimalField(_('Sexo'),max_digits=1, decimal_places=0,choices=SEXO, null=True, blank=True)
     apellido1 = models.CharField(max_length=100,default="")
     apellido2 = models.CharField(max_length=100,default="",blank=True,null=True)
     fecha_nacimiento = models.DateField(default=datetime.date.today,blank=True)
