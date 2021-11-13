@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='registration',
             name='eide_alumn',
-            field=models.BooleanField(default=b'False', help_text='Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.', verbose_name='Alumno EIDE'),
+            field=models.BooleanField(default=False, help_text='Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.', verbose_name='Alumno EIDE'),
         ),
         migrations.AlterField(
             model_name='registration',
