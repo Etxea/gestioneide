@@ -1,0 +1,11 @@
+{% extends "cambridge/form.html"%}
+
+{% load i18n %}
+
+{% block cambridge_form_header %}
+    <h1>{% trans "Matricúlate para un Exámen Cambridge" %}</h1>
+{% endblock %}
+
+{% block cambridge_form_action %}
+    <form action="{% url 'cambridge_nueva' %}" method="post" class="form-horizontal" >{% csrf_token %}
+{% endblock %}

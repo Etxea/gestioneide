@@ -135,7 +135,8 @@ INSTALLED_APPS = [
     "matriculas",
     "hobetuz",
     "ticketbai",
-    "portalalumno",    
+    "portalalumno",
+    "cambridge",
 ]
 
 LOGGING = {
@@ -176,6 +177,11 @@ ACCOUNT_USE_AUTH_AUTHENTICATE = True
 AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
+
+COOKIE_CONSENT_NAME = "cookie_consent"
+COOKIE_CONSENT_MAX_AGE = 60 * 60 * 24 * 365 * 1  # 1 year
+COOKIE_CONSENT_LOG_ENABLED = True
+
 
 SERMEPA_BUTTON_BIZUM_TEXT="Pagar con Bizum"
 SERMEPA_BUTTON_TEXT="Pagar con tarjeta bancaria"

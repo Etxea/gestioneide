@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^hobetuz/', include('hobetuz.urls')),
     url(r'^ticketbai/', include('ticketbai.urls')),
     url(r'^portalalumno/', include('portalalumno.urls')),
+    url(r'^cambridge/', include('cambridge.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

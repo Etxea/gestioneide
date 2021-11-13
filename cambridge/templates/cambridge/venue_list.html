@@ -1,0 +1,21 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% block body %}
+<h2>Lista de Venues</h2> <button>Nueva venue</button>
+<table class="table">
+	<thead>
+		<th>Name</th><th>Description</th><th>Email</th><th>Telephone</th>Exams</th>
+	</thead>
+	{% for venue in object_list %}
+	<tr>
+		<td><a href="/admin/cambridge/venue/{{venue.id}}/" class="icon icon-pencil">edit</a> - {{venue}}</td>
+		<td>{{venue.description}}</td>
+		<td>{{venue.email}}</td>
+		<td>{{venue.telephone}}</td>
+		<td>{{venue.exam_count}}</td>
+		<td>{{venue.user}}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

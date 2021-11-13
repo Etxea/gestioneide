@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 {% load account_tags %}
 {% load gestioneide_extra_tags %}
 
@@ -177,12 +178,51 @@
 		</a>
 		<ul>
 			<li><a href="{% url 'matricula_eide_lista' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;EIDE</a></li>
-			<li><a href="{% url 'cambridge_list' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;Cambridge</a></li>
 			<li><a href="{% url 'matricula_linguaskill_lista' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;Lingua Skill</a></li>
 			<li><a href="{% url 'matricula_curso_online_lista' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;Cursos</a></li>
 			<li><a href="{% url 'hobetuz_list_2019' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;Hobetuz</a></li>
 		</ul>
 	</li>
+	<li class="sm-sub">
+		<a href="">
+			<i class="zmdi zmdi-receipt"></i>
+			<span>Cambridge</span>
+		</a>
+		<ul>
+			<li><a href="/admin/cambridge/level/">{% trans "Gestionar niveles" %}</a></li>
+            <li class="sm-sub">
+			<a href="">
+				<i class="zmdi zmdi-home"></i>
+				<span>EIDE</span>
+			</a>
+			<ul>
+				<li><a href="{% url 'cambridge_exam_list' %}">{% trans "Lista de examenes" %}</a></li>
+				<li><a href="{% url 'cambridge_exam_new' %}">{% trans "Nuevo examene" %}</a></li>
+				<li><a href="{% url 'cambridge_list' %}">{% trans "Lista Matrículas" %}</a></li>
+			</ul>
+			<a href="">
+				<i class="zmdi zmdi-graduation-cap"></i>
+				<span>Schools</span>
+			</a>
+			<ul>
+				<li><a href="{% url 'cambridge_schools_list' %}">Schools</a></li>
+				<li><a href="/admin/cambridge/schoollevel/">{% trans "Gestionar niveles" %}</a></li>
+				<li><a href="{% url 'cambridge_schools_exam_list' %}">{% trans "Lista de examenes Schools" %}</a></li>
+				<li><a href="{% url 'cambridge_schools_registration_list' %}">{% trans "Lista Matrículas" %}</a></li>
+            </ul>
+			<a href="">
+				<i class="zmdi zmdi-seat"></i>
+				<span>Venues</span>
+			</a>
+			<ul>
+				<li><a href="{% url 'cambridge_venues_list' %}">Venues</a></li>
+				<li><a href="/admin/cambridge/venue/">{% trans "Gestionar venues" %}</a></li>
+				<li><a href="{% url 'cambridge_venues_exam_list' %}">{% trans "Lista de examenes Venue" %}</a></li>
+				<li><a href="{% url 'cambridge_venues_registration_list' %}">{% trans "Lista Matrículas Venues" %}</a></li>
+			</ul>
+		</ul>
+	</li>
+
 	{% endif %}
 	{% endif %}
 
@@ -198,6 +238,19 @@
 			<li><a href="{% url 'portalalumno_faltas' %}"><i class="zmdi zmdi-case-check"></i>&nbsp;&nbsp;Faltas</a></li>
 			<li><a href="{% url 'portalalumno_historico' %}"><i class="zmdi zmdi-collection-text"></i>&nbsp;&nbsp;Historico</a></li>
 	
+		</ul>
+	</li>
+	{% endif %}
+	{% if request.user|has_group:"venues" %}
+	<li class="sm-sub">
+		<a href="">
+			<i class="zmdi zmdi-account-circle"></i>
+			<span>Portal Venues</span>
+		</a>
+		<ul>
+			<li><a href="{% url '' %}"><i class="zmdi zmdi-account"></i>&nbsp;&nbsp;Examenes</a></li>
+			<li><a href="{% url '' %}"><i class="zmdi zmdi-receipt"></i>&nbsp;&nbsp;Matriculas</a></li>
+			<li><a href="{% url '' %}"><i class="zmdi zmdi-case-check"></i>&nbsp;&nbsp;Datos</a></li>
 		</ul>
 	</li>
 	{% endif %}

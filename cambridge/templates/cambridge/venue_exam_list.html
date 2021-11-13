@@ -1,0 +1,40 @@
+{% extends "site_base.html"%}
+
+{% load i18n %}
+
+{% block body %}
+<h1>{% trans "Cambridge Exam List" %}</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+        <td>{% trans "Level" %}</td>
+        <td>Venue</td>
+        <td>{% trans "Tipo" %}</td>
+        <td>{% trans "Date" %}</td>
+        <td>{% trans "Cierre de la matrícula" %}</td>
+        <td>{% trans "Price" %}</td>
+        <td>{%trans "Matrículas" %}</td>
+        <td>{%trans "Paid Registrations" %}</td>
+        <td>{%trans "Delete" %}</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for exam in object_list %}
+    <tr>
+    <td><a href="{% url 'cambridge_exam_edit' exam.id %}">{{ exam.level }}</a></td>
+    <td>{{ exam.venue }}</td>
+    <td>{{ exam.get_exam_type_display }}</a></td>
+    <td>{{ exam.exam_date }}</td>
+    <td>{{ exam.registration_end_date }}</td>
+    <td>{{ exam.level.price }}</td>
+    <td>{{ exam.registrations }}</td>
+    <td>{{ exam.paid_registrations }}</td>
+    <td><a href="{% url 'cambridge_exam_delete' exam.id %}">Eliminar</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a class="btn" href="{% url 'cambridge_venues_exam_new' %}">{% trans "New" %}	</a>
+{% endblock %}
