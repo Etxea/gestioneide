@@ -41,3 +41,5 @@ class VenueExamAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(VenueExam, VenueExamAdmin)
 admin.site.register(Venue, VenueAdmin)
+
+admin.site.register(PrepCenter,admin.ModelAdmin)

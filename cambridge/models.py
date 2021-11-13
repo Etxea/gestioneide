@@ -254,22 +254,24 @@ class LinguaskillRegistration(Registration):
 
 
 class PrepCenter(models.Model):
-    name = models.CharField(_('Name'),max_length=50)
+    name = models.CharField(_('Code Name'),max_length=50)
     description = models.CharField(_('Description'),max_length=100,default="")
-    password = models.CharField(_('Password'),max_length=50)
-    telephone = models.CharField(_('Teléfono'),max_length=12)
-    email = models.EmailField()
+    password = models.CharField(_('Password'),max_length=50, blank=True)
+    telephone = models.CharField(_('Teléfono'),max_length=12, blank=True)
+    email = models.EmailField(blank=True)
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
         return self.name
-    def exam_count(self):
-        return self.venueexam_set.all().count()
-    def registration_count(self):
-        total=0
-        for e in self.venueexam_set.all():
-            total = total + e.registration_set.all().count()
-        return total
+
+    # def exam_count(self):
+    #     return self.prepcenterexam_set.all().count()
+    
+    # def registration_count(self):
+    #     total=0
+    #     for e in self.prepcenterexam_set.all():
+    #         total = total + e.registration_set.all().count()
+    #     return total
 
 class PrepCenterExam(models.Model):
     center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="hosting_venue")

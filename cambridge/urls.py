@@ -68,7 +68,15 @@ urlpatterns = [
     url(r'linguaskill/new/$', LinguaskillRegistrationCreateView.as_view(),name="cambridge_linguaskill_new_registration"),
     url(r'linguaskill/list/$', LinguaskillRegistrationListView.as_view(),name="cambridge_linguaskill_registration_list"),
     
-
+    ## Prep Center
+    url(r'prepcenter/$', PrepCenterHomeView.as_view(),name="cambridge_prepcenter_home"),
+    url(r'prepcenter/new/center/$', PrepCenterCreateView.as_view(),name="cambridge_prepcenters_new"),
+    url(r'prepcenter/list/$', login_required(PrepCenterListView.as_view()),name="cambridge_prepcenters_list"),
+    #url(r'prepcenter/exam/list/$', login_required(PrepCenterExamList.as_view()),name="cambridge_prepcenters_exam_list"),
+    #url(r'prepcenter/exam/new/$', login_required(PrepCenterExamCreate.as_view()),name="cambridge_prepcenters_exam_new"),
+    #url(r'prepcenter/registrations/list/$', login_required(PrepCenterRegistrationListView.as_view()),name="cambridge_prepcenters_registration_list"),
+    
+    
     ## Genericas
     url(r'thanks/$', TemplateView.as_view( template_name = 'cambridge/gracias.html' ),name="cambridge_gracias"),
     url(r'error/$', TemplateView.as_view( template_name = 'cambridge/error.html' ),name="cambridge_error"),

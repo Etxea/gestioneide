@@ -16,17 +16,20 @@
 #  MA 02110-1301, USA.
 #  
 
+from django import template
 from django.contrib.auth.decorators import login_required, permission_required
+from django.forms.models import fields_for_model
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.http import HttpResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, View
 
 from django.contrib.sites.models import Site
 
 from django.conf import settings
+from django.views.generic.base import View
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
 
@@ -368,3 +371,17 @@ class LinguaskillRegistrationListView(ListView):
     template_name='cambridge/linguaskill_registration_list.html'
     #Limitamos a las matriculas de examenes linguaskill y que estén pagadas 
     queryset=Registration.objects.filter(exam__exam_type=5,paid=True)
+
+## Prep Center
+
+class PrepCenterHomeView(View):
+    template_name = 'cambridge/prepcenter_home.html'
+
+class PrepCenterCreateView(CreateView):
+    model = PrepCenter
+    fields = '__all__'
+    success_url = reverse_lazy('cambridge_prepcenters_list')
+
+class PrepCenterListView(ListView):
+    model = PrepCenter
+
