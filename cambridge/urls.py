@@ -16,16 +16,14 @@
 #  MA 02110-1301, USA.
 #  
 
-from django.conf.urls import url, include
+from django.conf.urls import url
 
-#~ from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 
 from cambridge.views import *
 from cambridge.forms import *
 from cambridge.models import *
-
 
 urlpatterns = [
     url(r'^list/$',login_required(RegistrationListView.as_view()), name="cambridge_list"),
@@ -60,13 +58,11 @@ urlpatterns = [
     url(r'schools/fuentefresnedo/$', TemplateView.as_view( template_name =  'cambridge/fuentefresnedo.html' ),name="cambridge_fuentefresnedo"),
 
     #Venues
+    url(r'venue/exam/list/$', login_required(VenueExamList.as_view()),name="cambridge_venues_exam_list"),
+    url(r'venue/exam/new/$', login_required(VenueExamCreate.as_view()),name="cambridge_venues_exam_new"),
     url(r'venue/list/$', login_required(VenueListView.as_view()),name="cambridge_venues_list"),
-    #url(r'venue/exam/list/$', login_required(VenueExamList.as_view()),name="cambridge_venues_exam_list"),
-    url(r'venue/new/$', login_required(VenueCreate.as_view()),name="cambridge_venue_new"),
-    url(r'venue/exam/new/(?P<venue_name>\w+)/$', login_required(VenueExamCreate.as_view()),name="cambridge_venues_exam_new"),
-    url(r'venue/exam/list/(?P<venue_name>\w+)/$', login_required(VenueExamList.as_view()),name="cambridge_venues_exam_new"),
     url(r'venue/registrations/list/$', login_required(VenueRegistrationListView.as_view()),name="cambridge_venues_registration_list"),
-    #url(r'venue/new/(?P<venue_name>\w+)/$', VenueRegistrationCreateView.as_view(),name="cambridge_venues_new_registration"),
+    url(r'venue/new/(?P<venue_name>\w+)/$', VenueRegistrationCreateView.as_view(),name="cambridge_venues_new_registration"),
     
     #Linguaskill
     url(r'linguaskill/new/$', LinguaskillRegistrationCreateView.as_view(),name="cambridge_linguaskill_new_registration"),
@@ -76,6 +72,7 @@ urlpatterns = [
     ## Genericas
     url(r'thanks/$', TemplateView.as_view( template_name = 'cambridge/gracias.html' ),name="cambridge_gracias"),
     url(r'error/$', TemplateView.as_view( template_name = 'cambridge/error.html' ),name="cambridge_error"),
+    
     ##For the exams
     url(r'^exam/list/$',login_required(
 		ListView.as_view(model=Exam,template_name='cambridge/exam_list.html')

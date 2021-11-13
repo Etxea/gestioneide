@@ -1,26 +1,36 @@
 # -*- coding: utf-8 -*-
+
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+
 from django.db import models
-from django.contrib.auth.models import User, Group
 from localflavor import generic
 from localflavor.es.forms import *
 from django.core.mail import EmailMultiAlternatives, send_mail, mail_admins
-from django.template.loader import render_to_string
+from django.contrib.auth.models import User, Group
 
 from random import choice
+
 from string import ascii_letters as letters
 import datetime
-import sys
 
 from django.conf import settings
 from django.utils import timezone
-# favour django-mailer but fall back to django.core.mail
-#if "mailer" in settings.INSTALLED_APPS:
-#    from mailer import send_mail, mail_admins
-#else:
-#    from django.core.mail import send_mail, mail_admins
 
 from django.utils.translation import gettext_lazy as _
-# Create your models here.
 
 SEXO = (
     (1, _('Male')),
@@ -41,7 +51,7 @@ class Level(models.Model):
     def __unicode__(self):
         try:
             return "[%s] %s-%s"%(self.schoollevel.school,self.name.split(" ")[0],self.price)
-	
+    
         except:
             return "%s-%s"%(self.name,self.price)   
 
@@ -66,10 +76,10 @@ class Exam(models.Model):
         if self.exam_type == 5:
             return "%s"%self.level.name
         try:
-            return "[%s] %s %s"%(self.schoollevel,self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))	
+            return "[%s] %s %s"%(self.schoollevel,self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))    
         except:
             try:
-                return "%s"%(self.venueexam)	
+                return "%s"%(self.venueexam)    
             except:
                 return "%s %s %s"%(self.level,self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
@@ -91,10 +101,6 @@ class Venue(models.Model):
     name = models.CharField(_('Name'),max_length=50)
     description = models.CharField(_('Description'),max_length=100,default="")
     password = models.CharField(_('Password'),max_length=50)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    telephone = models.CharField(_('Teléfono'),max_length=12,null=True, blank=True)
-
     def __unicode__(self):
         return self.name
     def exam_count(self):
@@ -114,9 +120,7 @@ class SchoolExam(Exam):
         return "%s %s %s"%(self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
 class VenueExam(Exam):
-    venue = models.ForeignKey(Venue,on_delete=models.PROTECT,related_name="hosting_venue")
-    exam = models.ForeignKey(Exam,on_delete=models.PROTECT,related_name="venue_exam")
-    
+    venue = models.ForeignKey(Venue,on_delete=models.PROTECT)
     def __unicode__(self):
         return "[%s]%s %s %s"%(self.venue,self.level.__unicode__(),self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
 
@@ -146,14 +150,14 @@ class Registration(models.Model):
         ##Para el alumno
         subject = _("Te has matriculado para un examen Cambridge en EIDE")        
         html_content = u"""
-<div class="well">
-    Acaba de realizar una solicitud de matrícula para: <br />
-    %s 
-</div>
-<div class="well">
-    <h1>Pago de la matrícula</h1>
-    La matrícula se hará efectiva una vez se haya recibido el pago. Puede hacer el pago en la siguiente dirección: <a href="http://matricula-eide.es/%s">http://matricula-eide.es/%s</a>
-</div>"""%(self.exam,self.generate_payment_url(),self.generate_payment_url())      
+            <div class="well">
+                Acaba de realizar una solicitud de matrícula para: <br />
+                %s 
+            </div>
+            <div class="well">
+                <h1>Pago de la matrícula</h1>
+                La matrícula se hará efectiva una vez se haya recibido el pago. Puede hacer el pago en la siguiente dirección: <a href="http://matricula-eide.es/%s">http://matricula-eide.es/%s</a>
+            </div>"""%(self.exam,self.generate_payment_url(),self.generate_payment_url())      
         message_body = html_content
         ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
         msg = EmailMultiAlternatives(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
@@ -163,12 +167,12 @@ class Registration(models.Model):
         ### Para los admins
         subject = "Hay una nueva matricula (sin pagar) para cambridge %s"%self.exam
         message_body = u"""Se ha dado de alta una nueva matricula para el examen %s. 
-Los datos son del alumno son: 
-    Nombre: %s
-    Apellidos: %s
-    Telefono: %s
-    e-mail: %s
-"""%(self.exam,self.name,self.surname,self.telephone,self.email)
+            Los datos son del alumno son: 
+                Nombre: %s
+                Apellidos: %s
+                Telefono: %s
+                e-mail: %s
+            """%(self.exam,self.name,self.surname,self.telephone,self.email)
         mail_admins(subject, message_body)
     def send_paiment_confirmation_email(self):
         try:
@@ -178,18 +182,18 @@ Los datos son del alumno son:
             exam_date=self.exam.exam_date
         subject = "Se ha confirmado el pago de la matricula para el examen %s"%self.exam
         html_content=u"""<html><body>
-        <h2>CONFIRMACIÓN DE MATRÍCULA</h2>
-<p>Se ha matriculado para el examen <b> %s </b>. Tras el cierre del periodo de matriculación se le enviará el COE (Confirmation of Entry) 
-con las fechas y horas del examen escrito y oral a la dirección de e-mail que ha proporcionado el candidato en la 
-hoja de matrícula. Si dos semanas antes de la fecha del examen el candidato no ha recibido el COE, es su responsabilidad 
-el ponerse en contacto con EIDE y solicitar el COE. EIDE no se responsabiliza del extravío o no recepción del mismo y no 
-asume ninguna responsabilidad por cualquier problema derivado del desconocimiento de la fecha, horario y lugar del examen 
-y se reserva el derecho de no admitir a candidatos que lleguen tarde.</p>
+            <h2>CONFIRMACIÓN DE MATRÍCULA</h2>
+            <p>Se ha matriculado para el examen <b> %s </b>. Tras el cierre del periodo de matriculación se le enviará el COE (Confirmation of Entry) 
+            con las fechas y horas del examen escrito y oral a la dirección de e-mail que ha proporcionado el candidato en la 
+            hoja de matrícula. Si dos semanas antes de la fecha del examen el candidato no ha recibido el COE, es su responsabilidad 
+            el ponerse en contacto con EIDE y solicitar el COE. EIDE no se responsabiliza del extravío o no recepción del mismo y no 
+            asume ninguna responsabilidad por cualquier problema derivado del desconocimiento de la fecha, horario y lugar del examen 
+            y se reserva el derecho de no admitir a candidatos que lleguen tarde.</p>
 
-<p>Es responsabilidad del candidato llegar al lugar del examen con 15 minutos de antelación. Los candidatos deben traer un 
-DNI o pasaporte que atestigüe su identidad en cada examen (escrito y oral).</p>
-        """%(self.exam)
-	#html_content= html_content+render_to_string('cambridge/legal.html')
+            <p>Es responsabilidad del candidato llegar al lugar del examen con 15 minutos de antelación. Los candidatos deben traer un 
+            DNI o pasaporte que atestigüe su identidad en cada examen (escrito y oral).</p>
+            """%(self.exam)
+        #html_content= html_content+render_to_string('cambridge/legal.html')
         html_content= html_content+u"""</body></html>"""
         message_body = html_content
         ##send_mail(subject, message_body, settings.DEFAULT_FROM_EMAIL, [self.email])
@@ -201,12 +205,13 @@ DNI o pasaporte que atestigüe su identidad en cada examen (escrito y oral).</p>
         
         subject = "[cambridge] Se ha confirmado el pago de una matrcicula"
         message_body = u"""Se acaba de confirmar el pago de un matricula para examen %s. \n 
-Los datos son:\n
-ID de la mátricula: %s \n 
-Nombre: %s \n Apellidos: %s \n
-Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.es/cambridge/edit/%s/
-"""%(self.exam,self.id,self.name,self.surname,self.id)
+            Los datos son:\n
+            ID de la mátricula: %s \n 
+            Nombre: %s \n Apellidos: %s \n
+            Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.es/cambridge/edit/%s/
+            """%(self.exam,self.id,self.name,self.surname,self.id)
         mail_admins(subject, message_body, html_message=message_body)
+    
     def set_as_paid(self):
         self.paid = True
         self.save()
@@ -214,12 +219,14 @@ Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.e
         
     def __unicode__(self):
         return "%s-%s-%s-%s"%(self.id,self.exam,self.name,self.surname)
+    
     def registration_name(self):
         #return "%s - %s, %s"%(self.exam,self.surname,self.name)
         try:
             return "%s"%(self.exam.level.schoollevel.__unicode__())
         except:
             return "%s"%(self.exam)
+    
     def save(self, *args, **kwargs):
         ##We generate a random password
         if self.id is not None:
@@ -244,3 +251,26 @@ Puedes ver más detalles e imprimirla en la siguente url http://matricula-eide.e
 
 class LinguaskillRegistration(Registration):
     proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
+
+
+class PrepCenter(models.Model):
+    name = models.CharField(_('Name'),max_length=50)
+    description = models.CharField(_('Description'),max_length=100,default="")
+    password = models.CharField(_('Password'),max_length=50)
+    telephone = models.CharField(_('Teléfono'),max_length=12)
+    email = models.EmailField()
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+    def exam_count(self):
+        return self.venueexam_set.all().count()
+    def registration_count(self):
+        total=0
+        for e in self.venueexam_set.all():
+            total = total + e.registration_set.all().count()
+        return total
+
+class PrepCenterExam(models.Model):
+    center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="hosting_venue")
+    exam = models.ForeignKey(Exam,on_delete=models.PROTECT,related_name="venue_exam")
