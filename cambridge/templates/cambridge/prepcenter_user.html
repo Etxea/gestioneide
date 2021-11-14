@@ -1,0 +1,30 @@
+
+    {% if prepcenter.has_user %} 
+        {{ prepcenter.user }} (activo: {{ prepcenter.user.is_active | yesno }})
+        {% if prepcenter.user.is_active %}
+        <td>
+        <form method="POST" action="{% url 'prepcenter_passwordreset' prepcenter.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning"><i class="zmdi zmdi-refresh" ></i>&nbsp;&nbsp;Resetear pass.</button>
+        </form>
+        </td>
+        <td>
+        <form method="POST" action="{% url 'prepcenter_disableuser' prepcenter.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger"><i class="zmdi zmdi-account-o" ></i>&nbsp;&nbsp;Disable</button>
+        </form>
+        </td>
+        {% else %}
+        <td>
+        <form method="POST" action="{% url 'prepcenter_enableuser' prepcenter.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-info"><i class="zmdi zmdi-account-o" ></i>&nbsp;&nbsp;Enable</button>
+        </form>
+        </td>
+        {% endif %}
+    {% else %} 
+        <form method="POST" action="{% url 'prepcenter_createuser' prepcenter.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary" > <i class="zmdi zmdi-account-add" ></i>&nbsp;&nbsp;Crear</button>
+        </form>
+    {% endif %}

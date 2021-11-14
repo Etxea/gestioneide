@@ -75,7 +75,11 @@ urlpatterns = [
     #url(r'prepcenter/exam/list/$', login_required(PrepCenterExamList.as_view()),name="cambridge_prepcenters_exam_list"),
     #url(r'prepcenter/exam/new/$', login_required(PrepCenterExamCreate.as_view()),name="cambridge_prepcenters_exam_new"),
     #url(r'prepcenter/registrations/list/$', login_required(PrepCenterRegistrationListView.as_view()),name="cambridge_prepcenters_registration_list"),
-    
+    url(r'prepcenter/passwordreset/(?P<pk>\d+)/$',PrepCenterPasswordResetView.as_view(), name="prepcenter_passwordreset"),
+    url(r'prepcenter/createuser/(?P<pk>\d+)/$',PrepCenterCreateUserView.as_view(), name="prepcenter_createuser"),
+    url(r'prepcenter/disableuser/(?P<pk>\d+)/$',PrepCenterDisableUserView.as_view(), name="prepcenter_disableuser"),
+    url(r'prepcenter/enableuser/(?P<pk>\d+)/$',PrepCenterEnableUserView.as_view(), name="prepcenter_enableuser"),
+    url(r'prepcenter/detalle/(?P<pk>\d+)/$',PrepCenterDetailView.as_view(), name="prepcenter_detalle"),
     
     ## Genericas
     url(r'thanks/$', TemplateView.as_view( template_name = 'cambridge/gracias.html' ),name="cambridge_gracias"),

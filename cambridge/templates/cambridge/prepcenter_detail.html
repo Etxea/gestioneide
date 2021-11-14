@@ -1,0 +1,19 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block body %}
+    <h1>{% trans "Prep. Center Detail" %}</h1>
+
+<table class="table">
+<tr>
+<td>{{ object.name }}</td>
+<td>{{ object.description }}</td>
+</tr>
+<tr>
+<td>{{ object.email }}</td>
+<td>{{ object.telephone }}</td>
+</tr>
+</table>
+	
+    <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_list' %}">Lista</a>
+{% endblock %}

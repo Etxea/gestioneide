@@ -25,7 +25,7 @@
 		<td>{{prepcenter.email}}</td>
 		<td>{{prepcenter.telephone}}</td>
 		<td>{{prepcenter.exam_count}}</td>
-		<td>{{prepcenter.user}}</td>
+		<td>{% include 'cambridge/prepcenter_user.html' %}</td>
 	</tr>
 	{% endfor %}
 </table>

@@ -15,22 +15,19 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-
-from django.db import models
-from localflavor import generic
-from localflavor.es.forms import *
-from django.core.mail import EmailMultiAlternatives, send_mail, mail_admins
-from django.contrib.auth.models import User, Group
-
 from random import choice
-
 from string import ascii_letters as letters
 import datetime
 
+from django.db import models
+from localflavor.es.forms import *
+from django.core.mail import EmailMultiAlternatives, send_mail, mail_admins
+from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils import timezone
-
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.text import slugify
 
 SEXO = (
     (1, _('Male')),
@@ -137,7 +134,7 @@ class Registration(models.Model):
     #dni = models.CharField(max_length=9,blank=True,help_text=_('Introduce el DNI completo con la letra sin espacios ni guiones'))
     telephone = models.CharField(_('Teléfono'),max_length=12)
     email = models.EmailField()
-    eide_alumn = models.BooleanField(_('Alumno EIDE'), default="False", blank=True, help_text=_('Haz click en el check si eres alumno/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.'))
+    eide_alumn = models.BooleanField(_('PrepCenter EIDE'), default="False", blank=True, help_text=_('Haz click en el check si eres prepcenter/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.'))
     centre_name = models.CharField(_('Nombre del Centro'),max_length=100, blank=True) 
     registration_date = models.DateField(auto_now_add=True)
     paid = models.BooleanField(_('Pagada'),default=False)
@@ -147,7 +144,7 @@ class Registration(models.Model):
     tutor_name = models.CharField(_('Nombre de padre/madre o tutor.'),max_length=50,blank=True)
     tutor_surname = models.CharField(_('Apellido(s) del padre/madre o tutor.'),max_length=100,blank=True)
     def send_confirmation_email(self):
-        ##Para el alumno
+        ##Para el prepcenter
         subject = _("Te has matriculado para un examen Cambridge en EIDE")        
         html_content = u"""
             <div class="well">
@@ -167,7 +164,7 @@ class Registration(models.Model):
         ### Para los admins
         subject = "Hay una nueva matricula (sin pagar) para cambridge %s"%self.exam
         message_body = u"""Se ha dado de alta una nueva matricula para el examen %s. 
-            Los datos son del alumno son: 
+            Los datos son del prepcenter son: 
                 Nombre: %s
                 Apellidos: %s
                 Telefono: %s
@@ -272,6 +269,77 @@ class PrepCenter(models.Model):
     #     for e in self.prepcenterexam_set.all():
     #         total = total + e.registration_set.all().count()
     #     return total
+    def update_user_password(self):
+        password = User.objects.make_random_password()
+        self.user.set_password(password)
+        self.user.save()
+        mensaje = u"""Acabamos de modificar la contraseña para el portal de prepcenter de EIDE. 
+
+        Los datos de acceso son:
+        https://portal-prepcenter.eide.es
+        usuario: %s
+        contraseña: %s
+        Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
+        print(self.nombre,self.user.username,password)
+
+        self.user.email_user("[EIDE] Cambio contraseña en portal de prep. center EIDE",mensaje)
+        mail_admins(u'[GESTIONEIDE] Cambio contraseña prep. center','Se ha cambiado el pass del prepcenter %s'%self )
+
+    def has_user(self):
+        if self.user == None:
+            return False
+        else:
+            return True
+
+    def create_user(self,nombreusuario=None):
+        if nombreusuario == None:
+           nombreusuario = slugify("%s" % (self.name)).replace('-', '')
+        try:
+            ag = Group.objects.get(name="prepcenter")            
+        except:
+            ag = Group(name="prepcenter")
+            ag.save()
+        if self.user == None:
+            password = User.objects.make_random_password()  # type: unicode
+            
+            print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
+            if len(User.objects.filter(username=nombreusuario))>0:
+                print("Pero ya existe el usuario %s")
+                u = User.objects.get(username=nombreusuario)
+                try:
+                    prepcenter = u.prepcenter
+                    nombreusuario = slugify("%s" % (self.name).replace('-', ''))
+                    print("El usuario tiene prepcenter asociado(%s), creamos un nuevo user con %s"%(prepcenter,nombreusuario))
+                    self.create_user(nombreusuario=nombreusuario)
+                except ObjectDoesNotExist:
+                    print("El usuario %s no tiene prepcenter, lo asociamos"%u)
+                    self.user = u
+                    self.save()
+                except:
+                    return False
+            else:
+                try:
+                    u = User(username=nombreusuario,email=self.email)
+                    u.save()
+                except Exception as e:
+                    print("No hemos podido crearlo")
+                    print(e)
+                    return
+            u.set_password(password)
+            u.groups.add(ag)
+            u.save()
+            mensaje = u"""Acabamos de crear un usuario para el portal de prepcenter de EIDE. Los datos de acceso son:
+            https://portal-prepcenter.eide.es/
+            usuario: %s
+            contraseña: %s
+            Guarda en lugar seguro estos datos por favor.
+            """%(nombreusuario,password)
+            self.user=u
+            self.save()
+            u.email_user("[EIDE] Alta en Portal PrepCenter EIDE",mensaje)
+            mail_admins(u"[GESTIONEIDE] Alta usuario prepcenter en gestion de prepcenter EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
+        else:
+            print('El prepcenter %s Ya tiene un usuario %s'%(self,self.user))
 
 class PrepCenterExam(models.Model):
     center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="hosting_venue")
