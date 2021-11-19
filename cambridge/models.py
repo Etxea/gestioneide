@@ -50,7 +50,10 @@ class Level(models.Model):
             return "[%s] %s-%s"%(self.schoollevel.school,self.name.split(" ")[0],self.price)
     
         except:
-            return "%s-%s"%(self.name,self.price)   
+            return "%s-%s"%(self.name,self.price)
+
+    def __str__(self) -> str:
+        return self.__unicode__()
 
 class Exam(models.Model):
     exam_type =  models.DecimalField(_('Tipo Examen'),max_digits=1, decimal_places=0,choices=EXAM_TYPE)
@@ -69,6 +72,7 @@ class Exam(models.Model):
             return 0
     def __str__(self):
         return self.__unicode__()
+    
     def __unicode__(self):
         if self.exam_type == 5:
             return "%s"%self.level.name
@@ -79,15 +83,21 @@ class Exam(models.Model):
                 return "%s"%(self.venueexam)    
             except:
                 return "%s %s %s"%(self.level,self.get_exam_type_display(),self.exam_date.strftime('%d-%m-%Y'))
-
+        
 class School(models.Model):
     name = models.CharField(_('Name'),max_length=50)
     description = models.CharField(_('Description'),max_length=100,default="")
     password = models.CharField(_('Password'),max_length=50)
+    
     def __unicode__(self):
         return self.name
+
+    def __str__(self) -> str:
+        return self.__unicode__()
+
     def exam_count(self):
         return self.schoolexam_set.all().count()
+    
     def registration_count(self):
         total=0
         for e in self.schoolexam_set.all():
@@ -249,7 +259,6 @@ class Registration(models.Model):
 class LinguaskillRegistration(Registration):
     proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
 
-
 class PrepCenter(models.Model):
     name = models.CharField(_('Code Name'),max_length=50)
     description = models.CharField(_('Description'),max_length=100,default="")
@@ -260,6 +269,9 @@ class PrepCenter(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def __str__(self) -> str:
+        return self.__unicode__()
 
     # def exam_count(self):
     #     return self.prepcenterexam_set.all().count()
@@ -295,9 +307,9 @@ class PrepCenter(models.Model):
         if nombreusuario == None:
            nombreusuario = slugify("%s" % (self.name)).replace('-', '')
         try:
-            ag = Group.objects.get(name="prepcenter")            
+            ag = Group.objects.get(name="prepcenters")            
         except:
-            ag = Group(name="prepcenter")
+            ag = Group(name="prepcenters")
             ag.save()
         if self.user == None:
             password = User.objects.make_random_password()  # type: unicode
@@ -342,5 +354,21 @@ class PrepCenter(models.Model):
             print('El prepcenter %s Ya tiene un usuario %s'%(self,self.user))
 
 class PrepCenterExam(models.Model):
-    center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="hosting_venue")
-    exam = models.ForeignKey(Exam,on_delete=models.PROTECT,related_name="venue_exam")
+    center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="exam_set")
+    exam = models.ForeignKey(Exam,on_delete=models.PROTECT,related_name="center_set")
+
+    def __unicode__(self):
+        return "(%s) %s"%(self.center.name,self.exam.__str__())
+
+    def __str__(self) -> str:
+        return self.__unicode__()
+
+class PrepCenterRegistration(models.Model):
+    registration = models.ForeignKey(Registration,on_delete=models.PROTECT,related_name="prepcenterexam_set")
+    prepcenterexam = models.ForeignKey(PrepCenterExam,on_delete=models.PROTECT,related_name="registration_set")
+
+    def __unicode__(self):
+        return "(%s) %s"%(self.prepcenterexam.__str__(),self.registration.__str__())
+
+    def __str__(self) -> str:
+        return self.__unicode__()        

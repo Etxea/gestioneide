@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.forms import ModelForm, DateField
+from django.forms.widgets import HiddenInput
 from cambridge.models import *
 from django.forms.models import inlineformset_factory
 from bootstrap3_datetime.widgets import DateTimePicker
@@ -156,3 +157,31 @@ class VenueRegistrationForm(ModelForm):
         self.fields['exam'].queryset = VenueExam.objects.filter(venue=venue)
         self.fields['birth_date'].widget.format = '%d-%m-%Y'
         self.fields['birth_date'].input_formats = ['%d-%m-%Y']  
+
+class PrepCenterRegistrationForm(ModelForm):
+    # prepcenter = forms.DecimalField()
+    telephone = PhoneNumberField(label=_("Teléfono"))
+    #dni = ESIdentityCardNumberField()
+    postal_code = ESPostalCodeField(label=_("Código Postal"))
+    birth_date = DateField(label="Fecha Nac. (DD-MM-AAAA)", input_formats=['%d-%m-%Y'])
+    
+
+    class Meta:
+        model = Registration
+        #~ exclude = ('paid')
+        fields = ['exam','tutor_name','tutor_surname','name','surname','address','location','postal_code','sex','birth_date','telephone','email']
+        widgets = {
+            'birth_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}),            
+        }
+
+    def __init__(self, *args, **kwargs):
+        prepcenter_id = kwargs.pop('prepcenter_id')
+        self.prepcenter_id = prepcenter_id
+        prepcenter = PrepCenter.objects.get(pk=prepcenter_id)
+        print("Somos la form y tenemos el center id",prepcenter_id)
+        super(PrepCenterRegistrationForm, self).__init__(*args, **kwargs)
+        exam_list = []
+        for exam in prepcenter.exam_set.all():
+            exam_list.append(exam.exam.id)
+        print(exam_list)
+        self.fields['exam'].queryset = Exam.objects.filter(pk__in=exam_list)

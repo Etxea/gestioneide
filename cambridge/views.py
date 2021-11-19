@@ -16,7 +16,10 @@
 #  MA 02110-1301, USA.
 #  
 
+from django import template
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import fields
 from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -29,6 +32,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.contrib.sites.models import Site
 
 from django.conf import settings
+from django.views.generic.edit import UpdateView
 
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
@@ -374,17 +378,29 @@ class LinguaskillRegistrationListView(ListView):
 
 ## Prep Center
 
-class PrepCenterHomeView(View):
-    template_name = 'cambridge/prepcenter_home.html'
+class PrepCenterHomeView(LoginRequiredMixin, DetailView):
+    template_name = 'cambridge/prepcenter_detail.html'
+    
+    def get_object(self):
+        return get_object_or_404(PrepCenter, pk=self.request.user.prepcenter.pk)
 
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterCreateView(CreateView):
     model = PrepCenter
     fields = '__all__'
     success_url = reverse_lazy('cambridge_prepcenters_list')
 
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
+class PrepCenterUpdateView(UpdateView):
+    model = PrepCenter
+    fields = ['name', 'description', 'telephone', 'email']
+    
+    def get_success_url(self) -> str:
+        return reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id})
+
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterListView(ListView):
     model = PrepCenter
-
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterPasswordResetView(View,SingleObjectMixin):
@@ -433,5 +449,73 @@ class PrepCenterEnableUserView(View,SingleObjectMixin):
         self.object.user.save()
         return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
 
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterDetailView(DetailView):
     model = PrepCenter
+
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
+class PrepCenterExamCreate(CreateView):
+    model = PrepCenterExam
+    fields = '__all__'
+    def get_success_url(self) -> str:
+        return reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.center.id})
+
+class PrepCenterRegistrationCreateView(CreateView):
+    model = Registration
+    form_class = PrepCenterRegistrationForm
+    template_name = 'cambridge/prepcenter_registration_form.html'
+       
+    def get_form_kwargs(self):
+        kwargs = super(PrepCenterRegistrationCreateView, self).get_form_kwargs()
+        #recogemos y añadimos kwargs a la form
+        # prepcenter = PrepCenter.objects.get(pk=self.kwargs['prencenter_id'])
+        kwargs['prepcenter_id'] = self.kwargs['prencenter_id']
+        return kwargs
+    
+    def get_context_data(self, **kwargs):
+        context = super(PrepCenterRegistrationCreateView, self).get_context_data(**kwargs)
+        print(kwargs)
+        try:
+            prepcenter_id = self.kwargs['prepcenter_id']
+            center = PrepCenter.objects.get(pk=prepcenter_id)
+            context['center'] = center
+        except:
+            print("Perpcenter no encontrado")
+        return context
+
+    def get_success_url(self):
+        return '/cambridge/pay/%d'%self.object.id
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        # self.object.postal_code = '48980'
+        # self.object.sex = 0
+        self.object.save()
+        prepcenter = PrepCenter.objects.get(pk=self.prepcenter)
+        PrepCenterRegistration(registration=self.object,prepcenter=prepcenter)
+        return super(PrepCenterRegistrationCreateView, self).form_valid(form)
+        #return HttpResponseRedirect(self.get_success_url())
+class PrepCenterRegistrationExamCreateView(PrepCenterRegistrationCreateView):
+    def get_initial(self):
+        prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])
+        exam = prepexam
+        return { 'exam': exam }
+    
+    def get_form_kwargs(self):
+        kwargs = super(PrepCenterRegistrationCreateView, self).get_form_kwargs()
+        #recogemos y añadimos kwargs a la form
+        prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])
+        exam = prepexam
+        kwargs['exam_id'] = exam.id
+        return kwargs
+    
+    def get_context_data(self, **kwargs):
+        context = super(PrepCenterRegistrationCreateView, self).get_context_data(**kwargs)
+        prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])
+        exam = prepexam.exam
+        center = prepexam.center
+        context['exam_id'] = exam.id
+        context['exam'] = exam
+        context['center'] = center
+        context['prepexam'] = prepexam
+        return context

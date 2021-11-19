@@ -1,0 +1,23 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% load bootstrap %}
+
+{% block body %}
+
+<h1>Matricula prep center</h1>
+{% if center %}
+<h2> Centro: {{ center }} </h2>
+{% endif %}
+{% if exam %}
+<h2> Examen: {{ prepexam }}</h2>
+{% endif %}
+
+<form class="form-horizontal" action="" method="post">{% csrf_token %}
+	{{ form|bootstrap }}
+    <input class="btn btn-primary" type="submit" value="{% trans 'Save' %}" />
+    <a class="btn" href="{% url 'cambridge_prepcenter_home' %}">{% trans "Cancel" %}</a>
+</form>
+
+
+
+{% endblock %}

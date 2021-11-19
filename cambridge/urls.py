@@ -71,9 +71,12 @@ urlpatterns = [
     ## Prep Center
     url(r'prepcenter/$', PrepCenterHomeView.as_view(),name="cambridge_prepcenter_home"),
     url(r'prepcenter/new/center/$', PrepCenterCreateView.as_view(),name="cambridge_prepcenters_new"),
+    url(r'prepcenter/update/center/(?P<pk>\d+)/$', PrepCenterUpdateView.as_view(),name="cambridge_prepcenters_update"),
     url(r'prepcenter/list/$', login_required(PrepCenterListView.as_view()),name="cambridge_prepcenters_list"),
     #url(r'prepcenter/exam/list/$', login_required(PrepCenterExamList.as_view()),name="cambridge_prepcenters_exam_list"),
-    #url(r'prepcenter/exam/new/$', login_required(PrepCenterExamCreate.as_view()),name="cambridge_prepcenters_exam_new"),
+    url(r'prepcenter/exam/new/$', PrepCenterExamCreate.as_view(),name="cambridge_prepcenters_exam_new"),
+    url(r'prepcenter/registrations/new/(?P<prencenter_id>\d+)/$', login_required(PrepCenterRegistrationCreateView.as_view()),name="cambridge_prepcenters_registration_new"),
+    url(r'prepcenter/registrations/new/exam/(?P<exam_id>\d+)/$', login_required(PrepCenterRegistrationExamCreateView.as_view()),name="cambridge_prepcenters_registration_exam_new"),
     #url(r'prepcenter/registrations/list/$', login_required(PrepCenterRegistrationListView.as_view()),name="cambridge_prepcenters_registration_list"),
     url(r'prepcenter/passwordreset/(?P<pk>\d+)/$',PrepCenterPasswordResetView.as_view(), name="prepcenter_passwordreset"),
     url(r'prepcenter/createuser/(?P<pk>\d+)/$',PrepCenterCreateUserView.as_view(), name="prepcenter_createuser"),
