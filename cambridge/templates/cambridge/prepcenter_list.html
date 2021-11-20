@@ -9,22 +9,28 @@
 <table class="table">
 	<thead>
 		<th>Name</th>
+		<th>Actions</th>
 		<th>Description</th>
 		<th>Email</th>
 		<th>Telephone</th>
-		<th>Exams</th>
+		
 		<th>User</th>
 	</thead>
 	{% for prepcenter in object_list %}
 	<tr>
 		<td>
 			{{prepcenter.name}} 
-			<a href="/admin/cambridge/prepcenter/{{prepcenter.id}}/" class="zmdi zmdi-edit"></a>
+			
+		</td>
+		<td>
+		<a href="{% url 'prepcenter_detalle' prepcenter.id %}" class="zmdi zmdi-eye"></a>
+		&nbsp
+		<a href="{% url 'cambridge_prepcenters_update' prepcenter.id %}" class="zmdi zmdi-edit"></a>
 		</td>
 		<td>{{prepcenter.description}}</td>
 		<td>{{prepcenter.email}}</td>
 		<td>{{prepcenter.telephone}}</td>
-		<td>{{prepcenter.exam_count}}</td>
+		
 		<td>{% include 'cambridge/prepcenter_user.html' %}</td>
 	</tr>
 	{% endfor %}

@@ -191,35 +191,49 @@
 		<ul>
 			<li><a href="/admin/cambridge/level/">{% trans "Gestionar niveles" %}</a></li>
             <li class="sm-sub">
-			<a href="">
-				<i class="zmdi zmdi-home"></i>
-				<span>EIDE</span>
-			</a>
-			<ul>
-				<li><a href="{% url 'cambridge_exam_list' %}">{% trans "Lista de examenes" %}</a></li>
-				<li><a href="{% url 'cambridge_exam_new' %}">{% trans "Nuevo examene" %}</a></li>
-				<li><a href="{% url 'cambridge_list' %}">{% trans "Lista Matrículas" %}</a></li>
-			</ul>
-			<a href="">
-				<i class="zmdi zmdi-graduation-cap"></i>
-				<span>Schools</span>
-			</a>
-			<ul>
-				<li><a href="{% url 'cambridge_schools_list' %}">Schools</a></li>
-				<li><a href="/admin/cambridge/schoollevel/">{% trans "Gestionar niveles" %}</a></li>
-				<li><a href="{% url 'cambridge_schools_exam_list' %}">{% trans "Lista de examenes Schools" %}</a></li>
-				<li><a href="{% url 'cambridge_schools_registration_list' %}">{% trans "Lista Matrículas" %}</a></li>
-            </ul>
-			<a href="">
-				<i class="zmdi zmdi-seat"></i>
-				<span>Venues</span>
-			</a>
-			<ul>
-				<li><a href="{% url 'cambridge_venues_list' %}">Venues</a></li>
-				<li><a href="/admin/cambridge/venue/">{% trans "Gestionar venues" %}</a></li>
-				<li><a href="{% url 'cambridge_venues_exam_list' %}">{% trans "Lista de examenes Venue" %}</a></li>
-				<li><a href="{% url 'cambridge_venues_registration_list' %}">{% trans "Lista Matrículas Venues" %}</a></li>
-			</ul>
+				<a href="">
+					<i class="zmdi zmdi-home"></i>
+					<span>EIDE</span>
+				</a>
+				<ul>
+					<li><a href="{% url 'cambridge_exam_list' %}">{% trans "Lista de examenes" %}</a></li>
+					<li><a href="{% url 'cambridge_exam_new' %}">{% trans "Nuevo examene" %}</a></li>
+					<li><a href="{% url 'cambridge_list' %}">{% trans "Lista Matrículas" %}</a></li>
+				</ul>
+			</li>
+			
+			<li class="sm-sub">
+				<a href="">
+					<i class="zmdi zmdi-graduation-cap"></i>
+					<span>Schools</span>
+				</a>
+				<ul>
+					<li><a href="{% url 'cambridge_schools_list' %}">Schools</a></li>
+					<li><a href="/admin/cambridge/schoollevel/">{% trans "Gestionar niveles" %}</a></li>
+					<li><a href="{% url 'cambridge_schools_exam_list' %}">{% trans "Lista de examenes Schools" %}</a></li>
+					<li><a href="{% url 'cambridge_schools_registration_list' %}">{% trans "Lista Matrículas" %}</a></li>
+				</ul>
+			</li>
+
+			<li class="sm-sub">
+				<a href="">
+					<i class="zmdi zmdi-seat"></i>
+					<span>Venues</span>
+				</a>
+				<ul>
+					<li><a href="{% url 'cambridge_venues_list' %}">Venues</a></li>
+					<li><a href="/admin/cambridge/venue/">{% trans "Gestionar venues" %}</a></li>
+					<li><a href="{% url 'cambridge_venues_exam_list' %}">{% trans "Lista de examenes Venue" %}</a></li>
+					<li><a href="{% url 'cambridge_venues_registration_list' %}">{% trans "Lista Matrículas Venues" %}</a></li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="{% url 'cambridge_prepcenters_list' %}">
+					<i class="zmdi zmdi-seat"></i>
+					<span>Prep. Centers.</span>
+				</a>
+			</li>
 		</ul>
 	</li>
 

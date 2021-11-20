@@ -520,7 +520,6 @@ class PrepCenterRegistrationExamCreateView(PrepCenterRegistrationCreateView):
         context['prepexam'] = prepexam
         return context
 
-
 class PrepCenterRegistrationsPayView(DetailView):
     model = PrepCenter
     context_object_name = "prepcenter"
