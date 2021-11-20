@@ -227,6 +227,9 @@ class Registration(models.Model):
     def __unicode__(self):
         return "%s-%s-%s-%s"%(self.id,self.exam,self.name,self.surname)
     
+    def __str__(self) -> str:
+        return self.__unicode__()
+
     def registration_name(self):
         #return "%s - %s, %s"%(self.exam,self.surname,self.name)
         try:
@@ -241,7 +244,7 @@ class Registration(models.Model):
                 self.send_paiment_confirmation_email()      
         else:
             #We set th password, not used right now
-            self.password = ''.join([choice(letters) for i in xrange(6)])
+            self.password = ''.join([choice(letters) for i in range(6)])
             #COmprobamos si es un schoolexam
             try:
                 if isinstance(self.exam.schoolexam,SchoolExam):
@@ -355,8 +358,7 @@ class PrepCenter(models.Model):
 
 class PrepCenterExam(models.Model):
     center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="exam_set")
-    exam = models.ForeignKey(Exam,on_delete=models.PROTECT,related_name="center_set")
-
+    exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.PROTECT,related_name="center_set")
     def __unicode__(self):
         return "(%s) %s"%(self.center.name,self.exam.__str__())
 
@@ -365,10 +367,10 @@ class PrepCenterExam(models.Model):
 
 class PrepCenterRegistration(models.Model):
     registration = models.ForeignKey(Registration,on_delete=models.PROTECT,related_name="prepcenterexam_set")
-    prepcenterexam = models.ForeignKey(PrepCenterExam,on_delete=models.PROTECT,related_name="registration_set")
+    center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="registration_set")
 
     def __unicode__(self):
-        return "(%s) %s"%(self.prepcenterexam.__str__(),self.registration.__str__())
+        return "(%s) %s"%(self.center.__str__(),self.registration.__str__())
 
     def __str__(self) -> str:
         return self.__unicode__()        

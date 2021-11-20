@@ -484,17 +484,17 @@ class PrepCenterRegistrationCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return '/cambridge/pay/%d'%self.object.id
+        #return '/cambridge/pay/%d'%self.object.center.id
+        return reverse_lazy('cambridge_prepcenter_home')
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        # self.object.postal_code = '48980'
-        # self.object.sex = 0
-        self.object.save()
-        prepcenter = PrepCenter.objects.get(pk=self.prepcenter)
-        PrepCenterRegistration(registration=self.object,prepcenter=prepcenter)
+        prepcenter_id = self.kwargs['prencenter_id']
+        self.object = form.save()
+        prepcenter = PrepCenter.objects.get(pk=prepcenter_id)
+        pcr = PrepCenterRegistration(registration=self.object,center=prepcenter)
+        pcr.save()
         return super(PrepCenterRegistrationCreateView, self).form_valid(form)
-        #return HttpResponseRedirect(self.get_success_url())
+
 class PrepCenterRegistrationExamCreateView(PrepCenterRegistrationCreateView):
     def get_initial(self):
         prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])

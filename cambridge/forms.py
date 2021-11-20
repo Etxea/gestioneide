@@ -159,7 +159,7 @@ class VenueRegistrationForm(ModelForm):
         self.fields['birth_date'].input_formats = ['%d-%m-%Y']  
 
 class PrepCenterRegistrationForm(ModelForm):
-    # prepcenter = forms.DecimalField()
+    prepcenter = forms.DecimalField()
     telephone = PhoneNumberField(label=_("Teléfono"))
     #dni = ESIdentityCardNumberField()
     postal_code = ESPostalCodeField(label=_("Código Postal"))
@@ -168,20 +168,23 @@ class PrepCenterRegistrationForm(ModelForm):
 
     class Meta:
         model = Registration
-        #~ exclude = ('paid')
-        fields = ['exam','tutor_name','tutor_surname','name','surname','address','location','postal_code','sex','birth_date','telephone','email']
+        fields = ['prepcenter','exam','tutor_name','tutor_surname','name','surname','address','location','postal_code','sex','birth_date','telephone','email']
         widgets = {
             'birth_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}),            
+            'prepcenter':  HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
         prepcenter_id = kwargs.pop('prepcenter_id')
         self.prepcenter_id = prepcenter_id
         prepcenter = PrepCenter.objects.get(pk=prepcenter_id)
-        print("Somos la form y tenemos el center id",prepcenter_id)
+        
         super(PrepCenterRegistrationForm, self).__init__(*args, **kwargs)
+        
+        self.fields['prepcenter'].initial = prepcenter_id
         exam_list = []
-        for exam in prepcenter.exam_set.all():
-            exam_list.append(exam.exam.id)
-        print(exam_list)
-        self.fields['exam'].queryset = Exam.objects.filter(pk__in=exam_list)
+        for prepcenterexam in prepcenter.exam_set.all():
+            
+            exam_list.append(prepcenterexam.exam.id)
+        
+        self.fields['exam'].queryset = Exam.objects.filter(pk__in=exam_list,registration_end_date__gte=date.today())

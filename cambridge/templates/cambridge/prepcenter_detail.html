@@ -30,16 +30,28 @@
 <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_update' object.pk %}">Editar</a>
 {% endif %}
 
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' object.id %}">Matricular</a>
-
+<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' object.id %}">Matricular Alumnos</a>
+<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' object.id %}">Pagar Matriculas Pendientes</a>
 <h2>Lista de examenes</h2>
 <table class="table">
-{% for exam in object.hosting_venue.all %}
+{% for exam in object.exam_set.all %}
 <tr>
 <td>{{ exam }}</td><td><a href="{% url 'cambridge_prepcenters_registration_new' exam.id %}">Matricular</a></td>
 </tr>
 {% endfor %}
 </table>
+
+<h2>Lista de matriculas</h2>
+<table class="table">
+{% for registration in object.registration_set.all %}
+<tr>
+<td>{{ registration }}</td><td> {{ registration.paid | yesno }}</td>
+</tr>
+{% endfor %}
+</table>
+
+
+
 
 {% if request.user.is_staff %}
 <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_exam_new' %}">Añadir Examen</a>
