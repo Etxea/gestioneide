@@ -70,6 +70,7 @@ urlpatterns = [
     
     ## Prep Center
     url(r'prepcenter/$', PrepCenterHomeView.as_view(),name="cambridge_prepcenter_home"),
+    url(r'prepcenter/pay/registrations/$', PrepCenterRegistrationsPayView.as_view(),name="cambridge_prepcenters_registrations_pays"),
     url(r'prepcenter/new/center/$', PrepCenterCreateView.as_view(),name="cambridge_prepcenters_new"),
     url(r'prepcenter/update/center/(?P<pk>\d+)/$', PrepCenterUpdateView.as_view(),name="cambridge_prepcenters_update"),
     url(r'prepcenter/list/$', login_required(PrepCenterListView.as_view()),name="cambridge_prepcenters_list"),

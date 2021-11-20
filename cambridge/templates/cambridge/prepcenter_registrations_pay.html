@@ -1,0 +1,45 @@
+{% extends "site_base.html"%}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block body %}
+
+<h1>Pago de la matrículas del centro {{prepcenter}}</h1>
+
+<div class="well">
+    Acaba de realizar una solicitud de pago de matriculas pendientes a fecha {{ fecha_control }} a EIDE<br />
+    La matrículas se harán efectivas una vez se haya recibido el pago de <b>{{ precio }}</b>€.
+    <br />
+    Matriculas:
+    <ul>
+    {% for matricula in lista_matriculas %}
+        <li> {{ matricula }}</li>
+    {% endfor %}
+    </ul>
+
+	<h2>Pagar con tarjeta bancaria</h2>
+    <img src="https://sis.redsys.es/sis/graficos/logotipos/comunes/VerifiedByVisaLearnMore4.gif" />
+    <img src="https://sis.redsys.es/sis/graficos/logotipos/comunes/MastercardSecureCodeLearnMore4.gif" />
+    {{ form.render }}
+
+    <h2>Pagar con Bizum</h2>
+    <img src="https://pagosonline.redsys.es/img/Bizum-imagen1.jpg" />
+    {{ form_bizum.render }}
+
+<!--
+    <h2>Paypal</h2>
+    {{ form_paypal.render }}
+--> 
+
+</div>
+
+<div class="well">
+    <h1>DATOS DE CONTACTO</h1>
+    <ul>
+        <li>Mail: <a href="mailto:eide@eide.es">eide@eide.es</a></li>
+        <li>Tel: 94 493 70 05</li>
+        <li>Dirección: Genaro Oraá 6 - 48980 Santurtzi</li>
+    </ul>
+</div>
+
+{% endblock %}

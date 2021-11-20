@@ -31,7 +31,7 @@
 {% endif %}
 
 <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' object.id %}">Matricular Alumnos</a>
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' object.id %}">Pagar Matriculas Pendientes</a>
+<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' %}">Pagar Matriculas Pendientes</a>
 <h2>Lista de examenes</h2>
 <table class="table">
 {% for exam in object.exam_set.all %}

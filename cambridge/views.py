@@ -519,3 +519,55 @@ class PrepCenterRegistrationExamCreateView(PrepCenterRegistrationCreateView):
         context['center'] = center
         context['prepexam'] = prepexam
         return context
+
+
+class PrepCenterRegistrationsPayView(DetailView):
+    model = PrepCenter
+    context_object_name = "prepcenter"
+    template_name = "cambridge/prepcenter_registrations_pay.html"
+
+    def get_object(self):
+        return get_object_or_404(PrepCenter, pk=self.request.user.prepcenter.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super(PrepCenterRegistrationsPayView, self).get_context_data(**kwargs)
+        #Fecha control para luego marcar como pagadas las matriculas anteriores a esta fecha
+        now = datetime.datetime.now()
+        fecha_control = "%s-%s-%s-%s-%s"%(now.year,now.month,now.day,now.hour,now.minute)
+        context['fecha_control']=fecha_control
+        print("Fecha control:",fecha_control)
+        #Calculamos el importe total de todas las matriculas sin pagar de este centro
+        precio = 0
+        lista_matriculas = self.object.registration_set.filter(registration__paid = 0)
+        context['lista_matriculas'] = lista_matriculas
+        for pcr in lista_matriculas:
+            precio =+ pcr.registration.exam.level.price 
+        context['precio'] = precio
+        site = Site.objects.get_current()
+        site_domain = site.domain
+        merchant_parameters = {
+            "Ds_Merchant_Titular": 'EIDE',
+            "Ds_Merchant_MerchantData": 'prepcenter-%s-%s'%(self.object.pk,fecha_control), # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
+            "Ds_Merchant_MerchantName": settings.SERMEPA_COMERCIO,
+            "Ds_Merchant_ProductDescription": 'prepcenter-%s-%s'%(self.object.pk,fecha_control),
+            "Ds_Merchant_Amount": int(precio*100),
+            "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
+            "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
+            "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
+            "Ds_Merchant_MerchantURL":  settings.SERMEPA_URL_DATA,
+            "Ds_Merchant_UrlOK": "http://%s%s" % (site_domain, reverse('cambridge_prepcenter_home')),        
+            "Ds_Merchant_UrlKO": "http://%s%s" % (site_domain, reverse('cambridge_prepcenter_home')),
+            "Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
+            "Ds_Merchant_TransactionType": '0',
+        }
+                    
+        form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+        print("Tenemos el form")
+        print(form.render())
+        context['form'] = form
+        merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
+        form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+        context['form_bizum']=form_bizum
+        context['debug']= settings.DEBUG
+
+        return context
