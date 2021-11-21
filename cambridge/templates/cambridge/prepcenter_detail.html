@@ -3,7 +3,7 @@
 
 {% block body %}
     <h1>{% trans "Prep. Center Detail" %}</h1>
-
+<h2>Datos contacto</h2>
 <table class="table">
 <tr>
 <td>{{ object.name }}</td>
@@ -13,6 +13,7 @@
 <td>{{ object.email }}</td>
 <td>{{ object.telephone }}</td>
 </tr>
+<!--
 <tr>
 <td>
 <form method="POST" action="{% url 'prepcenter_passwordreset' object.id %}">
@@ -23,7 +24,7 @@
 </form>
 </td>
 </tr>
-
+-->
 </table>
 
 {% if request.user.is_staff %}
@@ -36,11 +37,16 @@
 <table class="table">
 {% for exam in object.exam_set.all %}
 <tr>
-<td>{{ exam }}</td><td><a href="{% url 'cambridge_prepcenters_registration_new' exam.id %}">Matricular</a></td>
+<td>{{ exam }}</td>
+<!--
+<td><a href="{% url 'cambridge_prepcenters_registration_new' exam.id %}">Matricular</a></td>
+-->
 </tr>
 {% endfor %}
 </table>
-
+{% if request.user.is_staff %}
+<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_exam_new' %}">Añadir Examen</a>
+{% endif %}
 <h2>Lista de matriculas</h2>
 <table class="table">
 {% for registration in object.registration_set.all %}
@@ -54,7 +60,6 @@
 
 
 {% if request.user.is_staff %}
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_exam_new' %}">Añadir Examen</a>
 <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_list' %}">Volver a la lista</a>
 {% endif %}
 {% endblock %}

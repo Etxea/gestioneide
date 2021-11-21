@@ -534,7 +534,7 @@ class PrepCenterRegistrationsPayView(DetailView):
         now = datetime.datetime.now()
         fecha_control = "%s-%s-%s-%s-%s"%(now.year,now.month,now.day,now.hour,now.minute)
         context['fecha_control']=fecha_control
-        print("Fecha control:",fecha_control)
+        # print("Fecha control:",fecha_control)
         #Calculamos el importe total de todas las matriculas sin pagar de este centro
         precio = 0
         lista_matriculas = self.object.registration_set.filter(registration__paid = 0)
@@ -561,8 +561,8 @@ class PrepCenterRegistrationsPayView(DetailView):
         }
                     
         form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
-        print("Tenemos el form")
-        print(form.render())
+        # print("Tenemos el form")
+        # print(form.render())
         context['form'] = form
         merchant_parameters.update({"Ds_Merchant_Paymethods": 'z'})
         form_bizum = SermepaPaymentForm(merchant_parameters=merchant_parameters)
