@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.forms import ModelForm, DateField
-from django.forms.widgets import HiddenInput
+from django.forms.fields import BooleanField, ChoiceField, DecimalField
+from django.forms.formsets import formset_factory
+from django.forms.widgets import HiddenInput, NumberInput
 from cambridge.models import *
 from django.forms.models import inlineformset_factory
 from bootstrap3_datetime.widgets import DateTimePicker
@@ -159,32 +161,29 @@ class VenueRegistrationForm(ModelForm):
         self.fields['birth_date'].input_formats = ['%d-%m-%Y']  
 
 class PrepCenterRegistrationForm(ModelForm):
-    prepcenter = forms.DecimalField()
+    prepcenter = forms.DecimalField(required=False,widget=HiddenInput())
     telephone = PhoneNumberField(label=_("Teléfono"))
     #dni = ESIdentityCardNumberField()
-    postal_code = ESPostalCodeField(label=_("Código Postal"))
+    postal_code = ESPostalCodeField(label=_("C.P."))
     birth_date = DateField(label="Fecha Nac. (DD-MM-AAAA)", input_formats=['%d-%m-%Y'])
-    
+    accept_conditions = BooleanField(
+        label="Acepta las condiciones", 
+        required=False)
 
     class Meta:
         model = Registration
-        fields = ['prepcenter','exam','tutor_name','tutor_surname','name','surname','address','location','postal_code','sex','birth_date','telephone','email']
+        fields = ['prepcenter','exam','name','surname','address','location','postal_code','sex','birth_date','telephone','email','accept_conditions']
         widgets = {
-            'birth_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}),            
-            'prepcenter':  HiddenInput(),
+            'birth_date' : DateTimePicker(options={"format": "DD-MM-YYYY", "pickTime": False}), 
+            'exam': HiddenInput(),  
+            'prepcenter': HiddenInput(),
+            'postal_code': NumberInput(attrs={'size': 6})
+                    
         }
 
-    def __init__(self, *args, **kwargs):
-        prepcenter_id = kwargs.pop('prepcenter_id')
-        self.prepcenter_id = prepcenter_id
-        prepcenter = PrepCenter.objects.get(pk=prepcenter_id)
-        
-        super(PrepCenterRegistrationForm, self).__init__(*args, **kwargs)
-        
-        self.fields['prepcenter'].initial = prepcenter_id
-        exam_list = []
-        for prepcenterexam in prepcenter.exam_set.all():
-            
-            exam_list.append(prepcenterexam.exam.id)
-        
-        self.fields['exam'].queryset = Exam.objects.filter(pk__in=exam_list,registration_end_date__gte=date.today())
+PrepCenterRegistrationFormSet = formset_factory(
+    PrepCenterRegistrationForm,
+    extra = 0,
+    max_num = 2,
+    min_num = 1
+)

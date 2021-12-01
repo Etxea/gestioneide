@@ -20,7 +20,7 @@ from string import ascii_letters as letters
 import datetime
 
 from django.db import models
-from localflavor.es.forms import *
+from localflavor.es.models import *
 from django.core.mail import EmailMultiAlternatives, send_mail, mail_admins
 from django.contrib.auth.models import User, Group
 from django.conf import settings
@@ -138,10 +138,10 @@ class Registration(models.Model):
     surname = models.CharField(_('Apellido(s)'),max_length=100)
     address = models.CharField(_('Dirección'),max_length=100)
     location = models.CharField(_('Localidad'),max_length=100)
-    postal_code = models.DecimalField(_('Código Postal'),max_digits=6, decimal_places=0)
+    postal_code = ESPostalCodeField(_('Código Postal'),max_length=5)
     sex = models.DecimalField(_('Sexo'),max_digits=1, decimal_places=0,choices=SEXO)
     birth_date = models.DateField(_('Fecha Nacm. DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
-    #dni = models.CharField(max_length=9,blank=True,help_text=_('Introduce el DNI completo con la letra sin espacios ni guiones'))
+    #dni = ESIdentityCardNumberField(max_length=9,blank=True,help_text=_('Introduce el DNI completo con la letra sin espacios ni guiones'))
     telephone = models.CharField(_('Teléfono'),max_length=12)
     email = models.EmailField()
     eide_alumn = models.BooleanField(_('PrepCenter EIDE'), default="False", blank=True, help_text=_('Haz click en el check si eres prepcenter/a de EIDE. En caso contrario rellena porfavor la siguiente casilla.'))
@@ -315,7 +315,7 @@ class PrepCenter(models.Model):
             ag = Group(name="prepcenters")
             ag.save()
         if self.user == None:
-            password = User.objects.make_random_password()  # type: unicode
+            password = User.objects.make_random_password()
             
             print("No hay usuario asociado para ", nombreusuario, "con el pass ", password)
             if len(User.objects.filter(username=nombreusuario))>0:
@@ -356,14 +356,14 @@ class PrepCenter(models.Model):
         else:
             print('El prepcenter %s Ya tiene un usuario %s'%(self,self.user))
 
-class PrepCenterExam(models.Model):
-    center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="exam_set")
-    exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.PROTECT,related_name="center_set")
-    def __unicode__(self):
-        return "(%s) %s"%(self.center.name,self.exam.__str__())
+# class PrepCenterExam(models.Model):
+#     center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="exam_set")
+#     exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.PROTECT,related_name="center_set")
+#     def __unicode__(self):
+#         return "(%s) %s"%(self.center.name,self.exam.__str__())
 
-    def __str__(self) -> str:
-        return self.__unicode__()
+#     def __str__(self) -> str:
+#         return self.__unicode__()
 
 class PrepCenterRegistration(models.Model):
     registration = models.ForeignKey(Registration,on_delete=models.PROTECT,related_name="prepcenterexam_set")

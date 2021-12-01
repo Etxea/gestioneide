@@ -16,10 +16,11 @@
 #  MA 02110-1301, USA.
 #  
 
-from django import template
+
+from io import StringIO
+from typing import Sequence
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import fields
 from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -32,7 +33,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.contrib.sites.models import Site
 
 from django.conf import settings
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import FormView, UpdateView
 
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
@@ -381,6 +382,12 @@ class LinguaskillRegistrationListView(ListView):
 class PrepCenterHomeView(LoginRequiredMixin, DetailView):
     template_name = 'cambridge/prepcenter_detail.html'
     
+    def get_context_data(self, **kwargs):
+        context = super(PrepCenterHomeView, self).get_context_data(**kwargs)
+        context["exam_list"] = Exam.objects.filter(registration_end_date__gte=datetime.date.today())
+        return context
+    
+
     def get_object(self):
         return get_object_or_404(PrepCenter, pk=self.request.user.prepcenter.pk)
 
@@ -453,74 +460,87 @@ class PrepCenterEnableUserView(View,SingleObjectMixin):
 class PrepCenterDetailView(DetailView):
     model = PrepCenter
 
-@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
-class PrepCenterExamCreate(CreateView):
-    model = PrepCenterExam
-    fields = '__all__'
-    def get_success_url(self) -> str:
-        return reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.center.id})
+# @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
+# class PrepCenterExamCreate(CreateView):
+#     model = PrepCenterExam
+#     fields = '__all__'
+#     def get_success_url(self) -> str:
+#         return reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.center.id})
 
-class PrepCenterRegistrationCreateView(CreateView):
+class PrepCenterRegistrationCreateView(LoginRequiredMixin,CreateView):
     model = Registration
     form_class = PrepCenterRegistrationForm
     template_name = 'cambridge/prepcenter_registration_form.html'
-       
-    def get_form_kwargs(self):
-        kwargs = super(PrepCenterRegistrationCreateView, self).get_form_kwargs()
-        #recogemos y añadimos kwargs a la form
-        # prepcenter = PrepCenter.objects.get(pk=self.kwargs['prencenter_id'])
-        kwargs['prepcenter_id'] = self.kwargs['prencenter_id']
-        return kwargs
     
-    def get_context_data(self, **kwargs):
-        context = super(PrepCenterRegistrationCreateView, self).get_context_data(**kwargs)
-        print(kwargs)
-        try:
-            prepcenter_id = self.kwargs['prepcenter_id']
-            center = PrepCenter.objects.get(pk=prepcenter_id)
-            context['center'] = center
-        except:
-            print("Perpcenter no encontrado")
-        return context
-
     def get_success_url(self):
-        #return '/cambridge/pay/%d'%self.object.center.id
         return reverse_lazy('cambridge_prepcenter_home')
 
     def form_valid(self, form):
-        prepcenter_id = self.kwargs['prencenter_id']
+        print("Somos matricula prep center")
+        prepcenter = self.request.user.prepcenter
         self.object = form.save()
-        prepcenter = PrepCenter.objects.get(pk=prepcenter_id)
         pcr = PrepCenterRegistration(registration=self.object,center=prepcenter)
         pcr.save()
         return super(PrepCenterRegistrationCreateView, self).form_valid(form)
 
-class PrepCenterRegistrationExamCreateView(PrepCenterRegistrationCreateView):
-    def get_initial(self):
-        prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])
-        exam = prepexam
-        return { 'exam': exam }
-    
-    def get_form_kwargs(self):
-        kwargs = super(PrepCenterRegistrationCreateView, self).get_form_kwargs()
-        #recogemos y añadimos kwargs a la form
-        prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])
-        exam = prepexam
-        kwargs['exam_id'] = exam.id
-        return kwargs
-    
+# Matricula directa a un examen
+class PrepCenterRegistrationExamCreateView(LoginRequiredMixin, FormView):
+    model = Registration
+    #form_class = PrepCenterRegistrationForm
+    template_name = 'cambridge/prepcenter_registration_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('cambridge_prepcenter_home')
+
     def get_context_data(self, **kwargs):
-        context = super(PrepCenterRegistrationCreateView, self).get_context_data(**kwargs)
-        prepexam = PrepCenterExam.objects.get(pk=self.kwargs['exam_id'])
-        exam = prepexam.exam
-        center = prepexam.center
-        context['exam_id'] = exam.id
+        context = super(PrepCenterRegistrationExamCreateView, self).get_context_data(**kwargs)
+        context['directo'] = True
+        exam = Exam.objects.get(pk=self.kwargs['exam_id'])
+        prepcenter = self.request.user.prepcenter
         context['exam'] = exam
-        context['center'] = center
-        context['prepexam'] = prepexam
+        context['center'] = prepcenter
+        
+        # Rellenamsos los datos iniciales, idealmente el range debería ser del tamaño de extra_forms
+        initial = []
+        for i in range(0,2):
+            initial.append({'exam': exam, 'prepcenter': prepcenter.pk})
+        
+        #Si es POST rellenamos con los datos
+        if self.request.method == 'POST':
+            formset = PrepCenterRegistrationFormSet(self.request.POST, initial=initial)
+        else:
+            formset = PrepCenterRegistrationFormSet(initial=initial)
+
+        context['formset'] = formset 
+        context.pop('form')
+        #print(formset.management_form)
         return context
 
-class PrepCenterRegistrationsPayView(DetailView):
+    def get_form(self, form_class=None):
+        if self.request.method == 'POST':
+            formset = PrepCenterRegistrationFormSet(self.request.POST)
+        else:
+            formset = PrepCenterRegistrationFormSet()
+        return formset
+
+    def form_valid(self, formset):
+        prepcenter = self.request.user.prepcenter    
+        for form in formset:
+            self.object = form.save()
+            # Generemos una matricula de prepcenter asociando la matricula y el centro        
+            print("Generemos una matricula de prepcenter asociando la matricula y el centro",self.object,prepcenter)
+            pcr = PrepCenterRegistration(registration=self.object,center=prepcenter)
+            pcr.save()
+        return super(PrepCenterRegistrationExamCreateView, self).form_valid(formset)        
+    
+    def form_invalid(self, formset):
+        print("El formset no es válido")
+        print(formset)
+        print(formset.errors)
+        return super(PrepCenterRegistrationExamCreateView, self).form_invalid(formset)
+
+
+class PrepCenterRegistrationsPayView(LoginRequiredMixin,DetailView):
     model = PrepCenter
     context_object_name = "prepcenter"
     template_name = "cambridge/prepcenter_registrations_pay.html"

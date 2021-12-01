@@ -4,17 +4,62 @@
 
 {% block body %}
 
-<h1>Matricula prep center</h1>
-{% if center %}
-<h2> Centro: {{ center }} </h2>
-{% endif %}
-{% if exam %}
-<h2> Examen: {{ prepexam }}</h2>
-{% endif %}
+<h1>Matricula {% if center %}<b>{{ center }}</b>{% endif %} {% if exam %}<i>{{ exam }}</i>{% endif %} </h1>
+<h3>Matriculas</h3>
+<form class="form-horizontal" action="" method="post">
+    {% csrf_token %}
+    {% if formset %}
+        
+        {{ formset.management_form }}
 
-<form class="form-horizontal" action="" method="post">{% csrf_token %}
-	{{ form|bootstrap }}
-    <input class="btn btn-primary" type="submit" value="{% trans 'Save' %}" />
+        <table class="table table-condensed">
+            <thead>
+            {% for field in formset.0.visible_fields %}
+                    <th>
+                    {{ field.label }}
+                    </th>
+            {% endfor %}
+            </thead>
+
+            <tbody>
+            {% for form in formset %}
+                {% for field in form.hidden_fields %} {{ field }} {% endfor %}
+                <tr>
+                {% for field in form.visible_fields %}
+                    <td>
+                    {{ field }}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+                <tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+	{% else %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ field }} {{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %} 
+
+	    {{ form|bootstrap }}
+    
+    {% endif %}
+    <input class="btn btn-primary" type="submit" value="{% trans 'Send' %}" />
     <a class="btn" href="{% url 'cambridge_prepcenter_home' %}">{% trans "Cancel" %}</a>
 </form>
 

@@ -31,16 +31,16 @@
 <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_update' object.pk %}">Editar</a>
 {% endif %}
 
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' object.id %}">Matricular Alumnos</a>
+<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' %}">Matricular Alumnos</a>
 <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' %}">Pagar Matriculas Pendientes</a>
 <h2>Lista de examenes</h2>
 <table class="table">
-{% for exam in object.exam_set.all %}
+{% for exam in exam_list %}
 <tr>
 <td>{{ exam }}</td>
-<!--
-<td><a href="{% url 'cambridge_prepcenters_registration_new' exam.id %}">Matricular</a></td>
--->
+
+<td><a class="btn btn-success" href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id %}">Matricular Directo</a></td>
+
 </tr>
 {% endfor %}
 </table>
