@@ -11,7 +11,7 @@
     {% if formset %}
         
         {{ formset.management_form }}
-
+        {% comment %} {{ formset.errors }} {% endcomment %}
         <table class="table table-condensed">
             <thead>
             {% for field in formset.0.visible_fields %}
@@ -23,8 +23,8 @@
 
             <tbody>
             {% for form in formset %}
-                {% for field in form.hidden_fields %} {{ field }} {% endfor %}
                 <tr>
+                {% for field in form.hidden_fields %} {{ field }} {% endfor %}
                 {% for field in form.visible_fields %}
                     <td>
                     {{ field }}

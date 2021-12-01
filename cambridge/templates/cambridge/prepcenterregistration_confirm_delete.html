@@ -1,0 +1,17 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+{% load bootstrap %}
+
+{% block body %}
+
+<form class="form-horizontal" action="" method="post">
+    {% csrf_token %}
+<div class="alert alert-danger" role="alert">
+¿ Seguro que quieres borrar {{ object }} ?
+</div>
+<br />
+<input class="btn btn-primary" type="submit" value="{% trans 'Send' %}" />
+<a class="btn" href="{% url 'cambridge_prepcenter_home' %}">{% trans "Cancel" %}</a>
+</form>
+
+{% endblock %}

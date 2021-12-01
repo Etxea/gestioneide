@@ -2,59 +2,103 @@
 {% load i18n %}
 
 {% block body %}
-    <h1>{% trans "Prep. Center Detail" %}</h1>
-<h2>Datos contacto</h2>
-<table class="table">
-<tr>
-<td>{{ object.name }}</td>
-<td>{{ object.description }}</td>
-</tr>
-<tr>
-<td>{{ object.email }}</td>
-<td>{{ object.telephone }}</td>
-</tr>
-<!--
-<tr>
-<td>
-<form method="POST" action="{% url 'prepcenter_passwordreset' object.id %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-warning">
-        <i class="zmdi zmdi-refresh" ></i>&nbsp;&nbsp;Resetear pass.
-    </button>
-</form>
-</td>
-</tr>
--->
-</table>
 
-{% if request.user.is_staff %}
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_update' object.pk %}">Editar</a>
-{% endif %}
 
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' %}">Matricular Alumnos</a>
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' %}">Pagar Matriculas Pendientes</a>
-<h2>Lista de examenes</h2>
-<table class="table">
-{% for exam in exam_list %}
-<tr>
-<td>{{ exam }}</td>
+<div>
 
-<td><a class="btn btn-success" href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id %}">Matricular Directo</a></td>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+    <li role="presentation"><a href="#examenes" aria-controls="examenes" role="tab" data-toggle="tab">Exámenes</a></li>
+    <li role="presentation"><a href="#matriculas" aria-controls="matriculas" role="tab" data-toggle="tab">Matriculas</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+  </ul>
 
-</tr>
-{% endfor %}
-</table>
-{% if request.user.is_staff %}
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_exam_new' %}">Añadir Examen</a>
-{% endif %}
-<h2>Lista de matriculas</h2>
-<table class="table">
-{% for registration in object.registration_set.all %}
-<tr>
-<td>{{ registration }}</td><td> {{ registration.paid | yesno }}</td>
-</tr>
-{% endfor %}
-</table>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+        <h2>{% trans "Prep. Center Detail" %}</h2>
+        
+        <table class="table">
+        <tr>
+        <td>{{ object.name }}</td>
+        <td>{{ object.description }}</td>
+        </tr>
+        <tr>
+        <td>{{ object.email }}</td>
+        <td>{{ object.telephone }}</td>
+        </tr>
+        <!--
+        <tr>
+        <td>
+        <form method="POST" action="{% url 'prepcenter_passwordreset' object.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">
+                <i class="zmdi zmdi-refresh" ></i>&nbsp;&nbsp;Resetear pass.
+            </button>
+        </form>
+        </td>
+        </tr>
+        -->
+        </table>
+
+        {% if request.user.is_staff %}
+        <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_update' object.pk %}">Editar</a>
+        {% endif %}
+
+        {% comment %} <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' %}">Matricular Alumnos</a> {% endcomment %}
+        <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' %}">Pagar Matriculas Pendientes</a>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="examenes">
+        <h2>Lista de examenes</h2>
+        <table class="table">
+        {% for exam in exam_list %}
+        <tr>
+        <td>{{ exam }}</td>
+
+        <td>
+
+        <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Matricular
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id %}">1 Matricula</a></li>
+            <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id 5 %}">5 Matriculas</a></li>
+            <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id 10 %}">10 Matriculas</a></li>
+        </ul>
+        </div>
+
+
+        </tr>
+        {% endfor %}
+        </table>
+        {% comment %} {% if request.user.is_staff %}
+        <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_exam_new' %}">Añadir Examen</a>
+        {% endif %}     {% endcomment %}
+    </div>
+    <div role="tabpanel" class="tab-pane" id="matriculas">
+        <h2>Lista de matriculas</h2>
+        <table class="table">
+        <th>Matricula</th>
+        <th>Pagada</th>
+        <th></th>
+        {% for registration in object.registration_set.all %}
+        <tr>
+        <td>{{ registration }}</td>
+        <td> {{ registration.paid | yesno }}</td>
+        <td> <a href="{% url 'prepcenter_registration_delete' registration.pk %}"> <i class="material-icons">delete</i> </a> </td>
+        </tr>
+        {% endfor %}
+        </table>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+  </div>
+
+</div>
 
 
 

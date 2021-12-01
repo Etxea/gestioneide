@@ -181,9 +181,9 @@ class PrepCenterRegistrationForm(ModelForm):
                     
         }
 
-PrepCenterRegistrationFormSet = formset_factory(
-    PrepCenterRegistrationForm,
-    extra = 0,
-    max_num = 2,
-    min_num = 1
-)
+# PrepCenterRegistrationFormSet = formset_factory(
+#     PrepCenterRegistrationForm,
+#     extra = 0,
+#     max_num = 2,
+#     min_num = 1
+# )

@@ -33,7 +33,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.contrib.sites.models import Site
 
 from django.conf import settings
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
 
 from sermepa.forms import SermepaPaymentForm
 from sermepa.models import SermepaIdTPV
@@ -497,30 +497,35 @@ class PrepCenterRegistrationExamCreateView(LoginRequiredMixin, FormView):
         context['directo'] = True
         exam = Exam.objects.get(pk=self.kwargs['exam_id'])
         prepcenter = self.request.user.prepcenter
+    
         context['exam'] = exam
         context['center'] = prepcenter
         
-        # Rellenamsos los datos iniciales, idealmente el range debería ser del tamaño de extra_forms
-        initial = []
-        for i in range(0,2):
-            initial.append({'exam': exam, 'prepcenter': prepcenter.pk})
         
-        #Si es POST rellenamos con los datos
-        if self.request.method == 'POST':
-            formset = PrepCenterRegistrationFormSet(self.request.POST, initial=initial)
-        else:
-            formset = PrepCenterRegistrationFormSet(initial=initial)
-
-        context['formset'] = formset 
+        context['formset'] = self.get_form() 
         context.pop('form')
         #print(formset.management_form)
         return context
 
     def get_form(self, form_class=None):
+        try:
+            form_num = int(int(self.kwargs['form_num'])) ## WTF no tiene sentido
+        except:
+            form_num = 0
+        
+        PrepCenterRegistrationFormSet = formset_factory( PrepCenterRegistrationForm,extra=0,max_num=form_num)
+        prepcenter = self.request.user.prepcenter
+        exam = Exam.objects.get(pk=self.kwargs['exam_id'])
+        # Rellenamsos los datos iniciales, idealmente el range debería ser del tamaño de extra_forms
+        initial = []
+        for i in range(0,form_num):
+            print(i)
+            initial.append({'exam': exam, 'prepcenter': prepcenter.pk})
+
         if self.request.method == 'POST':
-            formset = PrepCenterRegistrationFormSet(self.request.POST)
+            formset = PrepCenterRegistrationFormSet(self.request.POST,initial=initial)
         else:
-            formset = PrepCenterRegistrationFormSet()
+            formset = PrepCenterRegistrationFormSet(initial=initial)
         return formset
 
     def form_valid(self, formset):
@@ -535,10 +540,13 @@ class PrepCenterRegistrationExamCreateView(LoginRequiredMixin, FormView):
     
     def form_invalid(self, formset):
         print("El formset no es válido")
-        print(formset)
         print(formset.errors)
         return super(PrepCenterRegistrationExamCreateView, self).form_invalid(formset)
 
+class PrepCenterRegistrationDeleteView(LoginRequiredMixin,DeleteView):
+    model = PrepCenterRegistration
+    def get_success_url(self) -> str:
+        return reverse_lazy('cambridge_prepcenter_home')
 
 class PrepCenterRegistrationsPayView(LoginRequiredMixin,DetailView):
     model = PrepCenter
