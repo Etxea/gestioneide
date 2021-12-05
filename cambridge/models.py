@@ -357,10 +357,10 @@ class PrepCenter(models.Model):
             print('El prepcenter %s Ya tiene un usuario %s'%(self,self.user))
     def pay_pending_registration(self):
         lista = self.registration_set.filter(registration__paid=False)
-        print("Somos el modelo y vamos amarcar como pagadas", lista.count())
+        #print("Somos el modelo y vamos amarcar como pagadas", lista.count())
         for prepcenter_registration in lista:
             reg = prepcenter_registration.registration
-            print("Vamos a marcar como pagada",reg)
+            #print("Vamos a marcar como pagada",reg)
             reg.paid = True
             reg.save()
         

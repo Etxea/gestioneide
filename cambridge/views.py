@@ -477,7 +477,7 @@ class PrepCenterRegistrationCreateView(LoginRequiredMixin,CreateView):
         return reverse_lazy('cambridge_prepcenter_home')
 
     def form_valid(self, form):
-        print("Somos matricula prep center")
+        #print("Somos matricula prep center")
         prepcenter = self.request.user.prepcenter
         self.object = form.save()
         pcr = PrepCenterRegistration(registration=self.object,center=prepcenter)
@@ -520,7 +520,7 @@ class PrepCenterRegistrationExamCreateView(LoginRequiredMixin, FormView):
         # Rellenamsos los datos iniciales, idealmente el range debería ser del tamaño de extra_forms
         initial = []
         for i in range(0,form_num):
-            print(i)
+            #print(i)
             initial.append({'exam': exam, 'prepcenter': prepcenter.pk})
 
         if self.request.method == 'POST':
@@ -534,7 +534,7 @@ class PrepCenterRegistrationExamCreateView(LoginRequiredMixin, FormView):
         for form in formset:
             self.object = form.save()
             # Generemos una matricula de prepcenter asociando la matricula y el centro        
-            print("Generemos una matricula de prepcenter asociando la matricula y el centro",self.object,prepcenter)
+            #print("Generemos una matricula de prepcenter asociando la matricula y el centro",self.object,prepcenter)
             pcr = PrepCenterRegistration(registration=self.object,center=prepcenter)
             pcr.save()
         return super(PrepCenterRegistrationExamCreateView, self).form_valid(formset)        
