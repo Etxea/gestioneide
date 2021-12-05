@@ -19,6 +19,7 @@
 
 from io import StringIO
 from typing import Sequence
+from django import template
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
@@ -598,3 +599,15 @@ class PrepCenterRegistrationsPayView(LoginRequiredMixin,DetailView):
         context['debug']= settings.DEBUG
 
         return context
+
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
+class PrepCenterPayRegistrations(DetailView):
+    model = PrepCenter
+    template_name = "cambridge/prepcenter_registration_admin_pay.html"
+
+    def post(self, request, *args, **kwargs):
+        # Look up the author we're interested in.
+        prepcenter = self.get_object()
+        #print("Vamos a marcar como pagadas")
+        prepcenter.pay_pending_registration()
+        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': prepcenter.pk}))

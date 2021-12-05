@@ -355,7 +355,15 @@ class PrepCenter(models.Model):
             mail_admins(u"[GESTIONEIDE] Alta usuario prepcenter en gestion de prepcenter EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
         else:
             print('El prepcenter %s Ya tiene un usuario %s'%(self,self.user))
-
+    def pay_pending_registration(self):
+        lista = self.registration_set.filter(registration__paid=False)
+        print("Somos el modelo y vamos amarcar como pagadas", lista.count())
+        for prepcenter_registration in lista:
+            reg = prepcenter_registration.registration
+            print("Vamos a marcar como pagada",reg)
+            reg.paid = True
+            reg.save()
+        
 # class PrepCenterExam(models.Model):
 #     center = models.ForeignKey(PrepCenter,on_delete=models.PROTECT,related_name="exam_set")
 #     exam = models.ForeignKey(Exam,limit_choices_to = {'registration_end_date__gte': datetime.date.today()},on_delete=models.PROTECT,related_name="center_set")

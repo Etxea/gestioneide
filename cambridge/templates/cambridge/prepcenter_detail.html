@@ -47,8 +47,8 @@
         {% endif %}
 
         {% comment %} <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' %}">Matricular Alumnos</a> {% endcomment %}
-        <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' %}">Pagar Matriculas Pendientes</a>
 
+        
     </div>
     <div role="tabpanel" class="tab-pane" id="examenes">
         <h2>Lista de examenes</h2>
@@ -65,7 +65,7 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id %}">1 Matricula</a></li>
+            <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id 1 %}">1 Matricula</a></li>
             <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id 5 %}">5 Matriculas</a></li>
             <li><a href="{% url 'cambridge_prepcenters_registration_exam_new' exam.id 10 %}">10 Matriculas</a></li>
         </ul>
@@ -88,12 +88,22 @@
         {% for registration in object.registration_set.all %}
         <tr>
         <td>{{ registration }}</td>
-        <td> {{ registration.paid | yesno }}</td>
-        <td> <a href="{% url 'prepcenter_registration_delete' registration.pk %}"> <i class="material-icons">delete</i> </a> </td>
+        <td> {{ registration.registration.paid | yesno }}</td>
+        <td>
+        {% if not registration.registration.paid %}
+            <a href="{% url 'prepcenter_registration_delete' registration.pk %}"> 
+                <i class="material-icons">delete</i> 
+            </a> 
+        </td>
+        {% endif %}
         </tr>
         {% endfor %}
         </table>
-
+        {% if request.user.is_staff %}
+        <a class="btn btn-primary" href="{% url 'prepcenter_registrations_admin_pay' object.pk %}">Marcar como pagadas Matriculas Pendientes</a>
+        {% else %}
+        <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registrations_pays' %}">Pagar Matriculas Pendientes</a>
+        {% endif %} 
     </div>
     <div role="tabpanel" class="tab-pane" id="settings">...</div>
   </div>

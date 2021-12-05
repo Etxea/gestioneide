@@ -86,6 +86,7 @@ urlpatterns = [
     url(r'prepcenter/disableuser/(?P<pk>\d+)/$',PrepCenterDisableUserView.as_view(), name="prepcenter_disableuser"),
     url(r'prepcenter/enableuser/(?P<pk>\d+)/$',PrepCenterEnableUserView.as_view(), name="prepcenter_enableuser"),
     url(r'prepcenter/detalle/(?P<pk>\d+)/$',PrepCenterDetailView.as_view(), name="prepcenter_detalle"),
+    url(r'prepcenter/registrations/pay/(?P<pk>\d+)/$',PrepCenterPayRegistrations.as_view(), name="prepcenter_registrations_admin_pay"),
     
     ## Genericas
     url(r'thanks/$', TemplateView.as_view( template_name = 'cambridge/gracias.html' ),name="cambridge_gracias"),
