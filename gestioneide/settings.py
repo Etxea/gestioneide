@@ -106,7 +106,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'pinax.notifications',
     'anymail',
-    'cookie_consent',
+    'cookielaw',
     'sermepa',
     # project
     "gestioneide",

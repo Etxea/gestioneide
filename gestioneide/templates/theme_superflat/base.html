@@ -28,7 +28,6 @@
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 
-
         {% block extra_head_base %}
             {% block extra_head %}{% endblock %}
         {% endblock %}
@@ -95,9 +94,8 @@
                   {% block body %}
                   {% endblock %}
                 {% endblock %}
+                
             </div>
-        </section>
-			</div>
         </section>
         {% include "theme_superflat/_footer.html" %}
         
@@ -166,25 +164,31 @@
         <script src="{% static "vendors/bower_components/fullcalendar/dist/fullcalendar.min.js" %}"></script>
         <script src="{% static "vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
         <script src="{% static "vendors/bootstrap-timepicker/js/bootstrap-timepicker.js" %}"></script>
+        
         <!-- Charts - Please read the read-me.txt inside the js folder-->
-<!--
+        <!--
         <script src="{% static "js/flot-charts/curved-line-chart.js" %}"></script>
         <script src="{% static "js/flot-charts/bar-chart.js" %}"></script>
         <script src="{% static "js/charts.js" %}"></script>        
--->
+        -->
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="{% static "vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js" %}"></script>
         <![endif]-->
-        
-        <script src="{% static "js/functions.js" %}"></script>
 
-        <script src="{% static "js/gestioneide.js" %}"></script>
+        <!-- cookielaw-->
+        <script src="{% static 'cookielaw/js/cookielaw.js' %}"></script>
+
+        <script src="{% static 'js/functions.js' %}"></script>
+        <script src="{% static 'js/gestioneide.js' %}"></script>
+        
         {% endblock %}
         
 		{% block scripts %}{% endblock %}
         {% block extra_body_base %}
             {% block extra_body %}{% endblock %}
         {% endblock %}
+       
+        
     </body>
 </html>

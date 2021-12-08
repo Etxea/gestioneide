@@ -42,7 +42,6 @@ urlpatterns = [
     url(r"^pasarela/", include("pasarela.urls")),
     url(r"^pagosonline/", include("pagosonline.urls")),
     url(r"^matriculas/", include("matriculas.urls")),
-    url(r'^cookies/', include('cookie_consent.urls')),
     url(r'^hobetuz/', include('hobetuz.urls')),
     url(r'^ticketbai/', include('ticketbai.urls')),
     url(r'^portalalumno/', include('portalalumno.urls')),

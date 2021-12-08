@@ -4,80 +4,32 @@
 
 {% block page_header %}
 {% endblock %}
+
 {% block body %}
-
-{% load cookie_consent_tags %}
-
-
-<div class="cookie-group">
-  <div class="cookie-group-title">
-    <h3>{{ cookie_group.name }}</h3>
-
-    {% if not cookie_group.is_required %}
-    <h3>Nos gustan las galletas</h3>
-      <div class="cookie-group-form">
-       {% if request|cookie_group_accepted:cookie_group.varname %}
-         <span class="cookie-consent-accepted">{% trans "Accepted" %}</span>
-       {% else %}
-         <form class="cookie-consent-accept" action="{% url "cookie_consent_accept" cookie_group.varname %}" method="POST">
-           {% csrf_token %}
-           <input type="submit" value="{% trans "Accept" %}">
-         </form>
-       {% endif %}
-
-       {% if request|cookie_group_declined:cookie_group.varname %}
-         <span class="cookie-consent-declined">{% trans "Declined" %}</span>
-       {% else %}
-         <form class="cookie-consent-decline" action="{% url "cookie_consent_decline" cookie_group.varname %}" method="POST">
-           {% csrf_token %}
-           <input type="submit" value="{% trans "Decline" %}">
-         </form>
-       {% endif %}
-      </div>
-    {% endif %}
-
-  </div>
-  <p>
-    {{ cookie_group.description }}
-  </p>
-
-
-  <table>
-  {% for cookie in cookie_group.cookie_set.all %}
-   <tr>
-     <th>
-        {{ cookie.name }}
-        {% if cookie.domain %}
-          ({{ cookie.domain }})
-        {% endif %}
-     </th>
-     <td>
-       {% if cookie.description %}
-        {{ cookie.description }}
-       {% endif %}
-     </td>
-   </tr>
-  {% endfor %}
-  </table>
-
-    <p>
-      <a href="{% url "cookie_consent_cookie_group_list" %}">Cookies policy</a>
-    </p>
-
-{% if request.user.is_staff %}
-    <h2>Hola {{request.user}}</h2>
-    {% include "admin_dashboard.html" %}
-{% elif request.user|has_group:"profesores"%}
-    Hola profesor {{ request.user.profesor.name }}
-    {% with request.user.profesor as  profesor %}
-        {% include "profesores/profesor_dashboard.html" %}
-    {% endwith %}
-{% elif request.user|has_group:"alumnos" %}
-    Hola alumno
-    {% with request.user.alumno as  alumno %}
-        {% include "portalalumno/alumno_dashboard.html" %}
-    {% endwith %}
-{% else %}
-    Sistema de Gestión de Alumnos de EIDE.
-{% endif %}
+  {% if request.user.is_staff %}
+      <h2>Hola {{request.user}}</h2>
+      {% include "admin_dashboard.html" %}
+  {% elif request.user|has_group:"profesores"%}
+      Hola profesor {{ request.user.profesor.name }}
+      {% with request.user.profesor as  profesor %}
+          {% include "profesores/profesor_dashboard.html" %}
+      {% endwith %}
+  {% elif request.user|has_group:"alumnos" %}
+      Hola alumno
+      {% with request.user.alumno as  alumno %}
+          {% include "portalalumno/alumno_dashboard.html" %}
+      {% endwith %}
+  {% else %}
+    <div class="jumbotron">
+      <h1 class="display-4">Gestión de Alumnos de EIDE.</h1>
+      <p class="lead">Este es el sistema de gestión de alumnos de EIDE.</p>
+      <hr class="my-4">
+      <p>El acceso al mismo solo es posible con usuario y contraseña</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'account_login' %}" role="button">Entrar</a>
+      </p>
+    </div>
+  {% endif %}
 {% endblock %}
+
+

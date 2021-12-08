@@ -1,11 +1,38 @@
+{% load i18n %}
 <footer id="footer">
-	Copyright © 2015 SuperFlat Admin
-	
+	{% block footer %}{% endblock %}
+	{% comment %} {% cookielaw_banner %}  {% endcomment %}
+	{% load cookielaw_tags%}
+	<div id="CookielawBanner">
+		<div class="cookie-content">
+			<div class="cookie-text">
+			<p>Utilizamos Cookies propias y de terceros para analizar nuestros servicios y mostrarte publicidad relacionada con tus preferencias en base a un perfil elaborado a partir de tus hábitos de navegación (por ejemplo, páginas visitadas)&hellip;</p>
+				{% comment %} {% trans 'This website uses cookies to make your experience better.' %} {% endcomment %}
+			</div>
+			<div class="cookie-buttons">
+				<a class="btn btn-info" href="https://eide.es/es/politica-cookies">{% trans "¿Qué son las cookies?" %}</a>
+				<a class="btn btn-success" href="javascript:Cookielaw.createCookielawCookie();">{% trans "Ok, entendido" %}</a>
+			</div>
+			<div class="close-cookies"></div>
+		</div>
+		</div>
+		
+		<script type="application/javascript">
+		$(document).ready(function () {
+		$('.close-cookies').click(function () {
+			$(this).parent().hide();
+		});
+		});
+		</script>
+
+	{% trans "&copy; 2021 &lt;ESCUELAS INTERNACIONALES PARA LA EDUCACIÓN Y EL DESARROLLO EIDE S.L. &gt;" %}
+
+	{% comment %} 
 	<ul class="f-menu">
 		<li><a href="">Home</a></li>
 		<li><a href="">Dashboard</a></li>
 		<li><a href="">Reports</a></li>
 		<li><a href="">Support</a></li>
 		<li><a href="">Contact</a></li>
-	</ul>
+	</ul> {% endcomment %}
 </footer>

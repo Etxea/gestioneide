@@ -4,15 +4,11 @@
 {% load metron_tags %}
 {% load i18n %}
 
-{% load cookie_consent_tags %}
-
 {% block styles %}
     {% include "_styles.html" %}
 {% endblock %}
 
-
 {% block extra_head_base %}
-    {% include "_cookie_law.html" %}
     {% block extra_head %}{% endblock %}
 {% endblock %}
 
@@ -21,9 +17,9 @@
 {% endblock %}
 
 {% block footer %}
+    <p>Pie</p>
     {% include "_footer.html" %}
 {% endblock %}
-
 
 {% block scripts %}
     {% include "_scripts.html" %}

@@ -1,10 +1,34 @@
 {% load static %}
-{% load cookie_consent_tags %}
-<!--
+{% load i18n %}
+
+<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Cookies</h4>
+      </div>
+      <div class="modal-body">
+        <p>Utilizamos Cookies propias y de terceros para analizar nuestros servicios y mostrarte publicidad relacionada con tus preferencias en base a un perfil elaborado a partir de tus hábitos de navegación (por ejemplo, páginas visitadas)&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <form class="cookie-consent-accept" action="" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="{% trans "Accept" %}">
+        </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Denegar</button>
+        <button type="button" class="btn btn-primary">Permitir</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% comment %}
 <section id="content">
 <div class="container">
 <h1>Cookies</h1>
-    <h2>
+
+     <h2>
       Social cookies
     </h2>
     <p>
@@ -32,11 +56,10 @@
       <p>
         None existing cookies
       </p>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
     <p>
-      <a href="{% url "cookie_consent_cookie_group_list" %}">Cookies policy</a>
+      <a href="">Cookies policy</a>
     </p>
 </div>
 </section>
--->

@@ -25,7 +25,7 @@ jsonfield==2.1.1
 python-dateutil
 pycrypto
 bootstrap3-datetime
-django-cookie-consent
+django-cookie-law
 django-excel-response
 git+https://github.com/Etxea/django-sermepa
 newrelic
