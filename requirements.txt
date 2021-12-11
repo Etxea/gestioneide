@@ -29,3 +29,4 @@ django-cookie-law
 django-excel-response
 git+https://github.com/Etxea/django-sermepa
 newrelic
+django-qr-code

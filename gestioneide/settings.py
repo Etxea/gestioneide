@@ -108,6 +108,7 @@ INSTALLED_APPS = [
     'anymail',
     'cookielaw',
     'sermepa',
+    'qr_code',
     # project
     "gestioneide",
     "alumnos",

@@ -1,6 +1,6 @@
 {% extends "site_base.html"%}
-
 {% load i18n %}
+{% load qr_code %}
 
 {% block page_header %}
 <a class="btn btn-primary pull-right" href="{% url 'ticketbai_new' %}">New</a>
@@ -17,8 +17,31 @@
     <td>{{ ticket.Destinatarios_ApellidosNombreRazonSocial }}<td>
     <td>{{ ticket.DatosFactura_ImporteTotalFactura }}<td>
     <td> {{ ticket.enviada|yesno }}</td>
-    <td><img width="18px" src="{{ ticket.get_qr_code }}" /></td>
-    <td><butto class="btn btn-primary">Borrar</button></td>
+    <td>
+        <a class="btn btn-info" data-toggle="modal" data-target="#qrModal_{{ticket.pk}}" >
+            <i class="zmdi zmdi-qr"></i>QR
+        </a>
+        <div class="modal fade" id="qrModal_{{ticket.pk}}" tabindex="-1" role="dialog" aria-labelledby="qrModal_{{ticket.pk}}Label">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                {% comment %} <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="qrModal_{{ticket.pk}}Label">QR</h4>
+                </div> {% endcomment %}
+                <div class="modal-body">
+                    {% qr_from_text ticket.public_url size="T" image_format="png" error_correction="L" %}
+                    {{ ticket.public_url }}
+                </div>
+              </div>
+            </div>
+          </div>
+    </td>
+    <td>
+        <a class="btn btn-success" href="{% url 'ticketbai_public_detail' ticket.id %}" >
+            <i class="zmdi zmdi-eye"></i>
+        </a>
+    </td>
+    <td><a href="" class="btn btn-danger"> <i class="zmdi zmdi-delete"></i></button></td>
 </tr>
 {% endfor %}
 </tbody>

@@ -1,10 +1,10 @@
-{% extends "site_base.html"%}
-
+{% extends "public_base.html"%}
 {% load i18n %}
+{% load qr_code %}
 
 {% block page_header %}<h1> Ticket Bai {{object}} </h1>{% endblock %}
-
 {% block body %}
+{% qr_from_text object.public_url size="T" image_format="png" error_correction="L" %}
 
 <table class="table">
     <tbody>
@@ -54,5 +54,5 @@
     </tr>
     </tbody>
 </table>
-<a href="{% url 'ticketbai_index' %}" class="btn btn-secondary" role="button" >Volver</a>
+
 {% endblock %}
