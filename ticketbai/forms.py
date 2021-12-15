@@ -12,7 +12,8 @@ class TicketBaiForm(ModelForm):
 	class Meta:
 		fields = '__all__'
 		model = TicketBai_Ticket
-		widgets = {'enviada': HiddenInput(),
+		widgets = {
+			'enviada': HiddenInput(),
 			'IDVersionTBAI': HiddenInput(),
 			'Factura_FechaExpedicionFactura': HiddenInput(),
 			'Factura_HoraExpedicionFactura': HiddenInput(),

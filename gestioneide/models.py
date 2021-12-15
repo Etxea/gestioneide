@@ -1223,7 +1223,7 @@ class Falta(models.Model):
                 if num_faltas_mes > 3:
                     #print "Mandamos mail"
                     subject="[Gestion Alumnos]Aviso de faltas %s en el mes %s"%(self.asistencia.alumno,self.mes)
-                    message="El alumno %s en el grupo %s a sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
+                    message="El alumno %s en el grupo %s ha sobrepasado el ńumero de faltas con un total %s en el mes de %s"% (self.asistencia.alumno,self.asistencia.grupo,num_faltas_mes,self.mes)
                     #print "Mandamos mail: %s \n %s"%(subject,message)
                     mail_admins(subject,message)
 
