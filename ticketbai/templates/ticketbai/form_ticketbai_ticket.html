@@ -1,14 +1,17 @@
 {% extends "site_base.html"%}
 {% load crispy_forms_tags %}
+{% load bootstrap %}
 
 {% load i18n %}
 
-{% block page_header %}<h1> Ticket Bai Nuevo Ticket</h1>{% endblock %}
+{% block page_header %}<h1> TicketBai Nuevo Ticket</h1>{% endblock %}
 
 {% block body %}
-
+<form method="POST" action="">
 {% csrf_token %}
 
-{% crispy form form.helper %}
-
+{{ form|bootstrap }}
+<a href="{% url 'ticketbai_index' %}" class="btn btn-secondary" role="button" >Volver</a>
+<button type="submit" class="btn btn-primary" >Enviar</button>
+</form>
 {% endblock %}

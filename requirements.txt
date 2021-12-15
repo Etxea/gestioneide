@@ -1,4 +1,4 @@
-Django==2.2.24
+Django==2.2.25
 pinax-templates==2.0.6
 pinax-documents==2.0.0
 django-crispy-forms
@@ -29,3 +29,4 @@ django-cookie-law
 django-excel-response
 git+https://github.com/Etxea/django-sermepa
 newrelic
+django-qr-code

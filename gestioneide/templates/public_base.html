@@ -8,10 +8,10 @@
     {% include "_styles.html" %}
 {% endblock %}
 
-{% block extra_head_base %}
+{% comment %} {% block extra_head_base %}
     {% include "_cookie_law.html" %} 
     {% block extra_head %}{% endblock %}
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block scripts %}
     {% include "_scripts.html" %}

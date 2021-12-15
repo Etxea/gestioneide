@@ -16,6 +16,10 @@ class TicketBaiForm(ModelForm):
 			'IDVersionTBAI': HiddenInput(),
 			'Factura_FechaExpedicionFactura': HiddenInput(),
 			'Factura_HoraExpedicionFactura': HiddenInput(),
+			'Factura_NumFactura': HiddenInput(),
+			'Factura_SerieFactura': HiddenInput(),
+			'Emisor_NIF': HiddenInput(),
+			'Emisor_ApellidosNombreRazonSocial': HiddenInput(),
 			}
 	
 	def __init__(self, *args, **kwargs):
@@ -25,5 +29,8 @@ class TicketBaiForm(ModelForm):
 		super(TicketBaiForm, self).__init__(*args, **kwargs)
 		self.fields['Factura_SerieFactura'].initial = 'A%s'%datetime.today().year
 		last = TicketBai_Ticket.objects.filter(Factura_SerieFactura='A%s'%datetime.today().year).order_by("Factura_NumFactura").last()
-		last_num = int(last.Factura_NumFactura)
+		if last == None:
+			last_num = 00000
+		else:
+			last_num = int(last.Factura_NumFactura)
 		self.fields['Factura_NumFactura'].initial = "%05d"%(last_num+1)

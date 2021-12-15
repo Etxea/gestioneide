@@ -291,14 +291,14 @@ class PrepCenter(models.Model):
         mensaje = u"""Acabamos de modificar la contraseña para el portal de prepcenter de EIDE. 
 
         Los datos de acceso son:
-        https://portal-prepcenter.eide.es
+        https://cambridge.eide.es/cambridge/prepcenter/
         usuario: %s
         contraseña: %s
         Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
         print(self.nombre,self.user.username,password)
 
         self.user.email_user("[EIDE] Cambio contraseña en portal de prep. center EIDE",mensaje)
-        mail_admins(u'[GESTIONEIDE] Cambio contraseña prep. center','Se ha cambiado el pass del prepcenter %s'%self )
+        mail_admins(u'[GESTIONEIDE][CAMBRIDGE][PREPCENTERS] Cambio contraseña prep. center','Se ha cambiado el pass del prepcenter %s'%self )
 
     def has_user(self):
         if self.user == None:
@@ -344,7 +344,7 @@ class PrepCenter(models.Model):
             u.groups.add(ag)
             u.save()
             mensaje = u"""Acabamos de crear un usuario para el portal de prepcenter de EIDE. Los datos de acceso son:
-            https://portal-prepcenter.eide.es/
+            https://cambridge.eide.es/cambridge/prepcenter/
             usuario: %s
             contraseña: %s
             Guarda en lugar seguro estos datos por favor.
@@ -352,7 +352,7 @@ class PrepCenter(models.Model):
             self.user=u
             self.save()
             u.email_user("[EIDE] Alta en Portal PrepCenter EIDE",mensaje)
-            mail_admins(u"[GESTIONEIDE] Alta usuario prepcenter en gestion de prepcenter EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
+            mail_admins(u"[GESTIONEIDE][CAMBRIDGE][PREPCENTERS] Alta usuario prepcenter en gestion de prepcenter EIDE",mensaje,settings.DEFAULT_FROM_EMAIL)
         else:
             print('El prepcenter %s Ya tiene un usuario %s'%(self,self.user))
     def pay_pending_registration(self):
