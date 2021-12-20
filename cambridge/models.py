@@ -295,7 +295,7 @@ class PrepCenter(models.Model):
         usuario: %s
         contraseña: %s
         Guarda en lugar seguro estos datos por favor."""%(self.user.username,password)
-        print(self.nombre,self.user.username,password)
+        print(self.user.username,password)
 
         self.user.email_user("[EIDE] Cambio contraseña en portal de prep. center EIDE",mensaje)
         mail_admins(u'[GESTIONEIDE][CAMBRIDGE][PREPCENTERS] Cambio contraseña prep. center','Se ha cambiado el pass del prepcenter %s'%self )
