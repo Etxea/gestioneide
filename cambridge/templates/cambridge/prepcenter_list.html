@@ -1,39 +1,47 @@
 {% extends "site_base.html"%}
 {% load i18n %}
-{% block body %}
 
+{% block page_header %}
 <h2>Lista de Prep. Centers</h2> 
 
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_new' %}">Nuevo Prep. Center</a>
+{% endblock %}
 
-<table class="table">
-	<thead>
-		<th>Name</th>
-		<th>Actions</th>
-		<th>Description</th>
-		<th>Email</th>
-		<th>Telephone</th>
-		
-		<th>User</th>
-	</thead>
-	{% for prepcenter in object_list %}
-	<tr>
-		<td>
-			{{prepcenter.name}} 
+{% block body %}
+<div>
+	<table class="table">
+		<thead>
+			<th>Name</th>
+			<th>Actions</th>
+			<th>Description</th>
+			<th>Email</th>
+			<th>Telephone</th>
 			
-		</td>
-		<td>
-		<a href="{% url 'prepcenter_detalle' prepcenter.id %}" class="zmdi zmdi-eye"></a>
-		&nbsp
-		<a href="{% url 'cambridge_prepcenters_update' prepcenter.id %}" class="zmdi zmdi-edit"></a>
-		</td>
-		<td>{{prepcenter.description}}</td>
-		<td>{{prepcenter.email}}</td>
-		<td>{{prepcenter.telephone}}</td>
-		
-		<td>{% include 'cambridge/prepcenter_user.html' %}</td>
-	</tr>
-	{% endfor %}
-</table>
-
+			<th>User</th>
+		</thead>
+		{% for prepcenter in object_list %}
+		<tr>
+			<td>
+				{{prepcenter.name}} 
+				
+			</td>
+			<td>
+			<a href="{% url 'prepcenter_detalle' prepcenter.id %}" class="zmdi zmdi-eye"></a>
+			&nbsp
+			<a href="{% url 'cambridge_prepcenters_update' prepcenter.id %}" class="zmdi zmdi-edit"></a>
+			&nbsp
+			<a href="{% url 'prepcenter_delete' prepcenter.id %}" class="zmdi zmdi-delete"></a>
+			</td>
+			<td>{{prepcenter.description}}</td>
+			<td>{{prepcenter.email}}</td>
+			<td>{{prepcenter.telephone}}</td>
+			
+			<td>{% include 'cambridge/prepcenter_user.html' %}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+<br />
+<div class="float-right">
+	<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_new' %}">Nuevo Prep. Center</a>
+</div>
 {% endblock %}

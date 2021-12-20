@@ -4,18 +4,19 @@
 {% block body %}
 
 <h2>¿Quieres marcar como pagadas las siguiebtes matriculas?</h2>
+Asegurate que has recibido el pago de las siguientes matriculas que suman un importe de {{matriculas_pendientes_importe}}€.
 <table class="table">
 <th>Matricula</th>
-<th></th>
-{% for registration in object.registration_set.all %}
+<th>Importe</th>
+{% for registration in matriculas_pendientes_pagar %}
 <tr>
-<td>{{ registration }}</td>
+<td>{{ registration }}</td><td>{{registration.registration.exam.level.price }}</td>
 </tr>
 {% endfor %}
 </table>
-
+<br/>
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
-    <input class="btn btn-success" type="submit" value="{% trans 'Pagar' %}" />
+    <input class="btn btn-success" type="submit" value="{% trans 'Marcar como pagadas' %}" />
     <a class="btn btn-default" href="{% url 'prepcenter_detalle' object.pk %}">{% trans "Cancel" %}</a>
 </form>
 
