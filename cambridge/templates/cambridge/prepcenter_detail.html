@@ -82,8 +82,8 @@
         <td> {{ registration.registration.paid | yesno }}</td>
         <td>
         {% if not registration.registration.paid %}
-            <a href="{% url 'prepcenter_registration_delete' registration.pk %}"> 
-                <i class="material-icons">delete</i> 
+            <a href="{% url 'prepcenter_registration_delete' registration.pk %}" class="btn btn-danger"> 
+                &nbsp<i class="zmdi zmdi-delete">Borrar</i> 
             </a> 
         </td>
         {% endif %}
