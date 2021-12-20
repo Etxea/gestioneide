@@ -1,0 +1,13 @@
+{% extends "site_base.html"%}
+{% load i18n %}
+
+{% block page_header %}
+<h2>¿Quieres borrar el prepcenter {{ object }}?</h2>
+{% endblock %}
+
+{% block body %}
+<form class="form-horizontal" action="" method="post">{% csrf_token %}
+    <input class="btn btn-danger" type="submit" value="{% trans 'Borrar' %}" />
+    <a class="btn btn-success" href="{% url 'prepcenter_detalle' object.pk %}">{% trans "Cancel" %}</a>
+</form>
+{% endblock %}

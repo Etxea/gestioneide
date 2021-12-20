@@ -17,7 +17,7 @@ class EmpresaCreateView(CreateView):
     template_name = "empresas/empresa_form.html"
 
     def get_success_url(self):
-        return reverse_lazy("empresas_lista")
+        return reverse_lazy("empresas")
 
 @method_decorator(permission_required('gestioneide.empresa_view',raise_exception=True),name='dispatch')
 class EmpresaDetailView(DetailView):
@@ -30,13 +30,13 @@ class EmpresaDeleteView(DeleteView):
     model = Empresa
     template_name = "empresas/empresa_confirm_delete.html"
     def get_success_url(self):
-        return reverse_lazy("empresas_lista")
+        return reverse_lazy("empresas")
 
 @method_decorator(permission_required('gestioneide.empresa_change',raise_exception=True),name='dispatch')
 class EmpresaUpdateView(UpdateView):
     model = Empresa
     form_class = EmpresaCreateForm
-    template_name = "empresas/empresa_update_form.html"
+    template_name = "empresas/empresa_form.html"
 
     def get_success_url(self):
-        return reverse_lazy("empresas_lista")
+        return reverse_lazy("empresas")

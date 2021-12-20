@@ -19,8 +19,6 @@ class TicketBaiForm(ModelForm):
 			'Factura_HoraExpedicionFactura': HiddenInput(),
 			'Factura_NumFactura': HiddenInput(),
 			'Factura_SerieFactura': HiddenInput(),
-			'Emisor_NIF': HiddenInput(),
-			'Emisor_ApellidosNombreRazonSocial': HiddenInput(),
 			}
 	
 	def __init__(self, *args, **kwargs):

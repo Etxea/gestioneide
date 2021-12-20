@@ -17,6 +17,7 @@
 #  
 
 
+from django.http.response import Http404
 from io import StringIO
 from typing import Sequence
 from django import template
@@ -387,15 +388,20 @@ class PrepCenterHomeView(LoginRequiredMixin, DetailView):
         context = super(PrepCenterHomeView, self).get_context_data(**kwargs)
         context["exam_list"] = Exam.objects.filter(registration_end_date__gte=datetime.date.today())
         return context
-    
 
     def get_object(self):
-        return get_object_or_404(PrepCenter, pk=self.request.user.prepcenter.pk)
+        try:
+            obj = self.request.user.prepcenter
+            return obj
+        except:
+            raise Http404()
+
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterCreateView(CreateView):
     model = PrepCenter
-    fields = '__all__'
+    #fields = '__all__'
+    fields = ['name', 'description', 'telephone', 'email']
     success_url = reverse_lazy('cambridge_prepcenters_list')
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
@@ -413,53 +419,66 @@ class PrepCenterListView(ListView):
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterPasswordResetView(View,SingleObjectMixin):
     model = PrepCenter
+    
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
+    
     def post(self, request, *args, **kwargs):
         # Look up the author we're interested in.
         self.object = self.get_object()
         self.object.update_user_password()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterCreateUserView(View,SingleObjectMixin):
     model = PrepCenter
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.create_user()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterDisableUserView(View,SingleObjectMixin):
     model = PrepCenter
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.user.is_active = False
         self.object.user.save()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterEnableUserView(View,SingleObjectMixin):
     model = PrepCenter
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.user.is_active = True
         self.object.user.save()
-        return HttpResponseRedirect(reverse_lazy("prepcenter_detalle",kwargs={'pk': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy("cambridge_prepcenters_list"))
 
 @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 class PrepCenterDetailView(DetailView):
     model = PrepCenter
+
+@method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
+class PrepCenterDeleteView(DeleteView):
+    model = PrepCenter
+    
+    def get_success_url(self):
+        return reverse_lazy('cambridge_prepcenters_list')
 
 # @method_decorator(permission_required('gestioneide.prepcenter_add',raise_exception=True),name='dispatch')
 # class PrepCenterExamCreate(CreateView):
@@ -604,6 +623,15 @@ class PrepCenterRegistrationsPayView(LoginRequiredMixin,DetailView):
 class PrepCenterPayRegistrations(DetailView):
     model = PrepCenter
     template_name = "cambridge/prepcenter_registration_admin_pay.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PrepCenterPayRegistrations, self).get_context_data(**kwargs)
+        context['matriculas_pendientes_pagar'] = self.object.registration_set.filter(registration__paid = 0)
+        importe = 0 
+        for reg in self.object.registration_set.filter(registration__paid = 0):
+            importe =+ reg.registration.exam.level.price 
+        context['matriculas_pendientes_importe'] = importe
+        return context
 
     def post(self, request, *args, **kwargs):
         # Look up the author we're interested in.

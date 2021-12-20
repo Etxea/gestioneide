@@ -1,11 +1,12 @@
 {% extends "site_base.html"%}
 {% load i18n %}
+{% block page_header %}
+<h1>{% trans "Prep. Center Detail" %}</h1>
+
+{% endblock %}
 
 {% block body %}
-
-
 <div>
-
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
@@ -13,12 +14,9 @@
     <li role="presentation"><a href="#matriculas" aria-controls="matriculas" role="tab" data-toggle="tab">Matriculas</a></li>
     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
   </ul>
-
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="home">
-        <h2>{% trans "Prep. Center Detail" %}</h2>
-        
+    <div role="tabpanel" class="tab-pane active" id="home">  
         <table class="table">
         <tr>
         <td>{{ object.name }}</td>
@@ -41,14 +39,7 @@
         </tr>
         -->
         </table>
-
-        {% if request.user.is_staff %}
-        <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_update' object.pk %}">Editar</a>
-        {% endif %}
-
-        {% comment %} <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' %}">Matricular Alumnos</a> {% endcomment %}
-
-        
+        {% comment %} <a class="btn btn-primary" href="{% url 'cambridge_prepcenters_registration_new' %}">Matricular Alumnos</a> {% endcomment %}       
     </div>
     <div role="tabpanel" class="tab-pane" id="examenes">
         <h2>Lista de examenes</h2>
@@ -107,13 +98,12 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="settings">...</div>
   </div>
-
 </div>
 
 
-
-
 {% if request.user.is_staff %}
-<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_list' %}">Volver a la lista</a>
+<a class="btn btn-primary" href="{% url 'cambridge_prepcenters_update' object.pk %}">Editar</a>
+<a class="btn btn-info" href="{% url 'cambridge_prepcenters_list' %}">Volver a la lista</a>
 {% endif %}
+
 {% endblock %}

@@ -263,12 +263,12 @@ class LinguaskillRegistration(Registration):
     proposed_date  = models.DateField(_('Fecha propuesta DD-MM-AAAA'), help_text=_('Formato: DD-MM-AAAA(dia-mes-año)'))
 
 class PrepCenter(models.Model):
-    name = models.CharField(_('Code Name'),max_length=50)
+    name = models.SlugField(_('Code Name (minusculas, alfanumerico sin espacios'),max_length=50)
     description = models.CharField(_('Description'),max_length=100,default="")
     password = models.CharField(_('Password'),max_length=50, blank=True)
     telephone = models.CharField(_('Teléfono'),max_length=12, blank=True)
     email = models.EmailField(blank=True)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __unicode__(self):
         return self.name

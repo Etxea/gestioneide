@@ -136,8 +136,11 @@ class CuentaBancaria(models.Model):
     dc = models.DecimalField(max_digits=2, decimal_places=0,default=00)
     cuenta= models.DecimalField(max_digits=10, decimal_places=0,default=0000000000)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
-        return "%s"%self.nombre
+        return "%s-%s-%s-%s"%(self.banco,self.oficina,self.dc,self.cuenta)
 
     def get_oficina(self):
         return str(csb19_ajustar(self.oficina,4))
@@ -416,6 +419,9 @@ class Alumno(models.Model):
     def __unicode__(self):
     #    return "%s %s (%s)"%(self.user.get_short_name(),self.user.last_name,self.user.username)
         return "%s %s %s,%s"%(self.id,self.apellido1,self.apellido2,self.nombre)
+
+    def razon_social(self):
+        return "%s %s %s"%(self.nombre,self.apellido1,self.apellido2)
 
     def asistencia_todas(self):
         return Asistencia.all_objects.filter(alumno=self)

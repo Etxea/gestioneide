@@ -2,9 +2,10 @@
 {% load i18n %}
 
 {% block page_header %}
-<h1>{% trans "Empresas" %}
-    <a href="{% url 'empresa_nueva' %}"><button><span class="glyphicon glyphicon-plus-sign"></span>Nueva</button></a>
-</h1>
+<h2>{% trans "Empresas" %}</h2>
+<div class="float-right">
+    <a href="{% url 'empresa_nueva' %}"><span class="zmdi zmdi-plus-circle-o"></span></a>
+</div>
 {% endblock %}
 
 {% block body %}
@@ -24,7 +25,7 @@
             <tbody>
             {% for empresa in object_list %}
             <tr>
-                <td><a href="{{empresa.get_absolute_url}}">{{ empresa.nombre }}</a></td>
+                <td><a href="{% url 'empresa_detalle' empresa.pk %}">{{ empresa.nombre }}</a></td>
                 <td>{{ empresa.razon_social }}</td>
                 <td>{{ empresa.email }}</td>
                 <td>{{ empresa.telefono }}</td>
