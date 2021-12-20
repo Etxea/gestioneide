@@ -5,7 +5,7 @@
 
 
 {% block page_header %}
-    <h1>{% trans "Empresa" %} {{profesor.nombre}} <a href="{% url 'profesor_editar' profesor.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
+    <h1>{% trans "Empresa" %} {{empresa.nombre}} <a href="{% url 'empresa_editar' empresa.id %}"><span class="glyphicon glyphicon-pencil"></span></a></h1>
 {% endblock %}
 
 {% block body %}
@@ -14,23 +14,28 @@
     
     <table class="table">
         <tr>
-            <td>Nombre</td><td>{{profesor.nombre}}</td>
+            <td>Nombre</td><td>{{empresa.nombre}}</td>
         </tr>
         <tr>
-            <td>Apellido(s)</td><td>{{profesor.apellido}}</td>
+            <td>Razón Social</td><td>{{empresa.razon_social}}</td>
         </tr>
         <tr>
-            <td>Teléfono</td><td>{{profesor.telefono}}</td>
+            <td>CIF</td><td>{{empresa.cif}}</td>
         </tr>
         <tr>
-            <td>E-mail</td><td><a href="mailto:{{profesor.email}}">{{profesor.email}}</a></td>
+            <td>Teléfono</td><td>{{empresa.telefono}}</td>
+        </tr>
+        <tr>
+            <td>E-mail</td><td><a href="mailto:{{empresa.email}}">{{empresa.email}}</a></td>
+        </tr>
+        <tr>
+            <td>Cuenta Bancaria</td><td>{{empresa.cuenta_bancaria}}</td>
         </tr>
         
     </table>
-    <h2>Clases</h2>
-    
-{% include "profesores/profesor_tabla_clases.html" %}
+    <a href="{% url 'empresas' %}" class="btn btn-success">Volver</a>
 
+<h2>TicketBAIs<h2>
 
 
 {% endblock %}

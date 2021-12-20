@@ -2,7 +2,7 @@ from django.conf.urls import url
 from empresas.views import *
 
 urlpatterns = [
-    url(r'^$',EmpresaListView.as_view(),name="empresas_lista"),
+    url(r'^$',EmpresaListView.as_view(),name="empresas"),
     url(r'nuevo$',EmpresaCreateView.as_view(), name="empresa_nueva"),
     url(r'editar/(?P<pk>\d+)/$',EmpresaUpdateView.as_view(), name="empresa_editar"),
     url(r'borrar/(?P<pk>\d+)/$',EmpresaDeleteView.as_view(), name="empresa_borrar"),
